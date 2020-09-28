@@ -1,0 +1,60 @@
+---
+title: "tutorial"
+author: "jjz"
+date: "2020/9/15"
+output: html_document
+---
+
+### Step 1 
+##### Please Select **3. Taxonomic Analysis** on the top bar.
+<img src="/home/imuser/text_files/p3_1.png" width="70%" />
+
+***
+
+### Step 2
+##### This process results in a prediction of the possible taxa based on the database (Silva or Greengene).
+##### After you download the database to the specified directory, please select the database type you want.
+
+<img src="/home/imuser/text_files/p3_2.png" width="70%" />
+
+***
+
+### Step 3
+##### Please input the primer sequences to extract the target region from database sequences.
+If your primers cannot not be found in the selections, you can manually input your primer sequences by choosing **"Other"**.
+
+<img src="/home/imuser/text_files/p3_3.png" width="70%" />
+
+If you click on the button **"Show the primer table"**, the primer table will be displayed.
+
+<img src="/home/imuser/text_files/p3_4.png" width="100%" />
+
+***
+
+### Step 4
+##### In this step, the sequences will be filter based on the length.
+Sequences shorter than the minimun length will be discarded, and the sequences longer than the maximun length will be discarded.
+
+<img src="/home/imuser/text_files/p3_5.png" width="70%" />
+
+***
+
+### Step 5
+##### Determine how many the threads you want to use for the process
+
+<img src="/home/imuser/text_files/p3_6.png" width="70%" />
+
+***
+
+### Step 6
+##### Click on the button **Start to analyze** to start the process.
+
+<img src="/home/imuser/text_files/p3_7.png" width="60%" />
+<img src="/home/imuser/text_files/p3_8.png" width="60%" />
+<img src="/home/imuser/text_files/p3_9.png" width="60%" />
+
+### Step 7
+##### Click on the button **"taxonomy result"** to inspect the predicted taxonomy.
+If you would like to know what the result look likes, please click on the button **"How does the taxonomy look?"** in the example block.
+
+<img src="/home/imuser/text_files/p3_10.png" width="60%" />

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>q2_feature_table : summarize</title>
+    <link rel="stylesheet" href="./q2templateassets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./q2templateassets/css/normalize.css"/>
+    <link rel="stylesheet" href="./q2templateassets/css/base-template.css"/>
+    <script src="./q2templateassets/js/jquery-3.2.0.min.js" charset="utf-8"></script>
+    <script src="./q2templateassets/js/bootstrap.min.js" charset="utf-8"></script>
+    
+<script src="js/vega.min.js"></script>
+<script src="js/vega-embed.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/spinkit.css" /> 
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div id="q2templatesheader" class="row">
+        <div class="col-lg-12">
+          <a href="http://qiime2.org/">
+            <img src="./q2templateassets/img/qiime2-rect-200.png"
+            alt="QIIME 2">
+          </a>
+        </div>
+      </div>
+        
+
+  <div class="row">
+    <div class="col-lg-12">
+      <ul class="nav nav-tabs">
+        
+          <li class="">
+            <a href="index.html">
+              Overview
+            </a>
+          </li>
+        
+          <li class="active">
+            <a href="sample-frequency-detail.html">
+              Interactive Sample Detail
+            </a>
+          </li>
+        
+          <li class="">
+            <a href="feature-frequency-detail.html">
+              Feature Detail
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      
+
+
+<div class="row">
+
+  <div class="col-lg-8">
+    <div id="plot">
+      <div id="loading" class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="row">
+      <div class="col-lg-12">
+        <h3>Plot Controls</h3>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12" id="toolbar"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12" id="metadata-category"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12" id="sampling-depth-slider"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12" id="text-field"></div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+  function handleErrors(errors, element, msg) {
+    console.error(errors);
+    msg = msg === undefined ? '' : msg + '<br><br>';
+    var helpMsg = '<p class="alert alert-danger"> \
+                   There was an error loading and rendering the \
+                   visualization.<br><br>' + msg + 'Please \
+                   copy-and-paste the following error messages when \
+                   reporting this error (please be aware that the content \
+                   of your analysis data and/or metadata is included in \
+                   these messages):</p>';
+    var helpMsgDiv = $('<div></div>');
+    helpMsgDiv.append(helpMsg);
+    helpMsgDiv.append('<pre><code>' + errors.join('\n\n') + '</code></pre>');
+    element.replaceWith(helpMsgDiv);
+  }
+  window.onerror = function(error) {
+    handleErrors([error], $('#loading'));
+  };
+</script>
+<script id="spec" type="application/json">
+{"$schema": "https://vega.github.io/schema/vega/v5.json", "autosize": {"contains": "content", "type": "fit-x", "resize": true}, "width": 800, "data": [{"transform": [{"as": "selectedCategory", "expr": "datum.metadata[category]", "type": "formula"}], "name": "table", "values": [{"id": "BAQ1552.1.1", "metadata": {"barcode-sequence": "ATCCCAGCATGC", "elevation": 1552.0, "extract-concen": 0.722, "amplicon-concentration": 18.83, "extract-group-no": "J", "transect-name": "Baquedano", "site-name": "BAQ1552", "depth": 1.0, "ph": 7.87, "toc": null, "ec": null, "average-soil-relative-humidity": 15.75, "relative-humidity-soil-high": 35.36, "relative-humidity-soil-low": 11.1, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 22.63, "temperature-soil-high": 30.65, "temperature-soil-low": 10.96, "vegetation": "no", "percentcover": 0.0}, "frequency": 0.0}, {"id": "BAQ2420.1.1", "metadata": {"barcode-sequence": "ACACAGTCCTGA", "elevation": 2420.0, "extract-concen": 0.35, "amplicon-concentration": 7.4, "extract-group-no": "H", "transect-name": "Baquedano", "site-name": "BAQ2420", "depth": 1.0, "ph": 9.33, "toc": null, "ec": null, "average-soil-relative-humidity": 82.54, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 41.135, "percent-relative-humidity-soil-100": 46.77, "average-soil-temperature": 22.45, "temperature-soil-high": 28.296999999999997, "temperature-soil-low": 13.294, "vegetation": "no", "percentcover": 0.0}, "frequency": 195.0}, {"id": "BAQ2420.1.2", "metadata": {"barcode-sequence": "ATTATACGGCGC", "elevation": 2420.0, "extract-concen": 0.10800000000000001, "amplicon-concentration": 11.42, "extract-group-no": "H", "transect-name": "Baquedano", "site-name": "BAQ2420", "depth": 2.0, "ph": 9.36, "toc": 166.0, "ec": 0.075, "average-soil-relative-humidity": 82.54, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 41.135, "percent-relative-humidity-soil-100": 46.77, "average-soil-temperature": 22.45, "temperature-soil-high": 28.296999999999997, "temperature-soil-low": 13.294, "vegetation": "no", "percentcover": 0.0}, "frequency": 175.0}, {"id": "BAQ2420.2", "metadata": {"barcode-sequence": "TAAACGCGACTC", "elevation": 2420.0, "extract-concen": 0.08900000000000001, "amplicon-concentration": 10.06, "extract-group-no": "A", "transect-name": "Baquedano", "site-name": "BAQ2420", "depth": 2.0, "ph": 9.36, "toc": 337.0, "ec": 0.075, "average-soil-relative-humidity": 82.54, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 41.135, "percent-relative-humidity-soil-100": 46.77, "average-soil-temperature": 22.45, "temperature-soil-high": 28.296999999999997, "temperature-soil-low": 13.294, "vegetation": "no", "percentcover": 0.0}, "frequency": 244.0}, {"id": "BAQ2420.3", "metadata": {"barcode-sequence": "CCTCGGGTACTA", "elevation": 2420.0, "extract-concen": 0.083, "amplicon-concentration": 15.92, "extract-group-no": "C", "transect-name": "Baquedano", "site-name": "BAQ2420", "depth": 2.0, "ph": 9.36, "toc": 574.0, "ec": 0.075, "average-soil-relative-humidity": 82.54, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 41.135, "percent-relative-humidity-soil-100": 46.77, "average-soil-temperature": 22.45, "temperature-soil-high": 28.296999999999997, "temperature-soil-low": 13.294, "vegetation": "no", "percentcover": 0.0}, "frequency": 224.0}, {"id": "BAQ2420.1.3", "metadata": {"barcode-sequence": "ATTCAGATGGCA", "elevation": 2420.0, "extract-concen": 0.132, "amplicon-concentration": 10.0, "extract-group-no": "H", "transect-name": "Baquedano", "site-name": "BAQ2420", "depth": 3.0, "ph": 8.9, "toc": null, "ec": null, "average-soil-relative-humidity": 82.54, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 41.135, "percent-relative-humidity-soil-100": 46.77, "average-soil-temperature": 22.45, "temperature-soil-high": 28.296999999999997, "temperature-soil-low": 13.294, "vegetation": "no", "percentcover": 0.0}, "frequency": 186.0}, {"id": "BAQ2462.1", "metadata": {"barcode-sequence": "TTCACCTGTATC", "elevation": 2462.0, "extract-concen": 1.166, "amplicon-concentration": 15.29, "extract-group-no": "H", "transect-name": "Baquedano", "site-name": "BAQ2462", "depth": 2.0, "ph": 8.35, "toc": 173.0, "ec": 0.506, "average-soil-relative-humidity": 69.08, "relative-humidity-soil-high": 98.396, "relative-humidity-soil-low": 32.558, "percent-relative-humidity-soil-100": 0.21, "average-soil-temperature": 21.83, "temperature-soil-high": 29.024, "temperature-soil-low": 12.970999999999998, "vegetation": "no", "percentcover": 0.0}, "frequency": 391.0}, {"id": "BAQ2462.2", "metadata": {"barcode-sequence": "CTCCAGGTCATG", "elevation": 2462.0, "extract-concen": 0.049, "amplicon-concentration": 10.39, "extract-group-no": "H", "transect-name": "Baquedano", "site-name": "BAQ2462", "depth": 2.0, "ph": 8.35, "toc": 331.0, "ec": 0.506, "average-soil-relative-humidity": 69.08, "relative-humidity-soil-high": 98.396, "relative-humidity-soil-low": 32.558, "percent-relative-humidity-soil-100": 0.21, "average-soil-temperature": 21.83, "temperature-soil-high": 29.024, "temperature-soil-low": 12.970999999999998, "vegetation": "no", "percentcover": 0.0}, "frequency": 277.0}, {"id": "BAQ2462.3", "metadata": {"barcode-sequence": "CAGGATTCGTAC", "elevation": 2462.0, "extract-concen": 0.066, "amplicon-concentration": 8.46, "extract-group-no": "A", "transect-name": "Baquedano", "site-name": "BAQ2462", "depth": 2.0, "ph": 8.35, "toc": 634.0, "ec": 0.506, "average-soil-relative-humidity": 69.08, "relative-humidity-soil-high": 98.396, "relative-humidity-soil-low": 32.558, "percent-relative-humidity-soil-100": 0.21, "average-soil-temperature": 21.83, "temperature-soil-high": 29.024, "temperature-soil-low": 12.970999999999998, "vegetation": "no", "percentcover": 0.0}, "frequency": 126.0}, {"id": "BAQ2687.1", "metadata": {"barcode-sequence": "GTGGCCTACTAC", "elevation": 2687.0, "extract-concen": 1.2229999999999999, "amplicon-concentration": 1.24, "extract-group-no": "A", "transect-name": "Baquedano", "site-name": "BAQ2687", "depth": 2.0, "ph": 8.35, "toc": 554.0, "ec": 0.131, "average-soil-relative-humidity": 73.21, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 20.87, "percent-relative-humidity-soil-100": 43.48, "average-soil-temperature": 18.2, "temperature-soil-high": 25.0, "temperature-soil-low": 10.67, "vegetation": "yes", "percentcover": 0.1}, "frequency": 283.0}, {"id": "BAQ2687.2", "metadata": {"barcode-sequence": "TTCCCTTCTCCG", "elevation": 2687.0, "extract-concen": 0.251, "amplicon-concentration": 17.53, "extract-group-no": "C", "transect-name": "Baquedano", "site-name": "BAQ2687", "depth": 2.0, "ph": 8.35, "toc": 350.0, "ec": 0.131, "average-soil-relative-humidity": 73.21, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 20.87, "percent-relative-humidity-soil-100": 43.48, "average-soil-temperature": 18.2, "temperature-soil-high": 25.0, "temperature-soil-low": 10.67, "vegetation": "yes", "percentcover": 0.1}, "frequency": 340.0}, {"id": "BAQ2687.3", "metadata": {"barcode-sequence": "CATTTGACGACG", "elevation": 2687.0, "extract-concen": 1.176, "amplicon-concentration": 12.1, "extract-group-no": "E", "transect-name": "Baquedano", "site-name": "BAQ2687", "depth": 2.0, "ph": 8.35, "toc": 400.0, "ec": 0.131, "average-soil-relative-humidity": 73.21, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 20.87, "percent-relative-humidity-soil-100": 43.48, "average-soil-temperature": 18.2, "temperature-soil-high": 25.0, "temperature-soil-low": 10.67, "vegetation": "yes", "percentcover": 0.1}, "frequency": 159.0}, {"id": "BAQ2838.1", "metadata": {"barcode-sequence": "CGCATACGACCT", "elevation": 2838.0, "extract-concen": 0.467, "amplicon-concentration": 10.91, "extract-group-no": "G", "transect-name": "Baquedano", "site-name": "BAQ2838", "depth": 2.0, "ph": 8.36, "toc": 353.0, "ec": 0.212, "average-soil-relative-humidity": 44.74, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 16.647000000000002, "percent-relative-humidity-soil-100": 11.34, "average-soil-temperature": 19.08, "temperature-soil-high": 24.995, "temperature-soil-low": 10.709000000000001, "vegetation": "no", "percentcover": 0.0}, "frequency": 140.0}, {"id": "BAQ2838.2", "metadata": {"barcode-sequence": "GCCTCGTACTGA", "elevation": 2838.0, "extract-concen": 0.309, "amplicon-concentration": 14.38, "extract-group-no": "H", "transect-name": "Baquedano", "site-name": "BAQ2838", "depth": 2.0, "ph": 8.36, "toc": 260.0, "ec": 0.212, "average-soil-relative-humidity": 44.74, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 16.647000000000002, "percent-relative-humidity-soil-100": 11.34, "average-soil-temperature": 19.08, "temperature-soil-high": 24.995, "temperature-soil-low": 10.709000000000001, "vegetation": "no", "percentcover": 0.0}, "frequency": 47.0}, {"id": "BAQ2838.3", "metadata": {"barcode-sequence": "ACCAACAGATTG", "elevation": 2838.0, "extract-concen": 0.145, "amplicon-concentration": 14.06, "extract-group-no": "A", "transect-name": "Baquedano", "site-name": "BAQ2838", "depth": 2.0, "ph": 8.36, "toc": 369.0, "ec": 0.212, "average-soil-relative-humidity": 44.74, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 16.647000000000002, "percent-relative-humidity-soil-100": 11.34, "average-soil-temperature": 19.08, "temperature-soil-high": 24.995, "temperature-soil-low": 10.709000000000001, "vegetation": "no", "percentcover": 0.0}, "frequency": 90.0}, {"id": "BAQ3473.1", "metadata": {"barcode-sequence": "AAGTGAAGCGAG", "elevation": 3473.0, "extract-concen": 16.374000000000002, "amplicon-concentration": 1.29, "extract-group-no": "C", "transect-name": "Baquedano", "site-name": "BAQ3473", "depth": 2.0, "ph": 7.93, "toc": 3675.0, "ec": 0.42, "average-soil-relative-humidity": 82.05, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 42.09, "percent-relative-humidity-soil-100": 35.37, "average-soil-temperature": 13.46, "temperature-soil-high": 20.69, "temperature-soil-low": 5.12, "vegetation": "yes", "percentcover": 1.2}, "frequency": 311.0}, {"id": "BAQ3473.2", "metadata": {"barcode-sequence": "TGCCGCCGTAAT", "elevation": 3473.0, "extract-concen": 5.17, "amplicon-concentration": 11.05, "extract-group-no": "B", "transect-name": "Baquedano", "site-name": "BAQ3473", "depth": 2.0, "ph": 7.93, "toc": 838.0, "ec": 0.42, "average-soil-relative-humidity": 82.05, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 42.09, "percent-relative-humidity-soil-100": 35.37, "average-soil-temperature": 13.46, "temperature-soil-high": 20.69, "temperature-soil-low": 5.12, "vegetation": "yes", "percentcover": 1.2}, "frequency": 124.0}, {"id": "BAQ3473.3", "metadata": {"barcode-sequence": "AACCTCGGATAA", "elevation": 3473.0, "extract-concen": 0.91, "amplicon-concentration": 4.41, "extract-group-no": "C", "transect-name": "Baquedano", "site-name": "BAQ3473", "depth": 2.0, "ph": 7.93, "toc": 16449.0, "ec": 0.42, "average-soil-relative-humidity": 82.05, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 42.09, "percent-relative-humidity-soil-100": 35.37, "average-soil-temperature": 13.46, "temperature-soil-high": 20.69, "temperature-soil-low": 5.12, "vegetation": "yes", "percentcover": 1.2}, "frequency": 481.0}, {"id": "BAQ4166.1.1", "metadata": {"barcode-sequence": "GTGCTTGTGTAG", "elevation": 4166.0, "extract-concen": 33.492, "amplicon-concentration": 3.16, "extract-group-no": "C", "transect-name": "Baquedano", "site-name": "BAQ4166", "depth": 1.0, "ph": 5.64, "toc": null, "ec": null, "average-soil-relative-humidity": 100.0, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 100.0, "percent-relative-humidity-soil-100": 100.0, "average-soil-temperature": 9.41, "temperature-soil-high": 17.54, "temperature-soil-low": 1.42, "vegetation": "yes", "percentcover": 7.1}, "frequency": 210.0}, {"id": "BAQ4166.1.2", "metadata": {"barcode-sequence": "CAACTAGACTCG", "elevation": 4166.0, "extract-concen": 16.086, "amplicon-concentration": 18.25, "extract-group-no": "B", "transect-name": "Baquedano", "site-name": "BAQ4166", "depth": 2.0, "ph": 7.22, "toc": 2085.0, "ec": 0.084, "average-soil-relative-humidity": 100.0, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 100.0, "percent-relative-humidity-soil-100": 100.0, "average-soil-temperature": 9.41, "temperature-soil-high": 17.54, "temperature-soil-low": 1.42, "vegetation": "yes", "percentcover": 7.1}, "frequency": 359.0}, {"id": "BAQ4166.2", "metadata": {"barcode-sequence": "GGAACGACGTGA", "elevation": 4166.0, "extract-concen": 2.958, "amplicon-concentration": 0.12, "extract-group-no": "C", "transect-name": "Baquedano", "site-name": "BAQ4166", "depth": 2.0, "ph": 7.22, "toc": 3692.0, "ec": 0.084, "average-soil-relative-humidity": 100.0, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 100.0, "percent-relative-humidity-soil-100": 100.0, "average-soil-temperature": 9.41, "temperature-soil-high": 17.54, "temperature-soil-low": 1.42, "vegetation": "yes", "percentcover": 7.1}, "frequency": 391.0}, {"id": "BAQ4166.3", "metadata": {"barcode-sequence": "TGTCAGCTGTCG", "elevation": 4166.0, "extract-concen": 28.92, "amplicon-concentration": 0.26, "extract-group-no": "C", "transect-name": "Baquedano", "site-name": "BAQ4166", "depth": 2.0, "ph": 7.22, "toc": 2271.0, "ec": 0.084, "average-soil-relative-humidity": 100.0, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 100.0, "percent-relative-humidity-soil-100": 100.0, "average-soil-temperature": 9.41, "temperature-soil-high": 17.54, "temperature-soil-low": 1.42, "vegetation": "yes", "percentcover": 7.1}, "frequency": 323.0}, {"id": "BAQ4166.1.3", "metadata": {"barcode-sequence": "AGTGCCCTTGGT", "elevation": 4166.0, "extract-concen": 14.532, "amplicon-concentration": 0.55, "extract-group-no": "C", "transect-name": "Baquedano", "site-name": "BAQ4166", "depth": 3.0, "ph": 7.41, "toc": null, "ec": null, "average-soil-relative-humidity": 100.0, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 100.0, "percent-relative-humidity-soil-100": 100.0, "average-soil-temperature": 9.41, "temperature-soil-high": 17.54, "temperature-soil-low": 1.42, "vegetation": "yes", "percentcover": 7.1}, "frequency": 281.0}, {"id": "BAQ4697.1", "metadata": {"barcode-sequence": "CTGGTGCTGAAT", "elevation": 4697.0, "extract-concen": 10.044, "amplicon-concentration": 1.88, "extract-group-no": "C", "transect-name": "Baquedano", "site-name": "BAQ4697", "depth": 2.0, "ph": 7.44, "toc": 424.0, "ec": 0.055, "average-soil-relative-humidity": null, "relative-humidity-soil-high": null, "relative-humidity-soil-low": null, "percent-relative-humidity-soil-100": null, "average-soil-temperature": null, "temperature-soil-high": null, "temperature-soil-low": null, "vegetation": "yes", "percentcover": 0.1}, "frequency": 451.0}, {"id": "BAQ4697.2", "metadata": {"barcode-sequence": "GACAGAGGTGCA", "elevation": 4697.0, "extract-concen": 5.864, "amplicon-concentration": 1.22, "extract-group-no": "B", "transect-name": "Baquedano", "site-name": "BAQ4697", "depth": 2.0, "ph": 7.44, "toc": 531.0, "ec": 0.055, "average-soil-relative-humidity": null, "relative-humidity-soil-high": null, "relative-humidity-soil-low": null, "percent-relative-humidity-soil-100": null, "average-soil-temperature": null, "temperature-soil-high": null, "temperature-soil-low": null, "vegetation": "yes", "percentcover": 0.1}, "frequency": 376.0}, {"id": "BAQ4697.3", "metadata": {"barcode-sequence": "TCAGACCAACTG", "elevation": 4697.0, "extract-concen": 8.264, "amplicon-concentration": 1.39, "extract-group-no": "C", "transect-name": "Baquedano", "site-name": "BAQ4697", "depth": 2.0, "ph": 7.44, "toc": 631.0, "ec": 0.055, "average-soil-relative-humidity": null, "relative-humidity-soil-high": null, "relative-humidity-soil-low": null, "percent-relative-humidity-soil-100": null, "average-soil-temperature": null, "temperature-soil-high": null, "temperature-soil-low": null, "vegetation": "yes", "percentcover": 0.1}, "frequency": 583.0}, {"id": "BAQ895.2", "metadata": {"barcode-sequence": "TCCTCACTATCA", "elevation": 895.0, "extract-concen": 0.017, "amplicon-concentration": 1.01, "extract-group-no": "B", "transect-name": "Baquedano", "site-name": "BAQ895", "depth": 2.0, "ph": null, "toc": 61.0, "ec": 2.945, "average-soil-relative-humidity": 32.22, "relative-humidity-soil-high": 43.14, "relative-humidity-soil-low": 25.6, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 19.17, "temperature-soil-high": 31.82, "temperature-soil-low": 10.54, "vegetation": "no", "percentcover": 0.0}, "frequency": 0.0}, {"id": "YUN1005.1.1", "metadata": {"barcode-sequence": "ACGTAACCACGT", "elevation": 1005.0, "extract-concen": 0.10300000000000001, "amplicon-concentration": 13.17, "extract-group-no": "I", "transect-name": "Yungay", "site-name": "YUN1005", "depth": 1.0, "ph": 7.54, "toc": null, "ec": null, "average-soil-relative-humidity": 20.7, "relative-humidity-soil-high": 31.011, "relative-humidity-soil-low": 16.343, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 22.59, "temperature-soil-high": 26.26, "temperature-soil-low": 16.51, "vegetation": "no", "percentcover": 0.0}, "frequency": 583.0}, {"id": "YUN1005.3", "metadata": {"barcode-sequence": "CATCTGGGCAAT", "elevation": 1005.0, "extract-concen": 0.027999999999999997, "amplicon-concentration": 4.32, "extract-group-no": "I", "transect-name": "Yungay", "site-name": "YUN1005", "depth": 2.0, "ph": 7.6, "toc": 223.0, "ec": 2.27, "average-soil-relative-humidity": 20.7, "relative-humidity-soil-high": 31.011, "relative-humidity-soil-low": 16.343, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 22.59, "temperature-soil-high": 26.26, "temperature-soil-low": 16.51, "vegetation": "no", "percentcover": 0.0}, "frequency": 290.0}, {"id": "YUN1005.1.3", "metadata": {"barcode-sequence": "GTCGGAAATTGT", "elevation": 1005.0, "extract-concen": 0.034, "amplicon-concentration": 1.12, "extract-group-no": "I", "transect-name": "Yungay", "site-name": "YUN1005", "depth": 3.0, "ph": 7.6, "toc": null, "ec": null, "average-soil-relative-humidity": 20.7, "relative-humidity-soil-high": 31.011, "relative-humidity-soil-low": 16.343, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 22.59, "temperature-soil-high": 26.26, "temperature-soil-low": 16.51, "vegetation": "no", "percentcover": 0.0}, "frequency": 0.0}, {"id": "YUN1242.1", "metadata": {"barcode-sequence": "TGTCCGTGGATC", "elevation": 1242.0, "extract-concen": 0.228, "amplicon-concentration": 19.2, "extract-group-no": "K", "transect-name": "Yungay", "site-name": "YUN1242", "depth": 2.0, "ph": 9.0, "toc": 226.0, "ec": 1.845, "average-soil-relative-humidity": 20.9, "relative-humidity-soil-high": 36.46, "relative-humidity-soil-low": 16.96, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 23.61, "temperature-soil-high": 27.62, "temperature-soil-low": 18.33, "vegetation": "no", "percentcover": 0.0}, "frequency": 391.0}, {"id": "YUN1242.2", "metadata": {"barcode-sequence": "ACTCGGCCAACT", "elevation": 1242.0, "extract-concen": 0.023, "amplicon-concentration": 0.54, "extract-group-no": "B", "transect-name": "Yungay", "site-name": "YUN1242", "depth": 2.0, "ph": 9.0, "toc": 194.0, "ec": 1.845, "average-soil-relative-humidity": 20.9, "relative-humidity-soil-high": 36.46, "relative-humidity-soil-low": 16.96, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 23.61, "temperature-soil-high": 27.62, "temperature-soil-low": 18.33, "vegetation": "no", "percentcover": 0.0}, "frequency": 0.0}, {"id": "YUN1242.3", "metadata": {"barcode-sequence": "GTTGGTTGGCAT", "elevation": 1242.0, "extract-concen": 0.05, "amplicon-concentration": 15.61, "extract-group-no": "K", "transect-name": "Yungay", "site-name": "YUN1242", "depth": 2.0, "ph": 9.0, "toc": 452.0, "ec": 1.845, "average-soil-relative-humidity": 20.9, "relative-humidity-soil-high": 36.46, "relative-humidity-soil-low": 16.96, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 23.61, "temperature-soil-high": 27.62, "temperature-soil-low": 18.33, "vegetation": "no", "percentcover": 0.0}, "frequency": 518.0}, {"id": "YUN1609.1", "metadata": {"barcode-sequence": "TTCCACACGTGG", "elevation": 1609.0, "extract-concen": 0.031, "amplicon-concentration": 6.42, "extract-group-no": "B", "transect-name": "Yungay", "site-name": "YUN1609", "depth": 2.0, "ph": 8.0, "toc": 361.0, "ec": 0.42700000000000005, "average-soil-relative-humidity": 17.18, "relative-humidity-soil-high": 50.4, "relative-humidity-soil-low": 12.53, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 21.47, "temperature-soil-high": 25.39, "temperature-soil-low": 16.1, "vegetation": "no", "percentcover": 0.0}, "frequency": 467.0}, {"id": "YUN1609.3", "metadata": {"barcode-sequence": "AACCCAGATGAT", "elevation": 1609.0, "extract-concen": 0.025, "amplicon-concentration": 12.84, "extract-group-no": "E", "transect-name": "Yungay", "site-name": "YUN1609", "depth": 2.0, "ph": 8.0, "toc": 424.0, "ec": 0.42700000000000005, "average-soil-relative-humidity": 17.18, "relative-humidity-soil-high": 50.4, "relative-humidity-soil-low": 12.53, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 21.47, "temperature-soil-high": 25.39, "temperature-soil-low": 16.1, "vegetation": "no", "percentcover": 0.0}, "frequency": 0.0}, {"id": "YUN2029.1", "metadata": {"barcode-sequence": "GTAGTGTCAACA", "elevation": 2029.0, "extract-concen": 0.022000000000000002, "amplicon-concentration": 9.59, "extract-group-no": "K", "transect-name": "Yungay", "site-name": "YUN2029", "depth": 2.0, "ph": 7.89, "toc": 184.0, "ec": 0.067, "average-soil-relative-humidity": 28.79, "relative-humidity-soil-high": 52.55, "relative-humidity-soil-low": 21.76, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 17.85, "temperature-soil-high": 24.16, "temperature-soil-low": 10.21, "vegetation": "no", "percentcover": 0.0}, "frequency": 0.0}, {"id": "YUN2029.2", "metadata": {"barcode-sequence": "TGGAGAGGAGAT", "elevation": 2029.0, "extract-concen": 0.23199999999999998, "amplicon-concentration": 16.71, "extract-group-no": "B", "transect-name": "Yungay", "site-name": "YUN2029", "depth": 2.0, "ph": 7.89, "toc": 241.0, "ec": 0.067, "average-soil-relative-humidity": 28.79, "relative-humidity-soil-high": 52.55, "relative-humidity-soil-low": 21.76, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 17.85, "temperature-soil-high": 24.16, "temperature-soil-low": 10.21, "vegetation": "no", "percentcover": 0.0}, "frequency": 586.0}, {"id": "YUN2029.3", "metadata": {"barcode-sequence": "CGTATAAATGCG", "elevation": 2029.0, "extract-concen": 0.078, "amplicon-concentration": 16.14, "extract-group-no": "K", "transect-name": "Yungay", "site-name": "YUN2029", "depth": 2.0, "ph": 7.89, "toc": 817.0, "ec": 0.067, "average-soil-relative-humidity": 28.79, "relative-humidity-soil-high": 52.55, "relative-humidity-soil-low": 21.76, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 17.85, "temperature-soil-high": 24.16, "temperature-soil-low": 10.21, "vegetation": "no", "percentcover": 0.0}, "frequency": 1.0}, {"id": "YUN3008.1.1", "metadata": {"barcode-sequence": "ATCGATCCACAG", "elevation": 3008.0, "extract-concen": 0.021, "amplicon-concentration": 1.29, "extract-group-no": "G", "transect-name": "Yungay", "site-name": "YUN3008", "depth": 1.0, "ph": 7.7, "toc": null, "ec": null, "average-soil-relative-humidity": 70.89, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 20.37, "percent-relative-humidity-soil-100": 29.1, "average-soil-temperature": 11.57, "temperature-soil-high": 30.98, "temperature-soil-low": -2.57, "vegetation": "no", "percentcover": 0.0}, "frequency": 0.0}, {"id": "YUN3008.3", "metadata": {"barcode-sequence": "CACCTGTAGTAG", "elevation": 3008.0, "extract-concen": 0.021, "amplicon-concentration": 1.0, "extract-group-no": "G", "transect-name": "Yungay", "site-name": "YUN3008", "depth": 2.0, "ph": null, "toc": 417.0, "ec": 2.205, "average-soil-relative-humidity": 70.89, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 20.37, "percent-relative-humidity-soil-100": 29.1, "average-soil-temperature": 11.57, "temperature-soil-high": 30.98, "temperature-soil-low": -2.57, "vegetation": "no", "percentcover": 0.0}, "frequency": 1.0}, {"id": "YUN3008.1.3", "metadata": {"barcode-sequence": "GTCTCCTCCCTT", "elevation": 3008.0, "extract-concen": 0.017, "amplicon-concentration": 0.99, "extract-group-no": "G", "transect-name": "Yungay", "site-name": "YUN3008", "depth": 3.0, "ph": 7.5, "toc": null, "ec": null, "average-soil-relative-humidity": 70.89, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 20.37, "percent-relative-humidity-soil-100": 29.1, "average-soil-temperature": 11.57, "temperature-soil-high": 30.98, "temperature-soil-low": -2.57, "vegetation": "no", "percentcover": 0.0}, "frequency": 0.0}, {"id": "YUN3153.1", "metadata": {"barcode-sequence": "AATACAGACCTG", "elevation": 3153.0, "extract-concen": 0.011000000000000001, "amplicon-concentration": 1.05, "extract-group-no": "E", "transect-name": "Yungay", "site-name": "YUN3153", "depth": 2.0, "ph": 7.6, "toc": 580.0, "ec": 2.26, "average-soil-relative-humidity": 59.69, "relative-humidity-soil-high": 93.15, "relative-humidity-soil-low": 32.12, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 12.5, "temperature-soil-high": 19.62, "temperature-soil-low": 3.48, "vegetation": "no", "percentcover": 0.0}, "frequency": 1.0}, {"id": "YUN3153.2", "metadata": {"barcode-sequence": "GACTCAACCAGT", "elevation": 3153.0, "extract-concen": 0.493, "amplicon-concentration": 16.89, "extract-group-no": "G", "transect-name": "Yungay", "site-name": "YUN3153", "depth": 2.0, "ph": 7.6, "toc": 185.0, "ec": 2.26, "average-soil-relative-humidity": 59.69, "relative-humidity-soil-high": 93.15, "relative-humidity-soil-low": 32.12, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 12.5, "temperature-soil-high": 19.62, "temperature-soil-low": 3.48, "vegetation": "no", "percentcover": 0.0}, "frequency": 206.0}, {"id": "YUN3153.3", "metadata": {"barcode-sequence": "GGAAGAAGTAGC", "elevation": 3153.0, "extract-concen": 0.22, "amplicon-concentration": 18.41, "extract-group-no": "B", "transect-name": "Yungay", "site-name": "YUN3153", "depth": 2.0, "ph": 7.6, "toc": 391.0, "ec": 2.26, "average-soil-relative-humidity": 59.69, "relative-humidity-soil-high": 93.15, "relative-humidity-soil-low": 32.12, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 12.5, "temperature-soil-high": 19.62, "temperature-soil-low": 3.48, "vegetation": "no", "percentcover": 0.0}, "frequency": 356.0}, {"id": "YUN3184.2", "metadata": {"barcode-sequence": "TCTCGATAAGCG", "elevation": 3184.0, "extract-concen": 0.01, "amplicon-concentration": 1.29, "extract-group-no": "E", "transect-name": "Yungay", "site-name": "YUN3184", "depth": 2.0, "ph": null, "toc": 411.0, "ec": 2.235, "average-soil-relative-humidity": 26.97, "relative-humidity-soil-high": 46.57, "relative-humidity-soil-low": 15.09, "percent-relative-humidity-soil-100": 0.0, "average-soil-temperature": 14.12, "temperature-soil-high": 25.21, "temperature-soil-low": 2.45, "vegetation": "no", "percentcover": 0.0}, "frequency": 0.0}, {"id": "YUN3259.1.1", "metadata": {"barcode-sequence": "TAGACACCGTGT", "elevation": 3259.0, "extract-concen": 3.71, "amplicon-concentration": 7.07, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3259", "depth": 1.0, "ph": 8.48, "toc": null, "ec": null, "average-soil-relative-humidity": 93.57, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 69.04, "percent-relative-humidity-soil-100": 64.69, "average-soil-temperature": 15.28, "temperature-soil-high": 23.65, "temperature-soil-low": 6.31, "vegetation": "yes", "percentcover": 2.4}, "frequency": 0.0}, {"id": "YUN3259.1.2", "metadata": {"barcode-sequence": "AGACAAGCTTCC", "elevation": 3259.0, "extract-concen": 1.5430000000000001, "amplicon-concentration": 16.92, "extract-group-no": "B", "transect-name": "Yungay", "site-name": "YUN3259", "depth": 2.0, "ph": 8.1, "toc": 419.0, "ec": 0.133, "average-soil-relative-humidity": 93.57, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 69.04, "percent-relative-humidity-soil-100": 64.69, "average-soil-temperature": 15.28, "temperature-soil-high": 23.65, "temperature-soil-low": 6.31, "vegetation": "yes", "percentcover": 2.4}, "frequency": 316.0}, {"id": "YUN3259.2", "metadata": {"barcode-sequence": "TCACTTGGTGCG", "elevation": 3259.0, "extract-concen": 1.935, "amplicon-concentration": 12.11, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3259", "depth": 2.0, "ph": 8.1, "toc": 342.0, "ec": 0.133, "average-soil-relative-humidity": 93.57, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 69.04, "percent-relative-humidity-soil-100": 64.69, "average-soil-temperature": 15.28, "temperature-soil-high": 23.65, "temperature-soil-low": 6.31, "vegetation": "yes", "percentcover": 2.4}, "frequency": 160.0}, {"id": "YUN3259.3", "metadata": {"barcode-sequence": "TTATGTACGGCG", "elevation": 3259.0, "extract-concen": 3.53, "amplicon-concentration": 16.74, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3259", "depth": 2.0, "ph": 8.1, "toc": 539.0, "ec": 0.133, "average-soil-relative-humidity": 93.57, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 69.04, "percent-relative-humidity-soil-100": 64.69, "average-soil-temperature": 15.28, "temperature-soil-high": 23.65, "temperature-soil-low": 6.31, "vegetation": "yes", "percentcover": 2.4}, "frequency": 428.0}, {"id": "YUN3259.1.3", "metadata": {"barcode-sequence": "TCCGCAACCTGA", "elevation": 3259.0, "extract-concen": 0.32899999999999996, "amplicon-concentration": 19.17, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3259", "depth": 3.0, "ph": 8.4, "toc": null, "ec": null, "average-soil-relative-humidity": 93.57, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 69.04, "percent-relative-humidity-soil-100": 64.69, "average-soil-temperature": 15.28, "temperature-soil-high": 23.65, "temperature-soil-low": 6.31, "vegetation": "yes", "percentcover": 2.4}, "frequency": 56.0}, {"id": "YUN3346.1", "metadata": {"barcode-sequence": "GAGATACAGTTC", "elevation": 3346.0, "extract-concen": 0.314, "amplicon-concentration": 16.88, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3346", "depth": 2.0, "ph": 7.1, "toc": 429.0, "ec": 0.044000000000000004, "average-soil-relative-humidity": 87.32, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 57.8, "percent-relative-humidity-soil-100": 33.13, "average-soil-temperature": 15.89, "temperature-soil-high": 23.96, "temperature-soil-low": 6.89, "vegetation": "yes", "percentcover": 0.01}, "frequency": 384.0}, {"id": "YUN3346.2", "metadata": {"barcode-sequence": "GCATGCATCCCA", "elevation": 3346.0, "extract-concen": 0.318, "amplicon-concentration": 16.26, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3346", "depth": 2.0, "ph": 7.1, "toc": 666.0, "ec": 0.044000000000000004, "average-soil-relative-humidity": 87.32, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 57.8, "percent-relative-humidity-soil-100": 33.13, "average-soil-temperature": 15.89, "temperature-soil-high": 23.96, "temperature-soil-low": 6.89, "vegetation": "yes", "percentcover": 0.01}, "frequency": 26.0}, {"id": "YUN3346.3", "metadata": {"barcode-sequence": "GATCTAATCGAG", "elevation": 3346.0, "extract-concen": 1.218, "amplicon-concentration": 17.14, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3346", "depth": 2.0, "ph": 7.1, "toc": 387.0, "ec": 0.044000000000000004, "average-soil-relative-humidity": 87.32, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 57.8, "percent-relative-humidity-soil-100": 33.13, "average-soil-temperature": 15.89, "temperature-soil-high": 23.96, "temperature-soil-low": 6.89, "vegetation": "yes", "percentcover": 0.01}, "frequency": 314.0}, {"id": "YUN3428.1", "metadata": {"barcode-sequence": "TACGCCCATCAG", "elevation": 3428.0, "extract-concen": 1.764, "amplicon-concentration": 15.32, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3428", "depth": 2.0, "ph": 7.2, "toc": 623.0, "ec": 0.023, "average-soil-relative-humidity": 99.99, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 99.91, "percent-relative-humidity-soil-100": 99.42, "average-soil-temperature": 13.61, "temperature-soil-high": 21.09, "temperature-soil-low": 4.13, "vegetation": "yes", "percentcover": 8.8}, "frequency": 334.0}, {"id": "YUN3428.2", "metadata": {"barcode-sequence": "AAGATCGTACTG", "elevation": 3428.0, "extract-concen": 1.9880000000000002, "amplicon-concentration": 6.61, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3428", "depth": 2.0, "ph": 7.2, "toc": 621.0, "ec": 0.023, "average-soil-relative-humidity": 99.99, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 99.91, "percent-relative-humidity-soil-100": 99.42, "average-soil-temperature": 13.61, "temperature-soil-high": 21.09, "temperature-soil-low": 4.13, "vegetation": "yes", "percentcover": 8.8}, "frequency": 474.0}, {"id": "YUN3428.3", "metadata": {"barcode-sequence": "ACTCATCTTCCA", "elevation": 3428.0, "extract-concen": 2.782, "amplicon-concentration": 15.46, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3428", "depth": 2.0, "ph": 7.2, "toc": 658.0, "ec": 0.023, "average-soil-relative-humidity": 99.99, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 99.91, "percent-relative-humidity-soil-100": 99.42, "average-soil-temperature": 13.61, "temperature-soil-high": 21.09, "temperature-soil-low": 4.13, "vegetation": "yes", "percentcover": 8.8}, "frequency": 175.0}, {"id": "YUN3533.1.1", "metadata": {"barcode-sequence": "TTGGACGTCCAC", "elevation": 3533.0, "extract-concen": 3.352, "amplicon-concentration": 14.29, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3533", "depth": 1.0, "ph": 7.1, "toc": null, "ec": null, "average-soil-relative-humidity": 100.0, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 99.93, "percent-relative-humidity-soil-100": 99.94, "average-soil-temperature": 11.41, "temperature-soil-high": 19.21, "temperature-soil-low": 3.47, "vegetation": "yes", "percentcover": 8.6}, "frequency": 364.0}, {"id": "YUN3533.1.2", "metadata": {"barcode-sequence": "TCCAGGGCTATA", "elevation": 3533.0, "extract-concen": 3.21, "amplicon-concentration": 14.32, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3533", "depth": 2.0, "ph": 8.0, "toc": 521.0, "ec": 0.024, "average-soil-relative-humidity": 100.0, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 99.93, "percent-relative-humidity-soil-100": 99.94, "average-soil-temperature": 11.41, "temperature-soil-high": 19.21, "temperature-soil-low": 3.47, "vegetation": "yes", "percentcover": 8.6}, "frequency": 248.0}, {"id": "YUN3533.2", "metadata": {"barcode-sequence": "GAAACTCCTAGA", "elevation": 3533.0, "extract-concen": 9.236, "amplicon-concentration": 14.33, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3533", "depth": 2.0, "ph": 8.0, "toc": 773.0, "ec": 0.024, "average-soil-relative-humidity": 100.0, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 99.93, "percent-relative-humidity-soil-100": 99.94, "average-soil-temperature": 11.41, "temperature-soil-high": 19.21, "temperature-soil-low": 3.47, "vegetation": "yes", "percentcover": 8.6}, "frequency": 545.0}, {"id": "YUN3533.3", "metadata": {"barcode-sequence": "ATCGGGCTTAAC", "elevation": 3533.0, "extract-concen": 3.642, "amplicon-concentration": 17.43, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3533", "depth": 2.0, "ph": 8.0, "toc": 664.0, "ec": 0.024, "average-soil-relative-humidity": 100.0, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 99.93, "percent-relative-humidity-soil-100": 99.94, "average-soil-temperature": 11.41, "temperature-soil-high": 19.21, "temperature-soil-low": 3.47, "vegetation": "yes", "percentcover": 8.6}, "frequency": 487.0}, {"id": "YUN3533.1.3", "metadata": {"barcode-sequence": "GCGTAGAGAGAC", "elevation": 3533.0, "extract-concen": 1.9869999999999999, "amplicon-concentration": 7.55, "extract-group-no": "D", "transect-name": "Yungay", "site-name": "YUN3533", "depth": 3.0, "ph": 7.8, "toc": null, "ec": null, "average-soil-relative-humidity": 100.0, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 99.93, "percent-relative-humidity-soil-100": 99.94, "average-soil-temperature": 11.41, "temperature-soil-high": 19.21, "temperature-soil-low": 3.47, "vegetation": "yes", "percentcover": 8.6}, "frequency": 243.0}, {"id": "YUN3856.1.1", "metadata": {"barcode-sequence": "AATCTTGCGCCG", "elevation": 3856.0, "extract-concen": 6.444, "amplicon-concentration": 12.93, "extract-group-no": "G", "transect-name": "Yungay", "site-name": "YUN3856", "depth": 1.0, "ph": 6.98, "toc": null, "ec": null, "average-soil-relative-humidity": 99.44, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 73.75, "percent-relative-humidity-soil-100": 93.7, "average-soil-temperature": 9.51, "temperature-soil-high": 17.45, "temperature-soil-low": 0.45, "vegetation": "yes", "percentcover": 3.1}, "frequency": 293.0}, {"id": "YUN3856.1.2", "metadata": {"barcode-sequence": "GGAAATCCCATC", "elevation": 3856.0, "extract-concen": 6.23, "amplicon-concentration": 16.35, "extract-group-no": "G", "transect-name": "Yungay", "site-name": "YUN3856", "depth": 2.0, "ph": 7.43, "toc": 713.0, "ec": 0.028999999999999998, "average-soil-relative-humidity": 99.44, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 73.75, "percent-relative-humidity-soil-100": 93.7, "average-soil-temperature": 9.51, "temperature-soil-high": 17.45, "temperature-soil-low": 0.45, "vegetation": "yes", "percentcover": 3.1}, "frequency": 445.0}, {"id": "YUN3856.2", "metadata": {"barcode-sequence": "TTGGAACGGCTT", "elevation": 3856.0, "extract-concen": 4.178, "amplicon-concentration": 17.12, "extract-group-no": "H", "transect-name": "Yungay", "site-name": "YUN3856", "depth": 2.0, "ph": 7.43, "toc": 404.0, "ec": 0.028999999999999998, "average-soil-relative-humidity": 99.44, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 73.75, "percent-relative-humidity-soil-100": 93.7, "average-soil-temperature": 9.51, "temperature-soil-high": 17.45, "temperature-soil-low": 0.45, "vegetation": "yes", "percentcover": 3.1}, "frequency": 333.0}, {"id": "YUN3856.3", "metadata": {"barcode-sequence": "TCCTAGGTCCGA", "elevation": 3856.0, "extract-concen": 6.695, "amplicon-concentration": 15.86, "extract-group-no": "H", "transect-name": "Yungay", "site-name": "YUN3856", "depth": 2.0, "ph": 7.43, "toc": 988.0, "ec": 0.028999999999999998, "average-soil-relative-humidity": 99.44, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 73.75, "percent-relative-humidity-soil-100": 93.7, "average-soil-temperature": 9.51, "temperature-soil-high": 17.45, "temperature-soil-low": 0.45, "vegetation": "yes", "percentcover": 3.1}, "frequency": 456.0}, {"id": "YUN3856.1.3", "metadata": {"barcode-sequence": "GACCGTCAATAC", "elevation": 3856.0, "extract-concen": 3.134, "amplicon-concentration": 18.17, "extract-group-no": "G", "transect-name": "Yungay", "site-name": "YUN3856", "depth": 3.0, "ph": 7.54, "toc": null, "ec": null, "average-soil-relative-humidity": 99.44, "relative-humidity-soil-high": 100.0, "relative-humidity-soil-low": 73.75, "percent-relative-humidity-soil-100": 93.7, "average-soil-temperature": 9.51, "temperature-soil-high": 17.45, "temperature-soil-low": 0.45, "vegetation": "yes", "percentcover": 3.1}, "frequency": 195.0}]}, {"transform": [{"type": "aggregate", "groupby": ["selectedCategory"]}], "name": "groupedBySelectedCategory", "source": "table"}, {"transform": [{"expr": "datum.frequency >= samplingDepth", "type": "filter"}, {"type": "aggregate", "groupby": ["selectedCategory"]}], "name": "groupedBySelectedCategoryAndRetained", "source": "table"}], "signals": [{"name": "width", "value": "", "bind": {"input": "text"}, "on": [{"events": {"source": "window", "type": "resize"}, "update": "containerSize()[0]"}]}, {"name": "chartHeight", "update": "width / 2.5"}, {"name": "chartOffset", "value": 20}, {"name": "height", "update": "chartHeight + chartOffset"}, {"name": "tooltip", "value": {}, "on": [{"events": "rect:mouseover", "update": "datum"}, {"events": "rect:mouseout", "update": "{}"}]}, {"bind": {"input": "select", "options": ["barcode-sequence", "elevation", "extract-concen", "amplicon-concentration", "extract-group-no", "transect-name", "site-name", "depth", "ph", "toc", "ec", "average-soil-relative-humidity", "relative-humidity-soil-high", "relative-humidity-soil-low", "percent-relative-humidity-soil-100", "average-soil-temperature", "temperature-soil-high", "temperature-soil-low", "vegetation", "percentcover"], "element": "#metadata-category"}, "name": "category", "value": "barcode-sequence"}, {"bind": {"input": "range", "element": "#sampling-depth-slider", "max": 586, "min": 0, "step": 1}, "name": "samplingDepth", "value": 0}], "marks": [{"description": "Interactive rarefaction summary plot", "name": "rarefactionplot", "type": "group", "encode": {"enter": {"x": {"value": 0}, "y": {"signal": "chartOffset"}, "width": {"value": 200}, "height": {"signal": "chartHeight"}}}, "marks": [{"type": "rect", "from": {"data": "groupedBySelectedCategory"}, "encode": {"enter": {"x": {"scale": "xscale", "field": "selectedCategory"}, "width": {"scale": "xscale", "band": 1}, "y": {"scale": "yscale", "field": "count"}, "y2": {"scale": "yscale", "value": 0}}, "update": {"tooltip": {"signal": "{'title': datum.selectedCategory, 'Total Samples': datum.count}"}, "fill": {"value": "#D3D3D3"}}}}, {"type": "rect", "from": {"data": "groupedBySelectedCategoryAndRetained"}, "encode": {"enter": {"x": {"scale": "xscale", "field": "selectedCategory"}, "width": {"scale": "xscale", "band": 1}, "y": {"scale": "yscale", "field": "count"}, "y2": {"scale": "yscale", "value": 0}}, "update": {"tooltip": {"signal": "{'title': datum.selectedCategory, 'Samples Retained': datum.count}"}, "y": {"scale": "yscale", "field": "count"}, "y2": {"scale": "yscale", "value": 0}, "fill": {"value": "#1F77B4"}}, "hover": {"fill": {"value": "#60B3F7"}}}}, {"type": "text", "encode": {"enter": {"align": {"value": "center"}, "baseline": {"value": "top"}, "fill": {"value": "#000000"}}, "update": {"x": {"scale": "xscale", "signal": "tooltip.selectedCategory", "band": 0.5}, "y": {"scale": "yscale", "signal": "tooltip.count", "offset": -12}, "text": {"signal": "tooltip.count"}, "fillOpacity": [{"test": "datum === tooltip", "value": 0}, {"value": 1}]}}}], "scales": [{"name": "xscale", "type": "band", "domain": {"data": "groupedBySelectedCategory", "field": "selectedCategory", "sort": true}, "range": "width", "padding": 0.1, "round": true}, {"name": "yscale", "domain": {"fields": [{"data": "groupedBySelectedCategory", "field": "count"}]}, "nice": true, "range": [{"signal": "chartHeight"}, 0]}], "axes": [{"orient": "bottom", "scale": "xscale", "title": {"signal": "category"}, "labelAngle": 90, "labelAlign": "left", "labelBaseline": "middle"}, {"orient": "left", "scale": "yscale", "title": "Number of Samples", "tickMinStep": 1}]}]}
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    var spec = JSON.parse(document.getElementById("spec").innerHTML);
+
+    // Try and come up with a good initial estimate of plot dimensions,
+    // based on the browser dimensions.
+    var opts = {
+      width: $("#plot").width(),
+      height: $("#plot").width() / 2.5
+    };
+
+    vegaEmbed("#plot", spec, opts)
+      .then(function(result) {
+        result.view.logLevel(vega.Warn);
+        // Stash the view object in global namespace for debugging purposes.
+        // Check out https://vega.github.io/vega/docs/api/debugging/
+        // for more details.
+        window.v = result.view;
+      })
+      .catch(function(error) {
+        // From 'js-error-handler.html'
+        handleErrors([error], $("#plot"));
+      });
+
+    // Clean up the vega-embed toolbar
+    var toolbar = $("div .vega-actions").detach();
+    toolbar.addClass("btn-group");
+    toolbar.children("a").each(function() {
+      $(this).addClass("btn btn-default");
+    });
+
+    toolbar.appendTo("#toolbar");
+
+    var category = $("#metadata-category .vega-bind");
+    category
+      .children(".vega-bind-name")
+      .replaceWith("<label> Metadata Category &nbsp;</label>");
+    category.children("select").addClass("form-control");
+
+    var samplingDepthSlider = $("#sampling-depth-slider .vega-bind");
+    $(samplingDepthSlider)
+      .find("label")
+      .remove();
+    $(samplingDepthSlider)
+      .find("input")
+      .attr("id", "range-slider");
+    $(samplingDepthSlider)
+      .find("input")
+      .attr("oninput", "sliderHelperFunction(this.value);");
+    $(samplingDepthSlider).prepend(
+      "<label> Sampling Depth &nbsp; </label> <br>"
+    );
+    $(samplingDepthSlider).append(
+      '<br> <input id="text-box" class="form-control" type="number" value="0" min="0" oninput="textBoxHelperFunction(this.value);" />'
+    );
+    $(samplingDepthSlider).append("(zero implies no even sampling)");
+    samplingDepthSlider.children(".vega-bind-name").replaceWith("");
+
+    var rotateLabels = $("#rotate-labels .vega-bind");
+    rotateLabels
+      .children(".vega-bind-name")
+      .replaceWith("<label> Rotate Labels &nbsp;</label>");
+    rotateLabels.children("checkbox").addClass("form-control");
+  });
+</script>
+
+
+<div class="row">
+  <div class="col-lg-8">
+    <table id="feature-table" class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Sample ID</th>
+          <th scope="col">Feature Count</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<script id="table-data" type="application/json">
+{"YUN2029.2":586.0,"BAQ4697.3":583.0,"YUN1005.1.1":583.0,"YUN3533.2":545.0,"YUN1242.3":518.0,"YUN3533.3":487.0,"BAQ3473.3":481.0,"YUN3428.2":474.0,"YUN1609.1":467.0,"YUN3856.3":456.0,"BAQ4697.1":451.0,"YUN3856.1.2":445.0,"YUN3259.3":428.0,"YUN1242.1":391.0,"BAQ2462.1":391.0,"BAQ4166.2":391.0,"YUN3346.1":384.0,"BAQ4697.2":376.0,"YUN3533.1.1":364.0,"BAQ4166.1.2":359.0,"YUN3153.3":356.0,"BAQ2687.2":340.0,"YUN3428.1":334.0,"YUN3856.2":333.0,"BAQ4166.3":323.0,"YUN3259.1.2":316.0,"YUN3346.3":314.0,"BAQ3473.1":311.0,"YUN3856.1.1":293.0,"YUN1005.3":290.0,"BAQ2687.1":283.0,"BAQ4166.1.3":281.0,"BAQ2462.2":277.0,"YUN3533.1.2":248.0,"BAQ2420.2":244.0,"YUN3533.1.3":243.0,"BAQ2420.3":224.0,"BAQ4166.1.1":210.0,"YUN3153.2":206.0,"YUN3856.1.3":195.0,"BAQ2420.1.1":195.0,"BAQ2420.1.3":186.0,"BAQ2420.1.2":175.0,"YUN3428.3":175.0,"YUN3259.2":160.0,"BAQ2687.3":159.0,"BAQ2838.1":140.0,"BAQ2462.3":126.0,"BAQ3473.2":124.0,"BAQ2838.3":90.0,"YUN3259.1.3":56.0,"BAQ2838.2":47.0,"YUN3346.2":26.0,"YUN3153.1":1.0,"YUN2029.3":1.0,"YUN3008.3":1.0,"BAQ895.2":0.0,"YUN3259.1.1":0.0,"YUN3184.2":0.0,"YUN3008.1.1":0.0,"YUN3008.1.3":0.0,"YUN1005.1.3":0.0,"YUN2029.1":0.0,"YUN1609.3":0.0,"YUN1242.2":0.0,"BAQ1552.1.1":0.0}
+</script>
+
+<script type="text/javascript">
+  var totalFrequencies = 16443;
+  var sampleCount = 66;
+  var defaultDescription = "Retained " + (totalFrequencies.toLocaleString('en'))
+                                       + " (100.00%) features in "
+                                       + sampleCount + " (100.00%) samples at the specifed sampling depth.";
+
+
+  var textField = document.getElementById('text-field');
+  var tableBody = document.getElementById("table-body");
+  var table = document.getElementById("feature-table");
+
+  // when the viz loads the default description is displayed
+  textField.innerHTML = defaultDescription;
+
+  var sampleFrequency = JSON.parse(document.getElementById("table-data").innerHTML);
+  // get object keys and store them in an ascending order based on the key value
+  // this order is used to create the table rows
+  sortedSampleIDs = Object.keys(sampleFrequency).sort(function(a, b) {
+    var temp = sampleFrequency[a] - sampleFrequency[b];
+    // if two samples have the same number of features then we
+    // determine the order using the sample ID alphabetical order
+    if (temp == 0){
+      return b.localeCompare(a);
+    }
+
+  return temp;
+  });
+
+  sortedSampleIDs.forEach(function(element) {
+    var row = tableBody.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    cell1.innerHTML = element;
+    cell2.innerHTML = sampleFrequency[element];
+
+  });
+
+
+  function updateTableandText(val) {
+    var retainedSampleCount = 0;
+
+    // start the counter at 1 to ignore the header row
+    for (var i = 1; row = table.rows[i]; i++) {
+
+      if (Number(row.cells[1].innerHTML) < val) {
+        row.className = "danger";
+      } else {
+        row.className = "";
+        retainedSampleCount += 1;
+      }
+    }
+    if (val == 0){
+
+    textField.innerHTML = defaultDescription;
+
+    }
+    else{
+      var retainedFeatureCount = retainedSampleCount * val;
+      textField.innerHTML = "Retained " + retainedFeatureCount.toLocaleString('en')
+                                        + " (" + (retainedFeatureCount/totalFrequencies*100).toFixed(2) + "%) features in "
+                                        + retainedSampleCount + " (" + (retainedSampleCount/sampleCount*100).toFixed(2)
+                                        +  "%) samples at the specifed sampling depth.";
+    }
+
+  }
+
+
+  function updateSliderVal(val) {
+    var slider = document.getElementById("range-slider");
+    slider.value = val;
+    slider.dispatchEvent(new Event("change"));
+    slider.dispatchEvent(new Event("input"));
+  }
+
+
+  function updateBoxVal(val) {
+    var num = document.getElementById("text-box");
+    num.value = val;
+  }
+
+
+  function sliderHelperFunction(val){
+    updateBoxVal(val);
+    updateTableandText(val);
+
+  }
+
+
+  function textBoxHelperFunction(val){
+    val = parseInt(val);
+    if (val !== val) {
+      val = 0;
+    }
+
+    // make sure the value in the textbox cannot exceed the max count
+    if (val > 586.0){
+      var num = document.getElementById("text-box");
+      num.value = 586.0;
+    }
+    updateSliderVal(val);
+  }
+</script>
+
+
+    </div>
+  </div>
+
+
+    </div>
+    <script type="text/javascript">
+      if (window.frameElement) {
+          document.getElementById('q2templatesheader').remove();
+      }
+    </script>
+    
+
+  </body>
+</html>

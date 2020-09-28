@@ -1,0 +1,34 @@
+---
+title: "MK_test"
+author: "jjz"
+date: "2019/10/7"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 100)
+```
+## Primer information
+
+We provide the primer sequences for users.
+
+```{r cars, echo=F}
+primer_table <- data.frame(Primer=c("8F", "27F", "CC [F]", "357F", "515F", "533F", "16S.1100.F16", "1237F", 
+                                             "519R", "CD [R]", "907R", "1100R", "1391R", "1492R (l)", "1492R (s)"), 
+                                    Sequences=c("AGAGTTTGATCCTGGCTCAG", "AGAGTTTGATCMTGGCTCAG", "CCAGACTCCTACGGGAGGCAGC", "CTCCTACGGGAGGCAGCAG",
+                                                "GTGCCAGCMGCCGCGGTAA", "GTGCCAGCAGCCGCGGTAA", "CAACGAGCGCAACCCT", "GGGCTACACACGYGCWAC",
+                                                "GWATTACCGCGGCKGCTG", "CTTGTGCGGGCCCCCGTCAATTC", "CCGTCAATTCMTTTRAGTTT", "AGGGTTGCGCTCGTTG",
+                                                "GACGGGCGGTGTGTRCA", "GGTTACCTTGTTACGACTT", "ACCTTGTTACGACTT"),
+                                    Target_Group=c(rep("Universal", 11), "Bacterial", rep("Universal", 3)),
+                                    Reference=c("Turner et al. 1999", "Lane et al. 1991", "Rudi et al. 1997", "Turner et al. 1999", "Turner et al. 1999",
+                                                "Weisburg et al. 1991", "Turner et al. 1999", "Turner et al. 1999", "Turner et al. 1999", "Rudi et al. 1997",
+                                                "Lane et al. 1991", "Turner et al. 1999", "Turner et al. 1999", "Turner et al. 1999", "Lane et al. 1991"))
+         colnames(primer_table)[2] <- "Sequences (5'-3')"
+library(knitr)
+kable(primer_table)
+```

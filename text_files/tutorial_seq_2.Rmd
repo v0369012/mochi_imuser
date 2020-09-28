@@ -1,0 +1,43 @@
+---
+title: "tutorial"
+author: "jjz"
+date: "2020/9/15"
+output: html_document
+---
+
+### Step 1
+##### Click **2. Denoising** on the top bar.
+<img src="/home/imuser/text_files/p2_1.png" width="70%" />
+
+***
+
+### Step 2
+##### Input the position number and quality number to trim the sequences
+1. **Starting and ending position:** If the starting position is 5 and the ending position is 120, it means the sequences would be retained from 5 to 120 bp. The sequences less than 120 bp would be discarded. As a result, you would get about 115 bp sequences. If the ending position is 0, no truncation or length filtering will be performed.
+2. **Quality score:** Reads are truncated at the position of the quality score less than or equal to this value. If the resulting read is then shorter than ending position, it is then discarded.
+
+<img src="/home/imuser/text_files/p2_2.png" width="60%" />
+
+##### Input the parameter of chimera, training error model, thread and upload the metadata
+1. **Chimeric reads filter:** A chimeric read is a sequence originate from multiple or parent sequences. Chimeric reads are generally considered contaminant, as a chimera can be interpreted as a novel sequence, whereas it is in fact an artifact.
+2. **Training error model:** The number of reads for training the error model. Smaller numbers will result in a shorter run time but a less reliable error model.
+3. **Threads:** Multiple threads to speed up the analytical process. If you increase the number of threads, the required time will decrease.
+4. **Integrating the metadata (Optional):** If the metadata is provided, the results will have metadata information.
+
+<img src="/home/imuser/text_files/p2_3.png" width="60%" />
+
+***
+
+### Step 3
+##### Click on the button **"Start to denoise!"**
+
+<img src="/home/imuser/text_files/p2_4.png" width="60%" />
+<img src="/home/imuser/text_files/p2_5.png" width="60%" />
+<img src="/home/imuser/text_files/p2_6.png" width="60%" />
+
+***
+
+### Step 4
+##### Inspect the 4 results
+You can click the buttons in the example block to understand what the results look like.
+<img src="/home/imuser/text_files/p2_7.png" width="60%" />

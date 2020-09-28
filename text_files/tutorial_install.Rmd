@@ -1,0 +1,106 @@
+---
+title: "Tutorial"         
+author: "Wendy"
+date: "11/22/2019"
+output: html_document
+---
+ 
+
+# <span style="color:olive">MOCHI Installation</span>
+*****
+### <span style="color:teal">Docker Installation</span>  
+
+**<span style="color:olive">MOCHI</span>** runs on Linux, Windows, and Mac operating system. Before you download and start using the docker image of **<span style="color:olive">MOCHI</span>**, you first have to have **Docker** installed in your system. 
+
+For <span style="color:purple">Linux</span> users, install **Docker Engine** and check with the prerequisites at <https://docs.docker.com/install/linux/docker-ce/ubuntu/>  
+
+For <span style="color:blue">Windows</span> and <span style="color:red">Mac</span> users, sign in and download **Docker Desktop for Windows/Mac** from Docker Hub and check with the prerequisites at:   
+
+- <span style="color:blue">Windows</span> - <https://docs.docker.com/docker-for-windows/install/>  
+- <span style="color:red">Mac OS</span> - <https://docs.docker.com/docker-for-mac/install/>     
+
+
+
+*****
+### <span style="color:SlateBlue">Download Database</span>
+
+<br />
+
+##### **<span style="color:SlateBlue">Silva database</span>**   
+**For <span style="color:purple">Linux</span>:**  
+
+1. In your local command line, download/<span style="color:purple">wget</span> your version of files (Version 132 for example):   
+
+   >  <span style="color:purple">wget https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_132_release.zip 
+ </span>
+
+2. Unzip the downloaded files:   
+
+   >  <span style="color:purple">unzip <span style="color:MediumSeaGreen">*download directory*</span>/Silva_132_release.zip</span>
+
+3. Copy the unzipped files of **rep_set** and **taxonomy** to *your MOCHI database path*: 
+
+   >  <span style="color:purple">cp -r <span style="color:MediumSeaGreen">*download directory*</span>/SILVA_132_QIIME_release/rep_set/rep_set_16S_only <span style="color:MediumSeaGreen">*your MOCHI database path*</span>   
+   
+   >  <span style="color:purple">cp -r <span style="color:MediumSeaGreen">*download directory*</span>/SILVA_132_QIIME_release/taxonomy/16S_only <span style="color:MediumSeaGreen">*your MOCHI database path*</span>
+ 
+**For <span style="color:blue">Windows</span> and <span style="color:red">MacOS</span>:**  
+
+1. Go to Silva's data downloading webpage - https://www.arb-silva.de/download/archive/qiime  
+
+2. Choose your version to download    
+
+3. Remember to unzip the downloaded files  
+
+4. Open the unzipped folder of <span style="color:SlateBlue">SILVA_132_QIIME_release</span> and then copy <span style="color:SlateBlue">rep_set</span> and <span style="color:SlateBlue">taxonomy</span> files to *your MOCHI database path*  
+ 
+<br />
+  
+##### **<span style="color:SlateBlue">GreenGenes database</span>**   
+**For <span style="color:purple">Linux</span>:**   
+
+1. In your local command line, download/<span style="color:purple">wget</span> your version of files (Version 13_5 for example):
+
+   >  <span style="color:purple">wget https://gg-sg-web.s3-us-west-2.amazonaws.com/downloads/greengenes_database/gg_13_5/gg_13_5_otus.tar.gz</span>
+
+2. Unzip the downloaded files:   
+
+   >  <span style="color:purple">tar zxvf <span style="color:MediumSeaGreen">*download directory*</span>/gg_13_5_otus.tar.gz </span>  
+
+3. Copy the unzipped files of **rep_set** and **taxonomy** to *your MOCHI database path*: 
+
+   >  <span style="color:purple">cp -r <span style="color:MediumSeaGreen">*download directory*</span>/gg_13_5_otus/rep_set/rep_set_16S_only <span style="color:MediumSeaGreen">*your MOCHI database path*</span>   
+   
+   >  <span style="color:purple">cp -r <span style="color:MediumSeaGreen">*download directory*</span>/gg_13_5_otus/taxonomy/16S_only <span style="color:MediumSeaGreen">*your MOCHI database path*</span>
+
+
+**For <span style="color:blue">Windows</span> and <span style="color:red">MacOS</span>:**  
+
+1. Go to GreenGenes's data downloading webpage - https://greengenes.secondgenome.com/?prefix=downloads/greengenes_database/  
+
+2. Choose your version  first and then select <span style="color:SlateBlue">gg_XX_X_otus.tar.gz</span> kind of files to download    
+
+3. Remember to unzip the downloaded files  
+
+4. Open the unzipped folder of <span style="color:SlateBlue"> gg_XX_X_otus</span> and then copy <span style="color:SlateBlue">rep_set</span> and <span style="color:SlateBlue">taxonomy</span> files to *your MOCHI database path*
+
+
+*****
+### <span style="color:orange">Get started with MOCHI !</span>
+
+1. Once the Docker is ready in your system, `docker pull` the **<span style="color:olive">MOCHI</span>** image from the hub to your local:  
+
+   >  <span style="color:orange">docker pull dockerjjz/mbtool_jjz:20191226 </span>
+ 
+2. Run an container to map the **<span style="color:olive">MOCHI</span>** image with your own sequence data: 
+
+   >   <span style="color:orange">docker run -e ROOT=TRUE -e USER=rstudio -e PASSWORD=imuser -v your sequences data path:/home/imuser/raw_data -v your database path:/home/imuser/taxa_database -p 3855:3838 -p 8755:8787 -p 8055:8080 -d dockerjjz/mbtool_jjz:20191226</span> 
+ 
+3. Open search engine and enter IP: <span style="color:orange">127.0.0.1:3855</span> to open **<span style="color:olive">MOCHI</span>** interface. 
+
+ 
+
+
+
+
+
