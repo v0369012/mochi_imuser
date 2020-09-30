@@ -166,7 +166,7 @@ output: html_document
 
 * **Dimension-reduction plot of UniFrac distance**
     + We provide three dimension-reduction methods, including PCoA (Principal Co-ordinates Analysis) and NMDS (Non-metric Multidimensional Scaling) for visualization of UniFrac distance.
-    + **Choose the ordination method:** Select the dimension-reduction methods for to be used for creating the plot.
+    + **Choose the ordination method:** Select the dimension-reduction methods for creating the plot.
     + **Clustering with circle:** If you check this checkbox, the samples in the same group will be grouped with a circle in the plot.
     + **Choose the group:** The samples in the plot will be labeled using colors based on the metadata.
     + **Download beta diversity plot:** Click on the button **"Download Beta Diversity Plot"** to download the plot.

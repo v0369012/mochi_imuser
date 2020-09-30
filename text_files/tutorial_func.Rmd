@@ -5,14 +5,14 @@ date: "2020/9/15"
 output: html_document
 ---
 
-## The tutorial of Function Analysis
-We integrated [FAPROTAX](https://pages.uoregon.edu/slouca/LoucaLab/archive/FAPROTAX/lib/php/index.php) to predict the function of microbiota.
+## Tutorial on Function Analysis
+The database [FAPROTAX](https://pages.uoregon.edu/slouca/LoucaLab/archive/FAPROTAX/lib/php/index.php) is used to predict the function of microbiota.
 
 ***
 
 ### Step 1
-##### 1. Please upload the metadata (.tsv) and the taxonomic table file (.qza).
-##### 2. After unploading, click on the button **"Start!"** to execute the analysis.
+##### 1. Please upload the metadata file (.tsv) and the taxonomic table file (.qza).
+##### 2. After uploading, click on the button **"Start!"** to conduct the analysis.
 
 <img src="/home/imuser/text_files/p5_1.png" width="100%" />
 
@@ -21,15 +21,15 @@ We integrated [FAPROTAX](https://pages.uoregon.edu/slouca/LoucaLab/archive/FAPRO
 ***
 
 ### Step 2
-##### After finishing FAPROTAX, We provide a table and a barplot to interpret the result.
-* **Summary:** Show the information of the function prediction.
-* **Function table:** The table reveals that reads of the function types in every sample.
-  + **Download the function table:** Click on the button **"Download the function table"** to downlaod the table.
+##### After finishing with FAPROTAX, we provide a table and a barplot to interpret the results.
+* **Summary:** This shows essential information regarding the function prediction.
+* **Function table:** The shows that reads of the function types in every sample.
+  + **Download the function table:** Click on the button **"Download the function table"** to download the table.
 
 <img src="/home/imuser/text_files/p5_3.png" width="100%" />
 
-* **Function barplot:** The horizontal bars indicate reads of each function and the bars will be grouped based on the metadata. 
-  + **Choose the group:** Select the group and then the bars will be grouped based on the metadata.
-  + **Download the function barplot:** Click on the button **"Download the function barplot"** to downlaod the barplot.
+* **Function barplot:** The horizontal bars indicate reads of each function and the bars are grouped based on the metadata. 
+  + **Choose the group:** Select a group and the bars will be grouped based on the metadata accordingly.
+  + **Download the function barplot:** Click on the button **"Download the function barplot"** to download the barplot.
 
 <img src="/home/imuser/text_files/p5_4.png" width="100%" />
