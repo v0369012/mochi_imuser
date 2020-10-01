@@ -1847,7 +1847,7 @@ server <- function(session, input, output) {
     index <- input$select_diversity
     A_diversity_metadata_list_melt_forplot <- subset(A_diversity_metadata_list_melt,
                                                      variable==index)
-    anova_result <- aov(value /home/imuser feature_name, A_diversity_metadata_list_melt_forplot)
+    anova_result <- aov(value ~ feature_name, A_diversity_metadata_list_melt_forplot)
     anova_summary <- summary(anova_result)
     # tukey_result <- agricolae::HSD.test(anova_result, "feature_name", group = T)
     # group_data <- tukey_result$groups[order(rownames(tukey_result$groups)),]
@@ -1906,7 +1906,7 @@ server <- function(session, input, output) {
     A_diversity_metadata_list_melt_forplot <- subset(A_diversity_metadata_list_melt,
                                                      variable==index) 
     
-    anova_result <- aov(value /home/imuser feature_name, A_diversity_metadata_list_melt_forplot)
+    anova_result <- aov(value ~ feature_name, A_diversity_metadata_list_melt_forplot)
     
     tukey_result <- TukeyHSD(anova_result, "feature_name")[[1]]
     tukey_result_table <- data.frame(comparisons = rownames(tukey_result), tukey_result)
@@ -1948,7 +1948,7 @@ server <- function(session, input, output) {
     index <- input$select_diversity
     A_diversity_metadata_list_melt_forplot <- subset(A_diversity_metadata_list_melt,
                                                      variable==index)
-    KW_result <- kruskal.test(value /home/imuser feature_name, A_diversity_metadata_list_melt_forplot)
+    KW_result <- kruskal.test(value ~ feature_name, A_diversity_metadata_list_melt_forplot)
     
     stat_box_data <- function(y, upper_limit = max(A_diversity_metadata_list_melt_forplot$value) * 1.15) {
       return( 
@@ -2340,7 +2340,7 @@ server <- function(session, input, output) {
         
         colnames(taxtable_data_Level)[1]<-"Levels"
         
-        taxtable_data_Level<-aggregate(read_count/home/imuserLevels+Sample_ID,taxtable_data_Level,FUN = sum)
+        taxtable_data_Level<-aggregate(read_count~Levels+Sample_ID,taxtable_data_Level,FUN = sum)
         
         taxtable_data_Level_spread<-spread(taxtable_data_Level,key = Sample_ID,value = read_count)
         
@@ -2421,7 +2421,7 @@ server <- function(session, input, output) {
       
       colnames(taxtable_data_Level)[1]<-"Levels"
       
-      taxtable_data_Level<-aggregate(read_count/home/imuserLevels+Sample_ID,taxtable_data_Level,FUN = sum)
+      taxtable_data_Level<-aggregate(read_count~Levels+Sample_ID,taxtable_data_Level,FUN = sum)
       
       taxtable_data_Level_spread<-spread(taxtable_data_Level,key = Sample_ID,value = read_count)
       
@@ -2520,7 +2520,7 @@ server <- function(session, input, output) {
       
       colnames(taxtable_data_Level)[1]<-"Levels"
       
-      taxtable_data_Level<-aggregate(read_count/home/imuserLevels+Sample_ID,taxtable_data_Level,FUN = sum)
+      taxtable_data_Level<-aggregate(read_count~Levels+Sample_ID,taxtable_data_Level,FUN = sum)
       
       taxtable_data_Level_spread<-spread(taxtable_data_Level,key = Sample_ID,value = read_count)
       
@@ -2707,7 +2707,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
       
       #
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels != "Unassigned")
@@ -2904,7 +2904,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID, barplot_taxa_table_data_percent_Level, FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID, barplot_taxa_table_data_percent_Level, FUN = sum)
       
       # remove unassigned
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels!="Unassigned")
@@ -3057,7 +3057,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
       
       #
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels != "Unassigned")
@@ -3297,7 +3297,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
       
       # remove unassigned
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels!="Unassigned")
@@ -3508,7 +3508,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
       
       #
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels != "Unassigned")
@@ -3701,7 +3701,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID, barplot_taxa_table_data_percent_Level, FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID, barplot_taxa_table_data_percent_Level, FUN = sum)
       
       # remove unassigned
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels!="Unassigned")
@@ -3858,7 +3858,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
       
       #
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels != "Unassigned")
@@ -4092,7 +4092,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
       
       # remove unassigned
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels!="Unassigned")
@@ -4405,7 +4405,7 @@ server <- function(session, input, output) {
     
     adonis_result_table_list <- lapply(colnames(nonNA_metadata)[-1], function(x){
       
-      adonis(bray_df/home/imusernonNA_metadata[,x], nonNA_metadata, permutations = 999)[["aov.tab"]]
+      adonis(bray_df~nonNA_metadata[,x], nonNA_metadata, permutations = 999)[["aov.tab"]]
       
     })
     
@@ -4515,7 +4515,7 @@ server <- function(session, input, output) {
         
         bray_df_pair <- vegdist(t(taxatable_f1_f2_list[[k]]), method = "bray") %>% as.matrix() %>% as.data.frame()
         metadata_pair <- nonNA_metadata %>% filter(SampleID %in% colnames(bray_df_pair))
-        adonis_result_pair <- adonis(bray_df_pair/home/imusermetadata_pair[,input$metadata_beta], 
+        adonis_result_pair <- adonis(bray_df_pair~metadata_pair[,input$metadata_beta], 
                                      metadata_pair, permutations = 999) 
         
       })
@@ -5100,7 +5100,7 @@ server <- function(session, input, output) {
         
         A_diversity_metadata_list[[feature]] <- filter(A_diversity_metadata_list[[feature]], feature_name != "NA")
         
-        anova_result <- aov(faith_pd /home/imuser feature_name, A_diversity_metadata_list[[feature]])
+        anova_result <- aov(faith_pd ~ feature_name, A_diversity_metadata_list[[feature]])
         anova_summary <- summary(anova_result)
         # tukey_result <- agricolae::HSD.test(anova_result, "feature_name", group = T)
         # group_data <- tukey_result$groups[order(rownames(tukey_result$groups)),]
@@ -5168,7 +5168,7 @@ server <- function(session, input, output) {
         
         A_diversity_metadata_list[[feature]] <- filter(A_diversity_metadata_list[[feature]], feature_name!="NA")
         
-        KW_result <- kruskal.test(faith_pd /home/imuser feature_name, A_diversity_metadata_list[[feature]])
+        KW_result <- kruskal.test(faith_pd ~ feature_name, A_diversity_metadata_list[[feature]])
         # tukey_result <- agricolae::HSD.test(anova_result, "feature_name", group = T)
         # group_data <- tukey_result$groups[order(rownames(tukey_result$groups)),]
         options(scipen=999)
@@ -5255,7 +5255,7 @@ server <- function(session, input, output) {
       
       A_diversity_metadata_list[[input$metadata_phylo_alpha]] <- filter(A_diversity_metadata_list[[input$metadata_phylo_alpha]], feature_name != "NA")
       
-      anova_result <- aov(faith_pd /home/imuser feature_name, A_diversity_metadata_list[[input$metadata_phylo_alpha]])
+      anova_result <- aov(faith_pd ~ feature_name, A_diversity_metadata_list[[input$metadata_phylo_alpha]])
       tukey_result <- TukeyHSD(anova_result, "feature_name")[[1]]
       tukey_result_table <- data.frame(comparisons = rownames(tukey_result), tukey_result)
       tukey_result_table[,"comparisons"] <- stringr::str_replace_all(tukey_result_table[,"comparisons"], "-", " / ")
@@ -5656,7 +5656,7 @@ server <- function(session, input, output) {
       
       adonis_result_table_list <- lapply(colnames(nonNA_metadata)[-1], function(x){
         
-        adonis(unW_unifrac_dm /home/imuser nonNA_metadata[,x], nonNA_metadata, permutations = 999)[["aov.tab"]]
+        adonis(unW_unifrac_dm ~ nonNA_metadata[,x], nonNA_metadata, permutations = 999)[["aov.tab"]]
         
       })
       
@@ -5693,7 +5693,7 @@ server <- function(session, input, output) {
       
       adonis_result_table_list <- lapply(colnames(nonNA_metadata)[-1], function(x){
         
-        adonis(W_unifrac_dm /home/imuser nonNA_metadata[,x], nonNA_metadata, permutations = 999)[["aov.tab"]]
+        adonis(W_unifrac_dm ~ nonNA_metadata[,x], nonNA_metadata, permutations = 999)[["aov.tab"]]
         
       })
       
@@ -5811,7 +5811,7 @@ server <- function(session, input, output) {
           
           unW_unifrac_dm_pair <- unW_unifrac_dm_f1_f2_list[[k]] %>% as.matrix() %>% as.data.frame()
           metadata_pair <- nonNA_metadata %>% filter(SampleID %in% colnames(unW_unifrac_dm_pair))
-          adonis_result_pair <- adonis(unW_unifrac_dm_pair /home/imuser metadata_pair[, input$metadata_phylo_beta], metadata_pair, permutations = 999)
+          adonis_result_pair <- adonis(unW_unifrac_dm_pair ~ metadata_pair[, input$metadata_phylo_beta], metadata_pair, permutations = 999)
           
         })
         
@@ -5884,7 +5884,7 @@ server <- function(session, input, output) {
           
           W_unifrac_dm_pair <- W_unifrac_dm_f1_f2_list[[k]] %>% as.matrix() %>% as.data.frame()
           metadata_pair <- nonNA_metadata %>% filter(SampleID %in% colnames(W_unifrac_dm_pair))
-          adonis_result_pair <- adonis(W_unifrac_dm_pair /home/imuser metadata_pair[, input$metadata_phylo_beta], metadata_pair, permutations = 999)
+          adonis_result_pair <- adonis(W_unifrac_dm_pair ~ metadata_pair[, input$metadata_phylo_beta], metadata_pair, permutations = 999)
           
         })
         
@@ -6656,9 +6656,9 @@ server <- function(session, input, output) {
       ancom_merge <- merge(x = ancom_data, y = ancom_sig[, c(1,3)], by = "id")
       
       plot_ly(data = ancom_merge,
-              x = /home/imuser clr,
-              y = /home/imuser W,
-              color = /home/imuser Reject.null.hypothesis,
+              x = ~ clr,
+              y = ~ W,
+              color = ~ Reject.null.hypothesis,
               colors = c("grey","red")[1:length(unique(ancom_sig$Reject.null.hypothesis))],
               type = "scatter",
               hoverinfo = "text",
