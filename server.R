@@ -54,7 +54,7 @@ server <- function(session, input, output) {
     # return(my_qiime_ip)
     # return(getwd())
     # return(system("whoami", intern = T))
-    # return(system("echo ~", intern = T))
+    # return(system("echo /home/imuser", intern = T))
     # return(system("python /home/imuser/test.py", intern = T))
     # return(system("locale -a", intern = T))
     # use_virtualenv("qiime2-2019.10")
@@ -734,13 +734,13 @@ server <- function(session, input, output) {
     raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
     
     Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2019.10/bin')
-    file.remove("~/qiime_output/demux_single_end.qza", "/home/imuser/qiime_output/demux_single_end.qzv")
+    file.remove("/home/imuser/qiime_output/demux_single_end.qza", "/home/imuser/qiime_output/demux_single_end.qzv")
     file.remove("", "/home/imuser/qiime_output/demux_single_end.qzv")
     
     system(paste(qiime_cmd, "tools import --type", "'SampleData[SequencesWithQuality]'", "--input-path", raw_data_path_list[[1]],
-                 "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path ~/qiime_output/demux_single_end.qza'))
+                 "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path /home/imuser/qiime_output/demux_single_end.qza'))
     
-    system(paste(qiime_cmd, 'demux summarize --i-data ~/qiime_output/demux_single_end.qza --o-visualization /home/imuser/qiime_output/demux_single_end.qzv'))
+    system(paste(qiime_cmd, 'demux summarize --i-data /home/imuser/qiime_output/demux_single_end.qza --o-visualization /home/imuser/qiime_output/demux_single_end.qzv'))
     # viewer_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime_2_ll_quick_viewer'
     # system('kill -9 $(lsof -t -i:8080 -sTCP:LISTEN)')
     # system(paste(viewer_cmd, '--filename /home/imuser/qiime_output/demux_single_end.qzv &'))
@@ -809,7 +809,7 @@ server <- function(session, input, output) {
     qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
     raw_data_path <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
     
-    Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:~/miniconda3/bin:~/miniconda3/envs/qiime2-2019.10/bin')
+    Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2019.10/bin')
     file.remove("/home/imuser/qiime_output/demux_paired_end.qza", "/home/imuser/qiime_output/demux_paired_end.qzv")
     
     system(paste(qiime_cmd, "tools import --type", "'SampleData[PairedEndSequencesWithQuality]'", "--input-path", raw_data_path,
@@ -861,14 +861,14 @@ server <- function(session, input, output) {
     
     
     
-    qiime_cmd <- '~/miniconda3/envs/qiime2-2019.10/bin/qiime'
+    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
     
-    file.remove("~/qiime_output/rep-seqs-dada2_single.qza", 
-                "~/qiime_output/table-dada2_single.qza",
-                "~/qiime_output/stats-dada2_single.qza",
-                "~/qiime_output/rep-seqs-dada2_single.qzv",
-                "~/qiime_output/table-dada2_single.qzv",
-                "~/qiime_output/stats-dada2_single.qzv")
+    file.remove("/home/imuser/qiime_output/rep-seqs-dada2_single.qza", 
+                "/home/imuser/qiime_output/table-dada2_single.qza",
+                "/home/imuser/qiime_output/stats-dada2_single.qza",
+                "/home/imuser/qiime_output/rep-seqs-dada2_single.qzv",
+                "/home/imuser/qiime_output/table-dada2_single.qzv",
+                "/home/imuser/qiime_output/stats-dada2_single.qzv")
     
     if(is.null(input$sample_data_single$datapath)){
       add_metadata_table <- ""
@@ -878,79 +878,79 @@ server <- function(session, input, output) {
       add_metadata_rarefaction <- paste("--m-metadata-file", input$sample_data_single$datapath)
     }
     
-    system(paste(qiime_cmd, "dada2 denoise-single --i-demultiplexed-seqs ~/qiime_output/demux_single_end.qza", 
+    system(paste(qiime_cmd, "dada2 denoise-single --i-demultiplexed-seqs /home/imuser/qiime_output/demux_single_end.qza", 
                  '--p-trim-left', input$trim_left_single, 
                  '--p-trunc-len', input$trunc_len_single,
                  "--p-trunc-q", input$qvalue_single,
                  "--p-n-threads", input$threads_single,
                  "--p-min-fold-parent-over-abundance", input$chimera_single,
                  "--p-n-reads-learn", input$n_reads_single,
-                 "--o-representative-sequences ~/qiime_output/rep-seqs-dada2_single.qza",
-                 '--o-table ~/qiime_output/table-dada2_single.qza', 
-                 '--o-denoising-stats ~/qiime_output/stats-dada2_single.qza'))
+                 "--o-representative-sequences /home/imuser/qiime_output/rep-seqs-dada2_single.qza",
+                 '--o-table /home/imuser/qiime_output/table-dada2_single.qza', 
+                 '--o-denoising-stats /home/imuser/qiime_output/stats-dada2_single.qza'))
     
-    system(paste(qiime_cmd, 'metadata tabulate --m-input-file ~/qiime_output/stats-dada2_single.qza --o-visualization ~/qiime_output/stats-dada2_single.qzv'))
-    # system(paste(qiime_cmd, 'feature-table summarize --i-table ~/qiime_output/table-dada2.qza --o-visualization ~/qiime_output/table-dada2.qzv --m-sample-metadata-file', paste0("~/qiime_output/",sample_file_name())))
-    system(paste(qiime_cmd, 'feature-table summarize --i-table ~/qiime_output/table-dada2_single.qza',
+    system(paste(qiime_cmd, 'metadata tabulate --m-input-file /home/imuser/qiime_output/stats-dada2_single.qza --o-visualization /home/imuser/qiime_output/stats-dada2_single.qzv'))
+    # system(paste(qiime_cmd, 'feature-table summarize --i-table /home/imuser/qiime_output/table-dada2.qza --o-visualization /home/imuser/qiime_output/table-dada2.qzv --m-sample-metadata-file', paste0("/home/imuser/qiime_output/",sample_file_name())))
+    system(paste(qiime_cmd, 'feature-table summarize --i-table /home/imuser/qiime_output/table-dada2_single.qza',
                  add_metadata_table,
-                 '--o-visualization ~/qiime_output/table-dada2_single.qzv'
+                 '--o-visualization /home/imuser/qiime_output/table-dada2_single.qzv'
                  # , '--m-sample-metadata-file', input$sample_data_single$datapath
                  )
            )
-    system(paste(qiime_cmd, 'feature-table tabulate-seqs --i-data ~/qiime_output/rep-seqs-dada2_single.qza --o-visualization ~/qiime_output/rep-seqs-dada2_single.qzv'))
+    system(paste(qiime_cmd, 'feature-table tabulate-seqs --i-data /home/imuser/qiime_output/rep-seqs-dada2_single.qza --o-visualization /home/imuser/qiime_output/rep-seqs-dada2_single.qzv'))
     
-    unlink("~/qiime_output/denoise_single_stats/new_dirname", recursive = T)
+    unlink("/home/imuser/qiime_output/denoise_single_stats/new_dirname", recursive = T)
     unlink("/var/www/html/denoise_single_stats/new_dirname", recursive = T)
-    # system("cp ~/qiime_output/stats-dada2.qzv ~/qiime_output/stats-dada2.zip")
-    system("unzip -d ~/qiime_output/denoise_single_stats ~/qiime_output/stats-dada2_single.qzv")
-    unzip_dirnames_stats <- list.files("~/qiime_output/denoise_single_stats", full.names = T)
-    system(paste0("mv ", unzip_dirnames_stats, " ~/qiime_output/denoise_single_stats/new_dirname"))
-    system("cp -r ~/qiime_output/denoise_single_stats/ /var/www/html/")
+    # system("cp /home/imuser/qiime_output/stats-dada2.qzv /home/imuser/qiime_output/stats-dada2.zip")
+    system("unzip -d /home/imuser/qiime_output/denoise_single_stats /home/imuser/qiime_output/stats-dada2_single.qzv")
+    unzip_dirnames_stats <- list.files("/home/imuser/qiime_output/denoise_single_stats", full.names = T)
+    system(paste0("mv ", unzip_dirnames_stats, " /home/imuser/qiime_output/denoise_single_stats/new_dirname"))
+    system("cp -r /home/imuser/qiime_output/denoise_single_stats/ /var/www/html/")
     
-    unlink("~/qiime_output/denoise_single_table/new_dirname", recursive = T)
+    unlink("/home/imuser/qiime_output/denoise_single_table/new_dirname", recursive = T)
     unlink("/var/www/html/denoise_single_table/new_dirname", recursive = T)
-    # system("cp ~/qiime_output/table-dada2.qzv ~/qiime_output/table-dada2.zip")
-    system("unzip -d ~/qiime_output/denoise_position_table ~/qiime_output/table-dada2_single.qzv")
-    unzip_dirnames_table <- list.files("~/qiime_output/denoise_single_table", full.names = T)
-    system(paste0("mv ", unzip_dirnames_table, " ~/qiime_output/denoise_table/new_dirname"))
-    system("cp -r ~/qiime_output/denoise_single_table/ /var/www/html/")
+    # system("cp /home/imuser/qiime_output/table-dada2.qzv /home/imuser/qiime_output/table-dada2.zip")
+    system("unzip -d /home/imuser/qiime_output/denoise_position_table /home/imuser/qiime_output/table-dada2_single.qzv")
+    unzip_dirnames_table <- list.files("/home/imuser/qiime_output/denoise_single_table", full.names = T)
+    system(paste0("mv ", unzip_dirnames_table, " /home/imuser/qiime_output/denoise_table/new_dirname"))
+    system("cp -r /home/imuser/qiime_output/denoise_single_table/ /var/www/html/")
     
-    unlink("~/qiime_output/denoise_single_seqs/new_dirname", recursive = T)
+    unlink("/home/imuser/qiime_output/denoise_single_seqs/new_dirname", recursive = T)
     unlink("/var/www/html/denoise_single_seqs/new_dirname", recursive = T)
-    # system("cp ~/qiime_output/rep-seqs-dada2.qzv ~/qiime_output/rep-seqs-dada2.zip")
-    system("unzip -d ~/qiime_output/denoise_single_seqs ~/qiime_output/rep-seqs-dada2_single.qzv")
-    unzip_dirnames_seqs <- list.files("~/qiime_output/denoise_single_seqs", full.names = T)
-    system(paste0("mv ", unzip_dirnames_seqs, " ~/qiime_output/denoise_single_seqs/new_dirname"))
-    system("cp -r ~/qiime_output/denoise_single_seqs/ /var/www/html/")
+    # system("cp /home/imuser/qiime_output/rep-seqs-dada2.qzv /home/imuser/qiime_output/rep-seqs-dada2.zip")
+    system("unzip -d /home/imuser/qiime_output/denoise_single_seqs /home/imuser/qiime_output/rep-seqs-dada2_single.qzv")
+    unzip_dirnames_seqs <- list.files("/home/imuser/qiime_output/denoise_single_seqs", full.names = T)
+    system(paste0("mv ", unzip_dirnames_seqs, " /home/imuser/qiime_output/denoise_single_seqs/new_dirname"))
+    system("cp -r /home/imuser/qiime_output/denoise_single_seqs/ /var/www/html/")
     
     # alpha-rarefaction
-    max_depth <- read_qza("~/qiime_output/table-dada2.qza")[["data"]] %>% colSums() %>% min()
-    system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences ~/qiime_output/rep-seqs-dada2_single.qza", 
+    max_depth <- read_qza("/home/imuser/qiime_output/table-dada2.qza")[["data"]] %>% colSums() %>% min()
+    system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences /home/imuser/qiime_output/rep-seqs-dada2_single.qza", 
                  "--p-n-threads", input$threads_single,
-                 "--o-alignment ~/qiime_output/aligned-rep-seqs-dada2_single.qza --o-masked-alignment ~/qiime_output/masked-aligned-rep-seqs-dada2_single.qza",
-                 "--o-tree ~/qiime_output/unrooted-tree_single.qza --o-rooted-tree ~/qiime_output/rooted-tree_single.qza"))
+                 "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2_single.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2_single.qza",
+                 "--o-tree /home/imuser/qiime_output/unrooted-tree_single.qza --o-rooted-tree /home/imuser/qiime_output/rooted-tree_single.qza"))
     
-    system(paste(qiime_cmd, 'diversity alpha-rarefaction --i-table ~/qiime_output/table-dada2_single.qza',
+    system(paste(qiime_cmd, 'diversity alpha-rarefaction --i-table /home/imuser/qiime_output/table-dada2_single.qza',
                  '--p-max-depth', max_depth,
-                 '--i-phylogeny ~/qiime_output/rooted-tree_single.qza',
+                 '--i-phylogeny /home/imuser/qiime_output/rooted-tree_single.qza',
                  add_metadata_rarefaction,
-                 '--o-visualization ~/qiime_output/rarefaction-dada2_single.qzv'))
-    unlink("~/qiime_output/denoise_single_rarefaction/new_dirname", recursive = T)
+                 '--o-visualization /home/imuser/qiime_output/rarefaction-dada2_single.qzv'))
+    unlink("/home/imuser/qiime_output/denoise_single_rarefaction/new_dirname", recursive = T)
     unlink("/var/www/html/denoise_single_rarefaction/new_dirname", recursive = T)
-    system("unzip -d ~/qiime_output/denoise_single_rarefaction ~/qiime_output/rarefaction-dada2_single.qzv")
-    unzip_dirnames_seqs <- list.files("~/qiime_output/denoise_single_rarefaction", full.names = T)
-    system(paste0("mv ", unzip_dirnames_seqs, " ~/qiime_output/denoise_single_rarefaction/new_dirname"))
-    system("cp -r ~/qiime_output/denoise_single_rarefaction/ /var/www/html/")
+    system("unzip -d /home/imuser/qiime_output/denoise_single_rarefaction /home/imuser/qiime_output/rarefaction-dada2_single.qzv")
+    unzip_dirnames_seqs <- list.files("/home/imuser/qiime_output/denoise_single_rarefaction", full.names = T)
+    system(paste0("mv ", unzip_dirnames_seqs, " /home/imuser/qiime_output/denoise_single_rarefaction/new_dirname"))
+    system("cp -r /home/imuser/qiime_output/denoise_single_rarefaction/ /var/www/html/")
     
     # removeModal()
     remove_modal_spinner()
     end_time <- Sys.time()
     spent_time <- format(round(end_time-start_time, digits = 2))
     
-    if(all.equal(file.exists(c('~/qiime_output/stats-dada2_single.qzv', 
-                               '~/qiime_output/table-dada2_single.qzv', 
-                               '~/qiime_output/rep-seqs-dada2_single.qzv',
-                               '~/qiime_output/rarefaction-dada2_single.qzv')), 
+    if(all.equal(file.exists(c('/home/imuser/qiime_output/stats-dada2_single.qzv', 
+                               '/home/imuser/qiime_output/table-dada2_single.qzv', 
+                               '/home/imuser/qiime_output/rep-seqs-dada2_single.qzv',
+                               '/home/imuser/qiime_output/rarefaction-dada2_single.qzv')), 
                  c(T, T, T, T))){
       showModal(modalDialog(title = strong("Denoising succecessfully!"), 
                             HTML(
@@ -1023,14 +1023,14 @@ server <- function(session, input, output) {
     # showModal(modalDialog(title = "Running denoising for paired end ...", "Waiting for a moment",footer = NULL))
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
     
-    qiime_cmd <- '~/miniconda3/envs/qiime2-2019.10/bin/qiime'
+    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
     
-    file.remove("~/qiime_output/rep-seqs-dada2_paired.qza", 
-                "~/qiime_output/table-dada2_paired.qza",
-                "~/qiime_output/stats-dada2_paired.qza",
-                "~/qiime_output/rep-seqs-dada2_paired.qzv",
-                "~/qiime_output/table-dada2_paired.qzv",
-                "~/qiime_output/stats-dada2_paired.qzv")
+    file.remove("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza", 
+                "/home/imuser/qiime_output/table-dada2_paired.qza",
+                "/home/imuser/qiime_output/stats-dada2_paired.qza",
+                "/home/imuser/qiime_output/rep-seqs-dada2_paired.qzv",
+                "/home/imuser/qiime_output/table-dada2_paired.qzv",
+                "/home/imuser/qiime_output/stats-dada2_paired.qzv")
     
     if(is.null(input$sample_data_paired$datapath)){
       add_metadata_table <- ""
@@ -1040,7 +1040,7 @@ server <- function(session, input, output) {
       add_metadata_rarefaction <- paste("--m-metadata-file", input$sample_data_paired$datapath)
     }
     
-    system(paste(qiime_cmd, "dada2 denoise-paired --i-demultiplexed-seqs ~/qiime_output/demux_paired_end.qza", 
+    system(paste(qiime_cmd, "dada2 denoise-paired --i-demultiplexed-seqs /home/imuser/qiime_output/demux_paired_end.qza", 
                  '--p-trim-left-f', input$trim_left_f_paired,
                  '--p-trim-left-r', input$trim_left_r_paired,
                  '--p-trunc-len-f', input$trunc_len_f_paired,
@@ -1049,62 +1049,62 @@ server <- function(session, input, output) {
                  "--p-n-threads", input$threads_paired,
                  "--p-min-fold-parent-over-abundance", input$chimera_paired,
                  "--p-n-reads-learn", input$n_reads_paired,
-                 "--o-representative-sequences ~/qiime_output/rep-seqs-dada2_paired.qza" ,
-                 '--o-table ~/qiime_output/table-dada2_paired.qza', 
-                 '--o-denoising-stats ~/qiime_output/stats-dada2_paired.qza'))
+                 "--o-representative-sequences /home/imuser/qiime_output/rep-seqs-dada2_paired.qza" ,
+                 '--o-table /home/imuser/qiime_output/table-dada2_paired.qza', 
+                 '--o-denoising-stats /home/imuser/qiime_output/stats-dada2_paired.qza'))
     
-    system(paste(qiime_cmd, 'metadata tabulate --m-input-file ~/qiime_output/stats-dada2_paired.qza',
-                 '--o-visualization ~/qiime_output/stats-dada2_paired.qzv'))
-    # system(paste(qiime_cmd, 'feature-table summarize --i-table ~/qiime_output/table-dada2.qza --o-visualization ~/qiime_output/table-dada2.qzv --m-sample-metadata-file', paste0("~/qiime_output/",sample_file_name())))
-    system(paste(qiime_cmd, 'feature-table summarize --i-table ~/qiime_output/table-dada2_paired.qza',
+    system(paste(qiime_cmd, 'metadata tabulate --m-input-file /home/imuser/qiime_output/stats-dada2_paired.qza',
+                 '--o-visualization /home/imuser/qiime_output/stats-dada2_paired.qzv'))
+    # system(paste(qiime_cmd, 'feature-table summarize --i-table /home/imuser/qiime_output/table-dada2.qza --o-visualization /home/imuser/qiime_output/table-dada2.qzv --m-sample-metadata-file', paste0("/home/imuser/qiime_output/",sample_file_name())))
+    system(paste(qiime_cmd, 'feature-table summarize --i-table /home/imuser/qiime_output/table-dada2_paired.qza',
                  add_metadata_table,
-                 '--o-visualization ~/qiime_output/table-dada2_paired.qzv'
+                 '--o-visualization /home/imuser/qiime_output/table-dada2_paired.qzv'
                  # , '--m-sample-metadata-file', input$sample_data_paired_position$datapath
                  ))
-    system(paste(qiime_cmd, 'feature-table tabulate-seqs --i-data ~/qiime_output/rep-seqs-dada2_paired.qza --o-visualization ~/qiime_output/rep-seqs-dada2_paired.qzv'))
+    system(paste(qiime_cmd, 'feature-table tabulate-seqs --i-data /home/imuser/qiime_output/rep-seqs-dada2_paired.qza --o-visualization /home/imuser/qiime_output/rep-seqs-dada2_paired.qzv'))
     
-    unlink("~/qiime_output/denoise_paired_stats/new_dirname", recursive = T)
+    unlink("/home/imuser/qiime_output/denoise_paired_stats/new_dirname", recursive = T)
     unlink("/var/www/html/denoise_paired_stats/new_dirname", recursive = T)
-    # system("cp ~/qiime_output/stats-dada2.qzv ~/qiime_output/stats-dada2.zip")
-    system("unzip -d ~/qiime_output/denoise_paired_stats ~/qiime_output/stats-dada2_paired.qzv")
-    unzip_dirnames_stats <- list.files("~/qiime_output/denoise_paired_stats", full.names = T)
-    system(paste0("mv ", unzip_dirnames_stats, " ~/qiime_output/denoise_paired_stats/new_dirname"))
-    system("cp -r ~/qiime_output/denoise_paired_stats/ /var/www/html/")
+    # system("cp /home/imuser/qiime_output/stats-dada2.qzv /home/imuser/qiime_output/stats-dada2.zip")
+    system("unzip -d /home/imuser/qiime_output/denoise_paired_stats /home/imuser/qiime_output/stats-dada2_paired.qzv")
+    unzip_dirnames_stats <- list.files("/home/imuser/qiime_output/denoise_paired_stats", full.names = T)
+    system(paste0("mv ", unzip_dirnames_stats, " /home/imuser/qiime_output/denoise_paired_stats/new_dirname"))
+    system("cp -r /home/imuser/qiime_output/denoise_paired_stats/ /var/www/html/")
     
-    unlink("~/qiime_output/denoise_paired_table/new_dirname", recursive = T)
+    unlink("/home/imuser/qiime_output/denoise_paired_table/new_dirname", recursive = T)
     unlink("/var/www/html/denoise_paired_table/new_dirname", recursive = T)
-    # system("cp ~/qiime_output/table-dada2.qzv ~/qiime_output/table-dada2.zip")
-    system("unzip -d ~/qiime_output/denoise_paired_table ~/qiime_output/table-dada2_paired.qzv")
-    unzip_dirnames_table <- list.files("~/qiime_output/denoise_paired_table", full.names = T)
-    system(paste0("mv ", unzip_dirnames_table, " ~/qiime_output/denoise_paired_table/new_dirname"))
-    system("cp -r ~/qiime_output/denoise_paired_table/ /var/www/html/")
+    # system("cp /home/imuser/qiime_output/table-dada2.qzv /home/imuser/qiime_output/table-dada2.zip")
+    system("unzip -d /home/imuser/qiime_output/denoise_paired_table /home/imuser/qiime_output/table-dada2_paired.qzv")
+    unzip_dirnames_table <- list.files("/home/imuser/qiime_output/denoise_paired_table", full.names = T)
+    system(paste0("mv ", unzip_dirnames_table, " /home/imuser/qiime_output/denoise_paired_table/new_dirname"))
+    system("cp -r /home/imuser/qiime_output/denoise_paired_table/ /var/www/html/")
     
-    unlink("~/qiime_output/denoise_paired_seqs/new_dirname", recursive = T)
+    unlink("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname", recursive = T)
     unlink("/var/www/html/denoise_paired_seqs/new_dirname", recursive = T)
-    # system("cp ~/qiime_output/rep-seqs-dada2.qzv ~/qiime_output/rep-seqs-dada2.zip")
-    system("unzip -d ~/qiime_output/denoise_paired_seqs ~/qiime_output/rep-seqs-dada2_paired.qzv")
-    unzip_dirnames_seqs <- list.files("~/qiime_output/denoise_paired_seqs", full.names = T)
-    system(paste0("mv ", unzip_dirnames_seqs, " ~/qiime_output/denoise_paired_seqs/new_dirname"))
-    system("cp -r ~/qiime_output/denoise_paired_seqs/ /var/www/html/")
+    # system("cp /home/imuser/qiime_output/rep-seqs-dada2.qzv /home/imuser/qiime_output/rep-seqs-dada2.zip")
+    system("unzip -d /home/imuser/qiime_output/denoise_paired_seqs /home/imuser/qiime_output/rep-seqs-dada2_paired.qzv")
+    unzip_dirnames_seqs <- list.files("/home/imuser/qiime_output/denoise_paired_seqs", full.names = T)
+    system(paste0("mv ", unzip_dirnames_seqs, " /home/imuser/qiime_output/denoise_paired_seqs/new_dirname"))
+    system("cp -r /home/imuser/qiime_output/denoise_paired_seqs/ /var/www/html/")
     
     # alpha-rarefaction
-    max_depth <- read_qza("~/qiime_output/table-dada2_paired.qza")[["data"]] %>% colSums() %>% min()
-    system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences ~/qiime_output/rep-seqs-dada2_paired.qza", 
+    max_depth <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]] %>% colSums() %>% min()
+    system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences /home/imuser/qiime_output/rep-seqs-dada2_paired.qza", 
                  "--p-n-threads", input$threads_paired,
-                 "--o-alignment ~/qiime_output/aligned-rep-seqs-dada2_paired.qza --o-masked-alignment ~/qiime_output/masked-aligned-rep-seqs-dada2_paired.qza",
-                 "--o-tree ~/qiime_output/unrooted-tree_paired.qza --o-rooted-tree ~/qiime_output/rooted-tree_paired.qza"))
+                 "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2_paired.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2_paired.qza",
+                 "--o-tree /home/imuser/qiime_output/unrooted-tree_paired.qza --o-rooted-tree /home/imuser/qiime_output/rooted-tree_paired.qza"))
     
-    system(paste(qiime_cmd, 'diversity alpha-rarefaction --i-table ~/qiime_output/table-dada2_paired.qza',
+    system(paste(qiime_cmd, 'diversity alpha-rarefaction --i-table /home/imuser/qiime_output/table-dada2_paired.qza',
                  '--p-max-depth', max_depth,
-                 '--i-phylogeny ~/qiime_output/rooted-tree_paired.qza',
+                 '--i-phylogeny /home/imuser/qiime_output/rooted-tree_paired.qza',
                  add_metadata_rarefaction,
-                 '--o-visualization ~/qiime_output/rarefaction-dada2_paired.qzv'))
-    unlink("~/qiime_output/denoise_paired_rarefaction/new_dirname", recursive = T)
+                 '--o-visualization /home/imuser/qiime_output/rarefaction-dada2_paired.qzv'))
+    unlink("/home/imuser/qiime_output/denoise_paired_rarefaction/new_dirname", recursive = T)
     unlink("/var/www/html/denoise_paired_rarefaction/new_dirname", recursive = T)
-    system("unzip -d ~/qiime_output/denoise_paired_rarefaction ~/qiime_output/rarefaction-dada2_paired.qzv")
-    unzip_dirnames_seqs <- list.files("~/qiime_output/denoise_paired_rarefaction", full.names = T)
-    system(paste0("mv ", unzip_dirnames_seqs, " ~/qiime_output/denoise_paired_rarefaction/new_dirname"))
-    system("cp -r ~/qiime_output/denoise_paired_rarefaction/ /var/www/html/")
+    system("unzip -d /home/imuser/qiime_output/denoise_paired_rarefaction /home/imuser/qiime_output/rarefaction-dada2_paired.qzv")
+    unzip_dirnames_seqs <- list.files("/home/imuser/qiime_output/denoise_paired_rarefaction", full.names = T)
+    system(paste0("mv ", unzip_dirnames_seqs, " /home/imuser/qiime_output/denoise_paired_rarefaction/new_dirname"))
+    system("cp -r /home/imuser/qiime_output/denoise_paired_rarefaction/ /var/www/html/")
     
     
     
@@ -1114,10 +1114,10 @@ server <- function(session, input, output) {
     end_time <- Sys.time()
     spent_time <- format(round(end_time-start_time, digits = 2))
     
-    if(all.equal(file.exists(c('~/qiime_output/stats-dada2_paired.qzv', 
-                               '~/qiime_output/table-dada2_paired.qzv', 
-                               '~/qiime_output/rep-seqs-dada2_paired.qzv',
-                               '~/qiime_output/rarefaction-dada2_paired.qzv')), 
+    if(all.equal(file.exists(c('/home/imuser/qiime_output/stats-dada2_paired.qzv', 
+                               '/home/imuser/qiime_output/table-dada2_paired.qzv', 
+                               '/home/imuser/qiime_output/rep-seqs-dada2_paired.qzv',
+                               '/home/imuser/qiime_output/rarefaction-dada2_paired.qzv')), 
                              c(T, T, T, T))){
       # output$word_denoising_paired_position <- renderText({
       #   print('Denoising successfully')
@@ -1193,7 +1193,7 @@ server <- function(session, input, output) {
       showModal(modalDialog(title = "Running denoising for single end ...", "Waiting for a moment",footer = NULL))
       
       
-      qiime_cmd <- '~/miniconda3/envs/qiime2-2019.10/bin/qiime'
+      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
       
       if(input$seqs_type == "Single end"){
         
@@ -1209,8 +1209,8 @@ server <- function(session, input, output) {
       }
       
       
-      # system(paste(qiime_cmd, 'feature-table summarize --i-table ~/qiime_output/table_dereplicate.qza --o-visualization ~/qiime_output/table_dereplicate.qzv --m-sample-metadata-file', input$sample_data_paired$datapath))
-      # system(paste(qiime_cmd, 'feature-table tabulate-seqs --i-data ~/qiime_output/rep_seqs_dereplicate.qza --o-visualization ~/qiime_output/rep_seqs_dereplicate.qzv'))
+      # system(paste(qiime_cmd, 'feature-table summarize --i-table /home/imuser/qiime_output/table_dereplicate.qza --o-visualization /home/imuser/qiime_output/table_dereplicate.qzv --m-sample-metadata-file', input$sample_data_paired$datapath))
+      # system(paste(qiime_cmd, 'feature-table tabulate-seqs --i-data /home/imuser/qiime_output/rep_seqs_dereplicate.qza --o-visualization /home/imuser/qiime_output/rep_seqs_dereplicate.qzv'))
       
       system(paste(qiime_cmd, "vsearch cluster-features-de-novo --i-table /home/imuser/qiime_output/table_dereplicate.qza",
                    "--i-sequences /home/imuser/qiime_output/rep-seqs_dereplicate.qza",
@@ -1247,15 +1247,15 @@ server <- function(session, input, output) {
   #     
   #     showModal(modalDialog(title = "Running OTU picking ...", "Waiting for a moment", footer = NULL))
   #         
-  #         qiime_cmd <- '~/miniconda3/envs/qiime2-2019.10/bin/qiime'
-  #         system(paste(qiime_cmd, 'vsearch cluster-features-de-novo --i-table ~/qiime_output/table-dada2.qza --i-sequences ~/qiime_output/rep-seqs-dada2.qza --p-perc-identity', 
+  #         qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
+  #         system(paste(qiime_cmd, 'vsearch cluster-features-de-novo --i-table /home/imuser/qiime_output/table-dada2.qza --i-sequences /home/imuser/qiime_output/rep-seqs-dada2.qza --p-perc-identity', 
   #                      input$OTU_identity,
-  #                      '--o-clustered-table ~/qiime_output/table-dada2-dn.qza --o-clustered-sequences ~/qiime_output/rep-seqs-dada2-dn.qza'))
+  #                      '--o-clustered-table /home/imuser/qiime_output/table-dada2-dn.qza --o-clustered-sequences /home/imuser/qiime_output/rep-seqs-dada2-dn.qza'))
   #         
-  #         system(paste(qiime_cmd, 'feature-table summarize --i-table ~/qiime_output/table-dada2-dn.qza --o-visualization ~/qiime_output/table-dada2-dn.qzv'))
-  #         system(paste(qiime_cmd, 'feature-table tabulate-seqs --i-data ~/qiime_output/rep-seqs-dada2-dn.qza --o-visualization ~/qiime_output/rep-seqs-dada2-dn.qzv'))
+  #         system(paste(qiime_cmd, 'feature-table summarize --i-table /home/imuser/qiime_output/table-dada2-dn.qza --o-visualization /home/imuser/qiime_output/table-dada2-dn.qzv'))
+  #         system(paste(qiime_cmd, 'feature-table tabulate-seqs --i-data /home/imuser/qiime_output/rep-seqs-dada2-dn.qza --o-visualization /home/imuser/qiime_output/rep-seqs-dada2-dn.qzv'))
   #         
-  #         if(file.exists(c('~/qiime_output/table-dada2-dn.qzv', '~/qiime_output/rep-seqs-dada2-dn.qzv'))){
+  #         if(file.exists(c('/home/imuser/qiime_output/table-dada2-dn.qzv', '/home/imuser/qiime_output/rep-seqs-dada2-dn.qzv'))){
   #             output$word_OTUs <- renderText({
   #                 print('Picking successfully')
   #                 })
@@ -1318,13 +1318,13 @@ server <- function(session, input, output) {
     # output$mk_taxa <- renderUI({
     output$taxonomy_output <- renderDataTable({
       
-      # addResourcePath(prefix = "text_files",directoryPath = "~/")
+      # addResourcePath(prefix = "text_files",directoryPath = "/home/imuser/")
       # # file.copy(from = "/home/imuser/text_files/Primer_table.html", to = "/var/www/html/", overwrite = T)
-      # # withMathJax(includeMarkdown((path = "~/text_files/Primer_table.Rmd")))
+      # # withMathJax(includeMarkdown((path = "/home/imuser/text_files/Primer_table.Rmd")))
       # 
       # # tags$iframe(src="Primer_table.html")
-      # # HTML(markdown::markdownToHTML(knit('~/text_files/Primer_table.Rmd', quiet = F)))
-      # rmarkdown::render('~/text_files/Primer_table.Rmd')
+      # # HTML(markdown::markdownToHTML(knit('/home/imuser/text_files/Primer_table.Rmd', quiet = F)))
+      # rmarkdown::render('/home/imuser/text_files/Primer_table.Rmd')
       primer_table <- data.frame(Primer=c("8F", "27F", "CC [F]", "357F", "515F", "533F", "16S.1100.F16", "1237F", 
                                           "519R", "CD [R]", "907R", "1100R", "1391R", "1492R (l)", "1492R (s)"), 
                                  Sequences=c("AGAGTTTGATCCTGGCTCAG", "AGAGTTTGATCMTGGCTCAG", "CCAGACTCCTACGGGAGGCAGC", "CTCCTACGGGAGGCAGCAG",
@@ -1352,36 +1352,36 @@ server <- function(session, input, output) {
     # showModal(modalDialog(title = "Running taxonomic analysis ...", "Waiting for a moment", footer = NULL))
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
     
-    qiime_cmd <- '~/miniconda3/envs/qiime2-2019.10/bin/qiime'
+    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
     
     
     
-    database_list <- list(Silva_99=c(list.files(path = "~/taxa_database/silva/rep_set_16S_only/99", full.names = T), "~/taxa_database/silva/16S_only/99/taxonomy_7_levels.txt"),
-                          Silva_97=c(list.files(path = "~/taxa_database/silva/rep_set_16S_only/97", full.names = T), "~/taxa_database/silva/16S_only/97/taxonomy_7_levels.txt"),
-                          Silva_94=c(list.files(path = "~/taxa_database/silva/rep_set_16S_only/94", full.names = T), "~/taxa_database/silva/16S_only/94/taxonomy_7_levels.txt"),
-                          Silva_90=c(list.files(path = "~/taxa_database/silva/rep_set_16S_only/90", full.names = T), "~/taxa_database/silva/16S_only/90/taxonomy_7_levels.txt"),
-                          GreenGene_99=c("~/taxa_database/greengenes/rep_set/99_otus.fasta", "~/taxa_database/greengenes/taxonomy/99_otu_taxonomy.txt"),
-                          GreenGene_97=c("~/taxa_database/greengenes/rep_set/97_otus.fasta", "~/taxa_database/greengenes/taxonomy/97_otu_taxonomy.txt"),
-                          GreenGene_94=c("~/taxa_database/greengenes/rep_set/94_otus.fasta", "~/taxa_database/greengenes/taxonomy/94_otu_taxonomy.txt"),
-                          GreenGene_91=c("~/taxa_database/greengenes/rep_set/91_otus.fasta", "~/taxa_database/greengenes/taxonomy/91_otu_taxonomy.txt"),
-                          GreenGene_88=c("~/taxa_database/greengenes/rep_set/88_otus.fasta", "~/taxa_database/greengenes/taxonomy/88_otu_taxonomy.txt"),
-                          GreenGene_85=c("~/taxa_database/greengenes/rep_set/85_otus.fasta", "~/taxa_database/greengenes/taxonomy/85_otu_taxonomy.txt"),
-                          GreenGene_82=c("~/taxa_database/greengenes/rep_set/82_otus.fasta", "~/taxa_database/greengenes/taxonomy/82_otu_taxonomy.txt"),
-                          GreenGene_79=c("~/taxa_database/greengenes/rep_set/79_otus.fasta", "~/taxa_database/greengenes/taxonomy/79_otu_taxonomy.txt"),
-                          GreenGene_76=c("~/taxa_database/greengenes/rep_set/76_otus.fasta", "~/taxa_database/greengenes/taxonomy/76_otu_taxonomy.txt"),
-                          GreenGene_73=c("~/taxa_database/greengenes/rep_set/73_otus.fasta", "~/taxa_database/greengenes/taxonomy/73_otu_taxonomy.txt"),
-                          GreenGene_70=c("~/taxa_database/greengenes/rep_set/70_otus.fasta", "~/taxa_database/greengenes/taxonomy/70_otu_taxonomy.txt"),
-                          GreenGene_67=c("~/taxa_database/greengenes/rep_set/67_otus.fasta", "~/taxa_database/greengenes/taxonomy/67_otu_taxonomy.txt"),
-                          GreenGene_64=c("~/taxa_database/greengenes/rep_set/64_otus.fasta", "~/taxa_database/greengenes/taxonomy/64_otu_taxonomy.txt"),
-                          GreenGene_61=c("~/taxa_database/greengenes/rep_set/61_otus.fasta", "~/taxa_database/greengenes/taxonomy/61_otu_taxonomy.txt")
+    database_list <- list(Silva_99=c(list.files(path = "/home/imuser/taxa_database/silva/rep_set_16S_only/99", full.names = T), "/home/imuser/taxa_database/silva/16S_only/99/taxonomy_7_levels.txt"),
+                          Silva_97=c(list.files(path = "/home/imuser/taxa_database/silva/rep_set_16S_only/97", full.names = T), "/home/imuser/taxa_database/silva/16S_only/97/taxonomy_7_levels.txt"),
+                          Silva_94=c(list.files(path = "/home/imuser/taxa_database/silva/rep_set_16S_only/94", full.names = T), "/home/imuser/taxa_database/silva/16S_only/94/taxonomy_7_levels.txt"),
+                          Silva_90=c(list.files(path = "/home/imuser/taxa_database/silva/rep_set_16S_only/90", full.names = T), "/home/imuser/taxa_database/silva/16S_only/90/taxonomy_7_levels.txt"),
+                          GreenGene_99=c("/home/imuser/taxa_database/greengenes/rep_set/99_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/99_otu_taxonomy.txt"),
+                          GreenGene_97=c("/home/imuser/taxa_database/greengenes/rep_set/97_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/97_otu_taxonomy.txt"),
+                          GreenGene_94=c("/home/imuser/taxa_database/greengenes/rep_set/94_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/94_otu_taxonomy.txt"),
+                          GreenGene_91=c("/home/imuser/taxa_database/greengenes/rep_set/91_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/91_otu_taxonomy.txt"),
+                          GreenGene_88=c("/home/imuser/taxa_database/greengenes/rep_set/88_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/88_otu_taxonomy.txt"),
+                          GreenGene_85=c("/home/imuser/taxa_database/greengenes/rep_set/85_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/85_otu_taxonomy.txt"),
+                          GreenGene_82=c("/home/imuser/taxa_database/greengenes/rep_set/82_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/82_otu_taxonomy.txt"),
+                          GreenGene_79=c("/home/imuser/taxa_database/greengenes/rep_set/79_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/79_otu_taxonomy.txt"),
+                          GreenGene_76=c("/home/imuser/taxa_database/greengenes/rep_set/76_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/76_otu_taxonomy.txt"),
+                          GreenGene_73=c("/home/imuser/taxa_database/greengenes/rep_set/73_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/73_otu_taxonomy.txt"),
+                          GreenGene_70=c("/home/imuser/taxa_database/greengenes/rep_set/70_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/70_otu_taxonomy.txt"),
+                          GreenGene_67=c("/home/imuser/taxa_database/greengenes/rep_set/67_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/67_otu_taxonomy.txt"),
+                          GreenGene_64=c("/home/imuser/taxa_database/greengenes/rep_set/64_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/64_otu_taxonomy.txt"),
+                          GreenGene_61=c("/home/imuser/taxa_database/greengenes/rep_set/61_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/61_otu_taxonomy.txt")
     )
     
     #  transform database to .qza
-    rm("~/qiime_output/identity_otus.qza", "~/qiime_output/ref-taxonomy-7.qza")
+    rm("/home/imuser/qiime_output/identity_otus.qza", "/home/imuser/qiime_output/ref-taxonomy-7.qza")
     system(paste(qiime_cmd, "tools import --type 'FeatureData[Sequence]' --input-path", database_list[[input$select_database]][1], 
-                 "--output-path ~/qiime_output/identity_otus.qza"))
+                 "--output-path /home/imuser/qiime_output/identity_otus.qza"))
     system(paste(qiime_cmd, "tools import --type 'FeatureData[Taxonomy]' --input-format HeaderlessTSVTaxonomyFormat --input-path", database_list[[input$select_database]][2], 
-                 "--output-path ~/qiime_output/ref-taxonomy-7.qza"))
+                 "--output-path /home/imuser/qiime_output/ref-taxonomy-7.qza"))
     
     primer_list <- list("8F"="AGAGTTTGATCCTGGCTCAG",
                         "27F"="AGAGTTTGATCMTGGCTCAG",
@@ -1401,84 +1401,84 @@ server <- function(session, input, output) {
     )
     
     
-    rm("~/qiime_output/ref-seqs.qza")
+    rm("/home/imuser/qiime_output/ref-seqs.qza")
     if(input$primer_f != "other" & input$primer_r != "other"){
-      system(paste(qiime_cmd, "feature-classifier extract-reads --i-sequences ~/qiime_output/identity_otus.qza --p-f-primer", primer_list[[input$primer_f]], 
+      system(paste(qiime_cmd, "feature-classifier extract-reads --i-sequences /home/imuser/qiime_output/identity_otus.qza --p-f-primer", primer_list[[input$primer_f]], 
                    "--p-r-primer", primer_list[[input$primer_r]], 
                    # "--p-trunc-len", input$trunc_length, 
                    "--p-min-length", input$min_length, 
                    "--p-max-length", input$max_length, 
                    "--p-n-jobs", input$n_jobs, 
-                   "--o-reads ~/qiime_output/ref-seqs.qza"))
+                   "--o-reads /home/imuser/qiime_output/ref-seqs.qza"))
     }
     
     if(input$primer_f == "other" & input$primer_r != "other"){
-      system(paste(qiime_cmd, "feature-classifier extract-reads --i-sequences ~/qiime_output/identity_otus.qza --p-f-primer", input$primer_f_manu, 
+      system(paste(qiime_cmd, "feature-classifier extract-reads --i-sequences /home/imuser/qiime_output/identity_otus.qza --p-f-primer", input$primer_f_manu, 
                    "--p-r-primer", primer_list[[input$primer_r]], 
                    # "--p-trunc-len", input$trunc_length, 
                    "--p-min-length", input$min_length, 
                    "--p-max-length", input$max_length, 
                    "--p-n-jobs", input$n_jobs, 
-                   "--o-reads ~/qiime_output/ref-seqs.qza"))
+                   "--o-reads /home/imuser/qiime_output/ref-seqs.qza"))
     }
     
     if(input$primer_f != "other" & input$primer_r == "other"){
-      system(paste(qiime_cmd, "feature-classifier extract-reads --i-sequences ~/qiime_output/identity_otus.qza --p-f-primer", primer_list[[input$primer_f]], 
+      system(paste(qiime_cmd, "feature-classifier extract-reads --i-sequences /home/imuser/qiime_output/identity_otus.qza --p-f-primer", primer_list[[input$primer_f]], 
                    "--p-r-primer", input$primer_r_manu, 
                    # "--p-trunc-len", input$trunc_length, 
                    "--p-min-length", input$min_length, 
                    "--p-max-length", input$max_length, 
                    "--p-n-jobs", input$n_jobs, 
-                   "--o-reads ~/qiime_output/ref-seqs.qza"))
+                   "--o-reads /home/imuser/qiime_output/ref-seqs.qza"))
     }
     
     if(input$primer_f == "other" & input$primer_r == "other"){
-      system(paste(qiime_cmd, "feature-classifier extract-reads --i-sequences ~/qiime_output/identity_otus.qza --p-f-primer", input$primer_f_manu, 
+      system(paste(qiime_cmd, "feature-classifier extract-reads --i-sequences /home/imuser/qiime_output/identity_otus.qza --p-f-primer", input$primer_f_manu, 
                    "--p-r-primer", input$primer_r_manu, 
                    # "--p-trunc-len", input$trunc_length, 
                    "--p-min-length", input$min_length, 
                    "--p-max-length", input$max_length, 
                    "--p-n-jobs", input$n_jobs, 
-                   "--o-reads ~/qiime_output/ref-seqs.qza"))
+                   "--o-reads /home/imuser/qiime_output/ref-seqs.qza"))
     }
     
-    rm("~/qiime_output/classifier.qza")
-    system(paste(qiime_cmd, "feature-classifier fit-classifier-naive-bayes --i-reference-reads ~/qiime_output/ref-seqs.qza --i-reference-taxonomy ~/qiime_output/ref-taxonomy-7.qza --o-classifier ~/qiime_output/classifier.qza"))
+    rm("/home/imuser/qiime_output/classifier.qza")
+    system(paste(qiime_cmd, "feature-classifier fit-classifier-naive-bayes --i-reference-reads /home/imuser/qiime_output/ref-seqs.qza --i-reference-taxonomy /home/imuser/qiime_output/ref-taxonomy-7.qza --o-classifier /home/imuser/qiime_output/classifier.qza"))
     
-    rm("~/qiime_output/taxonomy.qza")
+    rm("/home/imuser/qiime_output/taxonomy.qza")
     if(input$seqs_type == "Single end"){
-      system(paste(qiime_cmd, "feature-classifier classify-sklearn --i-classifier ~/qiime_output/classifier.qza --i-reads ~/qiime_output/rep-seqs-dada2_single.qza", 
+      system(paste(qiime_cmd, "feature-classifier classify-sklearn --i-classifier /home/imuser/qiime_output/classifier.qza --i-reads /home/imuser/qiime_output/rep-seqs-dada2_single.qza", 
                    "--p-n-jobs", input$n_jobs,
-                   "--o-classification ~/qiime_output/taxonomy.qza"))
+                   "--o-classification /home/imuser/qiime_output/taxonomy.qza"))
     }else{
-      system(paste(qiime_cmd, "feature-classifier classify-sklearn --i-classifier ~/qiime_output/classifier.qza --i-reads ~/qiime_output/rep-seqs-dada2_paired.qza", 
+      system(paste(qiime_cmd, "feature-classifier classify-sklearn --i-classifier /home/imuser/qiime_output/classifier.qza --i-reads /home/imuser/qiime_output/rep-seqs-dada2_paired.qza", 
                    "--p-n-jobs", input$n_jobs,
-                   "--o-classification ~/qiime_output/taxonomy.qza"))
+                   "--o-classification /home/imuser/qiime_output/taxonomy.qza"))
     }
     
-    # system(paste(qiime_cmd, "feature-classifier classify-sklearn --i-classifier ~/qiime_output/classifier.qza --i-reads ~/qiime_output/rep-seqs-dada2.qza", 
+    # system(paste(qiime_cmd, "feature-classifier classify-sklearn --i-classifier /home/imuser/qiime_output/classifier.qza --i-reads /home/imuser/qiime_output/rep-seqs-dada2.qza", 
     #              "--p-n-jobs", input$n_jobs,
-    #              "--o-classification ~/qiime_output/taxonomy.qza"))
+    #              "--o-classification /home/imuser/qiime_output/taxonomy.qza"))
     
-    rm("~/qiime_output/taxonomy.qzv")
-    system(paste(qiime_cmd, "metadata tabulate --m-input-file ~/qiime_output/taxonomy.qza --o-visualization ~/qiime_output/taxonomy.qzv"))
+    rm("/home/imuser/qiime_output/taxonomy.qzv")
+    system(paste(qiime_cmd, "metadata tabulate --m-input-file /home/imuser/qiime_output/taxonomy.qza --o-visualization /home/imuser/qiime_output/taxonomy.qzv"))
     
-    rm("~/qiime_output/taxatable7.qza")
+    rm("/home/imuser/qiime_output/taxatable7.qza")
     if(input$seqs_type == "Single end"){
-      system(paste(qiime_cmd, "taxa collapse --i-table ~/qiime_output/table-dada2_single.qza",
-                   "--i-taxonomy ~/qiime_output/taxonomy.qza --p-level 7 --o-collapsed-table ~/qiime_output/taxatable7.qza"))
+      system(paste(qiime_cmd, "taxa collapse --i-table /home/imuser/qiime_output/table-dada2_single.qza",
+                   "--i-taxonomy /home/imuser/qiime_output/taxonomy.qza --p-level 7 --o-collapsed-table /home/imuser/qiime_output/taxatable7.qza"))
     }else{
-      system(paste(qiime_cmd, "taxa collapse --i-table ~/qiime_output/table-dada2_paired.qza",
-                   "--i-taxonomy ~/qiime_output/taxonomy.qza --p-level 7 --o-collapsed-table ~/qiime_output/taxatable7.qza"))
+      system(paste(qiime_cmd, "taxa collapse --i-table /home/imuser/qiime_output/table-dada2_paired.qza",
+                   "--i-taxonomy /home/imuser/qiime_output/taxonomy.qza --p-level 7 --o-collapsed-table /home/imuser/qiime_output/taxatable7.qza"))
     }
     
     
-    system("rm -r ~/qiime_output/taxonomy_unzip/new_dirname")
-    system("rm -r ~/var/www/html/taxonomy_unzip/new_dirname")
-    system("unzip -d ~/qiime_output/taxonomy_unzip ~/qiime_output/taxonomy.qzv")
-    unzip_dirnames_taxa <- list.files("~/qiime_output/taxonomy_unzip", full.names = T)
-    system(paste0("mv ", unzip_dirnames_taxa, " ~/qiime_output/taxonomy_unzip/new_dirname"))
-    system("cp -r ~/qiime_output/taxonomy_unzip/ /var/www/html/")
+    system("rm -r /home/imuser/qiime_output/taxonomy_unzip/new_dirname")
+    system("rm -r /home/imuser/var/www/html/taxonomy_unzip/new_dirname")
+    system("unzip -d /home/imuser/qiime_output/taxonomy_unzip /home/imuser/qiime_output/taxonomy.qzv")
+    unzip_dirnames_taxa <- list.files("/home/imuser/qiime_output/taxonomy_unzip", full.names = T)
+    system(paste0("mv ", unzip_dirnames_taxa, " /home/imuser/qiime_output/taxonomy_unzip/new_dirname"))
+    system("cp -r /home/imuser/qiime_output/taxonomy_unzip/ /var/www/html/")
     
     
     
@@ -1488,7 +1488,7 @@ server <- function(session, input, output) {
     end_time <- Sys.time()
     spent_time <- format(round(end_time-start_time, digits = 2))
     
-    if(file.exists("~/qiime_output/taxonomy.qzv")){
+    if(file.exists("/home/imuser/qiime_output/taxonomy.qzv")){
       # output$word_training <- renderText({
       #   print('Training successfully')
       # })
@@ -1517,7 +1517,7 @@ server <- function(session, input, output) {
     filename <-"taxonomic_table.qza",
     
     content = function(file){
-      file.copy("~/qiime_output/taxatable7.qza", file)
+      file.copy("/home/imuser/qiime_output/taxatable7.qza", file)
     }
     
   )
@@ -1527,9 +1527,9 @@ server <- function(session, input, output) {
     
     content = function(file){
       if(input$seqs_type == "Single end"){
-        file.copy("~/qiime_output/table-dada2_single.qza", file)
+        file.copy("/home/imuser/qiime_output/table-dada2_single.qza", file)
       }else{
-        file.copy("~/qiime_output/table-dada2_paired.qza", file)
+        file.copy("/home/imuser/qiime_output/table-dada2_paired.qza", file)
       }
       
     }
@@ -1540,9 +1540,9 @@ server <- function(session, input, output) {
     
     content = function(file){
       if(input$seqs_type == "Single end"){
-        file.copy("~/qiime_output/rep-seqs-dada2_single.qza", file)
+        file.copy("/home/imuser/qiime_output/rep-seqs-dada2_single.qza", file)
       }else{
-        file.copy("~/qiime_output/rep-seqs-dada2_paired.qza", file)
+        file.copy("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza", file)
       }
       
     }
@@ -1847,7 +1847,7 @@ server <- function(session, input, output) {
     index <- input$select_diversity
     A_diversity_metadata_list_melt_forplot <- subset(A_diversity_metadata_list_melt,
                                                      variable==index)
-    anova_result <- aov(value ~ feature_name, A_diversity_metadata_list_melt_forplot)
+    anova_result <- aov(value /home/imuser feature_name, A_diversity_metadata_list_melt_forplot)
     anova_summary <- summary(anova_result)
     # tukey_result <- agricolae::HSD.test(anova_result, "feature_name", group = T)
     # group_data <- tukey_result$groups[order(rownames(tukey_result$groups)),]
@@ -1906,7 +1906,7 @@ server <- function(session, input, output) {
     A_diversity_metadata_list_melt_forplot <- subset(A_diversity_metadata_list_melt,
                                                      variable==index) 
     
-    anova_result <- aov(value ~ feature_name, A_diversity_metadata_list_melt_forplot)
+    anova_result <- aov(value /home/imuser feature_name, A_diversity_metadata_list_melt_forplot)
     
     tukey_result <- TukeyHSD(anova_result, "feature_name")[[1]]
     tukey_result_table <- data.frame(comparisons = rownames(tukey_result), tukey_result)
@@ -1948,7 +1948,7 @@ server <- function(session, input, output) {
     index <- input$select_diversity
     A_diversity_metadata_list_melt_forplot <- subset(A_diversity_metadata_list_melt,
                                                      variable==index)
-    KW_result <- kruskal.test(value ~ feature_name, A_diversity_metadata_list_melt_forplot)
+    KW_result <- kruskal.test(value /home/imuser feature_name, A_diversity_metadata_list_melt_forplot)
     
     stat_box_data <- function(y, upper_limit = max(A_diversity_metadata_list_melt_forplot$value) * 1.15) {
       return( 
@@ -2215,7 +2215,7 @@ server <- function(session, input, output) {
     filename <-"Taxonomic_table_example.qza",
     
     content = function(file){
-      file.copy("~/example_files/taxtable.qza", file)
+      file.copy("/home/imuser/example_files/taxtable.qza", file)
     },
     
     contentType = "application/qza"
@@ -2229,7 +2229,7 @@ server <- function(session, input, output) {
     filename <-"Metadata_example.tsv",
     
     content = function(file){
-      file.copy("~/example_files/sample-metadata.tsv", file)
+      file.copy("/home/imuser/example_files/sample-metadata.tsv", file)
     },
     
     contentType = "application/tsv"
@@ -2340,7 +2340,7 @@ server <- function(session, input, output) {
         
         colnames(taxtable_data_Level)[1]<-"Levels"
         
-        taxtable_data_Level<-aggregate(read_count~Levels+Sample_ID,taxtable_data_Level,FUN = sum)
+        taxtable_data_Level<-aggregate(read_count/home/imuserLevels+Sample_ID,taxtable_data_Level,FUN = sum)
         
         taxtable_data_Level_spread<-spread(taxtable_data_Level,key = Sample_ID,value = read_count)
         
@@ -2421,7 +2421,7 @@ server <- function(session, input, output) {
       
       colnames(taxtable_data_Level)[1]<-"Levels"
       
-      taxtable_data_Level<-aggregate(read_count~Levels+Sample_ID,taxtable_data_Level,FUN = sum)
+      taxtable_data_Level<-aggregate(read_count/home/imuserLevels+Sample_ID,taxtable_data_Level,FUN = sum)
       
       taxtable_data_Level_spread<-spread(taxtable_data_Level,key = Sample_ID,value = read_count)
       
@@ -2520,7 +2520,7 @@ server <- function(session, input, output) {
       
       colnames(taxtable_data_Level)[1]<-"Levels"
       
-      taxtable_data_Level<-aggregate(read_count~Levels+Sample_ID,taxtable_data_Level,FUN = sum)
+      taxtable_data_Level<-aggregate(read_count/home/imuserLevels+Sample_ID,taxtable_data_Level,FUN = sum)
       
       taxtable_data_Level_spread<-spread(taxtable_data_Level,key = Sample_ID,value = read_count)
       
@@ -2707,7 +2707,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
       
       #
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels != "Unassigned")
@@ -2904,7 +2904,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID, barplot_taxa_table_data_percent_Level, FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID, barplot_taxa_table_data_percent_Level, FUN = sum)
       
       # remove unassigned
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels!="Unassigned")
@@ -3057,7 +3057,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
       
       #
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels != "Unassigned")
@@ -3297,7 +3297,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
       
       # remove unassigned
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels!="Unassigned")
@@ -3508,7 +3508,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
       
       #
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels != "Unassigned")
@@ -3701,7 +3701,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID, barplot_taxa_table_data_percent_Level, FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID, barplot_taxa_table_data_percent_Level, FUN = sum)
       
       # remove unassigned
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels!="Unassigned")
@@ -3858,7 +3858,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
       
       #
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels != "Unassigned")
@@ -4092,7 +4092,7 @@ server <- function(session, input, output) {
                                                            levels = unique(c("Unassigned",barplot_taxa_table_data_percent_Level$Levels))
       )
       
-      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage~Levels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
+      barplot_taxa_table_data_percent_Level<-aggregate(read_percentage/home/imuserLevels+Sample_ID,barplot_taxa_table_data_percent_Level,FUN = sum)
       
       # remove unassigned
       barplot_taxa_table_data_percent_Level_noUnassigned <- filter(barplot_taxa_table_data_percent_Level, Levels!="Unassigned")
@@ -4405,7 +4405,7 @@ server <- function(session, input, output) {
     
     adonis_result_table_list <- lapply(colnames(nonNA_metadata)[-1], function(x){
       
-      adonis(bray_df~nonNA_metadata[,x], nonNA_metadata, permutations = 999)[["aov.tab"]]
+      adonis(bray_df/home/imusernonNA_metadata[,x], nonNA_metadata, permutations = 999)[["aov.tab"]]
       
     })
     
@@ -4515,7 +4515,7 @@ server <- function(session, input, output) {
         
         bray_df_pair <- vegdist(t(taxatable_f1_f2_list[[k]]), method = "bray") %>% as.matrix() %>% as.data.frame()
         metadata_pair <- nonNA_metadata %>% filter(SampleID %in% colnames(bray_df_pair))
-        adonis_result_pair <- adonis(bray_df_pair~metadata_pair[,input$metadata_beta], 
+        adonis_result_pair <- adonis(bray_df_pair/home/imusermetadata_pair[,input$metadata_beta], 
                                      metadata_pair, permutations = 999) 
         
       })
@@ -5014,7 +5014,7 @@ server <- function(session, input, output) {
     filename = "Seqs_forPhylo_example.qza",
     
     content = function(file){
-      file.copy(from = "~/example_files/rep-seqs.qza", to = file)
+      file.copy(from = "/home/imuser/example_files/rep-seqs.qza", to = file)
     },
     contentType = "application/qza"
   )
@@ -5024,7 +5024,7 @@ server <- function(session, input, output) {
     filename = "Feature_table_forPhylo_example.qza",
     
     content = function(file){
-      file.copy(from = "~/example_files/table.qza", to = file)
+      file.copy(from = "/home/imuser/example_files/table.qza", to = file)
     },
     contentType = "application/qza"
   )
@@ -5034,23 +5034,23 @@ server <- function(session, input, output) {
     # showModal(modalDialog(title = "Running making tree ...", "Waiting for a moment",footer = NULL))
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
     
-    qiime_cmd <- '~/miniconda3/envs/qiime2-2019.10/bin/qiime'
+    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
     
     system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences", input$rep_seq_dada2_upload$datapath, 
                  "--p-n-threads", input$threads_phylogenetic,
-                 "--o-alignment ~/qiime_output/aligned-rep-seqs-dada2.qza --o-masked-alignment ~/qiime_output/masked-aligned-rep-seqs-dada2.qza",
-                 "--o-tree ~/qiime_output/unrooted-tree.qza --o-rooted-tree ~/qiime_output/rooted-tree.qza"))
+                 "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2.qza",
+                 "--o-tree /home/imuser/qiime_output/unrooted-tree.qza --o-rooted-tree /home/imuser/qiime_output/rooted-tree.qza"))
     
-    write.table(Metadata_stats(), file='~/metadata.tsv', quote=FALSE, sep='\t', row.names = F)
-    system("rm -r ~/qiime_output/core-metrics-results/")
-    system(paste(qiime_cmd, "diversity core-metrics-phylogenetic --i-phylogeny ~/qiime_output/rooted-tree.qza",
+    write.table(Metadata_stats(), file='/home/imuser/metadata.tsv', quote=FALSE, sep='\t', row.names = F)
+    system("rm -r /home/imuser/qiime_output/core-metrics-results/")
+    system(paste(qiime_cmd, "diversity core-metrics-phylogenetic --i-phylogeny /home/imuser/qiime_output/rooted-tree.qza",
                  "--i-table", input$table_dada2_upload$datapath,
                  "--p-sampling-depth ", input$sampling_depth,
-                 "--m-metadata-file ~/metadata.tsv", 
-                 "--output-dir ~/qiime_output/core-metrics-results"))
+                 "--m-metadata-file /home/imuser/metadata.tsv", 
+                 "--output-dir /home/imuser/qiime_output/core-metrics-results"))
     
     faith_PD <- reactive({
-      read_qza("~/qiime_output/core-metrics-results/faith_pd_vector.qza")[["data"]]
+      read_qza("/home/imuser/qiime_output/core-metrics-results/faith_pd_vector.qza")[["data"]]
     })
     
     output$contents4 <- renderDataTable({
@@ -5100,7 +5100,7 @@ server <- function(session, input, output) {
         
         A_diversity_metadata_list[[feature]] <- filter(A_diversity_metadata_list[[feature]], feature_name != "NA")
         
-        anova_result <- aov(faith_pd ~ feature_name, A_diversity_metadata_list[[feature]])
+        anova_result <- aov(faith_pd /home/imuser feature_name, A_diversity_metadata_list[[feature]])
         anova_summary <- summary(anova_result)
         # tukey_result <- agricolae::HSD.test(anova_result, "feature_name", group = T)
         # group_data <- tukey_result$groups[order(rownames(tukey_result$groups)),]
@@ -5168,7 +5168,7 @@ server <- function(session, input, output) {
         
         A_diversity_metadata_list[[feature]] <- filter(A_diversity_metadata_list[[feature]], feature_name!="NA")
         
-        KW_result <- kruskal.test(faith_pd ~ feature_name, A_diversity_metadata_list[[feature]])
+        KW_result <- kruskal.test(faith_pd /home/imuser feature_name, A_diversity_metadata_list[[feature]])
         # tukey_result <- agricolae::HSD.test(anova_result, "feature_name", group = T)
         # group_data <- tukey_result$groups[order(rownames(tukey_result$groups)),]
         options(scipen=999)
@@ -5255,7 +5255,7 @@ server <- function(session, input, output) {
       
       A_diversity_metadata_list[[input$metadata_phylo_alpha]] <- filter(A_diversity_metadata_list[[input$metadata_phylo_alpha]], feature_name != "NA")
       
-      anova_result <- aov(faith_pd ~ feature_name, A_diversity_metadata_list[[input$metadata_phylo_alpha]])
+      anova_result <- aov(faith_pd /home/imuser feature_name, A_diversity_metadata_list[[input$metadata_phylo_alpha]])
       tukey_result <- TukeyHSD(anova_result, "feature_name")[[1]]
       tukey_result_table <- data.frame(comparisons = rownames(tukey_result), tukey_result)
       tukey_result_table[,"comparisons"] <- stringr::str_replace_all(tukey_result_table[,"comparisons"], "-", " / ")
@@ -5346,14 +5346,14 @@ server <- function(session, input, output) {
     output$unif_dm_hm <- renderPlotly({
       
       if(input$UnW_or_W=="Unweighted"){
-        unW_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix()
+        unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix()
         plot_ly(x=colnames(unW_unifrac_dm),
                 y=rownames(unW_unifrac_dm),
                 z=unW_unifrac_dm,
                 # colors = palette(50),
                 type = "heatmap") %>% layout(title="Unweighted UniFrac distance matrix heatmap", xaxis=list(tickangle=45))
       }else{
-        W_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix()
+        W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix()
         plot_ly(x=colnames(W_unifrac_dm),
                 y=rownames(W_unifrac_dm),
                 z=W_unifrac_dm,
@@ -5368,7 +5368,7 @@ server <- function(session, input, output) {
       filename = "unifrac_distance_matrix.csv",
       content = function(file) {
         
-        write.csv(as.matrix(read_qza("~/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]), file, row.names = T)
+        write.csv(as.matrix(read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]), file, row.names = T)
         
       }
     )
@@ -5376,7 +5376,7 @@ server <- function(session, input, output) {
     unW_unif_pcoa_plot <- reactive({
       
       #PCoA
-      unW_unifrac_dm_pcoa_qiime <- read_qza("~/qiime_output/core-metrics-results/unweighted_unifrac_pcoa_results.qza")[["data"]]
+      unW_unifrac_dm_pcoa_qiime <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_pcoa_results.qza")[["data"]]
       unW_unifrac_dm_pcoa_qiime_forplot <- unW_unifrac_dm_pcoa_qiime$Vectors[,1:3]
       unW_unifrac_dm_pcoa_qiime_forplot <-merge(Metadata_stats(), unW_unifrac_dm_pcoa_qiime_forplot, by="SampleID") %>% as_tibble()
       
@@ -5423,7 +5423,7 @@ server <- function(session, input, output) {
       metadata_beta <- Metadata_stats()[nonNA_position,]
       colnames(metadata_beta)[1] <- "SampleID"
       
-      unW_unifrac_dm_qiime <- read_qza("~/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]
+      unW_unifrac_dm_qiime <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]
       sample_original_names <- as.matrix(unW_unifrac_dm_qiime) %>% rownames()
       
       update_rownames <- function(feature_name, metadata, i){
@@ -5481,7 +5481,7 @@ server <- function(session, input, output) {
     W_unif_pcoa_plot <- reactive({
       
       #PCoA
-      W_unifrac_dm_pcoa_qiime <- read_qza("~/qiime_output/core-metrics-results/weighted_unifrac_pcoa_results.qza")[["data"]]
+      W_unifrac_dm_pcoa_qiime <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_pcoa_results.qza")[["data"]]
       W_unifrac_dm_pcoa_qiime_forplot <- W_unifrac_dm_pcoa_qiime$Vectors[,1:3]
       W_unifrac_dm_pcoa_qiime_forplot <-merge(Metadata_stats(), W_unifrac_dm_pcoa_qiime_forplot, by="SampleID") %>% as_tibble()
       
@@ -5527,7 +5527,7 @@ server <- function(session, input, output) {
       metadata_beta <- Metadata_stats()[nonNA_position,]
       colnames(metadata_beta)[1] <- "SampleID"
       
-      W_unifrac_dm_qiime <- read_qza("~/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]
+      W_unifrac_dm_qiime <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]
       sample_original_names <- as.matrix(W_unifrac_dm_qiime) %>% rownames()
       
       update_rownames <- function(feature_name, metadata, i){
@@ -5650,13 +5650,13 @@ server <- function(session, input, output) {
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
-      unW_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
+      unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(unW_unifrac_dm))
       
       adonis_result_table_list <- lapply(colnames(nonNA_metadata)[-1], function(x){
         
-        adonis(unW_unifrac_dm ~ nonNA_metadata[,x], nonNA_metadata, permutations = 999)[["aov.tab"]]
+        adonis(unW_unifrac_dm /home/imuser nonNA_metadata[,x], nonNA_metadata, permutations = 999)[["aov.tab"]]
         
       })
       
@@ -5687,13 +5687,13 @@ server <- function(session, input, output) {
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
-      W_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
+      W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(W_unifrac_dm))
       
       adonis_result_table_list <- lapply(colnames(nonNA_metadata)[-1], function(x){
         
-        adonis(W_unifrac_dm ~ nonNA_metadata[,x], nonNA_metadata, permutations = 999)[["aov.tab"]]
+        adonis(W_unifrac_dm /home/imuser nonNA_metadata[,x], nonNA_metadata, permutations = 999)[["aov.tab"]]
         
       })
       
@@ -5782,7 +5782,7 @@ server <- function(session, input, output) {
       nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
-      unW_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
+      unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(unW_unifrac_dm))
       
@@ -5802,7 +5802,7 @@ server <- function(session, input, output) {
           
           feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
           sample_f1_f2 <- sample_list[[input$metadata_phylo_beta]] %>% filter(sample_list[[input$metadata_phylo_beta]][,input$metadata_phylo_beta] %in% feature1_feature2)
-          unW_unifrac_ds <- read_qza("~/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]
+          unW_unifrac_ds <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]
           return(usedist::dist_subset(unW_unifrac_ds, sample_f1_f2[,"SampleID"]))
         })
         
@@ -5811,7 +5811,7 @@ server <- function(session, input, output) {
           
           unW_unifrac_dm_pair <- unW_unifrac_dm_f1_f2_list[[k]] %>% as.matrix() %>% as.data.frame()
           metadata_pair <- nonNA_metadata %>% filter(SampleID %in% colnames(unW_unifrac_dm_pair))
-          adonis_result_pair <- adonis(unW_unifrac_dm_pair ~ metadata_pair[, input$metadata_phylo_beta], metadata_pair, permutations = 999)
+          adonis_result_pair <- adonis(unW_unifrac_dm_pair /home/imuser metadata_pair[, input$metadata_phylo_beta], metadata_pair, permutations = 999)
           
         })
         
@@ -5855,7 +5855,7 @@ server <- function(session, input, output) {
       nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
-      W_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
+      W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(W_unifrac_dm))
       
@@ -5875,7 +5875,7 @@ server <- function(session, input, output) {
           
           feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
           sample_f1_f2 <- sample_list[[input$metadata_phylo_beta]] %>% filter(sample_list[[input$metadata_phylo_beta]][,input$metadata_phylo_beta] %in% feature1_feature2)
-          W_unifrac_ds <- read_qza("~/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]
+          W_unifrac_ds <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]
           return(usedist::dist_subset(W_unifrac_ds, sample_f1_f2[,"SampleID"]))
         })
         
@@ -5884,7 +5884,7 @@ server <- function(session, input, output) {
           
           W_unifrac_dm_pair <- W_unifrac_dm_f1_f2_list[[k]] %>% as.matrix() %>% as.data.frame()
           metadata_pair <- nonNA_metadata %>% filter(SampleID %in% colnames(W_unifrac_dm_pair))
-          adonis_result_pair <- adonis(W_unifrac_dm_pair ~ metadata_pair[, input$metadata_phylo_beta], metadata_pair, permutations = 999)
+          adonis_result_pair <- adonis(W_unifrac_dm_pair /home/imuser metadata_pair[, input$metadata_phylo_beta], metadata_pair, permutations = 999)
           
         })
         
@@ -5966,7 +5966,7 @@ server <- function(session, input, output) {
       nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
-      unW_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
+      unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(unW_unifrac_dm))
       
@@ -5990,7 +5990,7 @@ server <- function(session, input, output) {
       nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
-      W_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
+      W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(W_unifrac_dm))
       
@@ -6015,7 +6015,7 @@ server <- function(session, input, output) {
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
-      unW_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
+      unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(unW_unifrac_dm))
       
@@ -6036,7 +6036,7 @@ server <- function(session, input, output) {
           
           feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
           sample_f1_f2 <- sample_list[[input$metadata_phylo_beta]] %>% filter(sample_list[[input$metadata_phylo_beta]][,input$metadata_phylo_beta] %in% feature1_feature2)
-          unW_unifrac_ds <- read_qza("~/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]
+          unW_unifrac_ds <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]
           return(usedist::dist_subset(unW_unifrac_ds, sample_f1_f2[,"SampleID"]))
         })
         
@@ -6093,7 +6093,7 @@ server <- function(session, input, output) {
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
-      W_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
+      W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(W_unifrac_dm))
       
@@ -6114,7 +6114,7 @@ server <- function(session, input, output) {
           
           feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
           sample_f1_f2 <- sample_list[[input$metadata_phylo_beta]] %>% filter(sample_list[[input$metadata_phylo_beta]][,input$metadata_phylo_beta] %in% feature1_feature2)
-          W_unifrac_ds <- read_qza("~/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]
+          W_unifrac_ds <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]
           return(usedist::dist_subset(W_unifrac_ds, sample_f1_f2[,"SampleID"]))
         })
         
@@ -6249,7 +6249,7 @@ server <- function(session, input, output) {
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
-      unW_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
+      unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(unW_unifrac_dm))
       
@@ -6280,7 +6280,7 @@ server <- function(session, input, output) {
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
-      W_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
+      W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(W_unifrac_dm))
       
@@ -6310,7 +6310,7 @@ server <- function(session, input, output) {
       nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
-      unW_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
+      unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(unW_unifrac_dm))
       
@@ -6329,7 +6329,7 @@ server <- function(session, input, output) {
           
           feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
           sample_f1_f2 <- sample_list[[input$metadata_phylo_beta]] %>% filter(sample_list[[input$metadata_phylo_beta]][,input$metadata_phylo_beta] %in% feature1_feature2)
-          unW_unifrac_ds <- read_qza("~/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]
+          unW_unifrac_ds <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]
           return(usedist::dist_subset(unW_unifrac_ds, sample_f1_f2[,"SampleID"]))
           
         })
@@ -6398,7 +6398,7 @@ server <- function(session, input, output) {
       nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
-      W_unifrac_dm <- read_qza("~/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
+      W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(W_unifrac_dm))
       
@@ -6417,7 +6417,7 @@ server <- function(session, input, output) {
           
           feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
           sample_f1_f2 <- sample_list[[input$metadata_phylo_beta]] %>% filter(sample_list[[input$metadata_phylo_beta]][,input$metadata_phylo_beta] %in% feature1_feature2)
-          W_unifrac_ds <- read_qza("~/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]
+          W_unifrac_ds <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]
           return(usedist::dist_subset(W_unifrac_ds, sample_f1_f2[,"SampleID"]))
           
         })
@@ -6573,11 +6573,11 @@ server <- function(session, input, output) {
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
     
     Sys.setenv(LANG="C.UTF-8")
-    file.remove("~/qiime_output/ancom_comparison.qzv")
+    file.remove("/home/imuser/qiime_output/ancom_comparison.qzv")
     # selected_metadata <- Metadata_stats() %>% filter(Metadata_stats()[,input$metadata8] == input$metadata8_factor) %>% as_tibble()
     # colnames(selected_metadata)[1] <- "SampleID"
-    # write.table(selected_metadata[,1], file='~/selected_sampleID.tsv', quote=FALSE, sep='\t', row.names = F)
-    qiime_cmd <- '~/miniconda3/envs/qiime2-2019.10/bin/qiime'
+    # write.table(selected_metadata[,1], file='/home/imuser/selected_sampleID.tsv', quote=FALSE, sep='\t', row.names = F)
+    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
     
     nonNA_position <- which(Metadata_stats()[, input$metadata_ANCOM]!="NA")
     nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
@@ -6613,33 +6613,33 @@ server <- function(session, input, output) {
     nonNA_metadata_categorical <- cbind(nonNA_metadata_1stcol, nonNA_metadata_categorical)
     colnames(nonNA_metadata_categorical) <- c("SampleID", colnames(nonNA_metadata)[-1])
     
-    write.table(nonNA_metadata_categorical, file='~/nonNA_metadata_categorical.tsv', quote = F, sep='\t', row.names = F)
+    write.table(nonNA_metadata_categorical, file='/home/imuser/nonNA_metadata_categorical.tsv', quote = F, sep='\t', row.names = F)
     
-    # system("sed -i '2i\ #q2:types  categorical	categorical	categorical	categorical	categorical	categorical	categorical	categorical' ~/nonNA_metadata.tsv")
+    # system("sed -i '2i\ #q2:types  categorical	categorical	categorical	categorical	categorical	categorical	categorical	categorical' /home/imuser/nonNA_metadata.tsv")
     
     # # add categorical line
     # categorical_word <- paste(rep("categorical", ncol(Metadata_stats())), collapse = " ")
     # type_word <- paste("#q2:types", categorical_word)
-    # a <- read.csv('~/nonNA_metadata.tsv', stringsAsFactors = F, header = F)
+    # a <- read.csv('/home/imuser/nonNA_metadata.tsv', stringsAsFactors = F, header = F)
     # b <- rbind(type_word, a) %>% as_tibble()
     # colnames(b) <- b[2,]
     # c <- b[-2,]
-    # write.table(c, file = "~/nonNA_metadata_addline.tsv", sep = "/t", row.names = F, quote = F, col.names = T)
+    # write.table(c, file = "/home/imuser/nonNA_metadata_addline.tsv", sep = "/t", row.names = F, quote = F, col.names = T)
     
-    file.copy(from = input$taxonomic_table$datapath, to = "~/upload_taxtable.qza", overwrite = T)
+    file.copy(from = input$taxonomic_table$datapath, to = "/home/imuser/upload_taxtable.qza", overwrite = T)
     nonNA_sampleid_1 <- c("SampleID", nonNA_sampleid) # for qiime2 reading format
-    write.table(x = nonNA_sampleid_1, file = "~/nonNA_sampleid.tsv",quote = F, row.names = F, col.names = F)
+    write.table(x = nonNA_sampleid_1, file = "/home/imuser/nonNA_sampleid.tsv",quote = F, row.names = F, col.names = F)
     
-    system(paste(qiime_cmd, "feature-table filter-samples", "--i-table ~/upload_taxtable.qza", "--m-metadata-file ~/nonNA_sampleid.tsv", "--o-filtered-table ~/qiime_output/nonNA_table.qza"))
-    system(paste(qiime_cmd, "composition add-pseudocount --i-table", "~/qiime_output/nonNA_table.qza", "--o-composition-table ~/qiime_output/comp_table.qza"))
-    system(paste(qiime_cmd, "composition ancom --i-table ~/qiime_output/comp_table.qza --m-metadata-file", '~/nonNA_metadata_categorical.tsv',
-                 "--m-metadata-column", input$metadata_ANCOM,"--o-visualization ~/qiime_output/ancom_comparison.qzv"))
+    system(paste(qiime_cmd, "feature-table filter-samples", "--i-table /home/imuser/upload_taxtable.qza", "--m-metadata-file /home/imuser/nonNA_sampleid.tsv", "--o-filtered-table /home/imuser/qiime_output/nonNA_table.qza"))
+    system(paste(qiime_cmd, "composition add-pseudocount --i-table", "/home/imuser/qiime_output/nonNA_table.qza", "--o-composition-table /home/imuser/qiime_output/comp_table.qza"))
+    system(paste(qiime_cmd, "composition ancom --i-table /home/imuser/qiime_output/comp_table.qza --m-metadata-file", '/home/imuser/nonNA_metadata_categorical.tsv',
+                 "--m-metadata-column", input$metadata_ANCOM,"--o-visualization /home/imuser/qiime_output/ancom_comparison.qzv"))
     
-    unlink("~/qiime_output/ancom_comparison_unzip/new_dirname", recursive = T)
-    # system("cp ~/qiime_output/ancom_comparison.qzv ~/qiime_output/ancom_comparison.zip")
-    system("unzip -d ~/qiime_output/ancom_comparison_unzip ~/qiime_output/ancom_comparison.qzv")
-    ancom_unzip_dirname <- list.files("~/qiime_output/ancom_comparison_unzip", full.names = T)
-    system(paste0("mv ", ancom_unzip_dirname, " ~/qiime_output/ancom_comparison_unzip/new_dirname"))
+    unlink("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname", recursive = T)
+    # system("cp /home/imuser/qiime_output/ancom_comparison.qzv /home/imuser/qiime_output/ancom_comparison.zip")
+    system("unzip -d /home/imuser/qiime_output/ancom_comparison_unzip /home/imuser/qiime_output/ancom_comparison.qzv")
+    ancom_unzip_dirname <- list.files("/home/imuser/qiime_output/ancom_comparison_unzip", full.names = T)
+    system(paste0("mv ", ancom_unzip_dirname, " /home/imuser/qiime_output/ancom_comparison_unzip/new_dirname"))
     
     output$word_ancom_plotly <- renderUI({
       
@@ -6649,16 +6649,16 @@ server <- function(session, input, output) {
     
     output$ancom_plotly <- renderPlotly({
       
-      ancom_data <- read.table("~/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
-      ancom_sig <- read.table("~/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
+      ancom_data <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
+      ancom_sig <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
       names(ancom_sig)[1] <- "id"
       
       ancom_merge <- merge(x = ancom_data, y = ancom_sig[, c(1,3)], by = "id")
       
       plot_ly(data = ancom_merge,
-              x = ~ clr,
-              y = ~ W,
-              color = ~ Reject.null.hypothesis,
+              x = /home/imuser clr,
+              y = /home/imuser W,
+              color = /home/imuser Reject.null.hypothesis,
               colors = c("grey","red")[1:length(unique(ancom_sig$Reject.null.hypothesis))],
               type = "scatter",
               hoverinfo = "text",
@@ -6682,7 +6682,7 @@ server <- function(session, input, output) {
     
     output$ancom_sig <- renderDataTable({
       
-      ancom_sig <- read.table("~/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
+      ancom_sig <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
       names(ancom_sig)[1] <- "Speceis"
       
       ancom_sig_true <- filter(ancom_sig, Reject.null.hypothesis == "True")
@@ -6694,7 +6694,7 @@ server <- function(session, input, output) {
     # removeModal()
     remove_modal_spinner()
     
-    if (file.exists("~/qiime_output/ancom_comparison.qzv")){
+    if (file.exists("/home/imuser/qiime_output/ancom_comparison.qzv")){
       
       # output$word_ANCOM <- renderText(print("ANCOM successfully!"))
       # showModal(modalDialog(title = strong("ANCOM has been finished."), 
@@ -6720,8 +6720,8 @@ server <- function(session, input, output) {
   output$ancom_plot_download <- downloadHandler(
     filename = "ANCOM_plot.png",
     content = function(file){
-      ancom_data <- read.table("~/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
-      ancom_sig <- read.table("~/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
+      ancom_data <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
+      ancom_sig <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
       names(ancom_sig)[1] <- "id"
       
       ancom_merge <- merge(x = ancom_data, y = ancom_sig[, c(1,3)], by = "id")
@@ -6737,8 +6737,8 @@ server <- function(session, input, output) {
     filename = "ANCOM_table.csv",
     content = function(file){
       
-      ancom_data <- read.table("~/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
-      ancom_sig <- read.table("~/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
+      ancom_data <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
+      ancom_sig <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
       names(ancom_sig)[1] <- "id"
       
       ancom_merge <- merge(x = ancom_data, y = ancom_sig[, c(1,3)], by = "id")
@@ -6755,12 +6755,12 @@ server <- function(session, input, output) {
     # showModal(modalDialog(title = "Running FAPROTAX ...", "Waiting for a moment", footer = NULL))
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
     
-    qiime_cmd <- '~/miniconda3/envs/qiime2-2019.10/bin/qiime'
+    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
     
-    system(paste(qiime_cmd, "tools export --input-path", input$taxonomic_table_FA$datapath, "--output-path ~/qiime_output/exported-feature-table7"))
-    system("~/miniconda3/envs/python-2.7/bin/python2.7 ~/FAPROTAX_1.2.1/collapse_table.py --force -i ~/qiime_output/exported-feature-table7/feature-table.biom -o ~/FAPROTAX_output/func-table7.biom -g ~/FAPROTAX_1.2.1/FAPROTAX.txt -r ~/FAPROTAX_output/report7-record.txt --out_groups2records_table ~/FAPROTAX_output/groups2record.biom")
-    system(paste(qiime_cmd, "tools import --input-path ~/FAPROTAX_output/func-table7.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path ~/qiime_output/func-table7.qza"))
-    system(paste(qiime_cmd, "tools import --input-path ~/FAPROTAX_output/groups2record.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path ~/qiime_output/groups2record.qza"))
+    system(paste(qiime_cmd, "tools export --input-path", input$taxonomic_table_FA$datapath, "--output-path /home/imuser/qiime_output/exported-feature-table7"))
+    system("/home/imuser/miniconda3/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py --force -i /home/imuser/qiime_output/exported-feature-table7/feature-table.biom -o /home/imuser/FAPROTAX_output/func-table7.biom -g /home/imuser/FAPROTAX_1.2.1/FAPROTAX.txt -r /home/imuser/FAPROTAX_output/report7-record.txt --out_groups2records_table /home/imuser/FAPROTAX_output/groups2record.biom")
+    system(paste(qiime_cmd, "tools import --input-path /home/imuser/FAPROTAX_output/func-table7.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/qiime_output/func-table7.qza"))
+    system(paste(qiime_cmd, "tools import --input-path /home/imuser/FAPROTAX_output/groups2record.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/qiime_output/groups2record.qza"))
     
     # removeModal() 
     remove_modal_spinner()
@@ -6768,7 +6768,7 @@ server <- function(session, input, output) {
     
     output$func_table_BY_sampleid <- renderDataTable({
       
-      func_table_BY_sampleid <- read_qza("~/qiime_output/func-table7.qza")[["data"]]
+      func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
       
@@ -6785,7 +6785,7 @@ server <- function(session, input, output) {
     
     # output$func_table_BY_speciesname <- renderDataTable({
     #   
-    #   func_table_BY_sampleid <- read_qza("~/qiime_output/func-table7.qza")[["data"]]
+    #   func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
     #   
     #   TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
     #   
@@ -6794,7 +6794,7 @@ server <- function(session, input, output) {
     #   func_name_filtered <- rownames(func_table_BY_sampleid_filtered)
     #   
     #   
-    #   func_table_BY_speciesname <- read_qza("~/qiime_output/groups2record.qza")[["data"]]
+    #   func_table_BY_speciesname <- read_qza("/home/imuser/qiime_output/groups2record.qza")[["data"]]
     #   
     #   func_table_BY_speciesname_filtered <- func_table_BY_speciesname[,func_name_filtered]
     #   
@@ -6806,7 +6806,7 @@ server <- function(session, input, output) {
     
     # output$Function_Heatmap <- renderPlotly({
     #   
-    #   func_table_forHM <- read_qza("~/qiime_output/func-table7.qza")[["data"]]
+    #   func_table_forHM <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
     #   TF_all0 <- apply(func_table_forHM, 1, function(x) !all(x==0))
     #   func_table_forHM_filtered <- func_table_forHM[TF_all0,]
     #   palette <- colorRampPalette(c("darkblue", "blue", "lightblue1",
@@ -6824,7 +6824,7 @@ server <- function(session, input, output) {
     
     output$Function_barplot <- renderPlotly({
       
-      func_table_BY_sampleid <- read_qza("~/qiime_output/func-table7.qza")[["data"]]
+      func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
       
@@ -6866,7 +6866,7 @@ server <- function(session, input, output) {
     
     output$function_report <- renderUI({
       
-      a <- read_table("~/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
+      a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
       a_report <- a[104:106,2]
       a_report[1] <- str_replace_all(a_report[1], pattern = "record", replacement = "OTU") %>% str_replace_all(pattern = "OTUs", "taxa")
       a_report[1] <- str_replace_all(a_report[1], pattern = "group", replacement = "function group")
@@ -6890,7 +6890,7 @@ server <- function(session, input, output) {
     filename = "function_table.csv",
     content = function(file) {
       
-      func_table_BY_sampleid <- read_qza("~/qiime_output/func-table7.qza")[["data"]]
+      func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
       
@@ -6910,7 +6910,7 @@ server <- function(session, input, output) {
   #   filename = "function_table_bySpeciesName.csv",
   #   content = function(file) {
   #     
-  #     func_table_BY_sampleid <- read_qza("~/qiime_output/func-table7.qza")[["data"]]
+  #     func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
   #     
   #     TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
   #     
@@ -6919,7 +6919,7 @@ server <- function(session, input, output) {
   #     func_name_filtered <- rownames(func_table_BY_sampleid_filtered)
   #     
   #     
-  #     func_table_BY_speciesname <- read_qza("~/qiime_output/groups2record.qza")[["data"]]
+  #     func_table_BY_speciesname <- read_qza("/home/imuser/qiime_output/groups2record.qza")[["data"]]
   #     
   #     func_table_BY_speciesname_filtered <- func_table_BY_speciesname[,func_name_filtered]
   #     
@@ -6937,7 +6937,7 @@ server <- function(session, input, output) {
     
     content = function(file){
       
-      func_table_BY_sampleid <- read_qza("~/qiime_output/func-table7.qza")[["data"]]
+      func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
       
