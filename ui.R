@@ -134,7 +134,8 @@ shinyUI(
                                 # condition = "input.seqs_type == 'Single end'",
                                 condition = "input.seqs_type == 'Single end' &&　input.dirs",
                                 
-                                div(
+                                # div(
+                                column(width = 12,
                                   
                                   h2("1. Sequences summary (for single end)", 
                                      style = "color: #317EAC;margin-top: 0px;"),
@@ -190,8 +191,8 @@ shinyUI(
                                                                 "')")
                                   ),
                                   
-                                ), style = "border: none;"
-                                
+                                # ), style = "border: none;"
+                                ),
                               ),
                               
                               conditionalPanel(
