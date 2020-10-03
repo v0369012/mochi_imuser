@@ -15,7 +15,7 @@ library(vegan)
 
 server <- function(session, input, output) {
   
-  observe(system("sudo service nginx start"))
+  #observe(system("sudo service nginx start"))
   # observe(system("sudo -kS ls", input=readline("Enter your password: ")))
   
   # Home page ----------------------------------------------------------------------------------------------------- 
