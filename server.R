@@ -16,8 +16,8 @@ library(vegan)
 server <- function(session, input, output) {
   
   observe({
-    file.remove("/home/imuser/nginx_share")
-    file.copy(from = "/home/imuser//mochi_var_www_html/*", to = "/home/imuser/nginx_share", overwrite = T, recursive = T)
+    system("rm /home/imuser/nginx_share/*")
+    system("cp -r /home/imuser/mochi_var_www_html/* /home/imuser/nginx_share/")
   })
   # observe(system("sudo -kS ls", input=readline("Enter your password: ")))
   
