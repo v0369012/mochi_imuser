@@ -18,7 +18,7 @@ server <- function(session, input, output) {
   observe({
     # system("rm /home/imuser/nginx_share/*")
     # system("cp -r /home/imuser/mochi_var_www_html/* /home/imuser/nginx_share/")
-    system("echo 'shiny' | sudo service nginx start")
+    system( "sudo service nginx start")
   })
   # observe(system("sudo -kS ls", input=readline("Enter your password: ")))
   
