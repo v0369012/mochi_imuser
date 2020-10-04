@@ -16,8 +16,9 @@ library(vegan)
 server <- function(session, input, output) {
   
   observe({
-    system("rm /home/imuser/nginx_share/*")
-    system("cp -r /home/imuser/mochi_var_www_html/* /home/imuser/nginx_share/")
+    # system("rm /home/imuser/nginx_share/*")
+    # system("cp -r /home/imuser/mochi_var_www_html/* /home/imuser/nginx_share/")
+    system("sudo service nginx status")
   })
   # observe(system("sudo -kS ls", input=readline("Enter your password: ")))
   
