@@ -16,6 +16,11 @@ library(vegan)
 server <- function(session, input, output) {
   
   
+  observe({
+    system("sudo service nginx start")
+    system("sudo chmod -R 777 /var/www/html")
+  })
+  
   # Home page ----------------------------------------------------------------------------------------------------- 
   output$test <- renderUI({
     source("/srv/shiny-server/ui.R")
@@ -385,7 +390,7 @@ server <- function(session, input, output) {
     req(input$sample_data)
     library(shinyBS)
     
-    if(is.data.frame(try(read.table(input$sample_data$datapath, header = T, na.strings = "", sep = "\t" ), silent = T))){
+    if(is.data.frame(try(read.table(input$sample_data$datapath, header = T, na.strings = "", sep = "\t"), silent = T))){
       
       metadata <- read.table(input$sample_data$datapath, header = T, na.strings = "", sep = "\t" )
       colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "-", ".")
