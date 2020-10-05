@@ -19,6 +19,8 @@ server <- function(session, input, output) {
     # system("rm /home/imuser/nginx_share/*")
     # system("cp -r /home/imuser/mochi_var_www_html/* /home/imuser/nginx_share/")
     system( "sudo service nginx start")
+    system("source activate qiime2-2020.8")
+    system("sudo chmod -R 777 /var/www/html")
   })
   # observe(system("sudo -kS ls", input=readline("Enter your password: ")))
   
