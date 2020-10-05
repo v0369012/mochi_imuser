@@ -4956,6 +4956,7 @@ server <- function(session, input, output) {
       colnames(taxtable_1)[1]<-sampleID
       taxtable_2<-as_tibble(taxtable_1)
       taxtable_3<-separate(data = taxtable_2, col = "Species", into = c("Kingdom","Phylum","Class","Order","Family","Genus","Species"),sep = ";")
+      setwd("/home/imuser/Krona_files/")
       write.table(taxtable_3,file = paste("taxtable_forKrona", sampleID, sep = "_"), quote = F, sep = "\t", row.names = F, col.names = F)
     }
     
