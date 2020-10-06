@@ -1351,10 +1351,10 @@ server <- function(session, input, output) {
     
     
     
-    database_list <- list(Silva_99=c(list.files(path = "/home/imuser/taxa_database/silva/rep_set_16S_only/99", full.names = T), "/home/imuser/taxa_database/silva/16S_only/99/taxonomy_7_levels.txt"),
-                          Silva_97=c(list.files(path = "/home/imuser/taxa_database/silva/rep_set_16S_only/97", full.names = T), "/home/imuser/taxa_database/silva/16S_only/97/taxonomy_7_levels.txt"),
-                          Silva_94=c(list.files(path = "/home/imuser/taxa_database/silva/rep_set_16S_only/94", full.names = T), "/home/imuser/taxa_database/silva/16S_only/94/taxonomy_7_levels.txt"),
-                          Silva_90=c(list.files(path = "/home/imuser/taxa_database/silva/rep_set_16S_only/90", full.names = T), "/home/imuser/taxa_database/silva/16S_only/90/taxonomy_7_levels.txt"),
+    database_list <- list(Silva_99=c(list.files(path = "/home/imuser/taxa_database/silva/rep_set_16S_only/99", full.names = T), "/home/imuser/taxa_database/silva/taxonomy/16S_only/99/taxonomy_7_levels.txt"),
+                          Silva_97=c(list.files(path = "/home/imuser/taxa_database/silva/rep_set_16S_only/97", full.names = T), "/home/imuser/taxa_database/silva/taxonomy/16S_only/97/taxonomy_7_levels.txt"),
+                          Silva_94=c(list.files(path = "/home/imuser/taxa_database/silva/rep_set_16S_only/94", full.names = T), "/home/imuser/taxa_database/silva/taxonomy/16S_only/94/taxonomy_7_levels.txt"),
+                          Silva_90=c(list.files(path = "/home/imuser/taxa_database/silva/rep_set_16S_only/90", full.names = T), "/home/imuser/taxa_database/silva/taxonomy/16S_only/90/taxonomy_7_levels.txt"),
                           GreenGene_99=c("/home/imuser/taxa_database/greengenes/rep_set/99_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/99_otu_taxonomy.txt"),
                           GreenGene_97=c("/home/imuser/taxa_database/greengenes/rep_set/97_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/97_otu_taxonomy.txt"),
                           GreenGene_94=c("/home/imuser/taxa_database/greengenes/rep_set/94_otus.fasta", "/home/imuser/taxa_database/greengenes/taxonomy/94_otu_taxonomy.txt"),
