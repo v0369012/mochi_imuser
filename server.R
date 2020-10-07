@@ -6812,6 +6812,8 @@ server <- function(session, input, output) {
     
     output$func_table_BY_sampleid <- renderDataTable({
       
+      req(input$sample_data_FA, input$taxonomic_table_FA, input$function_analysis)
+      
       func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
@@ -6825,44 +6827,6 @@ server <- function(session, input, output) {
     })
     
     
-    # output$func_table_BY_speciesname <- renderDataTable({
-    #   
-    #   func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
-    #   
-    #   TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
-    #   
-    #   func_table_BY_sampleid_filtered <- func_table_BY_sampleid[TF_all0,]
-    #   
-    #   func_name_filtered <- rownames(func_table_BY_sampleid_filtered)
-    #   
-    #   
-    #   func_table_BY_speciesname <- read_qza("/home/imuser/qiime_output/groups2record.qza")[["data"]]
-    #   
-    #   func_table_BY_speciesname_filtered <- func_table_BY_speciesname[,func_name_filtered]
-    #   
-    #   func_table_BY_speciesname_filtered_tibble <- cbind("Species names"=rownames(func_table_BY_speciesname_filtered), func_table_BY_speciesname_filtered) %>% as_tibble()
-    #   
-    #   return(func_table_BY_speciesname_filtered_tibble)
-    # })
-    
-    
-    # output$Function_Heatmap <- renderPlotly({
-    #   
-    #   func_table_forHM <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
-    #   TF_all0 <- apply(func_table_forHM, 1, function(x) !all(x==0))
-    #   func_table_forHM_filtered <- func_table_forHM[TF_all0,]
-    #   palette <- colorRampPalette(c("darkblue", "blue", "lightblue1",
-    #                                 "green","yellow", "red", "darkred"))
-    #   set.seed(9876)
-    #   
-    #   a <- list(tickangle = 45)
-    #   plot_ly(x=colnames(func_table_forHM_filtered),
-    #           y=rownames(func_table_forHM_filtered),
-    #           z=func_table_forHM_filtered, 
-    #           colors = palette(50),
-    #           type="heatmap") %>% layout(xaxis = a, showlegend = FALSE)
-    #   
-    # })
     output$Function_barplot <- renderPlotly({
       
       func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
@@ -7031,7 +6995,7 @@ server <- function(session, input, output) {
       
       func_table_BY_sampleid_filtered_tibble <- cbind("Type"=rownames(func_table_BY_sampleid_filtered), func_table_BY_sampleid_filtered) %>% as_tibble()
       
-      func_table_BY_sampleid_filtered_tibble[,-1] <- apply(func_table_BY_sampleid_filtered_tibble[,-1], MARGIN = 1, FUN = as.numeric)
+      func_table_BY_sampleid_filtered_tibble[,-1] <- apply(func_table_BY_sampleid_filtered_tibble[,-1], MARGIN = 2, FUN = as.numeric)
       
       df_barplot <- gather(func_table_BY_sampleid_filtered_tibble, Sample_ID, reads, -Type)
       
