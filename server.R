@@ -234,6 +234,14 @@ server <- function(session, input, output) {
         
       }
       
+      OKstats_col <- lapply(colnames(metadata)[-1], function(x){
+        if(sum(table(metadata[, x])<=1)==0){
+          return(x)
+        }
+      }) %>% unlist()
+      
+      metadata <- metadata[, c("SampleID", OKstats_col)]
+      
       return(metadata)
     }
     
@@ -331,7 +339,7 @@ server <- function(session, input, output) {
     
     newchoices <- colnames(Metadata())
     newchoices_stats <- colnames(Metadata_stats())
-    # newchoices_FA <- colnames(Metadata_FA())
+    newchoices_FA <- colnames(Metadata_FA())
     updateRadioButtons(session, "metadata1", choices = newchoices, inline = T)
     updateRadioButtons(session, "metadata_alpha", choices = newchoices_stats[-1], inline = T)
     updateRadioButtons(session, "metadata_beta", choices = newchoices_stats[-1], inline = T)
@@ -341,7 +349,7 @@ server <- function(session, input, output) {
     updateRadioButtons(session, "metadata_phylo_beta", choices = newchoices_stats[-1], inline = T)
     # updateSelectInput(session, "metadata8", choices = newchoices[-(1:2)])
     updateRadioButtons(session, "metadata_ANCOM", choices = newchoices_stats[-1], inline = T)
-    # updateRadioButtons(session, "metadata10", choices = newchoices_FA[-(1:2)], inline = T)
+    updateRadioButtons(session, "metadata_FA", choices = newchoices_FA[-1], inline = T)
     
   })
   
@@ -477,7 +485,7 @@ server <- function(session, input, output) {
   
   observe({
     newchoices_FA <- colnames(Metadata_FA())
-    updateRadioButtons(session, "metadata10", choices = newchoices_FA[-1], inline = T)
+    updateRadioButtons(session, "metadata_FA", choices = newchoices_FA[-1], inline = T)
   })
   
   observe({
@@ -696,7 +704,8 @@ server <- function(session, input, output) {
   
   observeEvent(req(input$sample_data_FA, input$taxonomic_table_FA, input$function_analysis), {
     
-    shinyjs::toggle("func_table_ID")
+    shinyjs::toggle("func_table_ui")
+    shinyjs::toggle("func_barplot_ui")
   })
   
   
@@ -6854,7 +6863,7 @@ server <- function(session, input, output) {
     #           type="heatmap") %>% layout(xaxis = a, showlegend = FALSE)
     #   
     # })
-    output$Function_barplot <- renderPlot({
+    output$Function_barplot <- renderPlotly({
       
       func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       
@@ -6877,10 +6886,21 @@ server <- function(session, input, output) {
       
       df_barplot$feature <- mapvalues(df_barplot$Sample_ID,
                                       from = Metadata_FA()[,1],
-                                      to = as.character(Metadata_FA()[, input$metadata10]))
+                                      to = as.character(Metadata_FA()[, input$metadata_FA]))
       
-      ggplot(df_barplot,
-             aes(y = reads, fill = feature, x = Type)) + geom_bar(stat = "identity", position = "dodge", alpha = 1, width = .8) + coord_flip() + theme_bw() + guides(fill=guide_legend(title=input$metadata10)) + ggtitle("Function prediction")
+      FA_ggplot <- ggplot(df_barplot,
+                          aes(y = reads, fill = feature, x = Type))+
+        geom_bar(stat = "identity", position = "dodge", alpha = 1, width = .8)+
+        coord_flip() + theme_bw() + guides(fill=guide_legend(title=input$metadata_FA))+
+        labs(x="Function types", y="Reads")+
+        theme(axis.title.x = element_text(color="black", size=16))+
+        theme(axis.title.y = element_text(color="black", size=16)) 
+      
+      y <- list(
+        title = list(text="Function types",standoff=20)
+      )
+      
+      ggplotly(FA_ggplot) %>% layout(yaxis=y)
       
     })
     
@@ -6888,15 +6908,15 @@ server <- function(session, input, output) {
       
       a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
       a_report <- a[104:106,2]
-      a_report[1] <- str_replace_all(a_report[1], pattern = "record", replacement = "OTU")
-      a_report[1] <- str_replace_all(a_report[1], pattern = "group", replacement = "functional group")
-      a_report[2] <- str_replace_all(a_report[2], pattern = "record", replacement = "OTU")
-      a_report[2] <- str_replace_all(a_report[2], pattern = "group", replacement = "functional group")
+      a_report[1] <- str_replace_all(a_report[1], pattern = "records", replacement = "taxa")
+      a_report[1] <- str_replace_all(a_report[1], pattern = "group", replacement = "function type")
+      a_report[2] <- str_replace_all(a_report[2], pattern = "records", replacement = "taxa")
+      a_report[2] <- str_replace_all(a_report[2], pattern = "group", replacement = "function type")
       a_report[2] <- str_remove(a_report[2], pattern = "\\(leftovers\\)")
-      a_report[3] <- str_replace_all(a_report[3], pattern = "record", replacement = "OTU")
-      a_report[3] <- str_replace_all(a_report[3], pattern = "group", replacement = "functional group")
+      a_report[3] <- str_replace_all(a_report[3], pattern = "record", replacement = "taxa")
+      a_report[3] <- str_replace_all(a_report[3], pattern = "group", replacement = "function type")
       
-      HTML(paste("<h4 style='margin-bottom: -10px'>Summary</h4>",a_report[1], a_report[2] ,a_report[3], sep = "<br/>"))
+      HTML(paste(a_report[1], a_report[2] ,a_report[3], sep = "<br/>"))
       
       
     })
@@ -6969,35 +6989,37 @@ server <- function(session, input, output) {
     }
   )
   
-  output$func_table_Sp<-downloadHandler(
-    
-    filename = "function_table_bySpeciesName.csv",
-    content = function(file) {
-      
-      func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
-      
-      TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
-      
-      func_table_BY_sampleid_filtered <- func_table_BY_sampleid[TF_all0,]
-      
-      func_name_filtered <- rownames(func_table_BY_sampleid_filtered)
-      
-      
-      func_table_BY_speciesname <- read_qza("/home/imuser/qiime_output/groups2record.qza")[["data"]]
-      
-      func_table_BY_speciesname_filtered <- func_table_BY_speciesname[,func_name_filtered]
-      
-      func_table_BY_speciesname_filtered_tibble <- cbind("Species names"=rownames(func_table_BY_speciesname_filtered), func_table_BY_speciesname_filtered) %>% as_tibble()
-      
-      write.csv(func_table_BY_speciesname_filtered_tibble, file, row.names = F)
-      
-    }
-  )
+  # output$func_table_Sp<-downloadHandler(
+  #   
+  #   filename = "function_table_bySpeciesName.csv",
+  #   content = function(file) {
+  #     
+  #     func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
+  #     
+  #     TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
+  #     
+  #     func_table_BY_sampleid_filtered <- func_table_BY_sampleid[TF_all0,]
+  #     
+  #     func_name_filtered <- rownames(func_table_BY_sampleid_filtered)
+  #     
+  #     
+  #     func_table_BY_speciesname <- read_qza("/home/imuser/qiime_output/groups2record.qza")[["data"]]
+  #     
+  #     func_table_BY_speciesname_filtered <- func_table_BY_speciesname[,func_name_filtered]
+  #     
+  #     func_table_BY_speciesname_filtered_tibble <- cbind("Species names"=rownames(func_table_BY_speciesname_filtered), func_table_BY_speciesname_filtered) %>% as_tibble()
+  #     
+  #     write.csv(func_table_BY_speciesname_filtered_tibble, file, row.names = F)
+  #     
+  #   }
+  # )
   
   
   output$FA_plot_download <- downloadHandler(
     
-    filename = "Functional_analysis_plot.png",
+    filename = function(){
+      paste0("Functional_analysis_plot", input$metadata_FA, ".png")
+      },
     
     content = function(file){
       
@@ -7015,10 +7037,10 @@ server <- function(session, input, output) {
       
       df_barplot$feature <- mapvalues(df_barplot$Sample_ID,
                                       from = Metadata_FA()[,1],
-                                      to = as.character(Metadata_FA()[, input$metadata10]))
+                                      to = as.character(Metadata_FA()[, input$metadata_FA]))
       
       FA_plot <- ggplot(df_barplot,
-                        aes(y = reads, fill = feature, x = Type)) + geom_bar(stat = "identity", position = "dodge", alpha = 1, width = .8) + coord_flip() + theme_bw() + guides(fill=guide_legend(title=input$metadata10))
+                        aes(y = reads, fill = feature, x = Type)) + geom_bar(stat = "identity", position = "dodge", alpha = 1, width = .8) + coord_flip() + theme_bw() + guides(fill=guide_legend(title=input$metadata_FA))
       
       ggsave(file, plot = FA_plot, width = 80, height = 40, units = "cm")
     }

@@ -1432,7 +1432,8 @@ shinyUI(
                                #                         label = "Download")),
                                tabPanel(title = "Function barplot",
                                         icon = icon("th"),
-                                        div(id="func_barplot_ui",
+                                        div(
+                                          id="func_barplot_ui",
                                         h3("Function barplot"),
                                         withSpinner(
                                           plotlyOutput(outputId = "Function_barplot", 
