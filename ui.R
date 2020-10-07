@@ -104,7 +104,7 @@ shinyUI(
                             
                             sidebarPanel(
                               
-                              style = "background-color: #317EAC; border: none; border-radius: 5px; margin-left: 0px; padding: 10px; width: 500px",
+                              style = "background-color: #317EAC; border: none; border-radius: 5px; margin-left: 0px; padding: 10px; width: 500;pxposition: relative;",
                               
                               h4("Please choose the directory containing sequences data",
                                  style = "color: white;"),
@@ -126,7 +126,7 @@ shinyUI(
                               
                             ),
                             
-                            mainPanel(
+                            mainPanel(style="position: relative;",
                               # tags$head(tags$style(".modal-dialog{display: flex;justify-content: center;align-items: center;}")),
                               
                               conditionalPanel(
