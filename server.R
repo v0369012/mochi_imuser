@@ -6873,7 +6873,7 @@ server <- function(session, input, output) {
       
       func_table_BY_sampleid_filtered_tibble <- cbind("Type"=rownames(func_table_BY_sampleid_filtered), func_table_BY_sampleid_filtered) %>% as_tibble()
       
-      func_table_BY_sampleid_filtered_tibble[,-1] <- apply(func_table_BY_sampleid_filtered_tibble[,-1], MARGIN = 1, FUN = as.numeric)
+      func_table_BY_sampleid_filtered_tibble[,-1] <- apply(func_table_BY_sampleid_filtered_tibble[,-1], MARGIN = 2, FUN = as.numeric)
       
       # df_barplot <- data.frame(
       #   Type = func_table_BY_sampleid_filtered_tibble[,1],
@@ -7018,7 +7018,7 @@ server <- function(session, input, output) {
   output$FA_plot_download <- downloadHandler(
     
     filename = function(){
-      paste0("Functional_analysis_plot", input$metadata_FA, ".png")
+      paste0("Functional_analysis_plot_", input$metadata_FA, ".png")
       },
     
     content = function(file){
