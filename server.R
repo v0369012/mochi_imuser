@@ -339,7 +339,7 @@ server <- function(session, input, output) {
     
     newchoices <- colnames(Metadata())
     newchoices_stats <- colnames(Metadata_stats())
-    newchoices_FA <- colnames(Metadata_FA())
+    # newchoices_FA <- colnames(Metadata_FA())
     updateRadioButtons(session, "metadata1", choices = newchoices, inline = T)
     updateRadioButtons(session, "metadata_alpha", choices = newchoices_stats[-1], inline = T)
     updateRadioButtons(session, "metadata_beta", choices = newchoices_stats[-1], inline = T)
@@ -349,8 +349,13 @@ server <- function(session, input, output) {
     updateRadioButtons(session, "metadata_phylo_beta", choices = newchoices_stats[-1], inline = T)
     # updateSelectInput(session, "metadata8", choices = newchoices[-(1:2)])
     updateRadioButtons(session, "metadata_ANCOM", choices = newchoices_stats[-1], inline = T)
-    updateRadioButtons(session, "metadata_FA", choices = newchoices_FA[-1], inline = T)
+    # updateRadioButtons(session, "metadata_FA", choices = newchoices_FA[-1], inline = T)
     
+  })
+  
+  observe({
+    newchoices_FA <- colnames(Metadata_FA())
+    updateRadioButtons(session, "metadata_FA", choices = newchoices_FA[-1], inline = T)
   })
   
   # Check the sample data input
@@ -483,10 +488,10 @@ server <- function(session, input, output) {
     }
   })
   
-  observe({
-    newchoices_FA <- colnames(Metadata_FA())
-    updateRadioButtons(session, "metadata_FA", choices = newchoices_FA[-1], inline = T)
-  })
+  # observe({
+  #   newchoices_FA <- colnames(Metadata_FA())
+  #   updateRadioButtons(session, "metadata_FA", choices = newchoices_FA[-1], inline = T)
+  # })
   
   observe({
     
@@ -4466,23 +4471,23 @@ server <- function(session, input, output) {
   
   # When length(group_names)<=2, hide the download button of pair table
   observe({
-    
+
     req(input$sample_data, input$taxonomic_table)
-    
+
     nonNA_position <- which(Metadata_stats()[,input$metadata_beta] != "NA")
     nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
-    
+
     nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
     nonNA_metadata <- Metadata_stats()[nonNA_position, ]
-    
+
     group_names <- unique(nonNA_metadata[, input$metadata_beta])
-    
+
     if(length(group_names)<=2){
       shinyjs::hide("download_permanova_pair")
       shinyjs::hide("download_ANOSIM_pair")
       shinyjs::hide("download_MRPP_pair")
     }
-    
+
   })
   
   
