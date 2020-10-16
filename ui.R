@@ -27,12 +27,12 @@ if(my_cores<=2){
   suggested_cores <- my_cores-2
 }
 
-if(is.na(ping_port(my_qiime_local_ip, port = "8099")[1])){
+if(is.na(ping_port(my_qiime_public_ip, port = "8099")[1])){
   
-  my_qiime_ip <- my_qiime_public_ip
+  my_qiime_ip <- my_qiime_local_ip
   
 }else{
-  my_qiime_ip <- my_qiime_local_ip
+  my_qiime_ip <- my_qiime_public_ip
 }
 
 my_qiime_ip_port <- paste0(my_qiime_ip, my_qiime_port)
