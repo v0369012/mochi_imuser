@@ -1461,9 +1461,9 @@ shinyUI(
                  # uiOutput("tutorial"),
                  # htmlOutput("tutorial")
                  tabsetPanel(type="tabs",
-                             tabPanel(title="Installation",
-                                      withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_install.Rmd"))
-                                      ),
+                             # tabPanel(title="Installation",
+                             #          withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_install.Rmd"))
+                             #          ),
                              tabPanel(title="Sequences preprocessing",
                                       h2("The tutorial of Sequences preprocessing"),
                                       selectInput(inputId = "seq_choice_tutorial",
