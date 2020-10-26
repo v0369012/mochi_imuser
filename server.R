@@ -771,6 +771,13 @@ server <- function(session, input, output) {
       
     }
     
+    # recover file name
+    for (i in 1:length(seqs_name_new)) {
+      
+      file.rename(seqs_name_new[[i]], seqs_name[i])
+      
+    }
+    
     
     qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
     raw_data_path_list <- list()
@@ -881,6 +888,13 @@ server <- function(session, input, output) {
     for (i in 1:length(seqs_name_new)) {
       
       file.rename(seqs_name[i], seqs_name_new[[i]])
+      
+    }
+    
+    # recover file name
+    for (i in 1:length(seqs_name_new)) {
+      
+      file.rename(seqs_name_new[[i]], seqs_name[i])
       
     }
     
