@@ -737,6 +737,40 @@ server <- function(session, input, output) {
     # showModal(modalDialog(title = "Running demultiplexed for single end ...", "Waiting for a moment", footer = NULL))
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
     
+    # rename seqs file name
+    setwd("/home/imuser/raw_data/")
+    seqs_name <- list.files()
+    
+    library(stringr)
+    seqs_name_split <- str_split(seqs_name, "_")
+    lane_number <- "L001"
+    set_number <- "001"
+    
+    seqs_name_new <- lapply(1:length(seqs_name_split), function(x){
+      
+      paste0(
+        seqs_name_split[[x]][1],
+        "_",
+        seqs_name_split[[x]][1],
+        "_",
+        lane_number,
+        "_R",
+        str_split(seqs_name_split[[x]][2], "\\.")[[1]][1] %>% str_extract("[0-9]"),
+        "_",
+        set_number,
+        ".",
+        str_split(seqs_name_split[[x]][2], "\\.")[[1]][2]
+        
+      )
+      
+    })
+    
+    for (i in 1:length(seqs_name_new)) {
+      
+      file.rename(seqs_name[i], seqs_name_new[[i]])
+      
+    }
+    
     
     qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
     raw_data_path_list <- list()
@@ -814,6 +848,42 @@ server <- function(session, input, output) {
     
     # showModal(modalDialog(title = "Running demultiplexed for paired end ...", "Waiting for a moment",footer = NULL))
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
+    
+    
+    # rename seqs file name
+    setwd("/home/imuser/raw_data/")
+    seqs_name <- list.files()
+    
+    library(stringr)
+    seqs_name_split <- str_split(seqs_name, "_")
+    lane_number <- "L001"
+    set_number <- "001"
+    
+    seqs_name_new <- lapply(1:length(seqs_name_split), function(x){
+      
+      paste0(
+        seqs_name_split[[x]][1],
+        "_",
+        seqs_name_split[[x]][1],
+        "_",
+        lane_number,
+        "_R",
+        str_split(seqs_name_split[[x]][2], "\\.")[[1]][1] %>% str_extract("[0-9]"),
+        "_",
+        set_number,
+        ".",
+        str_split(seqs_name_split[[x]][2], "\\.")[[1]][2]
+        
+      )
+      
+    })
+    
+    for (i in 1:length(seqs_name_new)) {
+      
+      file.rename(seqs_name[i], seqs_name_new[[i]])
+      
+    }
+    
     
     qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
     raw_data_path <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
