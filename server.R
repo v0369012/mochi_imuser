@@ -737,8 +737,16 @@ server <- function(session, input, output) {
     # showModal(modalDialog(title = "Running demultiplexed for single end ...", "Waiting for a moment", footer = NULL))
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
     
+    
+    
+    
+    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
+    raw_data_path_list <- list()
+    raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+    
+    
     # rename seqs file name
-    setwd("/home/imuser/raw_data/")
+    setwd(raw_data_path_list[[1]])
     seqs_name <- list.files()
     
     library(stringr)
@@ -779,10 +787,7 @@ server <- function(session, input, output) {
     }
     
     
-    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
-    raw_data_path_list <- list()
-    raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
-    
+    # demux
     Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2019.10/bin')
     file.remove("/home/imuser/qiime_output/demux_single_end.qza", "/home/imuser/qiime_output/demux_single_end.qzv")
     file.remove("", "/home/imuser/qiime_output/demux_single_end.qzv")
@@ -803,23 +808,6 @@ server <- function(session, input, output) {
     system(paste0("mv ", unzip_dirnames, " /home/imuser/qiime_output/demux_single_unzip/new_dirname"))
     system("cp -rf /home/imuser/qiime_output/demux_single_unzip /var/www/html/")
     # unlink("/home/imuser/qiime_output/demux_single_unzip/new_dirname", recursive = T)
-    
-    
-    # if(is_empty(raw_data_path_list)){
-    #   output$word_demultiplexed_single_end <- renderText({
-    #     print('Please select the directory.')
-    #   })
-    #   
-    # }else if(file.exists('/home/imuser/qiime_output/demux_single_end.qzv')){
-    #   output$word_demultiplexed_single_end <- renderText({
-    #     print('Successfully')
-    #   })
-    #   
-    # }else{
-    #   output$word_demultiplexed_single_end <- renderText({
-    #     print('Error')
-    #   })
-    # }
     
     # removeModal()
     remove_modal_spinner()
@@ -857,8 +845,11 @@ server <- function(session, input, output) {
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
     
     
+    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
+    raw_data_path <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+    
     # rename seqs file name
-    setwd("/home/imuser/raw_data/")
+    setwd(raw_data_path)
     seqs_name <- list.files()
     
     library(stringr)
@@ -899,9 +890,7 @@ server <- function(session, input, output) {
     }
     
     
-    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime'
-    raw_data_path <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
-    
+    # demux
     Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2019.10/bin')
     file.remove("/home/imuser/qiime_output/demux_paired_end.qza", "/home/imuser/qiime_output/demux_paired_end.qzv")
     
