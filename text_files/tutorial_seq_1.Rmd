@@ -2,7 +2,9 @@
 title: "tutorial"
 author: "jjz"
 date: "2020/9/15"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ### Step 1 
@@ -13,7 +15,7 @@ output: html_document
 
 ### Step 2 
 ##### Select **1. Sequences summary**
-In this step, we will summrize the sequences.
+In this step, we will summarize the sequences.
 
 <img src="/home/imuser/text_files/p1_2.png" width="70%" />
 </br>
@@ -34,16 +36,16 @@ In this step, we will summrize the sequences.
 
 <img src="/home/imuser/text_files/p1_6.png" width="70%" />
 <img src="/home/imuser/text_files/p1_7.png" width="70%" />
-<img src="/home/imuser/text_files/p1_8.png" width="70%" />
 
 ***
 
 ### Step 5
 ##### Click on the button **"View!"** to inspect the result.
 
-<img src="/home/imuser/text_files/p1_9.png" width="70%" />
+<img src="/home/imuser/text_files/p1_8.png" width="70%" />
 
 ##### If you want to know what the result looks like, you can click on the button **"Example for single end"** or **"Example for paired end"**.
-<img src="/home/imuser/text_files/p1_10.png" width="70%" />
+
+<img src="/home/imuser/text_files/p1_9.png" width="70%" />
 
 ***
