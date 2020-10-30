@@ -767,7 +767,9 @@ server <- function(session, input, output) {
         "_",
         set_number,
         ".",
-        str_split(seqs_name_split[[x]][2], "\\.")[[1]][2]
+        str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+        ".",
+        str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
         
       )
       
@@ -775,16 +777,11 @@ server <- function(session, input, output) {
     
     for (i in 1:length(seqs_name_new)) {
       
-      file.rename(seqs_name[i], seqs_name_new[[i]])
-      
+      # file.rename(seqs_name[i], seqs_name_new[[i]])
+      system(paste0('sudo mv ', seqs_name[i], ' ',seqs_name_new[[i]]))
     }
     
-    # recover file name
-    for (i in 1:length(seqs_name_new)) {
-      
-      file.rename(seqs_name_new[[i]], seqs_name[i])
-      
-    }
+    
     
     
     # demux
@@ -809,7 +806,13 @@ server <- function(session, input, output) {
     system("cp -rf /home/imuser/qiime_output/demux_single_unzip /var/www/html/")
     # unlink("/home/imuser/qiime_output/demux_single_unzip/new_dirname", recursive = T)
     
-    # removeModal()
+    # recover file name
+    for (i in 1:length(seqs_name_new)) {
+      
+      # file.rename(seqs_name_new[[i]], seqs_name[i])
+      system(paste0('sudo mv ', seqs_name_new[[i]], ' ',seqs_name[i]))
+    }
+    
     remove_modal_spinner()
     
     end_time <- system.time()
@@ -870,7 +873,9 @@ server <- function(session, input, output) {
         "_",
         set_number,
         ".",
-        str_split(seqs_name_split[[x]][2], "\\.")[[1]][2]
+        str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+        ".",
+        str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
         
       )
       
@@ -882,12 +887,6 @@ server <- function(session, input, output) {
       
     }
     
-    # recover file name
-    for (i in 1:length(seqs_name_new)) {
-      
-      file.rename(seqs_name_new[[i]], seqs_name[i])
-      
-    }
     
     
     # demux
@@ -909,7 +908,13 @@ server <- function(session, input, output) {
     system("cp -rf /home/imuser/qiime_output/demux_paired_unzip /var/www/html/")
     
     
-    # removeModal()
+    # recover file name
+    for (i in 1:length(seqs_name_new)) {
+      
+      file.rename(seqs_name_new[[i]], seqs_name[i])
+      
+    }
+    
     remove_modal_spinner()
     
     end_time <- Sys.time()
