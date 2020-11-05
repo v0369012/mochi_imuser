@@ -597,6 +597,10 @@ server <- function(session, input, output) {
     
   })
   
+  # observeEvent(input$checkbox_primer == F, {
+  #   shinyjs::toggle("primer_trim")
+  # })
+  
   # functional analysis input file
   
   ## check sample data input
@@ -784,15 +788,22 @@ server <- function(session, input, output) {
     
     
     
-    # demux
+    # demuxed transform
     Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2019.10/bin')
     file.remove("/home/imuser/qiime_output/demux_single_end.qza", "/home/imuser/qiime_output/demux_single_end.qzv")
     file.remove("", "/home/imuser/qiime_output/demux_single_end.qzv")
-    
+      
     system(paste(qiime_cmd, "tools import --type", "'SampleData[SequencesWithQuality]'", "--input-path", raw_data_path_list[[1]],
                  "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path /home/imuser/qiime_output/demux_single_end.qza'))
     
-    system(paste(qiime_cmd, 'demux summarize --i-data /home/imuser/qiime_output/demux_single_end.qza --o-visualization /home/imuser/qiime_output/demux_single_end.qzv'))
+    system(paste(qiime_cmd, "cutadapt trim-single --i-demultiplexed-sequences", 
+                 "/home/imuser/qiime_output/demux_single_end.qza", 
+                 "--p-front", input$primer_f,
+                 "--p-cores", input$n_jobs_demux,
+                 "--o-trimmed-sequences demux_single_trimmed.qza"
+                 ))
+    
+    system(paste(qiime_cmd, 'demux summarize --i-data /home/imuser/qiime_output/demux_single_trimmed.qza --o-visualization /home/imuser/qiime_output/demux_single_end.qzv'))
     # viewer_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime_2_ll_quick_viewer'
     # system('kill -9 $(lsof -t -i:8080 -sTCP:LISTEN)')
     # system(paste(viewer_cmd, '--filename /home/imuser/qiime_output/demux_single_end.qzv &'))
@@ -892,11 +903,18 @@ server <- function(session, input, output) {
     # demux
     Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2019.10/bin')
     file.remove("/home/imuser/qiime_output/demux_paired_end.qza", "/home/imuser/qiime_output/demux_paired_end.qzv")
-    
+  
     system(paste(qiime_cmd, "tools import --type", "'SampleData[PairedEndSequencesWithQuality]'", "--input-path", raw_data_path,
                  "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path /home/imuser/qiime_output/demux_paired_end.qza'))
     
-    system(paste(qiime_cmd, 'demux summarize --i-data /home/imuser/qiime_output/demux_paired_end.qza --o-visualization /home/imuser/qiime_output/demux_paired_end.qzv'))
+    system(paste(qiime_cmd, "cutadapt trim-paired --i-demultiplexed-sequences", 
+                 "/home/imuser/qiime_output/demux_paired_end.qza", 
+                 "--p-front-f", input$primer_f,
+                 "--p-front-r", input$primer_r,
+                 "--p-cores", input$n_jobs_demux,
+                 "--o-trimmed-sequences demux_paired_trimmed.qza"))
+
+    system(paste(qiime_cmd, 'demux summarize --i-data /home/imuser/qiime_output/demux_paired_trimmed.qza --o-visualization /home/imuser/qiime_output/demux_paired_end.qzv'))
     
     
     unlink("/home/imuser/qiime_output/demux_paired_unzip/new_dirname", recursive = T)
@@ -1361,13 +1379,38 @@ server <- function(session, input, output) {
   
   # Taxonomic Analysis ------------------------------------------------------------------------------------------
   
+  output$in_r <- renderUI({
+    
+    if (input$seqs_type == "Paired end"){
+      isolate({
+        text_list <- list()
+        text_list[[1]] <- selectInput(inputId = "primer_r", 
+                      label = span("Choose the reverse primer sequences", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"), 
+                     choice = c("519R", "CD [R]", "907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
+                       width = "400px"
+           )
+        
+        return(text_list)
+      })
+    }else{
+      isolate({
+        text_list <- list()
+        text_list[[1]] <- p("")
+        return(text_list)
+      })
+    }
+    
+    
+  })
   
   output$out_f <- renderUI({
     
     if (input$primer_f == "other"){
       isolate({
         text_list <- list()
-        text_list[[1]] <- textInput(inputId = "primer_f_manu", label = "Give the forward primer sequences")
+        text_list[[1]] <- textInput(inputId = "primer_f_manu", 
+                                    label = span("Give the forward primer sequences", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;")
+                                    )
         return(text_list)
       })
     }else{
@@ -1383,10 +1426,14 @@ server <- function(session, input, output) {
   
   output$out_r <- renderUI({
     
-    if (input$primer_r == "other"){
+    req(input$primer_r)
+    
+    if (input$primer_r == "other" & input$seqs_type == "Paired end"){
       isolate({
         text_list <- list()
-        text_list[[1]] <- textInput(inputId = "primer_r_manu", label = "Give the reverse primer sequences")
+        text_list[[1]] <- textInput(inputId = "primer_r_manu", 
+                                    label = span("Give the reverse primer sequences", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;")
+                                    )
         return(text_list)
       })
     }else{
@@ -1887,7 +1934,7 @@ server <- function(session, input, output) {
                                         Chao1=alpha_diversity_Choa1,
                                         ACE=alpha_diversity_ACE,
                                         Shannon_diverstiy=alpha_diversity_Shannon,
-                                        Simpon_diversity=alpha_diversity_Simpsom,
+                                        Simspon_diversity=alpha_diversity_Simpsom,
                                         InvSimpson_diversity=alpha_diversity_InvSimpson,
                                         Shannon_evenness=alpha_diversity_ShannonEvenness,
                                         Simpson_evenness=alpha_diversity_SimpsonEveness,

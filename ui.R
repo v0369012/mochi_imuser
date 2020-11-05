@@ -107,21 +107,68 @@ shinyUI(
                               style = "background-color: #317EAC; border: none; border-radius: 5px; margin-left: 0px; padding: 10px; width: 500;pxposition: relative;",
                               
                               h4("Please choose the directory containing sequences data",
-                                 style = "color: white;"),
+                                 style = "color: white; left:5px"),
                               shinyFiles::shinyDirButton(id = 'dirs', 
                                                          label = 'Select the directory', 
                                                          title = 'Please select a directory',
-                                                         style = "margin: 5px;"
+                                                         style = "margin: 4px;"
                               ),
                               
                               br(),br(),
                               
                               pickerInput(inputId = "seqs_type",
                                           label = span("Choose the sequences type", 
-                                                       style= "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"),
+                                                       style= "font-size: 18px; font-weight: 300; color: white; margin: 5px;"),
                                           choices = c("Single end", "Paired end")
                                           ,width = "250px"
-                              )
+                              ),
+                              
+                              hr(),
+                              # p("After the database is selected, we need primer to extract the target region of sequences."),
+                              strong("Primer sequences", style = "font-size:20px;color:white"),
+                              # checkboxInput("checkbox_primer", 
+                              #               label = span("Check this if your sequences are already primer-trimmed reads",
+                              #                            style = "font-size: 14px; font-weight: 300; color: white; margin-top: 5px;"), 
+                              #               value = F),
+                              
+                              
+                                selectInput(inputId = "primer_f", 
+                                            label = span("Choose the forward primer sequences", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"), 
+                                            choice = c("8F", "27F", "CC [F]", "357F", "515F", "533F", "16S.1100.F16", "1237F", "other"),
+                                            width = "400px"
+                                ),
+                                # selectInput(inputId = "primer_r", 
+                                #             label = span("Choose the reverse primer sequences", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"), 
+                                #             choice = c("519R", "CD [R]", "907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
+                                #             width = "400px"
+                                # ),
+                                uiOutput(outputId = "in_r"),
+                                actionButton(inputId = "show_primer", 
+                                             label = "Show the primer table", 
+                                             icon = icon("table")
+                                ),
+                                br(), br(),
+                                p('If your primers could not be found from the primer table, you also can  manually input your primer sequences by choosing',
+                                  strong(' other.'),
+                                  style = "font-size: 14px; font-weight: 300; color: white; margin-top: 5px;"),
+                                
+                                uiOutput(outputId = "out_f"),
+                                uiOutput(outputId = "out_r"),
+                             
+                              
+                              hr(),
+                              strong("Computing setting", style = "font-size:20px;color:white"),
+                              textInput(inputId = "n_jobs_demux", 
+                                        label = span("Number of threads to run", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"),
+                                        value = my_cores-2,
+                                        placeholder = "Input number",
+                                        width = "300px"),
+                              actionButton(inputId = "my_cores_single", 
+                                           label = "Show the threads of this server."),
+                              actionButton(inputId = "Q_cores_single", 
+                                           label = "What is thread ?", 
+                                           icon = icon("question-circle")
+                                           )
                               
                               
                             ),
@@ -176,11 +223,7 @@ shinyUI(
                                   
                                   
                                   br(),br(),
-                                  tags$hr(class="A",
-                                          tags$style(
-                                            "hr.A{border: 5px solid #317EAC;}"
-                                          )
-                                  ),
+                                  hr(),
                                   h4('* Show the example: '),
                                   actionButton(inputId = "demux_example_single", 
                                                label = "Example for single end", 
@@ -189,6 +232,11 @@ shinyUI(
                                                                 my_qiime_ip, my_qiime_port,
                                                                 "/example_files/demux_single/data/index.html",
                                                                 "')")
+                                  ),
+                                  tags$hr(class="A",
+                                          tags$style(
+                                            "hr.A{border: 3px solid #317EAC;}"
+                                          )
                                   ),
                                   
                                 # ), style = "border: none;"
@@ -199,7 +247,8 @@ shinyUI(
                                 
                                 condition = "input.seqs_type == 'Paired end' && input.dirs",
                                 
-                                div(
+                                column(width = 12,
+                                # div(
                                   h2("1. Sequences summary (for paired end)", 
                                      style = "color: #317EAC;margin-top: 0px;"),
                                   h4("(1) Summarize the sequences for paired end",
@@ -230,11 +279,7 @@ shinyUI(
                                   
 
                                   br(),br(),
-                                  tags$hr(class="A",
-                                          tags$style(
-                                            "hr.A{border: 5px solid #317EAC;}"
-                                          )
-                                  ),
+                                  hr(),
                                   h4('* Show the example.'),
                                   actionButton(inputId = "demux_example_paired", 
                                                label = "Example for paired end", 
@@ -245,11 +290,17 @@ shinyUI(
                                                                 "')")
                                                ),
                                   br(),br(),
+                                  tags$hr(class="A",
+                                          tags$style(
+                                            "hr.A{border: 3px solid #317EAC;}"
+                                          )
+                                  ),
                                   
-                                  
-                                ), style = "border: none;"
+                                 )
                                 
-                              )
+                                
+                              ),
+                              dataTableOutput(outputId = "taxonomy_output")
                               ,width = 6
                             )
                           )
@@ -647,29 +698,30 @@ shinyUI(
                                       #              label = "How to download the data", 
                                       #              icon = icon("question")
                                       # ),
-                                      hr(),
-                                      p("After the database is selected, we need primer to extract the target region of sequences."),
-                                      selectInput(inputId = "primer_f", 
-                                                  label = "Choose the forward primer sequences", 
-                                                  choice = c("8F", "27F", "CC [F]", "357F", "515F", "533F", "16S.1100.F16", "1237F", "other"),
-                                                  width = "300px"
-                                      ),
-                                      selectInput(inputId = "primer_r", 
-                                                  label = "Choose the reverse primer sequences", 
-                                                  choice = c("519R", "CD [R]", "907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
-                                                  width = "300px"
-                                      ),
-                                      actionButton(inputId = "show_primer", 
-                                                   label = "Show the primer table", 
-                                                   icon = icon("table")
-                                      ),
-                                      br(), br(),
-                                      p('If your primers could not be found in the selections, you also can  manually input your primer sequences by choosing',
-                                        strong(' other.'),
-                                        style = "font-size: 14px"),
                                       
-                                      uiOutput(outputId = "out_f"),
-                                      uiOutput(outputId = "out_r"),
+                                      # hr(),
+                                      # p("After the database is selected, we need primer to extract the target region of sequences."),
+                                      # selectInput(inputId = "primer_f",
+                                      #             label = "Choose the forward primer sequences",
+                                      #             choice = c("8F", "27F", "CC [F]", "357F", "515F", "533F", "16S.1100.F16", "1237F", "other"),
+                                      #             width = "300px"
+                                      # ),
+                                      # selectInput(inputId = "primer_r",
+                                      #             label = "Choose the reverse primer sequences",
+                                      #             choice = c("519R", "CD [R]", "907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
+                                      #             width = "300px"
+                                      # ),
+                                      # actionButton(inputId = "show_primer",
+                                      #              label = "Show the primer table",
+                                      #              icon = icon("table")
+                                      # ),
+                                      # br(), br(),
+                                      # p('If your primers could not be found in the selections, you also can  manually input your primer sequences by choosing',
+                                      #   strong(' other.'),
+                                      #   style = "font-size: 14px"),
+                                      # 
+                                      # uiOutput(outputId = "out_f"),
+                                      # uiOutput(outputId = "out_r"),
                                       
                                       hr(),
                                       # textInput(inputId = "trunc_length", 
@@ -741,7 +793,7 @@ shinyUI(
                             
                             mainPanel(
                               uiOutput(outputId = "mk_taxa"), 
-                              dataTableOutput(outputId = "taxonomy_output"), 
+                              # dataTableOutput(outputId = "taxonomy_output"), 
                               width = 8)
                           ) # sidebarLayout
                           ) # tabPanel
