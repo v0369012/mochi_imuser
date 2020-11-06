@@ -121,7 +121,7 @@ shinyUI(
                                                        style= "font-size: 18px; font-weight: 300; color: white; margin: 5px;"),
                                           choices = c("Single end", "Paired end")
                                           ,width = "250px"
-                              ),
+                              ) %>% shinyjs::hidden(),
                               
                               hr(),
                               # p("After the database is selected, we need primer to extract the target region of sequences."),
@@ -134,7 +134,7 @@ shinyUI(
                               
                                 selectInput(inputId = "primer_f", 
                                             label = span("Choose the forward primer sequences", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"), 
-                                            choice = c("8F", "27F", "CC [F]", "357F", "515F", "533F", "16S.1100.F16", "1237F", "other"),
+                                            choice = c("8F", "27F", "CC [F]", "341F","357F", "515F", "533F", "16S.1100.F16", "1237F", "other"),
                                             width = "400px"
                                 ),
                                 # selectInput(inputId = "primer_r", 
@@ -163,9 +163,9 @@ shinyUI(
                                         value = my_cores-2,
                                         placeholder = "Input number",
                                         width = "300px"),
-                              actionButton(inputId = "my_cores_single", 
+                              actionButton(inputId = "my_cores_demux", 
                                            label = "Show the threads of this server."),
-                              actionButton(inputId = "Q_cores_single", 
+                              actionButton(inputId = "Q_cores_demux", 
                                            label = "What is thread ?", 
                                            icon = icon("question-circle")
                                            )
@@ -317,23 +317,6 @@ shinyUI(
                           
                           fluidRow(
                             
-                            # div(
-                            #   style = "background-color: #317EAC; border: none; border-radius: 5px; margin-left: 10px; padding: 10px; width: 20%",
-                            #   
-                            #   pickerInput("qc_method",
-                            #               span("Choose the QC methods",
-                            #                    style = "font-size: 18px; font-weight: 300; color: white;"),
-                            #               #shiny::HTML("<strong style='font-size: 24px;'>Choose the sequences types</strong>"),
-                            #               choices = c("Denoising (by position)", "Denoising (by quality)")
-                            #   )
-                            #   
-                            #   
-                            #   
-                            #   
-                            # ),
-                            
-                            
-                            
                             mainPanel(
                               
                               conditionalPanel(
@@ -368,7 +351,7 @@ shinyUI(
                                 
                                 strong("Chimeric reads filter", style = "font-size:20px;color: #317EAC"),
                                 textInput(inputId = "chimera_single", 
-                                          label = "The minimum abundance of potential parents of a sequence being tested as chimeric", 
+                                          label = "The minimum fold-change value", 
                                           value = 1),
                                 actionButton(inputId = "word_chimera_single", 
                                              label = "What is this ?",
@@ -396,12 +379,12 @@ shinyUI(
                                 textInput(inputId = "threads_single", 
                                           label = "Input the number of threads", 
                                           value = suggested_cores),
-                                actionButton(inputId = "my_cores_single", 
-                                             label = "Show the threads of this server.") %>% div(),
-                                actionButton(inputId = "Q_cores_single", 
-                                             label = "What is thread ?", 
-                                             icon = icon("question-circle")
-                                ) %>% div(),
+                                # actionButton(inputId = "my_cores_single", 
+                                #              label = "Show the threads of this server.") %>% div(),
+                                # actionButton(inputId = "Q_cores_single", 
+                                #              label = "What is thread ?", 
+                                #              icon = icon("question-circle")
+                                # ) %>% div(),
                                 
                                 br(),br(),
                                 
@@ -543,7 +526,7 @@ shinyUI(
                                 
                                 strong("Chimeric reads filter", style = "font-size:20px;color: #317EAC"),
                                 textInput(inputId = "chimera_paired", 
-                                          label = "The minimum abundance of potential parents of a sequence being tested as chimeric", 
+                                          label = "The minimum fold-change value", 
                                           value = 1),
                                 actionButton(inputId = "word_chimera_paired", 
                                              label = "What is this ?",
@@ -568,11 +551,11 @@ shinyUI(
                                 textInput(inputId = "threads_paired", 
                                           label = "Input the number of threads", 
                                           value = suggested_cores),
-                                actionButton(inputId = "my_cores_paired", 
-                                             label = "Show the threads of this server.") %>% div(),
-                                actionButton(inputId = "Q_cores_paired", 
-                                             label = "What is thread ?", 
-                                             icon = icon("question-circle")) %>% div(),
+                                # actionButton(inputId = "my_cores_paired", 
+                                #              label = "Show the threads of this server.") %>% div(),
+                                # actionButton(inputId = "Q_cores_paired", 
+                                #              label = "What is thread ?", 
+                                #              icon = icon("question-circle")) %>% div(),
                                 br(),br(),
                                 
                                 strong("Integrating the metadata", style = "font-size:20px;color: #317EAC"),
@@ -685,15 +668,15 @@ shinyUI(
                             column(width = 4, 
                                    wellPanel(
                                       style = "background-color: #317EAC; border: none; border-radius: 5px; color: white;font-size: 16px;",
-                                      p('First, download the data from database'),
+                                      # p('First, download the data from database'),
                                       selectInput(inputId = "select_database", 
-                                                  label = "Choose the database.",
+                                                  label = "Choose the database",
                                                   choices = c("Silva_99", "Silva_97", "Silva_94", "Silva_90",
                                                               'GreenGene_99', 'GreenGene_97', 'GreenGene_94', 'GreenGene_91', 'GreenGene_88', 'GreenGene_85',
                                                               'GreenGene_82', 'GreenGene_79', 'GreenGene_76', 'GreenGene_73', 'GreenGene_70', 'GreenGene_67',
                                                               'GreenGene_64', 'GreenGene_61'),
                                                   width = "300px"),
-                                      p('If the database have been updated, you need to download the latest data by yourself.'),
+                                      # p('If the database have been updated, you need to download the latest data by yourself.'),
                                       # actionButton(inputId = "database_tutorial", 
                                       #              label = "How to download the data", 
                                       #              icon = icon("question")
@@ -728,7 +711,7 @@ shinyUI(
                                       #           label = "Give the trunc length you want",
                                       #           placeholder = "Input number",
                                       #           width = "300px"),
-                                      p("After determining the region, we need to filter the sequences based on length."),
+                                      p("After determining the region, we need to filter the reference sequences based on length."),
                                       textInput(inputId = "min_length", 
                                                 label = "Give the minimum length to retain",
                                                 placeholder = "Input number",
@@ -823,6 +806,12 @@ shinyUI(
                    
                    span("Upload the taxonomic table file (Download from taxonomic analysis)"),
                    fileInput(inputId = "taxonomic_table", 
+                             label = "",
+                             multiple = F,
+                             accept = ".qza"),
+                   
+                   span("Upload the feature table file (Download from taxonomic analysis)"),
+                   fileInput(inputId = "table_dada2_upload", 
                              label = "",
                              multiple = F,
                              accept = ".qza"),
@@ -1165,11 +1154,11 @@ shinyUI(
                                           # a("mafft", href="https://en.wikipedia.org/wiki/MAFFT", target="_blank"),
                                           # strong("program to perform a multiple sequence alignment of the sequences."),
                                           # br(),br(), 
-                                          fileInput(inputId = "table_dada2_upload", 
-                                                    label = "Upload the feature table (Download from Taxonomic anlysis)",
-                                                    multiple = F,
-                                                    accept = ".qza", 
-                                                    width = "40%"),
+                                          # fileInput(inputId = "table_dada2_upload", 
+                                          #           label = "Upload the feature table (Download from Taxonomic anlysis)",
+                                          #           multiple = F,
+                                          #           accept = ".qza", 
+                                          #           width = "40%"),
                                           fileInput(inputId ="rep_seq_dada2_upload", 
                                                     label = "Upload the sequences data (Download from Taxonomic anlysis)",
                                                     multiple = F,

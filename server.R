@@ -91,6 +91,7 @@ server <- function(session, input, output) {
     
     req(input$taxonomic_table)
     req(input$sample_data)
+    req(input$table_dada2_upload)
     infile1 <- input$taxonomic_table
     
     if (is.null(infile1))
@@ -157,6 +158,12 @@ server <- function(session, input, output) {
     
     return(taxatable_merge_result)
   }) # Some OTUs may be unassigned or multi-matched, in this object, both are considered as unassigned
+  
+  asv_table <- reactive({
+    req(input$table_dada2_upload)
+    asv_table <- read_qza(input$table_dada2_upload$datapath)[["data"]]
+    return(asv_table)
+  })
   
   Metadata <- reactive({
     
@@ -358,6 +365,21 @@ server <- function(session, input, output) {
     updateRadioButtons(session, "metadata_FA", choices = newchoices_FA[-1], inline = T)
   })
   
+  # check seqs types
+  observeEvent(req(input$dirs), {
+    
+    raw_data_path_list <- list()
+    raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+    
+    a <- list.files(path = raw_data_path_list[[1]])
+    
+    if(sum(stringr::str_detect(a, "_R?[2]")) > 0 ){
+      updatePickerInput(session, "seqs_type", choices = "Paired end")
+    }else{
+    updatePickerInput(session, "seqs_type", choices = "Single end")
+    }
+  })
+  
   # Check the sample data input
   observe({
     
@@ -543,7 +565,7 @@ server <- function(session, input, output) {
   })
   
   
-  observeEvent(req(input$sample_data, input$taxonomic_table), {
+  observeEvent(req(input$sample_data, input$taxonomic_table, input$table_dada2_upload), {
     
     if(is.matrix(read_qza(input$taxonomic_table$datapath)$data)) {
       
@@ -716,6 +738,7 @@ server <- function(session, input, output) {
     shinyjs::toggle("func_table_ui")
     shinyjs::toggle("func_barplot_ui")
   })
+  
   
   
   # Sequences preprocessing -----
@@ -1074,7 +1097,7 @@ server <- function(session, input, output) {
   
   
   
-  observeEvent(input$my_cores_single, {
+  observeEvent(input$my_cores_demux, {
     
     # output$message_mycore_single_position <- renderUI({
     my_cores <- parallel::detectCores()
@@ -1091,7 +1114,7 @@ server <- function(session, input, output) {
   
   
   
-  observeEvent(input$Q_cores_single, {
+  observeEvent(input$Q_cores_demux, {
     # output$message_thread_single_position <- renderText(
     #   "The number of threads to use for multithreaded processing.")
     showModal(modalDialog(title = strong("Message"),
@@ -1103,12 +1126,16 @@ server <- function(session, input, output) {
     # output$message_thread_single_position <- renderText(
     #   "The number of threads to use for multithreaded processing.")
     showModal(modalDialog(title = strong("Message"),
-                          "The minimum abundance of potential parents of a
+                          HTML("<p>The minimum abundance of potential parents of a
                          sequence being tested as chimeric, expressed as a
                          fold-change versus the abundance of the sequence
                          being tested. Values should be greater than or equal
                          to 1 (i.e. parents should be more abundant than the
-                         sequence being tested).", 
+                         sequence being tested)</p>
+                         <p>For example, let’s imagine you have 3 sequences in your data: x, y, and z (which appears to be a chimera of x + y). 
+                         If min-fold-parent-over-abundance (minF) = 1, z must be equally or less abundant than x and y. If minF = 2, x and y must be at least twice as abundant as z for z to be removed. 
+                               If minF = 8, x and y must be at least 8 times as abundant as z for z to be removed!.</p>
+                               <P>That is to say, the higher minF value is, the more retained chimera reads are."), 
                           footer = NULL, easyClose = T, size = "l"))
   })
   
@@ -1247,36 +1274,40 @@ server <- function(session, input, output) {
   
   
   
-  observeEvent(input$my_cores_paired, {
-    
-    my_cores <- parallel::detectCores()
-    str1 <- paste0("The number of your threads is ", my_cores, ".")
-    str2 <- " If 0 is provided, all available cores will be used. [default: all threads - 2]"
-    
-    showModal(modalDialog(title = strong("Message"),
-                          HTML(paste(str1, str2, sep = "</br>")), 
-                          footer = NULL, easyClose = T, size = "l"))
-    
-  })
+  # observeEvent(input$my_cores_paired, {
+  #   
+  #   my_cores <- parallel::detectCores()
+  #   str1 <- paste0("The number of your threads is ", my_cores, ".")
+  #   str2 <- " If 0 is provided, all available cores will be used. [default: all threads - 2]"
+  #   
+  #   showModal(modalDialog(title = strong("Message"),
+  #                         HTML(paste(str1, str2, sep = "</br>")), 
+  #                         footer = NULL, easyClose = T, size = "l"))
+  #   
+  # })
   
-  observeEvent(input$Q_cores_paired, {
-    # output$message_thread_paired_position <- renderText(
-    #   " The number of threads to use for multithreaded processing.")
-    showModal(modalDialog(title = strong("Message"),
-                          "The number of threads to use for multithreaded processing.", 
-                          footer = NULL, easyClose = T, size = "l"))
-  })
+  # observeEvent(input$Q_cores_paired, {
+  #   # output$message_thread_paired_position <- renderText(
+  #   #   " The number of threads to use for multithreaded processing.")
+  #   showModal(modalDialog(title = strong("Message"),
+  #                         "The number of threads to use for multithreaded processing.", 
+  #                         footer = NULL, easyClose = T, size = "l"))
+  # })
   
   observeEvent(input$word_chimera_paired, {
     # output$message_thread_single_position <- renderText(
     #   "The number of threads to use for multithreaded processing.")
     showModal(modalDialog(title = strong("Message"),
-                          "The minimum abundance of potential parents of a
+                          HTML("<p>The minimum abundance of potential parents of a
                          sequence being tested as chimeric, expressed as a
                          fold-change versus the abundance of the sequence
                          being tested. Values should be greater than or equal
                          to 1 (i.e. parents should be more abundant than the
-                         sequence being tested).", 
+                         sequence being tested)</p>
+                         <p>For example, let’s imagine you have 3 sequences in your data: x, y, and z (which appears to be a chimera of x + y). 
+                         If min-fold-parent-over-abundance (minF) = 1, z must be equally or less abundant than x and y. If minF = 2, x and y must be at least twice as abundant as z for z to be removed. 
+                               If minF = 8, x and y must be at least 8 times as abundant as z for z to be removed!.</p>
+                               <P>That is to say, the higher minF value is, the more retained chimera reads are."), 
                           footer = NULL, easyClose = T, size = "l"))
   })
   
@@ -1386,7 +1417,7 @@ server <- function(session, input, output) {
         text_list <- list()
         text_list[[1]] <- selectInput(inputId = "primer_r", 
                       label = span("Choose the reverse primer sequences", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"), 
-                     choice = c("519R", "CD [R]", "907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
+                     choice = c("519R", "CD [R]", "806R","907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
                        width = "400px"
            )
         
@@ -1459,18 +1490,18 @@ server <- function(session, input, output) {
       # # tags$iframe(src="Primer_table.html")
       # # HTML(markdown::markdownToHTML(knit('/home/imuser/text_files/Primer_table.Rmd', quiet = F)))
       # rmarkdown::render('/home/imuser/text_files/Primer_table.Rmd')
-      primer_table <- data.frame(Primer=c("8F", "27F", "CC [F]", "357F", "515F", "533F", "16S.1100.F16", "1237F", 
-                                          "519R", "CD [R]", "907R", "1100R", "1391R", "1492R (l)", "1492R (s)"), 
-                                 Sequences=c("AGAGTTTGATCCTGGCTCAG", "AGAGTTTGATCMTGGCTCAG", "CCAGACTCCTACGGGAGGCAGC", "CTCCTACGGGAGGCAGCAG",
+      primer_table <- data.frame(Primer=c("8F", "27F", "CC [F]", "341F","357F", "515F", "533F", "16S.1100.F16", "1237F", 
+                                          "519R", "CD [R]", "806R","907R", "1100R", "1391R", "1492R (l)", "1492R (s)"), 
+                                 Sequences=c("AGAGTTTGATCCTGGCTCAG", "AGAGTTTGATCMTGGCTCAG", "CCAGACTCCTACGGGAGGCAGC", "CTCCTACGGGAGGCAGCAG", "CCTACGGGNGGCWGCAG",
                                              "GTGCCAGCMGCCGCGGTAA", "GTGCCAGCAGCCGCGGTAA", "CAACGAGCGCAACCCT", "GGGCTACACACGYGCWAC",
-                                             "GWATTACCGCGGCKGCTG", "CTTGTGCGGGCCCCCGTCAATTC", "CCGTCAATTCMTTTRAGTTT", "AGGGTTGCGCTCGTTG",
+                                             "GWATTACCGCGGCKGCTG", "CTTGTGCGGGCCCCCGTCAATTC", "GGACTACHVGGGTWTCTAAT","CCGTCAATTCMTTTRAGTTT", "AGGGTTGCGCTCGTTG",
                                              "GACGGGCGGTGTGTRCA", "GGTTACCTTGTTACGACTT", "ACCTTGTTACGACTT"),
-                                 Target_Group=c(rep("Universal", 11), "Bacterial", rep("Universal", 3)),
-                                 Reference=c("Turner et al. 1999", "Lane et al. 1991", "Rudi et al. 1997", "Turner et al. 1999", "Turner et al. 1999",
-                                             "Weisburg et al. 1991", "Turner et al. 1999", "Turner et al. 1999", "Turner et al. 1999", "Rudi et al. 1997",
+                                 # Target_Group=c(rep("Universal", 11), "Bacterial", rep("Universal", 3)),
+                                 Reference=c("Turner et al. 1999", "Lane et al. 1991", "Rudi et al. 1997", "Herlemann et al. 2011","Turner et al. 1999", "Turner et al. 1999",
+                                             "Weisburg et al. 1991", "Turner et al. 1999", "Turner et al. 1999", "Turner et al. 1999", "Rudi et al. 1997", "Liu Z et al. 2007",
                                              "Lane et al. 1991", "Turner et al. 1999", "Turner et al. 1999", "Turner et al. 1999", "Lane et al. 1991"))
       colnames(primer_table)[2] <- "Sequences (5'-3')"
-      colnames(primer_table)[3] <- "Target group"
+      # colnames(primer_table)[3] <- "Target group"
       
       return(primer_table)
       
@@ -1948,7 +1979,7 @@ server <- function(session, input, output) {
       return(alpha_diversity_table)
     }
     
-    return(as_alpha_diversity_table(TaxaTable_merge()))
+    return(as_alpha_diversity_table(asv_table()))
     
   })
   
@@ -2154,7 +2185,7 @@ server <- function(session, input, output) {
   
   BetaTable_bray <- reactive({
     
-    Bray_df_data<-vegan::vegdist(t(TaxaTable_merge()), method = "bray") %>% as.matrix() %>% as.data.frame()
+    Bray_df_data<-vegan::vegdist(t(asv_table()), method = "bray") %>% as.matrix() %>% as.data.frame()
     return(Bray_df_data)
     
   })
@@ -2172,7 +2203,7 @@ server <- function(session, input, output) {
   BetaPlot <- reactive({
     
     nonNA_position <- which(Metadata_stats()[, input$metadata_beta]!="NA")
-    taxatable_beta <- TaxaTable_merge()[, nonNA_position]
+    taxatable_beta <- asv_table()[, nonNA_position]
     metadata_beta <- Metadata_stats()[nonNA_position,]
     
     library(vegan)
@@ -4535,7 +4566,7 @@ server <- function(session, input, output) {
     nonNA_position <- which(Metadata_stats()[,input$metadata_beta] != "NA")
     nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
     
-    nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+    nonNA_taxtable <- asv_table()[,nonNA_sampleid]
     nonNA_metadata <- Metadata_stats()[nonNA_position, ]
     
     bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
@@ -4597,12 +4628,12 @@ server <- function(session, input, output) {
   # When length(group_names)<=2, hide the download button of pair table
   observe({
 
-    req(input$sample_data, input$taxonomic_table)
+    req(input$sample_data, input$taxonomic_table, input$table_dada2_upload)
 
     nonNA_position <- which(Metadata_stats()[,input$metadata_beta] != "NA")
     nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
 
-    nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+    nonNA_taxtable <- asv_table()[,nonNA_sampleid]
     nonNA_metadata <- Metadata_stats()[nonNA_position, ]
 
     group_names <- unique(nonNA_metadata[, input$metadata_beta])
@@ -4621,7 +4652,7 @@ server <- function(session, input, output) {
     nonNA_position <- which(Metadata_stats()[,input$metadata_beta] != "NA")
     nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
     
-    nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+    nonNA_taxtable <- asv_table()[,nonNA_sampleid]
     nonNA_metadata <- Metadata_stats()[nonNA_position, ]
     
     bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
@@ -4726,7 +4757,7 @@ server <- function(session, input, output) {
     nonNA_position <- which(Metadata_stats()[,input$metadata_beta] != "NA")
     nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
     
-    nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+    nonNA_taxtable <- asv_table()[,nonNA_sampleid]
     nonNA_metadata <- Metadata_stats()[nonNA_position, ]
     
     bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
@@ -4775,7 +4806,7 @@ server <- function(session, input, output) {
     nonNA_position <- which(Metadata_stats()[,input$metadata_beta] != "NA")
     nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
     
-    nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+    nonNA_taxtable <- asv_table()[,nonNA_sampleid]
     nonNA_metadata <- Metadata_stats()[nonNA_position, ]
     
     bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
@@ -4797,7 +4828,7 @@ server <- function(session, input, output) {
         feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
         
         sample_f1_f2 <- sample_list[[input$metadata_beta]] %>% filter(sample_list[[input$metadata_beta]][,input$metadata_beta] %in% feature1_feature2)
-        return(TaxaTable_merge()[, sample_f1_f2[,"SampleID"]])
+        return(asv_table()[, sample_f1_f2[,"SampleID"]])
         
       })
       
@@ -4880,7 +4911,7 @@ server <- function(session, input, output) {
     nonNA_position <- which(Metadata_stats()[,input$metadata_beta] != "NA")
     nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
     
-    nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+    nonNA_taxtable <- asv_table()[,nonNA_sampleid]
     nonNA_metadata <- Metadata_stats()[nonNA_position, ]
     
     bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
@@ -4935,7 +4966,7 @@ server <- function(session, input, output) {
     nonNA_position <- which(Metadata_stats()[,input$metadata_beta] != "NA")
     nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
     
-    nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+    nonNA_taxtable <- asv_table()[,nonNA_sampleid]
     nonNA_metadata <- Metadata_stats()[nonNA_position, ]
     
     bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
@@ -4956,7 +4987,7 @@ server <- function(session, input, output) {
         feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
         
         sample_f1_f2 <- sample_list[[input$metadata_beta]] %>% filter(sample_list[[input$metadata_beta]][,input$metadata_beta] %in% feature1_feature2)
-        return(TaxaTable_merge()[, sample_f1_f2[,"SampleID"]])
+        return(asv_table()[, sample_f1_f2[,"SampleID"]])
         
       })
       
@@ -5594,7 +5625,7 @@ server <- function(session, input, output) {
       
       #NMDS
       nonNA_position <- which(Metadata_stats()[, input$metadata_phylo_beta]!="NA")
-      taxatable_beta <- TaxaTable_merge()[, nonNA_position]
+      taxatable_beta <- asv_table()[, nonNA_position]
       metadata_beta <- Metadata_stats()[nonNA_position,]
       colnames(metadata_beta)[1] <- "SampleID"
       
@@ -5698,7 +5729,7 @@ server <- function(session, input, output) {
     W_unif_nmds_plot <- reactive({
       
       nonNA_position <- which(Metadata_stats()[, input$metadata_phylo_beta]!="NA")
-      taxatable_beta <- TaxaTable_merge()[, nonNA_position]
+      taxatable_beta <- asv_table()[, nonNA_position]
       metadata_beta <- Metadata_stats()[nonNA_position,]
       colnames(metadata_beta)[1] <- "SampleID"
       
@@ -5820,7 +5851,7 @@ server <- function(session, input, output) {
       nonNA_position <- which(Metadata_stats()[, input$metadata_phylo_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
       
-      nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+      nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
@@ -5857,7 +5888,7 @@ server <- function(session, input, output) {
       nonNA_position <- which(Metadata_stats()[, input$metadata_phylo_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
       
-      nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+      nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
@@ -5930,12 +5961,12 @@ server <- function(session, input, output) {
     # When length(group_names)<=2, hide the download button of pair table
     observe({
       
-      req(input$sample_data, input$taxonomic_table)
+      req(input$sample_data, input$taxonomic_table, input$table_dada2_upload)
       
       nonNA_position <- which(Metadata_stats()[,input$metadata_phylo_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
       
-      nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+      nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       group_names <- unique(nonNA_metadata[, input$metadata_phylo_beta])
@@ -5953,7 +5984,7 @@ server <- function(session, input, output) {
       nonNA_position <- which(Metadata_stats()[,input$metadata_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
       
-      nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+      nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
@@ -6026,7 +6057,7 @@ server <- function(session, input, output) {
       nonNA_position <- which(Metadata_stats()[,input$metadata_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
       
-      nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+      nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
@@ -6137,7 +6168,7 @@ server <- function(session, input, output) {
       nonNA_position <- which(Metadata_stats()[,input$metadata_phylo_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
       
-      nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+      nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
@@ -6161,7 +6192,7 @@ server <- function(session, input, output) {
       nonNA_position <- which(Metadata_stats()[,input$metadata_phylo_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
       
-      nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+      nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
@@ -6185,7 +6216,7 @@ server <- function(session, input, output) {
       nonNA_position <- which(Metadata_stats()[,input$metadata_phylo_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
       
-      nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+      nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
@@ -6263,7 +6294,7 @@ server <- function(session, input, output) {
       nonNA_position <- which(Metadata_stats()[,input$metadata_phylo_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
       
-      nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+      nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
@@ -6419,7 +6450,7 @@ server <- function(session, input, output) {
       nonNA_position <- which(Metadata_stats()[,input$metadata_phylo_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
       
-      nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+      nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
@@ -6450,7 +6481,7 @@ server <- function(session, input, output) {
       nonNA_position <- which(Metadata_stats()[,input$metadata_phylo_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
       
-      nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+      nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
@@ -6481,7 +6512,7 @@ server <- function(session, input, output) {
       nonNA_position <- which(Metadata_stats()[,input$metadata_phylo_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
       
-      nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+      nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
@@ -6569,7 +6600,7 @@ server <- function(session, input, output) {
       nonNA_position <- which(Metadata_stats()[,input$metadata_phylo_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
       
-      nonNA_taxtable <- TaxaTable_merge()[,nonNA_sampleid]
+      nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
