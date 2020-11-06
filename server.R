@@ -1135,7 +1135,7 @@ server <- function(session, input, output) {
                          <p>For example, let’s imagine you have 3 sequences in your data: x, y, and z (which appears to be a chimera of x + y). 
                          If min-fold-parent-over-abundance (minF) = 1, z must be equally or less abundant than x and y. If minF = 2, x and y must be at least twice as abundant as z for z to be removed. 
                                If minF = 8, x and y must be at least 8 times as abundant as z for z to be removed!.</p>
-                               <P>That is to say, the higher minF value is, the more retained chimera reads are."), 
+                               <P>That is to say, the higher minF value is, the more retained chimera reads are. For most cases, 1 is the default value."), 
                           footer = NULL, easyClose = T, size = "l"))
   })
   
@@ -1307,7 +1307,7 @@ server <- function(session, input, output) {
                          <p>For example, let’s imagine you have 3 sequences in your data: x, y, and z (which appears to be a chimera of x + y). 
                          If min-fold-parent-over-abundance (minF) = 1, z must be equally or less abundant than x and y. If minF = 2, x and y must be at least twice as abundant as z for z to be removed. 
                                If minF = 8, x and y must be at least 8 times as abundant as z for z to be removed!.</p>
-                               <P>That is to say, the higher minF value is, the more retained chimera reads are."), 
+                               <P>That is to say, the higher minF value is, the more retained chimera reads are. For most cases, 1 is the default value."), 
                           footer = NULL, easyClose = T, size = "l"))
   })
   
@@ -1688,7 +1688,7 @@ server <- function(session, input, output) {
   )
   
   output$table_dada2_download <- downloadHandler(
-    filename = "table_for_phylo.qza",
+    filename = "ASVs_table.qza",
     
     content = function(file){
       if(input$seqs_type == "Single end"){
@@ -1701,7 +1701,7 @@ server <- function(session, input, output) {
   )
   
   output$rep_seq_dada2_download <- downloadHandler(
-    filename = "rep_seqs_for_phylo.qza",
+    filename = "rep_seqs_forPhylo.qza",
     
     content = function(file){
       if(input$seqs_type == "Single end"){
@@ -2377,7 +2377,7 @@ server <- function(session, input, output) {
   
   output$downloadData <- downloadHandler(
     
-    filename <-"example_taxonomic_table.qza",
+    filename <-"Taxonomic_table_example.qza",
     
     content = function(file){
       file.copy("/home/imuser/example_files/taxtable.qza", file)
@@ -2391,7 +2391,7 @@ server <- function(session, input, output) {
   
   output$downloadMetaData <- downloadHandler(
     
-    filename <-"example_metadata.tsv",
+    filename <-"Metadata_example.tsv",
     
     content = function(file){
       file.copy("/home/imuser/example_files/sample-metadata.tsv", file)
@@ -5180,7 +5180,7 @@ server <- function(session, input, output) {
   
   output$example_rep_seqs <- downloadHandler(
     
-    filename = "example_rep_seqs.qza",
+    filename = "Seqs_forPhylo_example.qza",
     
     content = function(file){
       file.copy(from = "/home/imuser/example_files/rep-seqs.qza", to = file)
@@ -5190,7 +5190,7 @@ server <- function(session, input, output) {
   
   output$example_feature_table <- downloadHandler(
     
-    filename = "feature_table_forPhylo_example.qza",
+    filename = "ASVs_table_example.qza",
     
     content = function(file){
       file.copy(from = "/home/imuser/example_files/table.qza", to = file)

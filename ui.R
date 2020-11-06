@@ -42,7 +42,7 @@ tabPanel_title_style <- "color: white; font-size: 18px; font-weight: 200;"
 tabPanel_navmenu_style <- "color: black; font-size: 18px; font-weight: 200;"
 
 # denoise btn label
-denoise_btn_start_label <- "Start to denoise!"
+denoise_btn_start_label <- strong("Start to denoise!")
 
 shinyUI(
   fluidPage(
@@ -105,14 +105,15 @@ shinyUI(
                             sidebarPanel(
                               
                               style = "background-color: #317EAC; border: none; border-radius: 5px; margin-left: 0px; padding: 10px; width: 500;pxposition: relative;",
-                              
+                              strong("Directory selection", style = "font-size:20px;color:white"),
                               h4("Please choose the directory containing sequences data",
                                  style = "color: white; left:5px"),
                               shinyFiles::shinyDirButton(id = 'dirs', 
                                                          label = 'Select the directory', 
                                                          title = 'Please select a directory',
-                                                         style = "margin: 4px;"
-                              ),
+                                                         style = "margin: 2px;", 
+                                                         icon = icon("folder")
+                                                         ),
                               
                               br(),br(),
                               
@@ -147,7 +148,7 @@ shinyUI(
                                              label = "Show the primer table", 
                                              icon = icon("table")
                                 ),
-                                br(), br(),
+                                
                                 p('If your primers could not be found from the primer table, you also can  manually input your primer sequences by choosing',
                                   strong(' other.'),
                                   style = "font-size: 14px; font-weight: 300; color: white; margin-top: 5px;"),
@@ -190,7 +191,7 @@ shinyUI(
                                      style = "color: #317EAC;",
                                      span(
                                        actionButton(inputId = "demultiplexed_single_ends", 
-                                                    label = "Start!", 
+                                                    label = strong("Start!"), 
                                                     icon = icon("play-circle"),
                                                     style = "margin: 10px; display: inline-block;")
                                      ),
@@ -255,7 +256,7 @@ shinyUI(
                                      style = "color: #317EAC;",
                                      span(
                                        actionButton(inputId = "demultiplexed_paired_ends", 
-                                                    label = "Start!", 
+                                                    label = strong("Start!"), 
                                                     icon = icon("play-circle"),
                                                     style = "margin: 10px; display: inline-block;"
                                        )
@@ -394,8 +395,11 @@ shinyUI(
                                           multiple = F,
                                           accept = ".tsv",
                                           width = "500px"),
-                                p("This input is optional. If metadata is provided, the results would have metadata information.",
-                                  style = "margin-top:-15px"),
+                                div(
+                                  span("This input is"),
+                                  strong(" optional"),
+                                  span(".If metadata is provided, the results would have metadata information."),
+                                style = "margin-top:-15px"),
                                 
                                 br(),br(),
                                 actionButton(inputId = "denoising_single", 
@@ -405,14 +409,14 @@ shinyUI(
                                 hr(),
                                 strong('Results', style = "font-size: 20px;color: #317EAC"),
                                 div(actionButton(inputId = "show_dada2_single_table",
-                                             label = "Show table",
+                                             label = "Show summary table",
                                              onclick = paste0("window.open('http://", 
                                                               my_qiime_ip, my_qiime_port,
                                                               "/denoise_single_table/new_dirname/data/index.html",
                                                               "')"),
                                              icon = icon("eye")),
                                 actionButton(inputId = "show_dada2_single_seqs",
-                                             label = "Show Seqs",
+                                             label = "Show seqs info",
                                              onclick = paste0("window.open('http://", 
                                                               my_qiime_ip, my_qiime_port,
                                                               "/denoise_single_seqs/new_dirname/data/index.html",
@@ -439,7 +443,7 @@ shinyUI(
                                 strong('Examples', style = "font-size: 20px;color: #317EAC"),
                                 div(
                                       actionButton(inputId = "table_dada2_single_example", 
-                                                 label = "Table summary", 
+                                                 label = "Summary table", 
                                                  icon = NULL,
                                                  onclick = paste0("window.open('http://", 
                                                                   my_qiime_ip, my_qiime_port,
@@ -448,7 +452,7 @@ shinyUI(
                                                  ),
                                     
                                     actionButton(inputId = "rep_dada2_single_example", 
-                                                 label = "Sequences summary", 
+                                                 label = "Seqs info", 
                                                  icon = NULL,
                                                  onclick = paste0("window.open('http://", 
                                                                   my_qiime_ip, my_qiime_port,
@@ -457,7 +461,7 @@ shinyUI(
                                                  ),
                                     
                                     actionButton(inputId = "stats_dada2_single_example", 
-                                                 label = "dada2 filter info", 
+                                                 label = "Filter info", 
                                                  icon = NULL,
                                                  onclick = paste0("window.open('http://", 
                                                                   my_qiime_ip, my_qiime_port,
@@ -465,7 +469,7 @@ shinyUI(
                                                                   "')")
                                                  ),
                                     actionButton(inputId = "rarefaction_paired_example", 
-                                                 label = "alpha rarefaction", 
+                                                 label = "Alpha rarefaction", 
                                                  icon = NULL,
                                                  onclick = paste0("window.open('http://",
                                                                   my_qiime_ip, my_qiime_port,
@@ -564,7 +568,11 @@ shinyUI(
                                           multiple = F,
                                           accept = ".tsv",
                                           width = "500px"),
-                                p("This input is optional. If metadata is provided, the results would have metadata information.",
+                                
+                                div(
+                                  span("This input is"),
+                                  strong(" optional"),
+                                  span(".If metadata is provided, the results would have metadata information."),
                                   style = "margin-top:-15px"),
                                 
                                 br(),br(),
@@ -575,14 +583,14 @@ shinyUI(
                                 hr(),
                                 strong('Results', style = "font-size: 20px;color: #317EAC"),
                                 div(actionButton(inputId = "show_dada2_paired_table",
-                                               label = "Show table",
+                                               label = "Show summary table",
                                                onclick = paste0("window.open('http://", 
                                                                 my_qiime_ip, my_qiime_port,
                                                                 "/denoise_paired_table/new_dirname/data/index.html",
                                                                 "')"),
                                                icon = icon("eye")),
                                   actionButton(inputId = "show_dada2_paired_seqs",
-                                               label = "Show Seqs",
+                                               label = "Show seqs info",
                                                onclick = paste0("window.open('http://", 
                                                                 my_qiime_ip, my_qiime_port,
                                                                 "/denoise_paired_seqs/new_dirname/data/index.html",
@@ -610,7 +618,7 @@ shinyUI(
                                 
                                 div(
                                   actionButton(inputId = "table_dada2_paired_example", 
-                                               label = "Table summary", 
+                                               label = "Summary table", 
                                                icon = NULL,
                                                onclick = paste0("window.open('http://",
                                                                 my_qiime_ip, my_qiime_port,
@@ -618,7 +626,7 @@ shinyUI(
                                                                 "')")
                                                ),
                                   actionButton(inputId = "rep_dada2_paired_example", 
-                                               label = "Sequences summary", 
+                                               label = "Seqs info", 
                                                icon = NULL,
                                                onclick = paste0("window.open('http://",
                                                                 my_qiime_ip, my_qiime_port,
@@ -627,7 +635,7 @@ shinyUI(
                                                ),
                                   
                                   actionButton(inputId = "stats_dada2_paired_example", 
-                                               label = "dada2 filter info", 
+                                               label = "Filter info", 
                                                icon = NULL,
                                                onclick = paste0("window.open('http://",
                                                                 my_qiime_ip, my_qiime_port,
@@ -635,7 +643,7 @@ shinyUI(
                                                                 "')")
                                                ),
                                   actionButton(inputId = "rarefaction_paired_example", 
-                                               label = "alpha rarefaction", 
+                                               label = "Alpha rarefaction", 
                                                icon = NULL,
                                                onclick = paste0("window.open('http://",
                                                                 my_qiime_ip, my_qiime_port,
@@ -711,7 +719,7 @@ shinyUI(
                                       #           label = "Give the trunc length you want",
                                       #           placeholder = "Input number",
                                       #           width = "300px"),
-                                      p("After determining the region, we need to filter the reference sequences based on length."),
+                                      p("After determining the database, we need to filter the reference sequences based on length."),
                                       textInput(inputId = "min_length", 
                                                 label = "Give the minimum length to retain",
                                                 placeholder = "Input number",
@@ -734,7 +742,7 @@ shinyUI(
                                                 placeholder = "Input number",
                                                 width = "300px"),
                                       actionButton(inputId = "start_training", 
-                                                   label = "Start to analyze",
+                                                   label = strong("Start to analyze"),
                                                    icon = icon("play-circle")),
                                       # textOutput(outputId = "word_training"),
                                       hr(),
@@ -754,7 +762,7 @@ shinyUI(
                                                          style = "margin-bottom: 10px")
                                           ),
                                       div(downloadButton(outputId = "table_dada2_download", 
-                                                         label = "Download the feature table for next step.",
+                                                         label = "Download the ASVs table for next step.",
                                                          style = "margin-bottom: 10px")
                                       ),
                                       div(downloadButton(outputId = "rep_seq_dada2_download", 
@@ -796,27 +804,37 @@ shinyUI(
                  
                  sidebarPanel(
                    style = "background-color: #317EAC; border: none; border-radius: 5px; color: white;font-size: 20px;font-family:Times New Roman",
-                   
-                   span("Upload the metadata (1st column name must be"), strong('#SampleID'),span(")"),
+                   # strong("Metadata", style = "font-size:20px;color:white"),
+                   # span("Upload the metadata (1st column name must be"), strong('#SampleID'),span(")"),
                    fileInput(inputId = "sample_data", 
-                             label = "",
+                             label = p(HTML("<b>Upload the metadata </b>"),span(shiny::icon("info-circle"),id = "info_metadata")),
                              multiple = F,
                              accept = ".tsv"),
+                   tippy::tippy_this(elementId = "info_metadata", tooltip = "1st column name must be '#SampleID'", placement = "right"),
+                   
+                   # div(
+                   #   span("Upload the metadata (1st column name must be"), 
+                   #   strong('#SampleID'),
+                   #   span(")"),
+                   # style = "font-size: 16px"),
                    # textOutput(outputId="word_metadata_samecol"),
                    
-                   span("Upload the taxonomic table file (Download from taxonomic analysis)"),
+                   # span("Upload the taxonomic table file (Download from taxonomic analysis)"),
                    fileInput(inputId = "taxonomic_table", 
-                             label = "",
+                             label = p(HTML("<b>Upload the taxonomic table file </b>"),span(shiny::icon("info-circle"), id = "info_taxatable")),
                              multiple = F,
                              accept = ".qza"),
+                   tippy::tippy_this(elementId = "info_taxatable", tooltip = "Download from taxonomic analysis", placement = "right"),
                    
-                   span("Upload the feature table file (Download from taxonomic analysis)"),
+                   # span("Upload the ASVs table file (Download from taxonomic analysis)"),
                    fileInput(inputId = "table_dada2_upload", 
-                             label = "",
+                             label = p(HTML("<b>Upload the ASVs table file </b>"),span(shiny::icon("info-circle"), id = "info_ASVs")),
                              multiple = F,
                              accept = ".qza"),
+                   tippy::tippy_this(elementId = "info_ASVs", tooltip = "Download from taxonomic analysis", placement = "right"),
                    
                    # Download example button
+                   hr(),
                    p('Download the example files'),
                    div(downloadButton(outputId = "downloadMetaData", 
                                   label = "Metadata_example.tsv"),
@@ -825,7 +843,7 @@ shinyUI(
                                   label = "Taxonomic_table_example.qza"),
                        style = "margin: 5px;"),
                    div(downloadButton(outputId = "example_feature_table",
-                                  label = "Feature_table_forPhylo_example.qza"),
+                                  label = "ASVs_table_example.qza"),
                        style = "margin: 5px;"),
                    div(downloadButton(outputId = "example_rep_seqs",
                                       label = "Seqs_forPhylo_example.qza"),
@@ -1177,7 +1195,7 @@ shinyUI(
                                           
                                           hr(),
                                           actionButton(inputId = "phylogenetic_tree", 
-                                                       label = "Start!",
+                                                       label = strong("Start!"),
                                                        icon = icon("play-circle")
                                           )
                                           , style = "margin-top: 10px;"
@@ -1369,7 +1387,8 @@ shinyUI(
                                                        choices = " ", 
                                                        inline = T),
                                           actionButton(inputId = "ANCOM_start", 
-                                                       label = "Start!"),
+                                                       label = strong("Start!")
+                                                       ),
                                           
                                           # textOutput(outputId = "word_ANCOM"),
                                           hr(),
@@ -1428,18 +1447,21 @@ shinyUI(
                    br(),br(),
                    
                    fileInput(inputId = "sample_data_FA", 
-                             label = "Upload the metadata (1st column name must be #SampleID )",
+                             label = p(HTML("<b>Upload the metadata </b>"),span(shiny::icon("info-circle"),id = "info_metadata_FA")),
                              multiple = F,
                              accept = ".tsv"),
+                   tippy::tippy_this(elementId = "info_metadata_FA", tooltip = "1st column name must be '#SampleID'", placement = "right"),
                    
                    fileInput(inputId = "taxonomic_table_FA", 
-                             label = "Upload the taxonomic table file (Download from taxonomic analysis)",
+                             label = p(HTML("<b>Upload the taxonomic table file </b>"),span(shiny::icon("info-circle"),id = "info_taxatable_FA")),
                              multiple = F,
-                             accept = ".qza"),
+                             accept = ".tsv"),
+                   tippy::tippy_this(elementId = "info_taxatable_FA", tooltip = "Download from taxonomic analysis", placement = "right"),
                    
                    actionButton(inputId = "function_analysis", 
-                                label = "Start!", 
-                                icon = icon("play-circle")),
+                                label = strong("Start!"), 
+                                icon = icon("play-circle")
+                                ),
                    width = 3),
                  
                  mainPanel(
