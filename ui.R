@@ -775,7 +775,7 @@ shinyUI(
                                                                     "/taxonomy_unzip/new_dirname/data/index.html",
                                                                     "')"),
                                                    icon = icon("eye")),
-                                          style = "margin-bottom: 10px"
+                                          style = "margin-top: 10px;margin-bottom: 10px"
                                           ),
                                       
                                       div(downloadButton(outputId = "taxatable_download", 
@@ -790,7 +790,7 @@ shinyUI(
                                                          label = "Download the seqs data for next step.")
                                           ),
                                       hr(),
-                                      div(strong('Example')),
+                                      div(strong('Example', style = "font-size: 20px")),
                                       actionButton(inputId = "view_taxonomy_example",
                                                    label = "How does the taxonomy result look?",
                                                    style = "margin-bottom: 10px;margin-top: 10px",
@@ -824,7 +824,7 @@ shinyUI(
                  
                  
                  sidebarPanel(
-                   style = "background-color: #317EAC; border: none; border-radius: 5px; color: white;font-size: 20px;font-family:Times New Roman",
+                   style = "background-color: #317EAC; border: none; border-radius: 5px; color: white;font-size: 20px;",
                    # strong("Metadata", style = "font-size:20px;color:white"),
                    # span("Upload the metadata (1st column name must be"), strong('#SampleID'),span(")"),
                    fileInput(inputId = "sample_data", 
@@ -856,7 +856,7 @@ shinyUI(
                    
                    # Download example button
                    hr(),
-                   p('Download the example files'),
+                   p('Download the example files', style = "font-weight:700"),
                    div(downloadButton(outputId = "downloadMetaData", 
                                   label = "Metadata_example.tsv"),
                        style = "margin: 5px;"),
@@ -1459,7 +1459,7 @@ shinyUI(
                sidebarLayout(
                  
                  sidebarPanel(
-                   style = "background-color: #317EAC; border: none; border-radius: 5px; color: white;font-size: 20px;font-family: Times New Roman;",
+                   style = "background-color: #317EAC; border: none; border-radius: 5px; color: white;font-size: 20px;",
                    a("FAPROTAX", 
                      href ="https://pages.uoregon.edu/slouca/LoucaLab/archive/FAPROTAX/lib/php/index.php", 
                      target="_blank",
