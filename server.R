@@ -1523,6 +1523,21 @@ server <- function(session, input, output) {
   #   
   # })
   
+  # check primer
+  observe({
+    req(input$primer_f, input$primer_r)
+    
+    output$check_f_primer <- renderUI(
+       paste0("<p>Your forward primer is ", strong(input$primer_f), " now.</p>") %>% HTML()
+    )
+    
+    output$check_r_primer <- renderUI(
+      paste0("<p>Your reverse primer is ", strong(input$primer_r), " now.</p>") %>% HTML()
+    )
+    
+  })
+  
+  
   output$out_f <- renderUI({
     
     if (input$primer_f == "other"){
@@ -1546,9 +1561,9 @@ server <- function(session, input, output) {
   
   output$out_r <- renderUI({
     
-    req(input$primer_r)
+    # req(input$primer_r)
     
-    if (input$primer_r == "other" & input$seqs_type == "Paired end"){
+    if (input$primer_r == "other"){
       isolate({
         text_list <- list()
         text_list[[1]] <- textInput(inputId = "primer_r_manu", 
