@@ -127,10 +127,10 @@ shinyUI(
                               hr(),
                               # p("After the database is selected, we need primer to extract the target region of sequences."),
                               strong("Primer sequences", style = "font-size:20px;color:white"),
-                              # checkboxInput("checkbox_primer", 
-                              #               label = span("Check this if your sequences are already primer-trimmed reads",
-                              #                            style = "font-size: 14px; font-weight: 300; color: white; margin-top: 5px;"), 
-                              #               value = F),
+                              checkboxInput("checkbox_primer",
+                                            label = span("Check this if your sequences are primer-trimmed reads",
+                                                         style = "font-size: 14px; font-weight: 300; color: white; margin-top: 5px;"),
+                                            value = F),
                               
                               
                                 selectInput(inputId = "primer_f", 
@@ -138,12 +138,14 @@ shinyUI(
                                             choice = c("8F", "27F", "CC [F]", "341F","357F", "515F", "533F", "16S.1100.F16", "1237F", "other"),
                                             width = "400px"
                                 ),
-                                # selectInput(inputId = "primer_r", 
-                                #             label = span("Choose the reverse primer sequences", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"), 
-                                #             choice = c("519R", "CD [R]", "907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
-                                #             width = "400px"
-                                # ),
-                                uiOutput(outputId = "in_r"),
+                                
+                                selectInput(inputId = "primer_r", 
+                                            label = span("Choose the reverse primer sequences", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"), 
+                                            choice = c("519R", "CD [R]", "806R","907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
+                                            width = "400px"
+                                ),
+                              
+                              # uiOutput(outputId = "in_r"),
                                 actionButton(inputId = "show_primer", 
                                              label = "Show the primer table", 
                                              icon = icon("table")
@@ -187,7 +189,7 @@ shinyUI(
                                   
                                   h2("1. Sequences summary (for single end)", 
                                      style = "color: #317EAC;margin-top: 0px;"),
-                                  h4("(1) Summarize the sequences for single end", 
+                                  h4("(1) Summarize the sequences for single end.", 
                                      style = "color: #317EAC;",
                                      span(
                                        actionButton(inputId = "demultiplexed_single_ends", 
@@ -252,7 +254,7 @@ shinyUI(
                                 # div(
                                   h2("1. Sequences summary (for paired end)", 
                                      style = "color: #317EAC;margin-top: 0px;"),
-                                  h4("(1) Summarize the sequences for paired end",
+                                  h4("(1) Summarize the sequences for paired end.",
                                      style = "color: #317EAC;",
                                      span(
                                        actionButton(inputId = "demultiplexed_paired_ends", 
@@ -412,7 +414,7 @@ shinyUI(
                                              label = "Show summary table",
                                              onclick = paste0("window.open('http://", 
                                                               my_qiime_ip, my_qiime_port,
-                                                              "/denoise_single_table/new_dirname/data/index.html",
+                                                              "/denoise_single_position_table/new_dirname/data/index.html",
                                                               "')"),
                                              icon = icon("eye")),
                                 actionButton(inputId = "show_dada2_single_seqs",
@@ -586,7 +588,7 @@ shinyUI(
                                                label = "Show summary table",
                                                onclick = paste0("window.open('http://", 
                                                                 my_qiime_ip, my_qiime_port,
-                                                                "/denoise_paired_table/new_dirname/data/index.html",
+                                                                "/denoise_paired_position_table/new_dirname/data/index.html",
                                                                 "')"),
                                                icon = icon("eye")),
                                   actionButton(inputId = "show_dada2_paired_seqs",
@@ -721,17 +723,23 @@ shinyUI(
                                       #           width = "300px"),
                                       p("After determining the database, we need to filter the reference sequences based on length."),
                                       textInput(inputId = "min_length", 
-                                                label = "Give the minimum length to retain",
+                                                label = p(HTML("<b>Give the minimum length to retain </b>"),span(shiny::icon("info-circle"),id = "info_min")),
+                                                # label = "Give the minimum length to retain",
                                                 placeholder = "Input number",
                                                 value = 0,
                                                 width = "300px"),
+                                      tippy::tippy_this(elementId = "info_min", tooltip = "The default value is minimun length of denoised-sequences", placement = "right"),
                                       p("Shorter sequenceses are discarded. Set to zero to disable min length filtering.", 
                                         style = "font-size: 14px"),
+                                      
+                                      
                                       textInput(inputId = "max_length", 
-                                                label = "Give the maximum length to retain",
+                                                label = p(HTML("<b>Give the minimum length to retain </b>"),span(shiny::icon("info-circle"),id = "info_max")),
+                                                # label = "Give the maximum length to retain",
                                                 placeholder = "Input number",
                                                 value = 0,
                                                 width = "300px"),
+                                      tippy::tippy_this(elementId = "info_max", tooltip = "The default value is maximun length of denoised-sequences", placement = "right"),
                                       p("Longer sequenceses are discarded. Set to zero to disable max length filtering.",
                                         style = "font-size: 14px"),
                                       

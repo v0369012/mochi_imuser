@@ -373,11 +373,20 @@ server <- function(session, input, output) {
     
     a <- list.files(path = raw_data_path_list[[1]])
     
-    if(sum(stringr::str_detect(a, "_R?[2]")) > 0 ){
-      updatePickerInput(session, "seqs_type", choices = "Paired end")
+    if(sum(str_detect(a, '.+_.+_L[0-9][0-9][0-9]_R[12]_001\\.fastq\\.gz'))==length(a)){
+      
+      if(sum(stringr::str_detect(a, "_R2[(\\.)(_)]")) > 0 ){
+        updatePickerInput(session, "seqs_type", choices = "Paired end")
+      }else{
+        updatePickerInput(session, "seqs_type", choices = "Single end")
+      }
     }else{
-    updatePickerInput(session, "seqs_type", choices = "Single end")
-    }
+      if(sum(stringr::str_detect(a, "_(R){0,1}2[(\\.)(_)]")) > 0 ){
+        updatePickerInput(session, "seqs_type", choices = "Paired end")
+      }else{
+      updatePickerInput(session, "seqs_type", choices = "Single end")
+      }
+      }
   })
   
   # Check the sample data input
@@ -740,6 +749,24 @@ server <- function(session, input, output) {
   })
   
   
+  # taxa ref-seqs min max
+  observe({
+    if(file.exists("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv")){
+      min_length <- read.table("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
+      max_length <- read.table("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+      updateTextInput(session, inputId = "min_length", value = min_length)
+      updateTextInput(session, inputId = "max_length", value = max_length)
+    } else if(file.exists("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv")){
+      min_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
+      max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+      updateTextInput(session, inputId = "min_length", value = min_length)
+      updateTextInput(session, inputId = "max_length", value = max_length)
+    }else{
+      updateTextInput(session, inputId = "min_length", value = 0)
+      updateTextInput(session, inputId = "max_length", value = 0)
+    }
+  })
+  
   
   # Sequences preprocessing -----
   
@@ -776,55 +803,87 @@ server <- function(session, input, output) {
     setwd(raw_data_path_list[[1]])
     seqs_name <- list.files()
     
-    library(stringr)
-    seqs_name_split <- str_split(seqs_name, "_")
-    lane_number <- "L001"
-    set_number <- "001"
-    
-    seqs_name_new <- lapply(1:length(seqs_name_split), function(x){
+    if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_001\\.fastq\\.gz'))<length(seqs_name)){
       
-      paste0(
-        seqs_name_split[[x]][1],
-        "_",
-        seqs_name_split[[x]][1],
-        "_",
-        lane_number,
-        "_R",
-        str_split(seqs_name_split[[x]][2], "\\.")[[1]][1] %>% str_extract("[0-9]"),
-        "_",
-        set_number,
-        ".",
-        str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
-        ".",
-        str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+    
+      library(stringr)
+      seqs_name_split <- str_split(seqs_name, "_")
+      lane_number <- "L001"
+      set_number <- "001"
+      
+      seqs_name_new <- lapply(1:length(seqs_name_split), function(x){
         
-      )
+        paste0(
+          seqs_name_split[[x]][1],
+          "_",
+          seqs_name_split[[x]][1],
+          "_",
+          lane_number,
+          "_R",
+          str_split(seqs_name_split[[x]][2], "\\.")[[1]][1] %>% str_extract("[0-9]"),
+          "_",
+          set_number,
+          ".",
+          str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+          ".",
+          str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+          
+        )
+        
+      })
       
-    })
+      for (i in 1:length(seqs_name_new)) {
+        
+        # file.rename(seqs_name[i], seqs_name_new[[i]])
+        system(paste0('sudo mv ', seqs_name[i], ' ',seqs_name_new[[i]]))
+      }
     
-    for (i in 1:length(seqs_name_new)) {
-      
-      # file.rename(seqs_name[i], seqs_name_new[[i]])
-      system(paste0('sudo mv ', seqs_name[i], ' ',seqs_name_new[[i]]))
+    }else{
+      seqs_name_new <- seqs_name
     }
-    
-    
     
     
     # demuxed transform
     Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2019.10/bin')
-    file.remove("/home/imuser/qiime_output/demux_single_end.qza", "/home/imuser/qiime_output/demux_single_end.qzv")
-    file.remove("", "/home/imuser/qiime_output/demux_single_end.qzv")
-      
+    file.remove("/home/imuser/qiime_output/demux_single_trimmed.qza", "/home/imuser/qiime_output/demux_single_end.qzv")
+    # file.remove("", "/home/imuser/qiime_output/demux_single_end.qzv")
+    
+    
+    if(input$checkbox_primer==T){
+      system(paste(qiime_cmd, "tools import --type", "'SampleData[SequencesWithQuality]'", "--input-path", raw_data_path_list[[1]],
+                   "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path /home/imuser/qiime_output/demux_single_trimmed.qza'))
+    }else{
+    file.remove("/home/imuser/qiime_output/demux_single_end.qza")
     system(paste(qiime_cmd, "tools import --type", "'SampleData[SequencesWithQuality]'", "--input-path", raw_data_path_list[[1]],
                  "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path /home/imuser/qiime_output/demux_single_end.qza'))
     
+    primer_list <- list("8F"="AGAGTTTGATCCTGGCTCAG",
+                        "27F"="AGAGTTTGATCMTGGCTCAG",
+                        "CC [F]"="CCAGACTCCTACGGGAGGCAGC",
+                        "341F"="CTCCTACGGGAGGCAGCAG",
+                        "357F"="CTCCTACGGGAGGCAGCAG",
+                        "515F"="GTGCCAGCMGCCGCGGTAA",
+                        "533F"="GTGCCAGCAGCCGCGGTAA",
+                        "16S.1100.F16"="CAACGAGCGCAACCCT",
+                        "1237F"="GGGCTACACACGYGCWAC",
+                        "519R"="GWATTACCGCGGCKGCTG",
+                        "806R"="GGACTACHVGGGTWTCTAAT",
+                        "CD [R]"="CTTGTGCGGGCCCCCGTCAATTC",
+                        "907R"="CCGTCAATTCMTTTRAGTTT",
+                        "1100R"="AGGGTTGCGCTCGTTG",
+                        "1391R"="GACGGGCGGTGTGTRCA",
+                        "1492R (l)"="GGTTACCTTGTTACGACTT",
+                        "1492R (s)"="ACCTTGTTACGACTT" 
+    )
+    
     system(paste(qiime_cmd, "cutadapt trim-single --i-demultiplexed-sequences", 
                  "/home/imuser/qiime_output/demux_single_end.qza", 
-                 "--p-front", input$primer_f,
+                 "--p-front", primer_list[[input$primer_f]],
                  "--p-cores", input$n_jobs_demux,
-                 "--o-trimmed-sequences demux_single_trimmed.qza"
+                 "--o-trimmed-sequences /home/imuser/qiime_output/demux_single_trimmed.qza"
                  ))
+    
+    }
     
     system(paste(qiime_cmd, 'demux summarize --i-data /home/imuser/qiime_output/demux_single_trimmed.qza --o-visualization /home/imuser/qiime_output/demux_single_end.qzv'))
     # viewer_cmd <- '/home/imuser/miniconda3/envs/qiime2-2019.10/bin/qiime_2_ll_quick_viewer'
@@ -849,7 +908,7 @@ server <- function(session, input, output) {
     
     remove_modal_spinner()
     
-    end_time <- system.time()
+    end_time <- Sys.time()
     
     spent_time <- format(round(end_time-start_time, digits = 2))
     
@@ -889,55 +948,85 @@ server <- function(session, input, output) {
     setwd(raw_data_path)
     seqs_name <- list.files()
     
-    library(stringr)
-    seqs_name_split <- str_split(seqs_name, "_")
-    lane_number <- "L001"
-    set_number <- "001"
+    if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_001\\.fastq\\.gz'))<length(seqs_name)){
     
-    seqs_name_new <- lapply(1:length(seqs_name_split), function(x){
+      library(stringr)
+      seqs_name_split <- str_split(seqs_name, "_")
+      lane_number <- "L001"
+      set_number <- "001"
       
-      paste0(
-        seqs_name_split[[x]][1],
-        "_",
-        seqs_name_split[[x]][1],
-        "_",
-        lane_number,
-        "_R",
-        str_split(seqs_name_split[[x]][2], "\\.")[[1]][1] %>% str_extract("[0-9]"),
-        "_",
-        set_number,
-        ".",
-        str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
-        ".",
-        str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+      seqs_name_new <- lapply(1:length(seqs_name_split), function(x){
         
-      )
+        paste0(
+          seqs_name_split[[x]][1],
+          "_",
+          seqs_name_split[[x]][1],
+          "_",
+          lane_number,
+          "_R",
+          str_split(seqs_name_split[[x]][2], "\\.")[[1]][1] %>% str_extract("[0-9]"),
+          "_",
+          set_number,
+          ".",
+          str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+          ".",
+          str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+          
+        )
+        
+      })
       
-    })
-    
-    for (i in 1:length(seqs_name_new)) {
+      for (i in 1:length(seqs_name_new)) {
+        
+        file.rename(seqs_name[i], seqs_name_new[[i]])
+        
+      }
       
-      file.rename(seqs_name[i], seqs_name_new[[i]])
-      
+    }else{
+      seqs_name_new <- seqs_name
     }
-    
-    
     
     # demux
     Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2019.10/bin')
-    file.remove("/home/imuser/qiime_output/demux_paired_end.qza", "/home/imuser/qiime_output/demux_paired_end.qzv")
+    file.remove("/home/imuser/qiime_output/demux_paired_trimmed.qza", "/home/imuser/qiime_output/demux_paired_end.qzv")
   
+    if(input$checkbox_primer==T){
+      system(paste(qiime_cmd, "tools import --type", "'SampleData[PairedEndSequencesWithQuality]'", "--input-path", raw_data_path,
+                   "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path /home/imuser/qiime_output/demux_paired_trimmed.qza'))
+    }else{
+    file.remove("/home/imuser/qiime_output/demux_paired_end.qza")
     system(paste(qiime_cmd, "tools import --type", "'SampleData[PairedEndSequencesWithQuality]'", "--input-path", raw_data_path,
                  "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path /home/imuser/qiime_output/demux_paired_end.qza'))
     
+    primer_list <- list("8F"="AGAGTTTGATCCTGGCTCAG",
+                        "27F"="AGAGTTTGATCMTGGCTCAG",
+                        "CC [F]"="CCAGACTCCTACGGGAGGCAGC",
+                        "341F"="CTCCTACGGGAGGCAGCAG",
+                        "357F"="CTCCTACGGGAGGCAGCAG",
+                        "515F"="GTGCCAGCMGCCGCGGTAA",
+                        "533F"="GTGCCAGCAGCCGCGGTAA",
+                        "16S.1100.F16"="CAACGAGCGCAACCCT",
+                        "1237F"="GGGCTACACACGYGCWAC",
+                        "519R"="GWATTACCGCGGCKGCTG",
+                        "806R"="GGACTACHVGGGTWTCTAAT",
+                        "CD [R]"="CTTGTGCGGGCCCCCGTCAATTC",
+                        "907R"="CCGTCAATTCMTTTRAGTTT",
+                        "1100R"="AGGGTTGCGCTCGTTG",
+                        "1391R"="GACGGGCGGTGTGTRCA",
+                        "1492R (l)"="GGTTACCTTGTTACGACTT",
+                        "1492R (s)"="ACCTTGTTACGACTT" 
+    )
+    
     system(paste(qiime_cmd, "cutadapt trim-paired --i-demultiplexed-sequences", 
                  "/home/imuser/qiime_output/demux_paired_end.qza", 
-                 "--p-front-f", input$primer_f,
-                 "--p-front-r", input$primer_r,
+                 "--p-front-f", primer_list[[input$primer_f]],
+                 "--p-front-r", primer_list[[input$primer_r]],
                  "--p-cores", input$n_jobs_demux,
-                 "--o-trimmed-sequences demux_paired_trimmed.qza"))
-
+                 "--o-trimmed-sequences /home/imuser/qiime_output/demux_paired_trimmed.qza"))
+    }
+    
     system(paste(qiime_cmd, 'demux summarize --i-data /home/imuser/qiime_output/demux_paired_trimmed.qza --o-visualization /home/imuser/qiime_output/demux_paired_end.qzv'))
+    
     
     
     unlink("/home/imuser/qiime_output/demux_paired_unzip/new_dirname", recursive = T)
@@ -1006,7 +1095,7 @@ server <- function(session, input, output) {
       add_metadata_rarefaction <- paste("--m-metadata-file", input$sample_data_single$datapath)
     }
     
-    system(paste(qiime_cmd, "dada2 denoise-single --i-demultiplexed-seqs /home/imuser/qiime_output/demux_single_end.qza", 
+    system(paste(qiime_cmd, "dada2 denoise-single --i-demultiplexed-seqs /home/imuser/qiime_output/demux_single_trimmed.qza", 
                  '--p-trim-left', input$trim_left_single, 
                  '--p-trunc-len', input$trunc_len_single,
                  "--p-trunc-q", input$qvalue_single,
@@ -1035,13 +1124,13 @@ server <- function(session, input, output) {
     system(paste0("mv ", unzip_dirnames_stats, " /home/imuser/qiime_output/denoise_single_stats/new_dirname"))
     system("cp -r /home/imuser/qiime_output/denoise_single_stats/ /var/www/html/")
     
-    unlink("/home/imuser/qiime_output/denoise_single_table/new_dirname", recursive = T)
-    unlink("/var/www/html/denoise_single_table/new_dirname", recursive = T)
+    unlink("/home/imuser/qiime_output/denoise_single_position_table/new_dirname", recursive = T)
+    unlink("/var/www/html/denoise_single_position_table/new_dirname", recursive = T)
     # system("cp /home/imuser/qiime_output/table-dada2.qzv /home/imuser/qiime_output/table-dada2.zip")
-    system("unzip -d /home/imuser/qiime_output/denoise_position_table /home/imuser/qiime_output/table-dada2_single.qzv")
-    unzip_dirnames_table <- list.files("/home/imuser/qiime_output/denoise_single_table", full.names = T)
-    system(paste0("mv ", unzip_dirnames_table, " /home/imuser/qiime_output/denoise_table/new_dirname"))
-    system("cp -r /home/imuser/qiime_output/denoise_single_table/ /var/www/html/")
+    system("unzip -d /home/imuser/qiime_output/denoise_single_position_table /home/imuser/qiime_output/table-dada2_single.qzv")
+    unzip_dirnames_table <- list.files("/home/imuser/qiime_output/denoise_single_position_table", full.names = T)
+    system(paste0("mv ", unzip_dirnames_table, " /home/imuser/qiime_output/denoise_single_position_table/new_dirname"))
+    system("cp -r /home/imuser/qiime_output/denoise_single_position_table/ /var/www/html/")
     
     unlink("/home/imuser/qiime_output/denoise_single_seqs/new_dirname", recursive = T)
     unlink("/var/www/html/denoise_single_seqs/new_dirname", recursive = T)
@@ -1052,7 +1141,7 @@ server <- function(session, input, output) {
     system("cp -r /home/imuser/qiime_output/denoise_single_seqs/ /var/www/html/")
     
     # alpha-rarefaction
-    max_depth <- read_qza("/home/imuser/qiime_output/table-dada2.qza")[["data"]] %>% colSums() %>% min()
+    max_depth <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]] %>% colSums() %>% min()
     system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences /home/imuser/qiime_output/rep-seqs-dada2_single.qza", 
                  "--p-n-threads", input$threads_single,
                  "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2_single.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2_single.qza",
@@ -1172,7 +1261,7 @@ server <- function(session, input, output) {
       add_metadata_rarefaction <- paste("--m-metadata-file", input$sample_data_paired$datapath)
     }
     
-    system(paste(qiime_cmd, "dada2 denoise-paired --i-demultiplexed-seqs /home/imuser/qiime_output/demux_paired_end.qza", 
+    system(paste(qiime_cmd, "dada2 denoise-paired --i-demultiplexed-seqs /home/imuser/qiime_output/demux_paired_trimmed.qza", 
                  '--p-trim-left-f', input$trim_left_f_paired,
                  '--p-trim-left-r', input$trim_left_r_paired,
                  '--p-trunc-len-f', input$trunc_len_f_paired,
@@ -1203,13 +1292,13 @@ server <- function(session, input, output) {
     system(paste0("mv ", unzip_dirnames_stats, " /home/imuser/qiime_output/denoise_paired_stats/new_dirname"))
     system("cp -r /home/imuser/qiime_output/denoise_paired_stats/ /var/www/html/")
     
-    unlink("/home/imuser/qiime_output/denoise_paired_table/new_dirname", recursive = T)
-    unlink("/var/www/html/denoise_paired_table/new_dirname", recursive = T)
+    unlink("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname", recursive = T)
+    unlink("/var/www/html/denoise_paired_position_table/new_dirname", recursive = T)
     # system("cp /home/imuser/qiime_output/table-dada2.qzv /home/imuser/qiime_output/table-dada2.zip")
-    system("unzip -d /home/imuser/qiime_output/denoise_paired_table /home/imuser/qiime_output/table-dada2_paired.qzv")
-    unzip_dirnames_table <- list.files("/home/imuser/qiime_output/denoise_paired_table", full.names = T)
-    system(paste0("mv ", unzip_dirnames_table, " /home/imuser/qiime_output/denoise_paired_table/new_dirname"))
-    system("cp -r /home/imuser/qiime_output/denoise_paired_table/ /var/www/html/")
+    system("unzip -d /home/imuser/qiime_output/denoise_paired_position_table /home/imuser/qiime_output/table-dada2_paired.qzv")
+    unzip_dirnames_table <- list.files("/home/imuser/qiime_output/denoise_paired_position_table", full.names = T)
+    system(paste0("mv ", unzip_dirnames_table, " /home/imuser/qiime_output/denoise_paired_position_table/new_dirname"))
+    system("cp -r /home/imuser/qiime_output/denoise_paired_position_table/ /var/www/html/")
     
     unlink("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname", recursive = T)
     unlink("/var/www/html/denoise_paired_seqs/new_dirname", recursive = T)
@@ -1338,7 +1427,7 @@ server <- function(session, input, output) {
                      "--o-dereplicate-sequences /home/imuser/qiime_output/rep_seqs_dereplicate.qza"))
       }else{
         
-        system(paste(qiime_cmd, "vsearch dereplicate-sequences --i-sequences",'/home/imuser/qiime_output/demux_paired_end.qza', 
+        system(paste(qiime_cmd, "vsearch dereplicate-sequences --i-sequences",'/home/imuser/qiime_output/demux_paired_trimmed.qza', 
                      "--p-threads", input$threads_clustering,
                      "--o-dereplicate-table /home/imuser/qiime_output/table_dereplicate.qza",
                      "--o-dereplicate-sequences /home/imuser/qiime_output/rep_seqs_dereplicate.qza"))
@@ -1410,29 +1499,29 @@ server <- function(session, input, output) {
   
   # Taxonomic Analysis ------------------------------------------------------------------------------------------
   
-  output$in_r <- renderUI({
-    
-    if (input$seqs_type == "Paired end"){
-      isolate({
-        text_list <- list()
-        text_list[[1]] <- selectInput(inputId = "primer_r", 
-                      label = span("Choose the reverse primer sequences", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"), 
-                     choice = c("519R", "CD [R]", "806R","907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
-                       width = "400px"
-           )
-        
-        return(text_list)
-      })
-    }else{
-      isolate({
-        text_list <- list()
-        text_list[[1]] <- p("")
-        return(text_list)
-      })
-    }
-    
-    
-  })
+  # output$in_r <- renderUI({
+  #   
+  #   if (input$seqs_type == "Paired end"){
+  #     isolate({
+  #       text_list <- list()
+  #       text_list[[1]] <- selectInput(inputId = "primer_r", 
+  #                     label = span("Choose the reverse primer sequences", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"), 
+  #                    choice = c("519R", "CD [R]", "806R","907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
+  #                      width = "400px"
+  #          )
+  #       
+  #       return(text_list)
+  #     })
+  #   }else{
+  #     isolate({
+  #       text_list <- list()
+  #       text_list[[1]] <- p("")
+  #       return(text_list)
+  #     })
+  #   }
+  #   
+  #   
+  # })
   
   output$out_f <- renderUI({
     
@@ -1551,12 +1640,14 @@ server <- function(session, input, output) {
     primer_list <- list("8F"="AGAGTTTGATCCTGGCTCAG",
                         "27F"="AGAGTTTGATCMTGGCTCAG",
                         "CC [F]"="CCAGACTCCTACGGGAGGCAGC",
+                        "341F"="CTCCTACGGGAGGCAGCAG",
                         "357F"="CTCCTACGGGAGGCAGCAG",
                         "515F"="GTGCCAGCMGCCGCGGTAA",
                         "533F"="GTGCCAGCAGCCGCGGTAA",
                         "16S.1100.F16"="CAACGAGCGCAACCCT",
                         "1237F"="GGGCTACACACGYGCWAC",
                         "519R"="GWATTACCGCGGCKGCTG",
+                        "806R"="GGACTACHVGGGTWTCTAAT",
                         "CD [R]"="CTTGTGCGGGCCCCCGTCAATTC",
                         "907R"="CCGTCAATTCMTTTRAGTTT",
                         "1100R"="AGGGTTGCGCTCGTTG",
