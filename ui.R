@@ -671,7 +671,7 @@ shinyUI(
 
                  
                  # Taxonomic Analysis ----
-                 tabPanel(span("3. Taxonomic Analysis", style = tabPanel_navmenu_style),
+                 tabPanel(span("3. Taxonomic analysis", style = tabPanel_navmenu_style),
                           
                           sidebarLayout(
                             
