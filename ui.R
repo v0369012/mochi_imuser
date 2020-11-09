@@ -760,7 +760,7 @@ shinyUI(
                                                 value = my_cores-2,
                                                 placeholder = "Input number",
                                                 width = "300px"),
-                                      br(),br(),
+                                      # br(),br(),
                                       actionButton(inputId = "start_training", 
                                                    label = strong("Start!"),
                                                    icon = icon("play-circle")
