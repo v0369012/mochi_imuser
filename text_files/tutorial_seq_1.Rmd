@@ -32,7 +32,7 @@ In this step, we will summarize the sequences.
 ##### Check your sequences type (single end or paired end).
 <img src="/home/imuser/text_files/p1_5.png" width="80%" />
 
-##### Check this if yours squences are primer-trimmed reads.
+##### Check this if yours sequences are primer-trimmed reads.
 <img src="/home/imuser/text_files/p1_6.png" width="80%" />
 
 ##### Choose primers. 
