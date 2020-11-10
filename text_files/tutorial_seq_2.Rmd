@@ -40,4 +40,4 @@ output: html_document
 ### Step 4
 ##### Inspect the 4 results
 You can click the buttons in the example block to understand what the results look like.
-<img src="/home/imuser/text_files/p2_7.png" width="60%" />
+<img src="/home/imuser/text_files/p2_7.png" width="70%" />
