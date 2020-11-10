@@ -1574,7 +1574,7 @@ shinyUI(
                                         ),
                                       ),
                                       conditionalPanel(
-                                        condition = "input.seq_choice_tutorial == '3. Taxonomic Analysis'",
+                                        condition = "input.seq_choice_tutorial == '3. Taxonomic analysis'",
                                         withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_seq_3.Rmd")
                                         ),
                                       )
