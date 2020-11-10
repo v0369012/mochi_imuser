@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ### Step 1 
-##### Please Select **3. Taxonomic Analysis** on the top bar.
+##### Please Select **3. Taxonomic analysis** on the top bar.
 <img src="/home/imuser/text_files/p3_1.png" width="70%" />
 
 ***
@@ -32,7 +32,7 @@ output: html_document
 ***
 
 ### Step 5
-##### Give the threads
+##### Give the threads.
 
 <img src="/home/imuser/text_files/p3_5.png" width="70%" />
 
