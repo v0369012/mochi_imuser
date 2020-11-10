@@ -1561,7 +1561,7 @@ shinyUI(
                                       h2("The tutorial of Sequences preprocessing"),
                                       selectInput(inputId = "seq_choice_tutorial",
                                                   label = "Choose the process",
-                                                  choices = c("1. Sequences summary", "2. Denoising", "3. Taxonomic Analysis")),
+                                                  choices = c("1. Sequences summary", "2. Denoising", "3. Taxonomic analysis")),
                                       hr(),
                                       conditionalPanel(
                                         condition = "input.seq_choice_tutorial == '1. Sequences summary'",
