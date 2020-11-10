@@ -786,9 +786,18 @@ shinyUI(
                                                          label = "Download the ASVs table for next step.",
                                                          style = "margin-bottom: 10px")
                                       ),
+                                      # span(shiny::icon("info-circle"), id = "info_ASVs_download"),
+                                      tippy::tippy_this(elementId = "table_dada2_download",
+                                                        tooltip = "<p style='text-align: left;margin:2px'>amplicon sequence variant (ASV) table, a higher-resolution analogue of the traditional OTU table</p>",
+                                                        allowHTML = TRUE,
+                                                        placement = "right"),
+                                    
                                       div(downloadButton(outputId = "rep_seq_dada2_download", 
-                                                         label = "Download the seqs data for next step.")
+                                                         label = "Download the seqs data for next step.",
+                                                         style = "margin-bottom: 10px")
                                           ),
+                                      # p("amplicon sequence variant (ASV) table, a higher-resolution analogue of the traditional OTU table.",
+                                      #   style = "font-size: 14px;"),
                                       hr(),
                                       div(strong('Example', style = "font-size: 20px")),
                                       actionButton(inputId = "view_taxonomy_example",
