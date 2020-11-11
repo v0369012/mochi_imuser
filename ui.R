@@ -115,8 +115,6 @@ shinyUI(
                                                          icon = icon("folder")
                                                          ),
                               
-                              br(),br(),
-                              
                               pickerInput(inputId = "seqs_type",
                                           label = span("Choose the sequences type", 
                                                        style= "font-size: 18px; font-weight: 300; color: white; margin: 5px;"),
@@ -176,7 +174,7 @@ shinyUI(
                               
                             ),
                             
-                            mainPanel(style="position: relative;",
+                            mainPanel(style="position: relative;margin-top: -20px",
                               # tags$head(tags$style(".modal-dialog{display: flex;justify-content: center;align-items: center;}")),
                               
                               conditionalPanel(
@@ -187,18 +185,25 @@ shinyUI(
                                 # div(
                                 column(width = 12,
                                   
-                                  h2("1. Sequences summary (for single end)", 
-                                     style = "color: #317EAC;margin-top: 0px;"),
-                                  h4("(1) Summarize the sequences for single end.", 
-                                     style = "color: #317EAC;",
-                                     span(
-                                       actionButton(inputId = "demultiplexed_single_ends", 
-                                                    label = strong("Start!"), 
-                                                    icon = icon("play-circle"),
-                                                    style = "margin: 10px; display: inline-block;")
-                                     ),
-                                     
-                                     
+                                  # h2("1. Sequences summary (for single end)", 
+                                  #    style = "color: #317EAC;margin-top: 0px;"),
+                                  # h4("(1) Summarize the single-end sequences.", 
+                                  #    style = "color: #317EAC;",
+                                  #    span(
+                                  #      actionButton(inputId = "demultiplexed_single_ends", 
+                                  #                   label = strong("Start!"), 
+                                  #                   icon = icon("play-circle"),
+                                  #                   style = "margin: 10px; display: inline-block;")
+                                  #    ),
+                                  #    
+                                  #    
+                                  # ),
+                                  h1("1. Sequences summary (for single end)"),
+                                  h4("(1) Summarize the single-end sequences.",style = "color: #317EAC;"),
+                                  actionButton(inputId = "demultiplexed_single_ends", 
+                                               label = strong("Start!"), 
+                                               icon = icon("play-circle"),
+                                               style = "margin: 10px; display: inline-block;"
                                   ),
                                   
                                   
@@ -252,21 +257,27 @@ shinyUI(
                                 
                                 column(width = 12,
                                 # div(
-                                  h2("1. Sequences summary (for paired end)", 
-                                     style = "color: #317EAC;margin-top: 0px;"),
-                                  h4("(1) Summarize the sequences for paired end.",
-                                     style = "color: #317EAC;",
-                                     span(
-                                       actionButton(inputId = "demultiplexed_paired_ends", 
-                                                    label = strong("Start!"), 
-                                                    icon = icon("play-circle"),
-                                                    style = "margin: 10px; display: inline-block;"
-                                       )
-                                       
-                                     ),
-                                     
-                                  ),
-                                  
+                                  # h2("1. Sequences summary (for paired end)", 
+                                  #    style = "color: #317EAC;margin-top: 0px;"),
+                                  # h4("(1) Summarize the paired-end sequences.",
+                                  #    style = "color: #317EAC;",
+                                  #    span(
+                                  #      actionButton(inputId = "demultiplexed_paired_ends", 
+                                  #                   label = strong("Start!"), 
+                                  #                   icon = icon("play-circle"),
+                                  #                   style = "margin: 10px; display: inline-block;"
+                                  #      )
+                                  #      
+                                  #    ),
+                                  #    
+                                  # ),
+                                h1("1. Sequences summary (for paired end)"),
+                                h4("(1) Summarize the paired-end sequences.",style = "color: #317EAC;"),
+                                actionButton(inputId = "demultiplexed_paired_ends", 
+                                                                label = strong("Start!"), 
+                                                                icon = icon("play-circle"),
+                                                                style = "margin: 10px; display: inline-block;"
+                                                   ),
                                   # br(),br(),
                                   
                                   h4('(2) Inspect the result.'),
@@ -329,13 +340,13 @@ shinyUI(
                           fluidRow(
                             
                             mainPanel(
-                              
+                              style = "margin-top: -20px",
                               conditionalPanel(
                                 
                                 condition = "input.seqs_type == 'Single end'",
                                 
                                 h1('2. Denoising (dada2) for Single end'),
-                                strong("Sequences", style = "font-size:20px;color: #317EAC"),
+                                strong("Sequences", style = "font-size:20px;color: #317EAC;"),
                                 splitLayout(cellWidths = "300px",
                                             
                                             textInput(inputId = "trim_left_single", 
@@ -767,61 +778,113 @@ shinyUI(
                                                 label = "Number of threads to run",
                                                 value = my_cores-2,
                                                 placeholder = "Input number",
-                                                width = "300px"),
+                                                width = "300px")
                                       # br(),br(),
-                                      actionButton(inputId = "start_training", 
-                                                   label = strong("Start!"),
-                                                   icon = icon("play-circle")
-                                                   ),
+                                      # actionButton(inputId = "start_training", 
+                                      #              label = strong("Start!"),
+                                      #              icon = icon("play-circle")
+                                      #              ),
                                       # textOutput(outputId = "word_training"),
-                                      hr(),
-                                      strong("Result", style = "font-size: 20px"),
-                                      div(actionButton(inputId = "view_taxa",
-                                                   label = "Taxonomy classification result",
-                                                   onclick = paste0("window.open('http://", 
-                                                                    my_qiime_ip, my_qiime_port,
-                                                                    "/taxonomy_unzip/new_dirname/data/index.html",
-                                                                    "')"),
-                                                   icon = icon("eye")),
-                                          style = "margin-top: 10px;margin-bottom: 10px"
-                                          ),
                                       
-                                      div(downloadButton(outputId = "taxatable_download", 
-                                                         label = "Download the taxonomic table for next step.",
-                                                         style = "margin-bottom: 10px")
-                                          ),
-                                      div(downloadButton(outputId = "table_dada2_download", 
-                                                         label = "Download the ASVs table for next step.",
-                                                         style = "margin-bottom: 10px")
-                                      ),
-                                      # span(shiny::icon("info-circle"), id = "info_ASVs_download"),
-                                      tippy::tippy_this(elementId = "table_dada2_download",
-                                                        tooltip = "<p style='text-align: left;margin:2px'>amplicon sequence variant (ASV) table, a higher-resolution analogue of the traditional OTU table</p>",
-                                                        allowHTML = TRUE,
-                                                        placement = "right"),
-                                    
-                                      div(downloadButton(outputId = "rep_seq_dada2_download", 
-                                                         label = "Download the seqs data for next step.",
-                                                         style = "margin-bottom: 10px")
-                                          ),
+                                      # strong("Result", style = "font-size: 20px"),
+                                      # div(actionButton(inputId = "view_taxa",
+                                      #              label = "Taxonomy classification result",
+                                      #              onclick = paste0("window.open('http://", 
+                                      #                               my_qiime_ip, my_qiime_port,
+                                      #                               "/taxonomy_unzip/new_dirname/data/index.html",
+                                      #                               "')"),
+                                      #              icon = icon("eye")),
+                                      #     style = "margin-top: 10px;margin-bottom: 10px"
+                                      #     ),
+                                      
+                                      # div(downloadButton(outputId = "taxatable_download", 
+                                      #                    label = "Download the taxonomic table for next step.",
+                                      #                    style = "margin-bottom: 10px")
+                                      #     ),
+                                      # div(downloadButton(outputId = "table_dada2_download", 
+                                      #                    label = "Download the ASVs table for next step.",
+                                      #                    style = "margin-bottom: 10px")
+                                      # ),
+                                      # 
+                                      # tippy::tippy_this(elementId = "table_dada2_download",
+                                      #                   tooltip = "<p style='text-align: left;margin:2px'>amplicon sequence variant (ASV) table, a higher-resolution analogue of the traditional OTU table</p>",
+                                      #                   allowHTML = TRUE,
+                                      #                   placement = "right"),
+                                      # 
+                                      # div(downloadButton(outputId = "rep_seq_dada2_download", 
+                                      #                    label = "Download the seqs data for next step.",
+                                      #                    style = "margin-bottom: 10px")
+                                      #     ),
                                       # p("amplicon sequence variant (ASV) table, a higher-resolution analogue of the traditional OTU table.",
                                       #   style = "font-size: 14px;"),
-                                      hr(),
-                                      div(strong('Example', style = "font-size: 20px")),
-                                      actionButton(inputId = "view_taxonomy_example",
-                                                   label = "How does the taxonomy result look?",
-                                                   style = "margin-bottom: 10px;margin-top: 10px",
-                                                   onclick = paste0("window.open('http://",
-                                                                    my_qiime_ip, my_qiime_port,
-                                                                    "/example_files/taxonomy_analysis/data/index.html",
-                                                                    "')")
-                                                   )
+                                      # div(strong('Example', style = "font-size: 20px")),
+                                      # actionButton(inputId = "view_taxonomy_example",
+                                      #              label = "How does the taxonomy result look?",
+                                      #              style = "margin-bottom: 10px;margin-top: 10px",
+                                      #              onclick = paste0("window.open('http://",
+                                      #                               my_qiime_ip, my_qiime_port,
+                                      #                               "/example_files/taxonomy_analysis/data/index.html",
+                                      #                               "')")
+                                      #              )
                                       
                             ) # wellPanel
                             ), # collumn
                             
                             mainPanel(
-                              uiOutput(outputId = "mk_taxa"), 
+                              h1("3. Taxonomic analysis", 
+                                 style = "color: #317EAC;margin-top: 0px;"),
+                              h4("(1) Taxonomy classification"),
+                              actionButton(inputId = "start_training", 
+                                           label = strong("Start!"),
+                                           icon = icon("play-circle")
+                              ),
+                              
+                              h4("(2) Inpect the taxonomy classification result.", 
+                                 style = "margin-top: 25px"),
+                              div(actionButton(inputId = "view_taxa",
+                                               label = "View!",
+                                               onclick = paste0("window.open('http://", 
+                                                                my_qiime_ip, my_qiime_port,
+                                                                "/taxonomy_unzip/new_dirname/data/index.html",
+                                                                "')"),
+                                               icon = icon("eye")),
+                                  style = "margin-top: 10px;margin-bottom: 25px"
+                              ),
+                              
+                              h4('* Show the example.'),
+                              actionButton(inputId = "view_taxonomy_example",
+                                           label = "How does the taxonomy result look?",
+                                           style = "margin-bottom: 10px;margin-top: 0px",
+                                           onclick = paste0("window.open('http://",
+                                                            my_qiime_ip, my_qiime_port,
+                                                            "/example_files/taxonomy_analysis/data/index.html",
+                                                            "')")
+                                           ),
+                              
+                              h4("(3) Download the files for the next step.", 
+                                 style = "margin-top: 25px"),
+                              downloadButton(outputId = "taxatable_download", 
+                                                 label = "The taxonomic table for the next step.",
+                                                 style = "margin-bottom: 10px"),
+                              
+                              downloadButton(outputId = "table_dada2_download", 
+                                                 label = "The ASVs table for the next step.",
+                                                 style = "margin-bottom: 10px"),
+                              
+                              
+                              tippy::tippy_this(elementId = "table_dada2_download",
+                                                tooltip = "<p style='text-align: left;margin:2px'>amplicon sequence variant (ASV) table, a higher-resolution analogue of the traditional OTU table</p>",
+                                                allowHTML = TRUE,
+                                                placement = "bottom"),
+                              
+                              downloadButton(outputId = "rep_seq_dada2_download", 
+                                                 label = "The seqs data for the next step.",
+                                                 style = "margin-bottom: 10px")
+                              
+                              
+                              ,
+                              
+                              # uiOutput(outputId = "mk_taxa"), 
                               # dataTableOutput(outputId = "taxonomy_output"), 
                               width = 8)
                           ) # sidebarLayout
