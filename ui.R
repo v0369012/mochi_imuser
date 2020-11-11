@@ -217,16 +217,16 @@ shinyUI(
                                                                 "/demux_single_unzip/new_dirname/data/index.html#",
                                                                 "', '_blank')")
                                   ),
-                                  br(),br(),
-                                  strong("On the 'View' webpage, you can download the result by right click 'Save as ...'"),
+                                  span("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
+                                         style = "position: relative; top:5px;"),
                                   
                                   
                                   # tags$a(href = 'https://140.113.239.95:8055', class = "btn", icon("download"), 'Download file.'),
                                   
                                   
                                   
-                                  br(),br(),
-                                  hr(),
+                                  # br(),br(),
+                                  # hr(),
                                   h4('* Show the example: '),
                                   actionButton(inputId = "demux_example_single", 
                                                label = "Example for single end", 
@@ -236,11 +236,11 @@ shinyUI(
                                                                 "/example_files/demux_single/data/index.html",
                                                                 "')")
                                   ),
-                                  tags$hr(class="A",
-                                          tags$style(
-                                            "hr.A{border: 3px solid #317EAC;}"
-                                          )
-                                  ),
+                                  # tags$hr(class="A",
+                                  #         tags$style(
+                                  #           "hr.A{border: 3px solid #317EAC;}"
+                                  #         )
+                                  # ),
                                   
                                 # ), style = "border: none;"
                                 ),
@@ -272,17 +272,18 @@ shinyUI(
                                   h4('(2) Inspect the result.'),
                                   actionButton(inputId = "show_demux_paired", 
                                                label = "View!", 
-                                               icon = icon("eye"), 
+                                               icon = icon("eye"),
+                                               style = "margin: 10px; display: inline-block;", 
                                                onclick = paste0("window.open('http://", 
                                                                 my_qiime_ip, my_qiime_port,
                                                                 "/demux_paired_unzip/new_dirname/data/index.html#",
                                                                 "', '_blank')")),
-                                  br(),br(),
-                                  strong("On the 'View' webpage, you can download the result by right click 'Save as ...'"),
+                                span("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
+                                  style = "position: relative; top:5px;"),
                                   
 
-                                  br(),br(),
-                                  hr(),
+                                  # br(),br(),
+                                  # hr(),
                                   h4('* Show the example.'),
                                   actionButton(inputId = "demux_example_paired", 
                                                label = "Example for paired end", 
@@ -293,17 +294,24 @@ shinyUI(
                                                                 "')")
                                                ),
                                   br(),br(),
-                                  tags$hr(class="A",
-                                          tags$style(
-                                            "hr.A{border: 3px solid #317EAC;}"
-                                          )
-                                  ),
+                                  # tags$hr(class="A",
+                                  #         tags$style(
+                                  #           "hr.A{border: 3px solid #317EAC;}"
+                                  #         )
+                                  # ),
                                   
                                  )
                                 
                                 
                               ),
-                              dataTableOutput(outputId = "taxonomy_output")
+                              
+                              div(
+                                id = "primer_table_hide",
+                                h2("Primer table"),
+                                dataTableOutput(outputId = "taxonomy_output"),
+                                style = "left:15px;top: 25px;position: relative"
+                              ) %>% shinyjs::hidden()
+                              
                               ,width = 6
                             )
                           )
