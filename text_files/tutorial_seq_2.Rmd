@@ -16,7 +16,7 @@ output: html_document
 1. **Starting and ending position:** If the starting position is 5 and the ending position is 120, it means the sequences would be retained from 5 to 120 bp. The sequences less than 120 bp would be discarded. As a result, you would get about 115 bp sequences. If the ending position is 0, no truncation or length filtering will be performed.
 2. **Quality score:** Reads are truncated at the position of the quality score less than or equal to this value. If the resulting read is then shorter than ending position, it is then discarded.
 
-<img src="/home/imuser/text_files/p2_2.png" width="60%" />
+<img src="/home/imuser/text_files/p2_2.png" width="70%" />
 
 ##### Input the parameter of chimera, training error model, thread and upload the metadata
 1. **Chimeric reads filter:** A chimeric read is a sequence originate from multiple or parent sequences. Chimeric reads are generally considered contaminant, as a chimera can be interpreted as a novel sequence, whereas it is in fact an artifact.

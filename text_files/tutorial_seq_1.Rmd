@@ -53,11 +53,11 @@ In this step, we will summarize the sequences.
 ***
 
 ### Step 5
-##### Click on the button **"View!"** to inspect the result.
+##### Click on the button **View!** to inspect the result.
 
 
 
-##### If you want to know what the result looks like, you can click on the button **"Example for single end"** or **"Example for paired end"**.
+##### If you want to know what the result looks like, you can click on the button **Example for single end** or **Example for paired end**.
 
 <img src="/home/imuser/text_files/p1_12.png" width="70%" />
 

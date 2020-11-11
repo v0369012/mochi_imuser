@@ -24,6 +24,8 @@ output: html_document
 
 <img src="/home/imuser/text_files/p3_3.png" width="70%" />
 
+***
+
 ### Step 4
 ##### The reference sequences will be filtered based on the length.
 
@@ -47,7 +49,12 @@ output: html_document
 
 
 ### Step 7
-##### Click on the button **"Taxonomy classification result"** to inspect the predicted taxonomy.
-If you would like to know what the result look likes, please click on the button **"How does the taxonomy look?"** in the example block.
+##### Click on the button **View!** to inspect the predicted taxonomy.
+If you would like to know what the result look likes, please click on the button **How does the taxonomy look?** in the example block.
 
-<img src="/home/imuser/text_files/p3_9.png" width="60%" />
+<img src="/home/imuser/text_files/p3_9.png" width="80%" />
+
+### Step 8
+##### Download the files for the next step (Data analysis).
+
+<img src="/home/imuser/text_files/p3_10.png" width="80%" />
