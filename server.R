@@ -30,7 +30,7 @@ server <- function(session, input, output) {
     Sys.setenv(LANG="C.UTF-8")
     HTML(
       paste0(
-        "<h2 style='font-weight:bolder;margin-top: -10px'>MOCHI (MicrobiOme CHaracterization Image)</h3>",
+        "<h2 style='font-weight:bolder;margin-top: -5px'>MOCHI (MicrobiOme CHaracterization Image)</h3>",
         "<p>Thanks for using MOCHI!</p>",
         "<b>MOCHI</b><span> is a 16S rRNA analytical tool for microbiota. We simplified the operation of </span>",
         "<a href='https://qiime2.org/' target='_blank'>QIIME2</a>",
