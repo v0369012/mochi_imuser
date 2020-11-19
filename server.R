@@ -5265,9 +5265,11 @@ server <- function(session, input, output) {
               overwrite = T)
     
     
-    includeHTML(path = paste0("http://",
-                              my_qiime_ip, my_qiime_port(),
-                              "/iframe_krona.html"))
+    # includeHTML(path = paste0("http://",
+    #                           my_qiime_ip, my_qiime_port(),
+    #                           "/iframe_krona.html"))
+    
+    includeHTML(path = "/var/www/html/iframe_krona.html")
     
   })
   
