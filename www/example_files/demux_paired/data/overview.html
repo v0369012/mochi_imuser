@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>q2_demux : summarize</title>
+    <link rel="stylesheet" href="./q2templateassets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./q2templateassets/css/normalize.css"/>
+    <script src="./q2templateassets/js/jquery-3.2.0.min.js" charset="utf-8"></script>
+    <script src="./q2templateassets/js/child.js"></script>
+    
+    
+  </head>
+  <body>
+    <div class="container-fluid">
+        
+<div class="row">
+    <div class="col-lg-12">
+        <h1>Demultiplexed sequence counts summary</h1>
+        <table class="table table-striped table-hover">
+            <tr><td>Minimum:</td><td>1</td></tr>
+            <tr><td>Median:</td><td>708.0</td></tr>
+            <tr><td>Mean:</td><td>657.9154929577464</td></tr>
+            <tr><td>Maximum:</td><td>1442</td></tr>
+            <tr><td>Total:</td><td>46712</td></tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <a href="demultiplex-summary.pdf">
+            <img src="demultiplex-summary.png">
+            <p>Download as PDF</p>
+        </a>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1>Per-sample sequence counts</h1>
+        <h4>Total Samples: 71</h4>
+        <table border="0" class="dataframe table table-striped table-hover">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Sample name</th>
+      <th>Sequence count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>YUN3428.2</td>
+      <td>1442</td>
+    </tr>
+    <tr>
+      <td>BAQ4166.1.2</td>
+      <td>1369</td>
+    </tr>
+    <tr>
+      <td>BAQ4166.2</td>
+      <td>1341</td>
+    </tr>
+    <tr>
+      <td>YUN3533.3</td>
+      <td>1321</td>
+    </tr>
+    <tr>
+      <td>BAQ3473.3</td>
+      <td>1320</td>
+    </tr>
+    <tr>
+      <td>YUN3856.3</td>
+      <td>1297</td>
+    </tr>
+    <tr>
+      <td>BAQ4166.3</td>
+      <td>1290</td>
+    </tr>
+    <tr>
+      <td>YUN3533.2</td>
+      <td>1228</td>
+    </tr>
+    <tr>
+      <td>BAQ3473.1</td>
+      <td>1148</td>
+    </tr>
+    <tr>
+      <td>YUN3259.3</td>
+      <td>1146</td>
+    </tr>
+    <tr>
+      <td>BAQ4697.3</td>
+      <td>1120</td>
+    </tr>
+    <tr>
+      <td>YUN3428.1</td>
+      <td>1114</td>
+    </tr>
+    <tr>
+      <td>BAQ4166.1.3</td>
+      <td>1103</td>
+    </tr>
+    <tr>
+      <td>YUN3428.3</td>
+      <td>1102</td>
+    </tr>
+    <tr>
+      <td>BAQ4166.1.1</td>
+      <td>1096</td>
+    </tr>
+    <tr>
+      <td>YUN3259.2</td>
+      <td>1051</td>
+    </tr>
+    <tr>
+      <td>YUN3856.2</td>
+      <td>1047</td>
+    </tr>
+    <tr>
+      <td>YUN3856.1.2</td>
+      <td>1045</td>
+    </tr>
+    <tr>
+      <td>YUN3856.1.1</td>
+      <td>1005</td>
+    </tr>
+    <tr>
+      <td>YUN3533.1.1</td>
+      <td>995</td>
+    </tr>
+    <tr>
+      <td>YUN3533.1.2</td>
+      <td>961</td>
+    </tr>
+    <tr>
+      <td>BAQ3473.2</td>
+      <td>941</td>
+    </tr>
+    <tr>
+      <td>BAQ2687.1</td>
+      <td>935</td>
+    </tr>
+    <tr>
+      <td>BAQ2462.1</td>
+      <td>935</td>
+    </tr>
+    <tr>
+      <td>YUN1005.1.1</td>
+      <td>927</td>
+    </tr>
+    <tr>
+      <td>BAQ2687.3</td>
+      <td>916</td>
+    </tr>
+    <tr>
+      <td>YUN2029.2</td>
+      <td>908</td>
+    </tr>
+    <tr>
+      <td>BAQ4697.1</td>
+      <td>884</td>
+    </tr>
+    <tr>
+      <td>YUN3346.3</td>
+      <td>824</td>
+    </tr>
+    <tr>
+      <td>YUN3533.1.3</td>
+      <td>812</td>
+    </tr>
+    <tr>
+      <td>BAQ4697.2</td>
+      <td>812</td>
+    </tr>
+    <tr>
+      <td>YUN1242.3</td>
+      <td>792</td>
+    </tr>
+    <tr>
+      <td>BAQ2420.1.1</td>
+      <td>778</td>
+    </tr>
+    <tr>
+      <td>YUN1609.1</td>
+      <td>763</td>
+    </tr>
+    <tr>
+      <td>YUN3259.1.2</td>
+      <td>729</td>
+    </tr>
+    <tr>
+      <td>BAQ2420.1.3</td>
+      <td>708</td>
+    </tr>
+    <tr>
+      <td>YUN3856.1.3</td>
+      <td>703</td>
+    </tr>
+    <tr>
+      <td>YUN3346.1</td>
+      <td>701</td>
+    </tr>
+    <tr>
+      <td>BAQ2420.3</td>
+      <td>700</td>
+    </tr>
+    <tr>
+      <td>BAQ2687.2</td>
+      <td>695</td>
+    </tr>
+    <tr>
+      <td>BAQ2420.1.2</td>
+      <td>672</td>
+    </tr>
+    <tr>
+      <td>BAQ2420.2</td>
+      <td>651</td>
+    </tr>
+    <tr>
+      <td>BAQ2838.1</td>
+      <td>636</td>
+    </tr>
+    <tr>
+      <td>BAQ2462.2</td>
+      <td>629</td>
+    </tr>
+    <tr>
+      <td>YUN3153.3</td>
+      <td>609</td>
+    </tr>
+    <tr>
+      <td>YUN1242.1</td>
+      <td>571</td>
+    </tr>
+    <tr>
+      <td>BAQ2838.2</td>
+      <td>527</td>
+    </tr>
+    <tr>
+      <td>BAQ2462.3</td>
+      <td>497</td>
+    </tr>
+    <tr>
+      <td>YUN3153.2</td>
+      <td>473</td>
+    </tr>
+    <tr>
+      <td>YUN1005.3</td>
+      <td>439</td>
+    </tr>
+    <tr>
+      <td>BAQ2838.3</td>
+      <td>388</td>
+    </tr>
+    <tr>
+      <td>YUN3259.1.3</td>
+      <td>295</td>
+    </tr>
+    <tr>
+      <td>YUN3346.2</td>
+      <td>192</td>
+    </tr>
+    <tr>
+      <td>YUN3259.1.1</td>
+      <td>64</td>
+    </tr>
+    <tr>
+      <td>YUN1242.2</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>BAQ895.2</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>YUN2029.1</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>YUN3008.1.3</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>BAQ1370.1.3</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>YUN3184.2</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>YUN3008.1.2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>YUN3008.1.1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>YUN2029.3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>BAQ895.3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>YUN3153.1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>YUN1005.1.3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>BAQ1552.1.1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>YUN3008.3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>YUN1609.3</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>BAQ1552.2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>BAQ1370.3</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+        <a href="per-sample-fastq-counts.csv">Download as CSV</a>
+    </div>
+</div>
+
+    </div>
+    
+    
+  </body>
+</html>
