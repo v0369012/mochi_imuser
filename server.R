@@ -175,35 +175,35 @@ server <- function(session, input, output) {
   
   
   # show job id (demuxed)----
-  observe({
-    
-    # show job id
-    output$show_job_id <- renderUI({
-      tagList(
-        p(paste0("Job ID: ", job_id()),
-          style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;display: inline-block;") %>% span(),
-        actionLink(inputId = "change_job_id", 
-                   label = "Not your job id ?"
-        ),
-        tags$style("#change_job_id{
-                   color:white;display:inline-block;font-size: 16px;position:relative;left:5px;
-        }"),
-        tags$style("#change_job_id:hover{
-                   color:red;
-        }")
-        
-      )
-      
-    })
-    
-    # delete empty folder
-    for (i in 1:length(list.files("/home/imuser/web_version/users_files/"))) {
-      icesTAF::rmdir(list.files("/home/imuser/web_version/users_files/", full.names = T)[i], recursive = T)
-    }
-    
-    # create job folder
-    fs::dir_create(path = paste0("/home/imuser/web_version/users_files/", job_id()))
-  })
+  # observe({
+  #   
+  #   # show job id
+  #   output$show_job_id <- renderUI({
+  #     tagList(
+  #       p(paste0("Job ID: ", job_id()),
+  #         style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;display: inline-block;") %>% span(),
+  #       actionLink(inputId = "change_job_id", 
+  #                  label = "Not your job id ?"
+  #       ),
+  #       tags$style("#change_job_id{
+  #                  color:white;display:inline-block;font-size: 16px;position:relative;left:5px;
+  #       }"),
+  #       tags$style("#change_job_id:hover{
+  #                  color:red;
+  #       }")
+  #       
+  #     )
+  #     
+  #   })
+  #   
+  #   # delete empty folder
+  #   for (i in 1:length(list.files("/home/imuser/web_version/users_files/"))) {
+  #     icesTAF::rmdir(list.files("/home/imuser/web_version/users_files/", full.names = T)[i], recursive = T)
+  #   }
+  #   
+  #   # create job folder
+  #   fs::dir_create(path = paste0("/home/imuser/web_version/users_files/", job_id()))
+  # }) # web version
   
   # show job id (denoising)----
   observe({
