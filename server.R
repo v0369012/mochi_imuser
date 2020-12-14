@@ -32,7 +32,7 @@ server <- function(session, input, output) {
     Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
     qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
     Sys.setenv(LANG="C.UTF-8")
-    raw_data_path <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+    # raw_data_path <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
     tagList(
       # img(src = "https://mochi.life.nctu.edu.tw/mochi_title.png", height = 76, width = 300, 
       #     style = "position:relative;margin: 10px;left: -20px"),
@@ -40,8 +40,8 @@ server <- function(session, input, output) {
       #      style = "position:relative;color: #009900; font-size: 16px; font-weight: 600; font-family: Comic Sans MS;bottom:-20px;"),
       # span(strong("M"),"icrobiota amplic", strong("O"), "n ", strong("CH"),"aracterization ", strong("I"), "mplement",
       #    style = "position:relative;color:#009900;font-family: Comic Sans MS;bottom:-20px;left: -20px;font-size: 20px;"),
-      h1(raw_data_path),
-      h2(list.files(raw_data_path)[1]),
+      # h1(raw_data_path),
+      # h2(list.files(raw_data_path)[1]),
       h1("Welcome to MOCHI!", 
          span("(",strong("M", .noWS = "outside"),"icrobiota amplic",
               strong("O", .noWS = "outside"),"n ",
@@ -52,7 +52,7 @@ server <- function(session, input, output) {
       strong("MOCHI"), span(" is a 16S or 18S rRNA analytical tool for microbiota based primarily on "), 
       a("QIIME2", href = "https://qiime2.org/", target = "_blank"),
       span(" with a friendly web interface powered by the R package of "),
-      a("Shiny", href = "https://shiny.rstudio.com/", target = "_blank"), span("."),
+      a("Shiny", href = "https://shiny.rstudio.com/", target = "_blank"), span(".", .noWS = "outside"),
       p("MOCHI may also be downloaded and operated locally."),
       img(src = "https://mochi.life.nctu.edu.tw/mochi_pipeline_new.png", alt = "pipeline", width = "80%", height = "80%", style = "margin:10px;max-width:1000px"),
       hr(),

@@ -31,7 +31,8 @@ if(my_cores<=2){
 # ip port
 if(is.na(ping_port(my_qiime_local_ip, port = "8011")[1])){
 
-  my_qiime_ip <- my_qiime_public_ip
+  # my_qiime_ip <- my_qiime_public_ip # remote version
+  my_qiime_ip <- my_qiime_local_ip
 
 }else{
   my_qiime_ip <- my_qiime_local_ip
