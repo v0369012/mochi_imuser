@@ -11,7 +11,8 @@ library(shinyWidgets)
 
 my_qiime_public_ip <- ipify::get_ip()
 my_qiime_local_ip <- "127.0.0.1"
-my_qiime_port <- ":8099"
+my_qiime_port <- ":8011"
+
 
 # Spinner style
 spinner_type <- 2
@@ -27,293 +28,395 @@ if(my_cores<=2){
   suggested_cores <- my_cores-2
 }
 
-if(is.na(ping_port(my_qiime_public_ip, port = "8099")[1])){
-  
-  my_qiime_ip <- my_qiime_local_ip
-  
-}else{
+# ip port
+if(is.na(ping_port(my_qiime_local_ip, port = "8011")[1])){
+
   my_qiime_ip <- my_qiime_public_ip
+
+}else{
+  my_qiime_ip <- my_qiime_local_ip
 }
 
 my_qiime_ip_port <- paste0(my_qiime_ip, my_qiime_port)
 
 # Tabpanel style
-tabPanel_title_style <- "color: white; font-size: 18px; font-weight: 200;"
-tabPanel_navmenu_style <- "color: black; font-size: 18px; font-weight: 200;"
+tabPanel_title_style <- "color: white; font-size: 18px; font-weight: 200;font-family:Arial;"
+tabPanel_navmenu_style <- "color: black; font-size: 18px; font-weight: 200;font-family:Arial;"
 
 # denoise btn label
-denoise_btn_start_label <- strong("Start to denoise!")
+denoise_btn_start_label <- strong("Start!")
 
 shinyUI(
   fluidPage(
-    theme = shinytheme("cerulean"),
+    theme = shinytheme("readable"),
+    # shinythemes::themeSelector(),
+    tags$style(type = 'text/css', '.navbar { background-color: #317EAC;border-color: white;position:fixed;width:100%;}'),
+    tags$style("h1 {color: #317EAC}"),
+    tags$style("h4 {color: #317EAC}"),
+    tags$style("a {color: #317EAC}"),
+    
     
     # Define UI for data upload app ----
     titlePanel( 
       # window title
       windowTitle = "MOCHI",
       
-      title = span("MOCHI ",
-                   style = "color: blue; font-size: 50px; font-weight: 900; font-family: Comic Sans MS;",
-                   span(" A 16S rRNA NGS data analytical tool for microbiota",
-                        style = "color: #009900; font-size: 16px; font-weight: 600; font-family: Comic Sans MS"))
+      # title = span("MOCHI ",
+      #              style = "color: blue; font-size: 50px; font-weight: 900; font-family: Comic Sans MS;",
+      #              span(" A 16S rRNA NGS data analytical tool for microbiota",
+      #                   style = "color: #009900; font-size: 16px; font-weight: 600; font-family: Comic Sans MS"))
+      
+      # title = tags$head(tags$link(rel="shortcut icon", 
+      #                             href="/mochi_logo.png",
+      #                             type = "image/png",
+      #                             size = "32x32")),
+      
+      title = tags$head(tags$link(rel="shortcut icon", 
+                                  href="https://mochi.life.nctu.edu.tw/mochi_logo_3.png",
+                                  type = "image/png",
+                                  size = "64x64")
+                        
+                        # ,tags$head(span("MOCHI ",
+                        #                style = "position:relative;left:15px;bottom:-20px;color: blue; font-size: 50px; font-weight: 900; font-family: Comic Sans MS;",
+                        #                span(" A 16S rRNA NGS data analytical tool for microbiota",
+                        #                style = "color: #009900; font-size: 16px; font-weight: 600; font-family: Comic Sans MS")
+                        #                )
+                        #           )
+      )
       
       
     ),
     
+    # tags$head(span("MOCHI ",
+    #                style = "position:relative;left:15px;bottom:-20px;color: blue; font-size: 50px; font-weight: 900; font-family: Comic Sans MS;",
+    #                span(" A 16S rRNA NGS data analytical tool for microbiota",
+    #                style = "color: #009900; font-size: 16px; font-weight: 600; font-family: Comic Sans MS")
+    #                )
+    #           ),
+    
+    # tags$head(tags$img(src = "https://mochi.life.nctu.edu.tw/mochi_title.png", height = 76, width = 300, style = "position:relative;bottom:-20px;top:50px"),
+    #                span(" A 16S rRNA NGS data analytical tool for microbiota",
+    #                     style = "position:relative;bottom:-38px;color: #009900; font-size: 16px; font-weight: 600; font-family: Comic Sans MS;top:50px")
+    # ),
     
     navbarPage(
+      # header = tags$h6("123"),
+      collapsible = T,
+      fluid = T,
+      # theme = "bootstrap.css",
       
-      position = "static-top",
+      # tags$style(HTML(".navbar-header {background-color: #317EAC;}")),
+      position = "fixed-top",
       
       # TRUE to use a dark background and light text for the navigation bar
       inverse = T,
       
-      title = "",
+      # title = strong("MOCHI", style = "color: white; font-weight: 800;width: 50px;font-size: 24px;"),
+      title = a(img(src = "https://mochi.life.nctu.edu.tw/mochi_title_white.png", width = "250px", height = "100px", style = "position:relative;top: -20px;left:-10px"), 
+                href = "https://mochi.life.nctu.edu.tw"),
       # title = span("MOCHI ",
-      #              style = "color: white; font-size: 40px; font-weight: 500;",
-      #              span(" a 16S rRNA NGS data analytical tool for Microbiota", 
-      #                   style = "color: #00cc99; font-size: 16px")),
+      #              style = "color: white; font-size: 40px; font-weight: 800;padding:10px;text-align:center;line-hight:50px",
+      #              ),
       
       
       # Home page
-      tabPanel(title = span("Home", style = tabPanel_title_style), 
-               icon = icon("home"),
-               mainPanel(
-                 withSpinner(ui_element = uiOutput("test"),
-                             type = spinner_type,
-                             color.background = spinner_bg_color)
-                 
-                 # withMathJax(includeMarkdown("~/text_files/home_page.Rmd"))
-                 
-                 # withMathJax(includeHTML("~/text_files/home_page.html"))
+      tabPanel(title = span("Home", style = tabPanel_title_style),
+               icon = icon("home", class = "home_icon"),
+               tags$style(".home_icon {color:white}"),
+               tags$style(".dna_icon {color:white}"), 
+               tags$style(".caret {color: white}"), # Sequence preprocessing ">" color
+               mainPanel(width = "100%",
+                         style = "position:relative;top:-25px;",
+                         # uiOutput(outputId = "show_user_id"),
+                         withSpinner(ui_element = uiOutput("home_page"),
+                                     type = spinner_type,
+                                     color.background = spinner_bg_color)
+                         
+                         # withMathJax(includeMarkdown("~/text_files/home_page.Rmd"))
+                         
+                         # withMathJax(includeHTML("~/text_files/home_page.html"))
                )
       ),
       
       
-      navbarMenu(title = span("Sequences Preprocessing", 
+      navbarMenu(title = span("Sequence Preprocessing", 
                               style = tabPanel_title_style),
-                 icon = icon("dna"),
+                 icon = icon("dna", class = "dna_icon"),
+                 
+                 
                  
                  
                  # Demultiplexed ----
-                 tabPanel(title = span("1. Sequences summary", style = tabPanel_navmenu_style),
+                 tabPanel(title = span("Step 1. Sequence summary", style = tabPanel_navmenu_style),
                           
                           # fluidRow(
                           sidebarLayout(
                             
+                            fluid = T,
                             sidebarPanel(
                               
-                              style = "background-color: #317EAC; border: none; border-radius: 5px; margin-left: 0px; padding: 10px; width: 500;pxposition: relative;",
-                              strong("Directory selection", style = "font-size:20px;color:white"),
-                              h4("Please choose the directory containing sequences data",
-                                 style = "color: white; left:5px"),
-                              shinyFiles::shinyDirButton(id = 'dirs', 
-                                                         label = 'Select the directory', 
+                              style = "background-color: #317EAC; border: none; border-radius: 5px; margin-left: 0px; width: 500;position: relative;",
+                              # uiOutput(outputId = "show_job_id"),
+                              # textInput(inputId = "input_job_id_demux", label = "Nothing") %>% shinyjs::hidden(), # web version
+                              
+                              
+                              # strong("Directory selection", style = "font-size:24px;color:white;top:20px"),
+                              strong("Sequence files", 
+                                     
+                                     style = "font-size:24px;color:white;top:20px"),
+                              p("Please choose the directory containing sequence data (fastq.gz)", style = "color: white;font-size: 20px"),
+                              # h4("Please upload the sequences data",
+                              #    style = "color: white; left:5px"), # web version
+                              shinyFiles::shinyDirButton(id = 'dirs',
+                                                         label = 'Select the directory',
                                                          title = 'Please select a directory',
-                                                         style = "margin: 2px;", 
+                                                         style = "margin: 2px;",
                                                          icon = icon("folder")
                                                          ),
+                              # fileInput(inputId = "seqs_data_upload",
+                              #           label = span("Please upload the sequences data (.fastq.gz)", 
+                              #                        style= "font-size: 20px; font-weight: 300; color: white;"),
+                              #           multiple = T,
+                              #           accept = ".fastq.gz"), # web version
+                              
+                              
+                              # downloadButton(outputId = "seqs_demo_download",
+                              #                label = span("Demo seqs", style ="font-weight: 800"),
+                              #                style = "color:#317EAC;background-color:white;"
+                              # ), # web version
+                              
+                              # br(),br(),
+                              hr(),
+                              strong("Sequence type", style = "font-size:24px;color:white;top:20px"),
                               
                               pickerInput(inputId = "seqs_type",
-                                          label = span("Choose the sequences type", 
-                                                       style= "font-size: 18px; font-weight: 300; color: white; margin: 5px;"),
-                                          choices = c("Single end", "Paired end")
-                                          ,width = "250px"
-                              ) %>% shinyjs::hidden(),
+                                          label = span("Choose the sequence type", 
+                                                       style= "font-size: 20px; font-weight: 300; color: white; margin: 0px;"),
+                                          choices = c("Single end", "Paired end"),
+                                          width = "300px"
+                              ),
+                              
                               
                               hr(),
                               # p("After the database is selected, we need primer to extract the target region of sequences."),
-                              strong("Primer sequences", style = "font-size:20px;color:white"),
+                              strong("Primer sequences", style = "font-size:24px;color:white"),
                               checkboxInput("checkbox_primer",
                                             label = span("Check this if your sequences are primer-trimmed reads",
                                                          style = "font-size: 14px; font-weight: 300; color: white; margin-top: 5px;"),
                                             value = F),
                               
                               
-                                selectInput(inputId = "primer_f", 
-                                            label = span("Choose the forward primer sequences", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"), 
-                                            choice = c("8F", "27F", "CC [F]", "341F","357F", "515F", "533F", "16S.1100.F16", "1237F", "other"),
-                                            width = "400px"
-                                ),
-                                
-                                selectInput(inputId = "primer_r", 
-                                            label = span("Choose the reverse primer sequences", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"), 
-                                            choice = c("519R", "CD [R]", "806R","907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
-                                            width = "400px"
-                                ),
+                              selectInput(inputId = "primer_f", 
+                                          label = span("Choose the forward primer sequences", style = "font-size: 20px; font-weight: 300; color: white; margin-top: 5px;"), 
+                                          choice = c("8F", "27F", "CC [F]", "341F","357F", "515F", "533F", "16S.1100.F16", "1237F", "other"),
+                                          width = "400px"
+                              ),
+                              
+                              selectInput(inputId = "primer_r", 
+                                          label = span("Choose the reverse primer sequences", style = "font-size: 20px; font-weight: 300; color: white; margin-top: 5px;"), 
+                                          choice = c("519R", "CD [R]", "806R","907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
+                                          width = "400px"
+                              ),
                               
                               # uiOutput(outputId = "in_r"),
-                                actionButton(inputId = "show_primer", 
-                                             label = "Show the primer table", 
-                                             icon = icon("table")
-                                ),
-                                
-                                p('If your primers could not be found from the primer table, you also can  manually input your primer sequences by choosing',
-                                  strong(' other.'),
-                                  style = "font-size: 14px; font-weight: 300; color: white; margin-top: 5px;"),
-                                
-                                uiOutput(outputId = "out_f"),
-                                uiOutput(outputId = "out_r"),
-                             
+                              actionButton(inputId = "show_primer", 
+                                           label = "Show the primer table", 
+                                           icon = icon("table"),
+                                           style = "margin-bottom:10px"
+                              ),
+                              
+                              # p('If your primers could not be found from the primer table, you also can  manually input your primer sequences by choosing',
+                              #   strong(' other.'),
+                              #   style = "font-size: 16px; font-weight: 300; color: white; margin-top: 5px;"),
+                              
+                              uiOutput(outputId = "out_f"),
+                              uiOutput(outputId = "out_r"),
+                              
                               
                               hr(),
-                              strong("Computing setting", style = "font-size:20px;color:white"),
+                              strong("Computing setting", style = "font-size:24px;color:white"),
                               textInput(inputId = "n_jobs_demux", 
                                         label = span("Number of threads to run", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"),
                                         value = my_cores-2,
                                         placeholder = "Input number",
                                         width = "300px"),
                               actionButton(inputId = "my_cores_demux", 
-                                           label = "Show the threads of this server."),
-                              actionButton(inputId = "Q_cores_demux", 
-                                           label = "What is thread ?", 
-                                           icon = icon("question-circle")
-                                           )
+                                           label = "Show the threads of this server",
+                                           icon = icon("calculator"))
+                              # actionButton(inputId = "Q_cores_demux", 
+                              #              label = "What is thread ?", 
+                              #              icon = icon("question-circle")
+                              #              )
                               
                               
                             ),
                             
-                            mainPanel(style="position: relative;margin-top: -20px",
+                            mainPanel(
+                              style="position: relative;margin-top: -20px",
                               # tags$head(tags$style(".modal-dialog{display: flex;justify-content: center;align-items: center;}")),
                               
                               conditionalPanel(
                                 
                                 # condition = "input.seqs_type == 'Single end'",
-                                condition = "input.seqs_type == 'Single end' &&　input.dirs",
+                                condition = "input.seqs_type == 'Single end'",
                                 
                                 # div(
                                 column(width = 12,
-                                  
-                                  # h2("1. Sequences summary (for single end)", 
-                                  #    style = "color: #317EAC;margin-top: 0px;"),
-                                  # h4("(1) Summarize the single-end sequences.", 
-                                  #    style = "color: #317EAC;",
-                                  #    span(
-                                  #      actionButton(inputId = "demultiplexed_single_ends", 
-                                  #                   label = strong("Start!"), 
-                                  #                   icon = icon("play-circle"),
-                                  #                   style = "margin: 10px; display: inline-block;")
-                                  #    ),
-                                  #    
-                                  #    
-                                  # ),
-                                  h1("1. Sequences summary (for single end)"),
-                                  h4("(1) Summarize the single-end sequences.",style = "color: #317EAC;"),
-                                  actionButton(inputId = "demultiplexed_single_ends", 
-                                               label = strong("Start!"), 
-                                               icon = icon("play-circle"),
-                                               style = "margin: 10px; display: inline-block;"
-                                  ),
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  # br(),br(),
-                                  
-                                  h4('(2) Inspect the result.'),
-                                  actionButton(inputId = "show_demux_single", 
-                                               label = "View!", 
-                                               icon = icon("eye"),
-                                               style = "margin: 10px; display: inline-block;",
-                                               onclick = paste0("window.open('http://", 
-                                                                my_qiime_ip, my_qiime_port,
-                                                                "/demux_single_unzip/new_dirname/data/index.html#",
-                                                                "', '_blank')")
-                                  ),
-                                  span("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
-                                         style = "position: relative; top:5px;"),
-                                  
-                                  
-                                  # tags$a(href = 'https://140.113.239.95:8055', class = "btn", icon("download"), 'Download file.'),
-                                  
-                                  
-                                  
-                                  # br(),br(),
-                                  # hr(),
-                                  h4('* Show the example: '),
-                                  actionButton(inputId = "demux_example_single", 
-                                               label = "Example for single end", 
-                                               icon = icon("link"),
-                                               style = "margin: 10px; display: inline-block;",
-                                               onclick = paste0("window.open('http://", 
-                                                                my_qiime_ip, my_qiime_port,
-                                                                "/example_files/demux_single/data/index.html",
-                                                                "')")
-                                  ),
-                                  # tags$hr(class="A",
-                                  #         tags$style(
-                                  #           "hr.A{border: 3px solid #317EAC;}"
-                                  #         )
-                                  # ),
-                                  
-                                # ), style = "border: none;"
+                                       
+                                       # h2("1. Sequences summary (for single end)", 
+                                       #    style = "color: #317EAC;margin-top: 0px;"),
+                                       # h4("(1) Summarize the single-end sequences.", 
+                                       #    style = "color: #317EAC;",
+                                       #    span(
+                                       #      actionButton(inputId = "demultiplexed_single_ends", 
+                                       #                   label = strong("Start!"), 
+                                       #                   icon = icon("play-circle"),
+                                       #                   style = "margin: 10px; display: inline-block;")
+                                       #    ),
+                                       #    
+                                       #    
+                                       # ),
+                                       h1("1. Sequences summary (for single end)"),
+                                       h4("(1) Summarize the single-end sequences.",style = "color: #317EAC;"),
+                                       actionButton(inputId = "demultiplexed_single_ends", 
+                                                    label = strong("Start!"), 
+                                                    icon = icon("play-circle"),
+                                                    style = "margin: 10px; display: inline-block;"
+                                       ),
+                                       
+                                       
+                                       
+                                       
+                                       
+                                       # br(),br(),
+                                       div(
+                                         id = "demux_results_view_single",
+                                         h4('(2) Inspect the result.'),
+                                         # uiOutput("show_demux_single_bttn"), # web version
+                                         actionButton(inputId = "show_demux_single",
+                                                      label = "View!",
+                                                      icon = icon("eye"),
+                                                      style = "margin: 10px; display: inline-block;",
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_demux, # web version
+                                                                       "/demux_single_unzip/new_dirname/data/index.html#",
+                                                                       "', '_blank')")
+                                         ) %>% shinyjs::disabled(),
+                                         
+                                         span("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
+                                              style = "position: relative; top:5px;")
+                                       ) ,
+                                       
+                                       # span("Go to", strong('User results'), ", you can inspect the result by your user id."),
+                                       
+                                       
+                                       
+                                       # tags$a(href = 'https://140.113.239.95:8055', class = "btn", icon("download"), 'Download file.'),
+                                       
+                                       
+                                       
+                                       br(),br(),
+                                       # hr(),
+                                       h4('What the result you will get at this step'),
+                                       actionButton(inputId = "demux_example_single", 
+                                                    label = "Example result for single end", 
+                                                    icon = icon("link"),
+                                                    style = "top:20px; margin: 10px; display: inline-block;",
+                                                    # onclick = paste0("window.open('http://", 
+                                                    #                  "mochi.life.nctu.edu.tw",
+                                                    #                  "/example_files/demux_single/data/index.html",
+                                                    #                  "')") # web version
+                                                    onclick = paste0("window.open('http://", 
+                                                                     my_qiime_ip, my_qiime_port,
+                                                                     "/example_files/demux_single/data/index.html",
+                                                                     "')")
+                                       ),
+                                       # tags$hr(class="A",
+                                       #         tags$style(
+                                       #           "hr.A{border: 3px solid #317EAC;}"
+                                       #         )
+                                       # ),
+                                       
+                                       # ), style = "border: none;"
                                 ),
                               ),
                               
                               conditionalPanel(
                                 
-                                condition = "input.seqs_type == 'Paired end' && input.dirs",
+                                condition = "input.seqs_type == 'Paired end'",
                                 
                                 column(width = 12,
-                                # div(
-                                  # h2("1. Sequences summary (for paired end)", 
-                                  #    style = "color: #317EAC;margin-top: 0px;"),
-                                  # h4("(1) Summarize the paired-end sequences.",
-                                  #    style = "color: #317EAC;",
-                                  #    span(
-                                  #      actionButton(inputId = "demultiplexed_paired_ends", 
-                                  #                   label = strong("Start!"), 
-                                  #                   icon = icon("play-circle"),
-                                  #                   style = "margin: 10px; display: inline-block;"
-                                  #      )
-                                  #      
-                                  #    ),
-                                  #    
-                                  # ),
-                                h1("1. Sequences summary (for paired end)"),
-                                h4("(1) Summarize the paired-end sequences.",style = "color: #317EAC;"),
-                                actionButton(inputId = "demultiplexed_paired_ends", 
-                                                                label = strong("Start!"), 
-                                                                icon = icon("play-circle"),
-                                                                style = "margin: 10px; display: inline-block;"
-                                                   ),
-                                  # br(),br(),
-                                  
-                                  h4('(2) Inspect the result.'),
-                                  actionButton(inputId = "show_demux_paired", 
-                                               label = "View!", 
-                                               icon = icon("eye"),
-                                               style = "margin: 10px; display: inline-block;", 
-                                               onclick = paste0("window.open('http://", 
-                                                                my_qiime_ip, my_qiime_port,
-                                                                "/demux_paired_unzip/new_dirname/data/index.html#",
-                                                                "', '_blank')")),
-                                span("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
-                                  style = "position: relative; top:5px;"),
-                                  
-
-                                  # br(),br(),
-                                  # hr(),
-                                  h4('* Show the example.'),
-                                  actionButton(inputId = "demux_example_paired", 
-                                               label = "Example for paired end", 
-                                               icon = icon("link"),
-                                               style = "margin: 10px; display: inline-block;", 
-                                               onclick = paste0("window.open('http://", 
-                                                                my_qiime_ip, my_qiime_port,
-                                                                "/example_files/demux_paired/data/index.html",
-                                                                "')")
-                                               ),
-                                  br(),br(),
-                                  # tags$hr(class="A",
-                                  #         tags$style(
-                                  #           "hr.A{border: 3px solid #317EAC;}"
-                                  #         )
-                                  # ),
-                                  
-                                 )
+                                       # div(
+                                       # h2("1. Sequences summary (for paired end)", 
+                                       #    style = "color: #317EAC;margin-top: 0px;"),
+                                       # h4("(1) Summarize the paired-end sequences.",
+                                       #    style = "color: #317EAC;",
+                                       #    span(
+                                       #      actionButton(inputId = "demultiplexed_paired_ends", 
+                                       #                   label = strong("Start!"), 
+                                       #                   icon = icon("play-circle"),
+                                       #                   style = "margin: 10px; display: inline-block;"
+                                       #      )
+                                       #      
+                                       #    ),
+                                       #    
+                                       # ),
+                                       h1("1. Sequences summary (for paired end)"),
+                                       h4("(1) Summarize the paired-end sequences.",style = "color: #317EAC;"),
+                                       actionButton(inputId = "demultiplexed_paired_ends", 
+                                                    label = strong("Start!"), 
+                                                    icon = icon("play-circle"),
+                                                    style = "margin: 10px; display: inline-block;"
+                                       ),
+                                       # br(),br(),
+                                       
+                                       div(
+                                         id = "demux_results_view_paired",
+                                         h4('(2) Inspect the result.'),
+                                         # uiOutput("show_demux_paired_bttn"),
+                                         actionButton(inputId = "show_demux_paired",
+                                                                     label = "View!",
+                                                                     icon = icon("eye"),
+                                                                     style = "margin: 10px; display: inline-block;",
+                                                                     onclick = paste0("window.open('http://",
+                                                                                      my_qiime_ip, my_qiime_port,
+                                                                                      # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_demux, # web version
+                                                                                      "/demux_paired_unzip/new_dirname/data/index.html#",
+                                                                                      "', '_blank')")
+                                                        ) %>% shinyjs::disabled(),
+                                         
+                                         span("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
+                                              style = "position: relative; top:5px;")
+                                       ),
+                                       
+                                       # span("Go to", strong('User results'), ", you can inspect the result by your user id."),
+                                       
+                                       
+                                       br(),br(),
+                                       # hr(),
+                                       h4('What the result you will get at this step'),
+                                       actionButton(inputId = "demux_example_paired", 
+                                                    label = "Example result for paired end", 
+                                                    icon = icon("link"),
+                                                    style = "top:20px; margin: 10px; display: inline-block;", 
+                                                    # onclick = paste0("window.open('http://", 
+                                                    #                  "mochi.life.nctu.edu.tw",
+                                                    #                  "/example_files/demux_paired/data/index.html",
+                                                    #                  "')") # web version
+                                                    onclick = paste0("window.open('http://", 
+                                                                     my_qiime_ip, my_qiime_port,
+                                                                     "/example_files/demux_paired/data/index.html",
+                                                                     "')")
+                                       ),
+                                       br(),br(),
+                                       # tags$hr(class="A",
+                                       #         tags$style(
+                                       #           "hr.A{border: 3px solid #317EAC;}"
+                                       #         )
+                                       # ),
+                                       
+                                )
                                 
                                 
                               ),
@@ -321,11 +424,15 @@ shinyUI(
                               div(
                                 id = "primer_table_hide",
                                 h2("Primer table"),
+                                p('If your primers could not be found from the table, you can manually input your primer sequences by choosing',
+                                  strong(' other'), span("."),
+                                  style = "font-size: 16px; font-weight: 300; margin-top: 5px;"),
                                 dataTableOutput(outputId = "taxonomy_output"),
+                                
                                 style = "left:15px;top: 25px;position: relative"
                               ) %>% shinyjs::hidden()
                               
-                              ,width = 6
+                              ,width = 8
                             )
                           )
                           
@@ -336,172 +443,216 @@ shinyUI(
                  
                  
                  # Denoising ----
-                 tabPanel(title = span("2. Denoising", 
+                 tabPanel(title = span("Step 2. Denoising", 
                                        style = tabPanel_navmenu_style),
                           
-                          fluidRow(
+                          sidebarLayout(
+                            fluid = T,
+                            sidebarPanel(
+                              # width = 5,
+                              style = "background-color: #317EAC; border: none; border-radius: 5px; margin-left: 0px; width: 700;position: relative;",
+                              # uiOutput(outputId = "show_job_id_denoise"), # web version
+                              uiOutput(outputId = "dada2_parameter"),
+                              textInput(inputId = "input_job_id_denoise", label = "Nothing") %>% shinyjs::hidden()
+                            ),
                             
                             mainPanel(
-                              style = "margin-top: -20px",
+                              width = 6,
+                              # style = "margin-top: -20px;position:relative;margin-left:-40px;display: inline-block;",
+                              style = "position:relative;margin-top: -20px",
+                              # style = "position: relative;margin-top: -20px;border: solid 2px black;",
                               conditionalPanel(
                                 
                                 condition = "input.seqs_type == 'Single end'",
                                 
-                                h1('2. Denoising (dada2) for Single end'),
-                                strong("Sequences", style = "font-size:20px;color: #317EAC;"),
-                                splitLayout(cellWidths = "300px",
-                                            
-                                            textInput(inputId = "trim_left_single", 
-                                                      label = "The starting position to trim the sequences",
-                                                      placeholder = "Input number",
-                                                      value = 0),
-                                            textInput(inputId = "trunc_len_single", 
-                                                      label = "The ending position to trim the sequences",
-                                                      placeholder = "Input number",
-                                                      value = 0)
+                                column(width = 12,
+                                       
+                                       h1('2. Denoising (dada2) for Single end'),
+                                       # strong("Sequences", style = "font-size:20px;color: #317EAC;"),
+                                       # splitLayout(cellWidths = "300px",
+                                       #             
+                                       #             textInput(inputId = "trim_left_single", 
+                                       #                       label = "The starting position to trim the sequences",
+                                       #                       placeholder = "Input number",
+                                       #                       value = 0),
+                                       #             textInput(inputId = "trunc_len_single", 
+                                       #                       label = "The ending position to trim the sequences",
+                                       #                       placeholder = "Input number",
+                                       #                       value = 0)
+                                       # )
+                                       # ,
+                                       # p("Reads that are shorter than the ending position will be discarded."),
+                                       # p("If ending position is 0, no truncation or length filtering will be performed."),
+                                       # 
+                                       # strong("Quality score", style = "font-size:20px;color: #317EAC"),
+                                       # textInput(inputId = "qvalue_single", 
+                                       #           label = "Reads are truncated at the position of a quality score less than or equal to this value.",
+                                       #           placeholder = "Input number",
+                                       #           value = 0,
+                                       #           width = "600px"),
+                                       # p("If the resulting read is then shorter than ending position, it is discarded."),
+                                       # br(),br(),
+                                       # 
+                                       # strong("Chimeric reads filter", style = "font-size:20px;color: #317EAC"),
+                                       # textInput(inputId = "chimera_single", 
+                                       #           label = "The minimum fold-change value", 
+                                       #           value = 1),
+                                       # actionButton(inputId = "word_chimera_single", 
+                                       #              label = "What is this ?",
+                                       #              icon = icon("question-circle")
+                                       #              ),
+                                       #              
+                                       # 
+                                       # 
+                                       # 
+                                       # # textOutput(outputId = "message_thread_single_position"),
+                                       # br(),br(),
+                                       # 
+                                       # strong("Training error model", style = "font-size:20px;color: #317EAC"),
+                                       # textInput(inputId = "n_reads_single", 
+                                       #           label = "The number of reads for training error model", 
+                                       #           value = format(1000000, scientific = F)),
+                                       # actionButton(inputId = "Q_learn_reads_single", 
+                                       #              label = "What's this ?", 
+                                       #              icon = icon("question-circle")
+                                       # ),
+                                       # # textOutput(outputId = "message_learn_single_position"),
+                                       # br(),br(),
+                                       # 
+                                       # strong("Computing setting", style = "font-size:20px;color: #317EAC"),
+                                       # textInput(inputId = "threads_single", 
+                                       #           label = "Input the number of threads", 
+                                       #           value = suggested_cores),
+                                       # # actionButton(inputId = "my_cores_single", 
+                                       # #              label = "Show the threads of this server.") %>% div(),
+                                       # # actionButton(inputId = "Q_cores_single", 
+                                       # #              label = "What is thread ?", 
+                                       # #              icon = icon("question-circle")
+                                       # # ) %>% div(),
+                                       # 
+                                       # br(),br(),
+                                       # 
+                                       # strong("Integrating the metadata", style = "font-size:20px;color: #317EAC"),
+                                       # fileInput(inputId = "sample_data_single",
+                                       #           label = "Upload the metadata (1st column name must be '#SampleID'')",
+                                       #           multiple = F,
+                                       #           accept = ".tsv",
+                                       #           width = "500px"),
+                                       # div(
+                                       #   span("This input is"),
+                                       #   strong(" optional"),
+                                       #   span(".If metadata is provided, the results would have metadata information."),
+                                       # style = "margin-top:-15px"),
+                                       
+                                       # br(),br(),
+                                       h4("(1) Start to denoise."),
+                                       actionButton(inputId = "denoising_single", 
+                                                    label = denoise_btn_start_label,
+                                                    icon = icon("play-circle"),
+                                                    style = "margin: 10px; display: inline-block;"), 
+                                       # br(),br(),
+                                       # hr(),
+                                       # strong('Results', style = "font-size: 20px;color: #317EAC"),
+                                       div(
+                                         id = "dada2_results_single",
+                                         h4('(2) Inpect the denoising result.'),
+                                         # uiOutput("dada2_single_results_bttn"),
+                                         actionButton(inputId = "show_dada2_single_table",
+                                                      label = "Show summary table",
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
+                                                                       "/denoise_single_position_table/new_dirname/data/index.html",
+                                                                       "')"),
+                                                      icon = icon("eye")) %>% shinyjs::disabled(),
+                                         actionButton(inputId = "show_dada2_single_seqs",
+                                                      label = "Show seqs info",
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
+                                                                       "/denoise_single_seqs/new_dirname/data/index.html",
+                                                                       "')"),
+                                                      icon = icon("eye")) %>% shinyjs::disabled(),
+                                         actionButton(inputId = "show_dada2_single_stats",
+                                                      label = "Show filter info",
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
+                                                                       "/denoise_single_stats/new_dirname/data/index.html",
+                                                                       "')"),
+                                                      icon = icon("eye")) %>% shinyjs::disabled(),
+                                         actionButton(inputId = "show_dada2_single_rarefaction",
+                                                      label = "Show alpha rarefaction",
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
+                                                                       "/denoise_single_rarefaction/new_dirname/data/index.html",
+                                                                       "')"),
+                                                      icon = icon("eye")
+                                         ) %>% shinyjs::disabled(),
+                                         style = "margin-top: 10px;margin-bottom: 25px"
+                                       ),
+                                       
+                                       br(),br(),
+                                       # hr(),
+                                       # strong('Examples', style = "font-size: 20px;color: #317EAC"),
+                                       h4('What the result you will get at this step',
+                                          style = ""),
+                                       div(
+                                         actionButton(inputId = "table_dada2_single_example",
+                                                      label = "Summary table",
+                                                      icon = NULL,
+                                                      # onclick = paste0("window.open('http://",
+                                                      #                  "mochi.life.nctu.edu.tw",
+                                                      #                  "/example_files/denoising_table/data/index.html",
+                                                      #                  "')") # web version
+                                                      onclick = paste0("window.open('http://", 
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       "/example_files/denoising_table/data/index.html",
+                                                                       "')")
+                                         ),
+                                         
+                                         actionButton(inputId = "rep_dada2_single_example",
+                                                      label = "Seqs info",
+                                                      icon = NULL,
+                                                      # onclick = paste0("window.open('http://",
+                                                      #                  "mochi.life.nctu.edu.tw",
+                                                      #                  "/example_files/denoising_rep_seqs/data/index.html",
+                                                      #                  "')") # web version
+                                                      onclick = paste0("window.open('http://", 
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       "/example_files/denoising_rep_seqs/data/index.html",
+                                                                       "')")
+                                         ),
+                                         
+                                         actionButton(inputId = "stats_dada2_single_example",
+                                                      label = "Filter info",
+                                                      icon = NULL,
+                                                      # onclick = paste0("window.open('http://",
+                                                      #                  "mochi.life.nctu.edu.tw",
+                                                      #                  "/example_files/denoising_stats/data/index.html",
+                                                      #                  "')") # web version
+                                                      onclick = paste0("window.open('http://", 
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       "/example_files/denoising_stats/data/index.html",
+                                                                       "')")
+                                         ),
+                                         actionButton(inputId = "rarefaction_single_example",
+                                                      label = "Alpha rarefaction",
+                                                      icon = NULL,
+                                                      # onclick = paste0("window.open('http://",
+                                                      #                  "mochi.life.nctu.edu.tw",
+                                                      #                  "/example_files/alpha-rarefaction_example/data/index.html",
+                                                      #                  "')") # web version
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       "/example_files/alpha-rarefaction_example/data/index.html",
+                                                                       "')")
+                                         ),
+                                         # textOutput(outputId = "word_denoising_single_position")
+                                       )
                                 )
-                                ,
-                                p("Reads that are shorter than the ending position will be discarded."),
-                                p("If ending position is 0, no truncation or length filtering will be performed."),
-                                
-                                strong("Quality score", style = "font-size:20px;color: #317EAC"),
-                                textInput(inputId = "qvalue_single", 
-                                          label = "Reads are truncated at the position of a quality score less than or equal to this value.",
-                                          placeholder = "Input number",
-                                          value = 0,
-                                          width = "600px"),
-                                p("If the resulting read is then shorter than ending position, it is discarded."),
-                                br(),br(),
-                                
-                                strong("Chimeric reads filter", style = "font-size:20px;color: #317EAC"),
-                                textInput(inputId = "chimera_single", 
-                                          label = "The minimum fold-change value", 
-                                          value = 1),
-                                actionButton(inputId = "word_chimera_single", 
-                                             label = "What is this ?",
-                                             icon = icon("question-circle")
-                                             ),
-                                             
-                                
-                                
-                                
-                                # textOutput(outputId = "message_thread_single_position"),
-                                br(),br(),
-                                
-                                strong("Training error model", style = "font-size:20px;color: #317EAC"),
-                                textInput(inputId = "n_reads_single", 
-                                          label = "The number of reads for training error model", 
-                                          value = format(1000000, scientific = F)),
-                                actionButton(inputId = "Q_learn_reads_single", 
-                                             label = "What's this ?", 
-                                             icon = icon("question-circle")
-                                ),
-                                # textOutput(outputId = "message_learn_single_position"),
-                                br(),br(),
-                                
-                                strong("Computing setting", style = "font-size:20px;color: #317EAC"),
-                                textInput(inputId = "threads_single", 
-                                          label = "Input the number of threads", 
-                                          value = suggested_cores),
-                                # actionButton(inputId = "my_cores_single", 
-                                #              label = "Show the threads of this server.") %>% div(),
-                                # actionButton(inputId = "Q_cores_single", 
-                                #              label = "What is thread ?", 
-                                #              icon = icon("question-circle")
-                                # ) %>% div(),
-                                
-                                br(),br(),
-                                
-                                strong("Integrating the metadata", style = "font-size:20px;color: #317EAC"),
-                                fileInput(inputId = "sample_data_single",
-                                          label = "Upload the metadata (1st column name must be '#SampleID'')",
-                                          multiple = F,
-                                          accept = ".tsv",
-                                          width = "500px"),
-                                div(
-                                  span("This input is"),
-                                  strong(" optional"),
-                                  span(".If metadata is provided, the results would have metadata information."),
-                                style = "margin-top:-15px"),
-                                
-                                br(),br(),
-                                actionButton(inputId = "denoising_single", 
-                                             label = denoise_btn_start_label,
-                                             icon = icon("play-circle")), 
-                                br(),br(),
-                                hr(),
-                                strong('Results', style = "font-size: 20px;color: #317EAC"),
-                                div(actionButton(inputId = "show_dada2_single_table",
-                                             label = "Show summary table",
-                                             onclick = paste0("window.open('http://", 
-                                                              my_qiime_ip, my_qiime_port,
-                                                              "/denoise_single_position_table/new_dirname/data/index.html",
-                                                              "')"),
-                                             icon = icon("eye")),
-                                actionButton(inputId = "show_dada2_single_seqs",
-                                             label = "Show seqs info",
-                                             onclick = paste0("window.open('http://", 
-                                                              my_qiime_ip, my_qiime_port,
-                                                              "/denoise_single_seqs/new_dirname/data/index.html",
-                                                              "')"),
-                                             icon = icon("eye")),
-                                actionButton(inputId = "show_dada2_single_stats",
-                                             label = "Show filter info",
-                                             onclick = paste0("window.open('http://", 
-                                                              my_qiime_ip, my_qiime_port,
-                                                              "/denoise_single_stats/new_dirname/data/index.html",
-                                                              "')"),
-                                             icon = icon("eye")),
-                                actionButton(inputId = "show_dada2_single_rarefaction",
-                                             label = "Show alpha rarefaction",
-                                             onclick = paste0("window.open('http://", 
-                                                              my_qiime_ip, my_qiime_port,
-                                                              "/denoise_single_rarefaction/new_dirname/data/index.html",
-                                                              "')"),
-                                             icon = icon("eye"))
-                                ),
-                                
-                                br(),br(),
-                                hr(),
-                                strong('Examples', style = "font-size: 20px;color: #317EAC"),
-                                div(
-                                      actionButton(inputId = "table_dada2_single_example", 
-                                                 label = "Summary table", 
-                                                 icon = NULL,
-                                                 onclick = paste0("window.open('http://", 
-                                                                  my_qiime_ip, my_qiime_port,
-                                                                  "/example_files/denoising_table/data/index.html",
-                                                                  "')")
-                                                 ),
-                                    
-                                    actionButton(inputId = "rep_dada2_single_example", 
-                                                 label = "Seqs info", 
-                                                 icon = NULL,
-                                                 onclick = paste0("window.open('http://", 
-                                                                  my_qiime_ip, my_qiime_port,
-                                                                  "/example_files/denoising_rep_seqs/data/index.html",
-                                                                  "')")
-                                                 ),
-                                    
-                                    actionButton(inputId = "stats_dada2_single_example", 
-                                                 label = "Filter info", 
-                                                 icon = NULL,
-                                                 onclick = paste0("window.open('http://", 
-                                                                  my_qiime_ip, my_qiime_port,
-                                                                  "/example_files/denoising_stats/data/index.html",
-                                                                  "')")
-                                                 ),
-                                    actionButton(inputId = "rarefaction_paired_example", 
-                                                 label = "Alpha rarefaction", 
-                                                 icon = NULL,
-                                                 onclick = paste0("window.open('http://",
-                                                                  my_qiime_ip, my_qiime_port,
-                                                                  "/example_files/alpha-rarefaction_example/data/index.html",
-                                                                  "')")
-                                                 ),
-                                    # textOutput(outputId = "word_denoising_single_position")
-                                    )
-                                  ),
+                              ),
                               
                               
                               
@@ -509,401 +660,460 @@ shinyUI(
                                 
                                 condition = "input.seqs_type == 'Paired end'",
                                 
-                                h1('Denoising (dada2) for Paired end'),
-                                
-                                strong("Forward sequences", style = "font-size:20px;color: #317EAC"),
-                                splitLayout(cellWidths = "300px",
-                                            
-                                            textInput(inputId = "trim_left_f_paired", 
-                                                      label = "The starting position to trim",
-                                                      placeholder = "Input number",
-                                                      value = 0
-                                            ),
-                                            textInput(inputId = "trunc_len_f_paired", 
-                                                      label = "The ending position to trim",
-                                                      placeholder = "Input number",
-                                                      value = 0
-                                            )
-                                ),
-                                
-                                strong("Reverse sequences", style = "font-size:20px;color: #317EAC"),
-                                splitLayout(cellWidths = "300px",
-                                            
-                                            textInput(inputId = "trim_left_r_paired", 
-                                                      label = "The starting position to trim",
-                                                      placeholder = "Input number",
-                                                      value = 0),
-                                            textInput(inputId = "trunc_len_r_paired", 
-                                                      label = "The ending position to trim",
-                                                      placeholder = "Input number",
-                                                      value = 0)
-                                ),
-                                p("Reads that are shorter than the ending position will be discarded."),
-                                p("If ending position is 0, no truncation or length filtering will be performed."),
-                                
-                                strong("Quality score", style = "font-size:20px;color: #317EAC"),
-                                textInput(inputId = "qvalue_paired", 
-                                          label = "Reads are truncated at the position of a quality score less than or equal to this value.",
-                                          placeholder = "Input number",
-                                          value = 0,
-                                          width = "600px"),
-                                p("If the resulting read is then shorter than ending position, it is discarded."),
-                                
-                                br(),br(),
-                                
-                                strong("Chimeric reads filter", style = "font-size:20px;color: #317EAC"),
-                                textInput(inputId = "chimera_paired", 
-                                          label = "The minimum fold-change value", 
-                                          value = 1),
-                                actionButton(inputId = "word_chimera_paired", 
-                                             label = "What is this ?",
-                                             icon = icon("question-circle")
-                                ),
-                                
-                                br(),br(),
-                                
-                                strong("Training error model", style = "font-size:20px;color: #317EAC"),
-                                textInput(inputId = "n_reads_paired", 
-                                          label = "The number of reads for training error model", 
-                                          value = format(1000000, scientific = F)),
-                                actionButton(inputId = "Q_learn_reads_paired", 
-                                             label = "What's this ?", 
-                                             icon = icon("question-circle")
-                                ),
-                                # textOutput(outputId = "message_learn_paired"),
-                                
-                                br(),br(),
-                                
-                                strong("Computing setting", style = "font-size:20px;color: #317EAC"),
-                                textInput(inputId = "threads_paired", 
-                                          label = "Input the number of threads", 
-                                          value = suggested_cores),
-                                # actionButton(inputId = "my_cores_paired", 
-                                #              label = "Show the threads of this server.") %>% div(),
-                                # actionButton(inputId = "Q_cores_paired", 
-                                #              label = "What is thread ?", 
-                                #              icon = icon("question-circle")) %>% div(),
-                                br(),br(),
-                                
-                                strong("Integrating the metadata", style = "font-size:20px;color: #317EAC"),
-                                fileInput(inputId = "sample_data_paired",
-                                          label = "Upload the metadata (1st column name must be '#SampleID')",
-                                          multiple = F,
-                                          accept = ".tsv",
-                                          width = "500px"),
-                                
-                                div(
-                                  span("This input is"),
-                                  strong(" optional"),
-                                  span(".If metadata is provided, the results would have metadata information."),
-                                  style = "margin-top:-15px"),
-                                
-                                br(),br(),
-                                actionButton(inputId = "denoising_paired", 
-                                             label = denoise_btn_start_label,
-                                             icon = icon("play-circle")), 
-                                br(),br(),
-                                hr(),
-                                strong('Results', style = "font-size: 20px;color: #317EAC"),
-                                div(actionButton(inputId = "show_dada2_paired_table",
-                                               label = "Show summary table",
-                                               onclick = paste0("window.open('http://", 
-                                                                my_qiime_ip, my_qiime_port,
-                                                                "/denoise_paired_position_table/new_dirname/data/index.html",
-                                                                "')"),
-                                               icon = icon("eye")),
-                                  actionButton(inputId = "show_dada2_paired_seqs",
-                                               label = "Show seqs info",
-                                               onclick = paste0("window.open('http://", 
-                                                                my_qiime_ip, my_qiime_port,
-                                                                "/denoise_paired_seqs/new_dirname/data/index.html",
-                                                                "')"),
-                                               icon = icon("eye")),
-                                  actionButton(inputId = "show_dada2_paired_stats",
-                                               label = "Show filter info",
-                                               onclick = paste0("window.open('http://", 
-                                                                my_qiime_ip, my_qiime_port,
-                                                                "/denoise_paired_stats/new_dirname/data/index.html",
-                                                                "')"),
-                                               icon = icon("eye")),
-                                  actionButton(inputId = "show_dada2_paired_rarefaction",
-                                               label = "Show alpha rarefaction",
-                                               onclick = paste0("window.open('http://", 
-                                                                my_qiime_ip, my_qiime_port,
-                                                                "/denoise_paired_rarefaction/new_dirname/data/index.html",
-                                                                "')"),
-                                               icon = icon("eye"))
-                                  ),
-
-                                br(),br(),
-                                hr(),
-                                strong('Examples', style = "font-size: 20px;color: #317EAC"),
-                                
-                                div(
-                                  actionButton(inputId = "table_dada2_paired_example", 
-                                               label = "Summary table", 
-                                               icon = NULL,
-                                               onclick = paste0("window.open('http://",
-                                                                my_qiime_ip, my_qiime_port,
-                                                                "/example_files/denoising_table/data/index.html",
-                                                                "')")
-                                               ),
-                                  actionButton(inputId = "rep_dada2_paired_example", 
-                                               label = "Seqs info", 
-                                               icon = NULL,
-                                               onclick = paste0("window.open('http://",
-                                                                my_qiime_ip, my_qiime_port,
-                                                                "/example_files/denoising_rep_seqs/data/index.html",
-                                                                "')")
-                                               ),
-                                  
-                                  actionButton(inputId = "stats_dada2_paired_example", 
-                                               label = "Filter info", 
-                                               icon = NULL,
-                                               onclick = paste0("window.open('http://",
-                                                                my_qiime_ip, my_qiime_port,
-                                                                "/example_files/denoising_stats/data/index.html",
-                                                                "')")
-                                               ),
-                                  actionButton(inputId = "rarefaction_paired_example", 
-                                               label = "Alpha rarefaction", 
-                                               icon = NULL,
-                                               onclick = paste0("window.open('http://",
-                                                                my_qiime_ip, my_qiime_port,
-                                                                "/example_files/alpha-rarefaction_example/data/index.html",
-                                                                "')")
-                                               ),
-                                  
-                                  # textOutput(outputId = "word_denoising_paired_position")
+                                column(width = 12,
+                                       
+                                       # uiOutput(outputId = "show_job_id_denoise_paired"), # web version
+                                       h1('2. Denoising (dada2) for Paired end'),
+                                       
+                                       # strong("Forward sequences", style = "font-size:20px;color: #317EAC"),
+                                       # splitLayout(cellWidths = "300px",
+                                       #             
+                                       #             textInput(inputId = "trim_left_f_paired", 
+                                       #                       label = "The starting position to trim",
+                                       #                       placeholder = "Input number",
+                                       #                       value = 0
+                                       #             ),
+                                       #             textInput(inputId = "trunc_len_f_paired", 
+                                       #                       label = "The ending position to trim",
+                                       #                       placeholder = "Input number",
+                                       #                       value = 0
+                                       #             )
+                                       # ),
+                                       # 
+                                       # strong("Reverse sequences", style = "font-size:20px;color: #317EAC"),
+                                       # splitLayout(cellWidths = "300px",
+                                       #             
+                                       #             textInput(inputId = "trim_left_r_paired", 
+                                       #                       label = "The starting position to trim",
+                                       #                       placeholder = "Input number",
+                                       #                       value = 0),
+                                       #             textInput(inputId = "trunc_len_r_paired", 
+                                       #                       label = "The ending position to trim",
+                                       #                       placeholder = "Input number",
+                                       #                       value = 0)
+                                       # ),
+                                       # p("Reads that are shorter than the ending position will be discarded."),
+                                       # p("If ending position is 0, no truncation or length filtering will be performed."),
+                                       # 
+                                       # strong("Quality score", style = "font-size:20px;color: #317EAC"),
+                                       # textInput(inputId = "qvalue_paired", 
+                                       #           label = "Reads are truncated at the position of a quality score less than or equal to this value.",
+                                       #           placeholder = "Input number",
+                                       #           value = 0,
+                                       #           width = "600px"),
+                                       # p("If the resulting read is then shorter than ending position, it is discarded."),
+                                       # 
+                                       # br(),br(),
+                                       # 
+                                       # strong("Chimeric reads filter", style = "font-size:20px;color: #317EAC"),
+                                       # textInput(inputId = "chimera_paired", 
+                                       #           label = "The minimum fold-change value", 
+                                       #           value = 1),
+                                       # actionButton(inputId = "word_chimera_paired", 
+                                       #              label = "What is this ?",
+                                       #              icon = icon("question-circle")
+                                       # ),
+                                       # 
+                                       # br(),br(),
+                                       # 
+                                       # strong("Training error model", style = "font-size:20px;color: #317EAC"),
+                                       # textInput(inputId = "n_reads_paired", 
+                                       #           label = "The number of reads for training error model", 
+                                       #           value = format(1000000, scientific = F)),
+                                       # actionButton(inputId = "Q_learn_reads_paired", 
+                                       #              label = "What's this ?", 
+                                       #              icon = icon("question-circle")
+                                       # ),
+                                       # # textOutput(outputId = "message_learn_paired"),
+                                       # 
+                                       # br(),br(),
+                                       # 
+                                       # strong("Computing setting", style = "font-size:20px;color: #317EAC"),
+                                       # textInput(inputId = "threads_paired", 
+                                       #           label = "Input the number of threads", 
+                                       #           value = suggested_cores),
+                                       # # actionButton(inputId = "my_cores_paired", 
+                                       # #              label = "Show the threads of this server.") %>% div(),
+                                       # # actionButton(inputId = "Q_cores_paired", 
+                                       # #              label = "What is thread ?", 
+                                       # #              icon = icon("question-circle")) %>% div(),
+                                       # br(),br(),
+                                       # 
+                                       # strong("Integrating the metadata", style = "font-size:20px;color: #317EAC"),
+                                       # fileInput(inputId = "sample_data_paired",
+                                       #           label = "Upload the metadata (1st column name must be '#SampleID')",
+                                       #           multiple = F,
+                                       #           accept = ".tsv",
+                                       #           width = "500px"),
+                                       # 
+                                       # div(
+                                       #   span("This input is"),
+                                       #   strong(" optional"),
+                                       #   span(".If metadata is provided, the results would have metadata information."),
+                                       #   style = "margin-top:-15px"),
+                                       
+                                       # br(),br(),
+                                       h4("(1) Start to denoise."),
+                                       actionButton(inputId = "denoising_paired", 
+                                                    label = denoise_btn_start_label,
+                                                    icon = icon("play-circle"),
+                                                    style = "margin: 10px; display: inline-block;"), 
+                                       # br(),br(),
+                                       # hr(),
+                                       # strong('Results', style = "font-size: 20px;color: #317EAC"),
+                                       div(
+                                         id = "dada2_results_paired",
+                                         h4('(2) Inpect the denoising result.'),
+                                         # uiOutput("dada2_paired_results_bttn"),
+                                         actionButton(inputId = "show_dada2_paired_table",
+                                                      label = "Show summary table",
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
+                                                                       "/denoise_paired_position_table/new_dirname/data/index.html",
+                                                                       "')"),
+                                                      icon = icon("eye")) %>% shinyjs::disabled(),
+                                         actionButton(inputId = "show_dada2_paired_seqs",
+                                                      label = "Show seqs info",
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
+                                                                       "/denoise_paired_seqs/new_dirname/data/index.html",
+                                                                       "')"),
+                                                      icon = icon("eye")) %>% shinyjs::disabled(),
+                                         actionButton(inputId = "show_dada2_paired_stats",
+                                                      label = "Show filter info",
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
+                                                                       "/denoise_paired_stats/new_dirname/data/index.html",
+                                                                       "')"),
+                                                      icon = icon("eye")) %>% shinyjs::disabled(),
+                                         actionButton(inputId = "show_dada2_paired_rarefaction",
+                                                      label = "Show alpha rarefaction",
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
+                                                                       "/denoise_paired_rarefaction/new_dirname/data/index.html",
+                                                                       "')"),
+                                                      icon = icon("eye")
+                                         ) %>% shinyjs::disabled(),
+                                         style = "margin-top: 10px;margin-bottom: 25px"
+                                       ),
+                                       
+                                       br(),br(),
+                                       # hr(),
+                                       # strong('Examples', style = "font-size: 20px;color: #317EAC"),
+                                       h4('What the result you will get at this step'),
+                                       div(
+                                         actionButton(inputId = "table_dada2_paired_example",
+                                                      label = "Summary table",
+                                                      icon = NULL,
+                                                      # onclick = paste0("window.open('http://",
+                                                      #                  "mochi.life.nctu.edu.tw",
+                                                      #                  "/example_files/denoising_table/data/index.html",
+                                                      #                  "')") # web version
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       "/example_files/denoising_table/data/index.html",
+                                                                       "')")
+                                         ),
+                                         actionButton(inputId = "rep_dada2_paired_example",
+                                                      label = "Seqs info",
+                                                      icon = NULL,
+                                                      # onclick = paste0("window.open('http://",
+                                                      #                  "mochi.life.nctu.edu.tw",
+                                                      #                  "/example_files/denoising_rep_seqs/data/index.html",
+                                                      #                  "')") # web version
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       "/example_files/denoising_rep_seqs/data/index.html",
+                                                                       "')")
+                                         ),
+                                         
+                                         actionButton(inputId = "stats_dada2_paired_example",
+                                                      label = "Filter info",
+                                                      icon = NULL,
+                                                      # onclick = paste0("window.open('http://",
+                                                      #                  "mochi.life.nctu.edu.tw",
+                                                      #                  "/example_files/denoising_stats/data/index.html",
+                                                      #                  "')") # web version
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       "/example_files/denoising_stats/data/index.html",
+                                                                       "')")
+                                         ),
+                                         actionButton(inputId = "rarefaction_paired_example",
+                                                      label = "Alpha rarefaction",
+                                                      icon = NULL,
+                                                      # onclick = paste0("window.open('http://",
+                                                      #                  "mochi.life.nctu.edu.tw",
+                                                      #                  "/example_files/alpha-rarefaction_example/data/index.html",
+                                                      #                  "')") # web version
+                                                      onclick = paste0("window.open('http://",
+                                                                       my_qiime_ip, my_qiime_port,
+                                                                       "/example_files/alpha-rarefaction_example/data/index.html",
+                                                                       "')")
+                                         ),
+                                         
+                                         # textOutput(outputId = "word_denoising_paired_position")
+                                       )
                                 )
-                              ),
+                              )
                               
                               
                               
                               
                               
-                              
-                              htmlOutput(outputId = "denoising"),
+                              # htmlOutput(outputId = "denoising"),
                               # textOutput("message"),
-                              width = 7)
+                            )
                           )),
                  
                  
-
                  
-                 # Taxonomic Analysis ----
-                 tabPanel(span("3. Taxonomic analysis", style = tabPanel_navmenu_style),
+                 
+                 # Taxonomic Classification ----
+                 tabPanel(span("Step 3. Taxonomic classification", style = tabPanel_navmenu_style),
                           
                           sidebarLayout(
-                            
+                            fluid = T,
                             column(width = 4, 
                                    wellPanel(
-                                      style = "background-color: #317EAC; border: none; border-radius: 5px; color: white;font-size: 16px;",
-                                      # p('First, download the data from database'),
-                                      strong("Database selection", style = "font-size:20px;color:white"),
-                                      p('Select the reference database for taxonomy classification.'),
-                                      selectInput(inputId = "select_database", 
-                                                  label = "Choose the database",
-                                                  choices = c("Silva_99", "Silva_97", "Silva_94", "Silva_90",
-                                                              'GreenGene_99', 'GreenGene_97', 'GreenGene_94', 'GreenGene_91', 'GreenGene_88', 'GreenGene_85',
-                                                              'GreenGene_82', 'GreenGene_79', 'GreenGene_76', 'GreenGene_73', 'GreenGene_70', 'GreenGene_67',
-                                                              'GreenGene_64', 'GreenGene_61'),
-                                                  width = "300px"),
-                                      # p('If the database have been updated, you need to download the latest data by yourself.'),
-                                      # actionButton(inputId = "database_tutorial", 
-                                      #              label = "How to download the data", 
-                                      #              icon = icon("question")
-                                      # ),
-                                      
-                                      # hr(),
-                                      # p("After the database is selected, we need primer to extract the target region of sequences."),
-                                      # selectInput(inputId = "primer_f",
-                                      #             label = "Choose the forward primer sequences",
-                                      #             choice = c("8F", "27F", "CC [F]", "357F", "515F", "533F", "16S.1100.F16", "1237F", "other"),
-                                      #             width = "300px"
-                                      # ),
-                                      # selectInput(inputId = "primer_r",
-                                      #             label = "Choose the reverse primer sequences",
-                                      #             choice = c("519R", "CD [R]", "907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
-                                      #             width = "300px"
-                                      # ),
-                                      # actionButton(inputId = "show_primer",
-                                      #              label = "Show the primer table",
-                                      #              icon = icon("table")
-                                      # ),
-                                      # br(), br(),
-                                      # p('If your primers could not be found in the selections, you also can  manually input your primer sequences by choosing',
-                                      #   strong(' other.'),
-                                      #   style = "font-size: 14px"),
-                                      # 
-                                      # uiOutput(outputId = "out_f"),
-                                      # uiOutput(outputId = "out_r"),
-                                      
-                                      hr(),
-                                      # textInput(inputId = "trunc_length", 
-                                      #           label = "Give the trunc length you want",
-                                      #           placeholder = "Input number",
-                                      #           width = "300px"),
-                                      strong("Reference sequences filter", style = "font-size:20px;color:white"),
-                                      p(HTML("<b>1. Check your primers</b>"), span(shiny::icon("info-circle"), id = "info_check")
-                                        , style = "font-size:20px;font-weight:700; margin-top:15px"),
-                                      tippy::tippy_this(elementId = "info_check", tooltip = "If incorrect, go to Sequences summary to change", placement = "right"),
-                                      
-                                      uiOutput(outputId = "check_f_primer"),
-                                      uiOutput(outputId = "check_r_primer"),
-                                      p("2. Filter the reference sequences", style = "font-size:20px;font-weight:700; margin-top:15px"),
-                                      p("After determining the database, we need to filter the reference sequences based on length.", style = "font-weight:500; margin-top:15px"),
-                                      textInput(inputId = "min_length", 
-                                                label = p(HTML("<b>Give the minimum length to retain </b>"),span(shiny::icon("info-circle"),id = "info_min")),
-                                                # label = "Give the minimum length to retain",
-                                                placeholder = "Input number",
-                                                value = 0,
-                                                width = "300px"),
-                                      tippy::tippy_this(elementId = "info_min", tooltip = "The default value is minimun length of denoised-sequences", placement = "right"),
-                                      p("Shorter sequenceses are discarded. Set to zero to disable min length filtering.", 
-                                        style = "font-size: 14px"),
-                                      
-                                      
-                                      textInput(inputId = "max_length", 
-                                                label = p(HTML("<b>Give the minimum length to retain </b>"),span(shiny::icon("info-circle"),id = "info_max")),
-                                                # label = "Give the maximum length to retain",
-                                                placeholder = "Input number",
-                                                value = 0,
-                                                width = "300px"),
-                                      tippy::tippy_this(elementId = "info_max", tooltip = "The default value is maximun length of denoised-sequences", placement = "right"),
-                                      p("Longer sequenceses are discarded. Set to zero to disable max length filtering.",
-                                        style = "font-size: 14px"),
-                                      
-                                      hr(),
-                                      strong("Computing setting", style = "font-size:20px;color:white"),
-                                      textInput(inputId = "n_jobs", 
-                                                label = "Number of threads to run",
-                                                value = my_cores-2,
-                                                placeholder = "Input number",
-                                                width = "300px")
-                                      # br(),br(),
-                                      # actionButton(inputId = "start_training", 
-                                      #              label = strong("Start!"),
-                                      #              icon = icon("play-circle")
-                                      #              ),
-                                      # textOutput(outputId = "word_training"),
-                                      
-                                      # strong("Result", style = "font-size: 20px"),
-                                      # div(actionButton(inputId = "view_taxa",
-                                      #              label = "Taxonomy classification result",
-                                      #              onclick = paste0("window.open('http://", 
-                                      #                               my_qiime_ip, my_qiime_port,
-                                      #                               "/taxonomy_unzip/new_dirname/data/index.html",
-                                      #                               "')"),
-                                      #              icon = icon("eye")),
-                                      #     style = "margin-top: 10px;margin-bottom: 10px"
-                                      #     ),
-                                      
-                                      # div(downloadButton(outputId = "taxatable_download", 
-                                      #                    label = "Download the taxonomic table for next step.",
-                                      #                    style = "margin-bottom: 10px")
-                                      #     ),
-                                      # div(downloadButton(outputId = "table_dada2_download", 
-                                      #                    label = "Download the ASVs table for next step.",
-                                      #                    style = "margin-bottom: 10px")
-                                      # ),
-                                      # 
-                                      # tippy::tippy_this(elementId = "table_dada2_download",
-                                      #                   tooltip = "<p style='text-align: left;margin:2px'>amplicon sequence variant (ASV) table, a higher-resolution analogue of the traditional OTU table</p>",
-                                      #                   allowHTML = TRUE,
-                                      #                   placement = "right"),
-                                      # 
-                                      # div(downloadButton(outputId = "rep_seq_dada2_download", 
-                                      #                    label = "Download the seqs data for next step.",
-                                      #                    style = "margin-bottom: 10px")
-                                      #     ),
-                                      # p("amplicon sequence variant (ASV) table, a higher-resolution analogue of the traditional OTU table.",
-                                      #   style = "font-size: 14px;"),
-                                      # div(strong('Example', style = "font-size: 20px")),
-                                      # actionButton(inputId = "view_taxonomy_example",
-                                      #              label = "How does the taxonomy result look?",
-                                      #              style = "margin-bottom: 10px;margin-top: 10px",
-                                      #              onclick = paste0("window.open('http://",
-                                      #                               my_qiime_ip, my_qiime_port,
-                                      #                               "/example_files/taxonomy_analysis/data/index.html",
-                                      #                               "')")
-                                      #              )
-                                      
-                            ) # wellPanel
+                                     style = "background-color: #317EAC; border: none; border-radius: 5px; color: white;font-size: 16px;",
+                                     # p('First, download the data from database'),
+                                     # uiOutput(outputId = "show_job_id_taxa"), # web version
+                                     textInput(inputId = "input_job_id_taxa", label = "Nothing") %>% shinyjs::hidden(),
+                                     strong("Database selection", style = "font-size:24px;color:white"),
+                                     p('Select the reference database for taxonomy classification.', style = "font-size:18px;"),
+                                     selectInput(inputId = "select_database", 
+                                                 label = span("Choose the database", style = "font-size:20px"),
+                                                 choices = c(),
+                                                 width = "300px"),
+                                     actionButton(inputId = "auto_load_db",
+                                                  label = "Auto download database") %>% shinyjs::hidden(),
+                                     # p('If the database have been updated, you need to download the latest data by yourself.'),
+                                     # actionButton(inputId = "database_tutorial", 
+                                     #              label = "How to download the data", 
+                                     #              icon = icon("question")
+                                     # ),
+                                     
+                                     # hr(),
+                                     # p("After the database is selected, we need primer to extract the target region of sequences."),
+                                     # selectInput(inputId = "primer_f",
+                                     #             label = "Choose the forward primer sequences",
+                                     #             choice = c("8F", "27F", "CC [F]", "357F", "515F", "533F", "16S.1100.F16", "1237F", "other"),
+                                     #             width = "300px"
+                                     # ),
+                                     # selectInput(inputId = "primer_r",
+                                     #             label = "Choose the reverse primer sequences",
+                                     #             choice = c("519R", "CD [R]", "907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
+                                     #             width = "300px"
+                                     # ),
+                                     # actionButton(inputId = "show_primer",
+                                     #              label = "Show the primer table",
+                                     #              icon = icon("table")
+                                     # ),
+                                     # br(), br(),
+                                     # p('If your primers could not be found in the selections, you also can  manually input your primer sequences by choosing',
+                                     #   strong(' other.'),
+                                     #   style = "font-size: 14px"),
+                                     # 
+                                     # uiOutput(outputId = "out_f"),
+                                     # uiOutput(outputId = "out_r"),
+                                     
+                                     hr(),
+                                     # textInput(inputId = "trunc_length", 
+                                     #           label = "Give the trunc length you want",
+                                     #           placeholder = "Input number",
+                                     #           width = "300px"),
+                                     strong("Reference sequences filter", style = "font-size:24px;color:white"),
+                                     br(),br(),
+                                     strong("1. Check your primers", style = "color: white;font-size: 20px;"),
+                                     p("If incorrect, go to Sequence summary to change.", style = "font-size:18px;"),
+                                     # p(HTML("<b>1. Check your primers</b>"), span(shiny::icon("info-circle"), id = "info_check")
+                                     #   , style = "font-size:20px;font-weight:700; margin-top:15px"),
+                                     # tippy::tippy_this(elementId = "info_check", tooltip = "If incorrect, go to Sequences summary to change", placement = "right"),
+                                     
+                                     uiOutput(outputId = "check_primer"),
+                                     # uiOutput(outputId = "check_r_primer"),
+                                     br(),br(),
+                                     strong("2. Filter the reference sequences", style = "font-size:20px; margin-top:15px"),
+                                     p("Filter the reference sequences based on length.", style = "font-size:18px;"),
+                                     textInput(inputId = "min_length", 
+                                               label = span("Give the minimum length to retain",
+                                                            style = "font-size:20px;"),
+                                               # label = "Give the minimum length to retain",
+                                               placeholder = "Input number",
+                                               value = 0,
+                                               width = "400px"),
+                                     # tippy::tippy_this(elementId = "info_min", tooltip = "The default value is minimun length of denoised-sequences", placement = "right"),
+                                     # p("Shorter sequenceses are discarded. Set to zero to disable min length filtering.", 
+                                     #   style = "font-size: 16px;margin-top:-3px"),
+                                     
+                                     
+                                     textInput(inputId = "max_length", 
+                                               label = span("Give the maximum length to retain",
+                                                            style = "font-size:20px;"),
+                                               # label = "Give the maximum length to retain",
+                                               placeholder = "Input number",
+                                               value = 0,
+                                               width = "400px"),
+                                     # tippy::tippy_this(elementId = "info_max", tooltip = "The default value is maximum length of denoised-sequences", placement = "right"),
+                                     # p("Longer sequenceses are discarded. Set to zero to disable max length filtering.",
+                                     #   style = "font-size: 14px;margin-top:-3px"),
+                                     actionButton("filter_ref_info",
+                                                  "learn more",
+                                                  icon = icon("question-circle")),
+                                     
+                                     hr(),
+                                     strong("Computing setting", style = "font-size:24px;color:white"),
+                                     textInput(inputId = "n_jobs", 
+                                               label = "Number of threads to run",
+                                               value = my_cores-2,
+                                               placeholder = "Input number",
+                                               width = "300px")
+                                     # br(),br(),
+                                     # actionButton(inputId = "start_training", 
+                                     #              label = strong("Start!"),
+                                     #              icon = icon("play-circle")
+                                     #              ),
+                                     # textOutput(outputId = "word_training"),
+                                     
+                                     # strong("Result", style = "font-size: 20px"),
+                                     # div(actionButton(inputId = "view_taxa",
+                                     #              label = "Taxonomy classification result",
+                                     #              onclick = paste0("window.open('http://", 
+                                     #                               my_qiime_ip, my_qiime_port,
+                                     #                               "/taxonomy_unzip/new_dirname/data/index.html",
+                                     #                               "')"),
+                                     #              icon = icon("eye")),
+                                     #     style = "margin-top: 10px;margin-bottom: 10px"
+                                     #     ),
+                                     
+                                     # div(downloadButton(outputId = "taxatable_download", 
+                                     #                    label = "Download the taxonomic table for next step.",
+                                     #                    style = "margin-bottom: 10px")
+                                     #     ),
+                                     # div(downloadButton(outputId = "table_dada2_download", 
+                                     #                    label = "Download the ASVs table for next step.",
+                                     #                    style = "margin-bottom: 10px")
+                                     # ),
+                                     # 
+                                     # tippy::tippy_this(elementId = "table_dada2_download",
+                                     #                   tooltip = "<p style='text-align: left;margin:2px'>amplicon sequence variant (ASV) table, a higher-resolution analogue of the traditional OTU table</p>",
+                                     #                   allowHTML = TRUE,
+                                     #                   placement = "right"),
+                                     # 
+                                     # div(downloadButton(outputId = "rep_seq_dada2_download", 
+                                     #                    label = "Download the seqs data for next step.",
+                                     #                    style = "margin-bottom: 10px")
+                                     #     ),
+                                     # p("amplicon sequence variant (ASV) table, a higher-resolution analogue of the traditional OTU table.",
+                                     #   style = "font-size: 14px;"),
+                                     # div(strong('Example', style = "font-size: 20px")),
+                                     # actionButton(inputId = "view_taxonomy_example",
+                                     #              label = "How does the taxonomy result look?",
+                                     #              style = "margin-bottom: 10px;margin-top: 10px",
+                                     #              onclick = paste0("window.open('http://",
+                                     #                               my_qiime_ip, my_qiime_port,
+                                     #                               "/example_files/taxonomy_analysis/data/index.html",
+                                     #                               "')")
+                                     #              )
+                                     
+                                   ) # wellPanel
                             ), # collumn
                             
                             mainPanel(
-                              h1("3. Taxonomic analysis", 
+                              h1("3. Taxonomic classification", 
                                  style = "color: #317EAC;margin-top: 0px;"),
                               h4("(1) Taxonomy classification"),
                               actionButton(inputId = "start_training", 
                                            label = strong("Start!"),
-                                           icon = icon("play-circle")
+                                           icon = icon("play-circle"),
+                                           style = "margin: 10px; display: inline-block;"
                               ),
                               
-                              h4("(2) Inpect the taxonomy classification result.", 
-                                 style = "margin-top: 25px"),
-                              div(actionButton(inputId = "view_taxa",
-                                               label = "View!",
-                                               onclick = paste0("window.open('http://", 
-                                                                my_qiime_ip, my_qiime_port,
-                                                                "/taxonomy_unzip/new_dirname/data/index.html",
-                                                                "')"),
-                                               icon = icon("eye")),
-                                  style = "margin-top: 10px;margin-bottom: 25px"
+                              
+                              div(
+                                id = "taxa_results_view",
+                                h4("(2) Inpect the taxonomy classification result.", 
+                                   style = "margin-top: 25px"),
+                                # uiOutput(outputId = "taxa_view_bttn"), # web version
+                                actionButton(inputId = "view_taxa",
+                                             label = "View!",
+                                             onclick = paste0("window.open('http://",
+                                                              my_qiime_ip, my_qiime_port,
+                                                              # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_taxa,
+                                                              "/taxonomy_unzip/new_dirname/data/index.html",
+                                                              "')"),
+                                             icon = icon("eye")
+                                ) %>% shinyjs::disabled(),
+                                # span("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
+                                #      style = "position: relative; top:5px;"),
+                                style = "margin-top: 10px;margin-bottom: 25px"
+                              ),
+                              # span("Go to", strong('User results'), ", you can inspect the result by your user id."),
+                              
+                              
+                              div(
+                                id = "taxa_results_download",
+                                h4("(3) Download the files for the next step.",
+                                   style = "margin-top: 25px"),
+                                downloadButton(outputId = "taxatable_download",
+                                               label = "The taxonomic table for the next step.",
+                                               style = "margin-bottom: 10px") %>% shinyjs::disabled(),
+                                
+                                downloadButton(outputId = "table_dada2_download",
+                                               label = "The ASVs table for the next step.",
+                                               style = "margin-bottom: 10px") %>% shinyjs::disabled(),
+                                
+                                
+                                tippy::tippy_this(elementId = "table_dada2_download",
+                                                  tooltip = "<p style='text-align: left;margin:2px'>amplicon sequence variant (ASV) table, a higher-resolution analogue of the traditional OTU table</p>",
+                                                  allowHTML = TRUE,
+                                                  placement = "bottom"),
+                                
+                                downloadButton(outputId = "rep_seq_dada2_download",
+                                               label = "The seqs data for the next step.",
+                                               style = "margin-bottom: 10px") %>% shinyjs::disabled()
                               ),
                               
-                              h4('* Show the example.'),
+                              br(),br(),
+                              h4('What the result you will get at this step'),
                               actionButton(inputId = "view_taxonomy_example",
                                            label = "How does the taxonomy result look?",
                                            style = "margin-bottom: 10px;margin-top: 0px",
+                                           # onclick = paste0("window.open('http://",
+                                           #                  "mochi.life.nctu.edu.tw",
+                                           #                  "/example_files/taxonomy_analysis/data/index.html",
+                                           #                  "')") # web version
                                            onclick = paste0("window.open('http://",
                                                             my_qiime_ip, my_qiime_port,
                                                             "/example_files/taxonomy_analysis/data/index.html",
                                                             "')")
-                                           ),
+                              ),
                               
-                              h4("(3) Download the files for the next step.", 
-                                 style = "margin-top: 25px"),
-                              downloadButton(outputId = "taxatable_download", 
-                                                 label = "The taxonomic table for the next step.",
-                                                 style = "margin-bottom: 10px"),
-                              
-                              downloadButton(outputId = "table_dada2_download", 
-                                                 label = "The ASVs table for the next step.",
-                                                 style = "margin-bottom: 10px"),
-                              
-                              
-                              tippy::tippy_this(elementId = "table_dada2_download",
-                                                tooltip = "<p style='text-align: left;margin:2px'>amplicon sequence variant (ASV) table, a higher-resolution analogue of the traditional OTU table</p>",
-                                                allowHTML = TRUE,
-                                                placement = "bottom"),
-                              
-                              downloadButton(outputId = "rep_seq_dada2_download", 
-                                                 label = "The seqs data for the next step.",
-                                                 style = "margin-bottom: 10px")
-                              
-                              
-                              ,
                               
                               # uiOutput(outputId = "mk_taxa"), 
                               # dataTableOutput(outputId = "taxonomy_output"), 
                               width = 8)
                           ) # sidebarLayout
-                          ) # tabPanel
+                 ) # tabPanel
                  
       ), # navbarmenu
       
       
       
       
-                 # Data Analysis ----
-      tabPanel(title = span("Data Analysis", style = tabPanel_title_style),
+      # Taxonomic Analysis ----
+      tabPanel(title = span("Taxonomic Analysis", style = tabPanel_title_style),
                
-               icon = icon("chart-bar"),
+               icon = icon("chart-bar", class = "chart-bar_icon"),
+               tags$style(".chart-bar_icon {color: white}"),
                
                sidebarLayout(
-                 
+                 fluid = T,
                  
                  sidebarPanel(
                    style = "background-color: #317EAC; border: none; border-radius: 5px; color: white;font-size: 20px;",
@@ -913,7 +1123,11 @@ shinyUI(
                              label = p(HTML("<b>Upload the metadata </b>"),span(shiny::icon("info-circle"),id = "info_metadata")),
                              multiple = F,
                              accept = ".tsv"),
-                   tippy::tippy_this(elementId = "info_metadata", tooltip = "1st column name must be '#SampleID'", placement = "right"),
+                   tippy::tippy_this(elementId = "info_metadata", 
+                                     tooltip = HTML("<p style='postion:relative;'>1st column name must be <b>#SampleID</b></p>"), 
+                                     placement = "right",
+                                     allowHTML =T),
+                   tags$style(".tooltip {position:relative;bottom:20px}"),
                    
                    # div(
                    #   span("Upload the metadata (1st column name must be"), 
@@ -927,30 +1141,32 @@ shinyUI(
                              label = p(HTML("<b>Upload the taxonomic table file </b>"),span(shiny::icon("info-circle"), id = "info_taxatable")),
                              multiple = F,
                              accept = ".qza"),
-                   tippy::tippy_this(elementId = "info_taxatable", tooltip = "Download from taxonomic analysis", placement = "right"),
+                   tippy::tippy_this(elementId = "info_taxatable", tooltip = "Download from taxonomic classification", placement = "right"),
                    
                    # span("Upload the ASVs table file (Download from taxonomic analysis)"),
                    fileInput(inputId = "table_dada2_upload", 
                              label = p(HTML("<b>Upload the ASVs table file </b>"),span(shiny::icon("info-circle"), id = "info_ASVs")),
                              multiple = F,
                              accept = ".qza"),
-                   tippy::tippy_this(elementId = "info_ASVs", tooltip = "Download from taxonomic analysis", placement = "right"),
+                   tippy::tippy_this(elementId = "info_ASVs", tooltip = "Download from taxonomic classification", placement = "right"),
+                   checkboxInput(inputId = "18S", label = p(HTML("<b>18S rRNA</b>"),span(shiny::icon("info-circle"), id = "18S_check"))),
+                   tippy::tippy_this(elementId = "18S_check", tooltip = "Check this if your sequences are 18S rRNA", placement = "right"),
                    
                    # Download example button
                    hr(),
                    p('Download the example files', style = "font-weight:700"),
                    div(downloadButton(outputId = "downloadMetaData", 
-                                  label = "Metadata_example.tsv"),
+                                      label = "Metadata_example.tsv"),
                        style = "margin: 5px;"),
                    div(downloadButton(outputId = "downloadData", 
-                                  label = "Taxonomic_table_example.qza"),
+                                      label = "Taxonomic_table_example.qza"),
                        style = "margin: 5px;"),
                    div(downloadButton(outputId = "example_feature_table",
-                                  label = "ASVs_table_example.qza"),
+                                      label = "ASVs_table_example.qza"),
                        style = "margin: 5px;"),
-                   div(downloadButton(outputId = "example_rep_seqs",
-                                      label = "Seqs_forPhylo_example.qza"),
-                       style = "margin: 5px;"),
+                   # div(downloadButton(outputId = "example_rep_seqs",
+                   #                    label = "Seqs_forPhylo_example.qza"),
+                   #     style = "margin: 5px;"),
                    
                    width = 3),
                  
@@ -1021,7 +1237,7 @@ shinyUI(
                                             color.background = spinner_bg_color),
                                           
                                           textOutput(outputId="word_metadata_NA_1") %>% shinyjs::hidden(),  
-                                          selectInput(inputId = "select2", 
+                                          selectInput(inputId = "select_level_bar", 
                                                       label = "Choose the level", 
                                                       choices = c("Kingdom","Phylum","Class","Order","Family","Genus","Species") 
                                           ),
@@ -1052,7 +1268,7 @@ shinyUI(
                                             color.background = spinner_bg_color
                                           ),
                                           textOutput(outputId="word_metadata_NA_2"),
-                                          selectInput(inputId = "select", 
+                                          selectInput(inputId = "select_level_hm", 
                                                       label = "Choose the level", 
                                                       choices = c("Kingdom","Phylum","Class","Order","Family","Genus","Species")
                                           ),
@@ -1269,7 +1485,8 @@ shinyUI(
                                         icon = icon("code-branch"),
                                         div(
                                           id = "phylo_ui",
-                                          strong("Phylogenetic diversity is a speices diversity considering genetic distance. So we need sequences information to compute the diversity."),
+                                          strong("Phylogenetic diversity is a species diversity considering genetic distance.",
+                                                 style = "font-size: 18px"),
                                           br(),br(),
                                           # strong("The pipeline uses the"),
                                           # a("mafft", href="https://en.wikipedia.org/wiki/MAFFT", target="_blank"),
@@ -1281,15 +1498,23 @@ shinyUI(
                                           #           accept = ".qza", 
                                           #           width = "40%"),
                                           fileInput(inputId ="rep_seq_dada2_upload", 
-                                                    label = "Upload the sequences data (Download from Taxonomic anlysis)",
+                                                    # label = "Upload the sequences data (Download from Taxonomic analysis)",
+                                                    label = p(HTML("<b >Upload the sequences data </b>"),span(shiny::icon("info-circle"),id = "info_seqs_forPhylo")),
                                                     multiple = F,
                                                     accept = ".qza",
                                                     width = "40%"),
+                                          tippy::tippy_this(elementId = "info_seqs_forPhylo", tooltip = "Download from taxonomic analysis", placement = "right"),
+                                          div(downloadButton(outputId = "example_rep_seqs",
+                                                             label = "Seqs_forPhylo_example.qza"),
+                                              style = "margin: 5px;"),
+                                          br(),br(),
                                           textInput(inputId = "sampling_depth", 
                                                     label = "Input the sampling depth"),
-                                          p("If the total count for any sample(s) are smaller than this value, those samples will be dropped from the diversity analysis."),
-                                          p("The default value is the total count of a sample with the smallest count."),
-                                          span("View the result in"), strong('Sequences Preprocessing/Sequences summary'), span("to determine this value."),
+                                          actionButton(inputId = "Q_sampling_depth", 
+                                                       label = "What is this ?", 
+                                                       icon = icon("question-circle")
+                                          ),
+                                          
                                           br(),br(),
                                           textInput(inputId = "threads_phylogenetic", 
                                                     label = "Input the number of threads", 
@@ -1491,7 +1716,7 @@ shinyUI(
                                                        inline = T),
                                           actionButton(inputId = "ANCOM_start", 
                                                        label = strong("Start!")
-                                                       ),
+                                          ),
                                           
                                           # textOutput(outputId = "word_ANCOM"),
                                           hr(),
@@ -1517,10 +1742,10 @@ shinyUI(
                                             color.background = spinner_bg_color
                                           )
                                           
-                                          ) %>% shinyjs::hidden(),
-                                          downloadButton(outputId = "ancom_table_download",
-                                                         label = "Download the ANCOM result table (Contain all species)") %>% shinyjs::hidden()
-
+                                        ) %>% shinyjs::hidden(),
+                                        downloadButton(outputId = "ancom_table_download",
+                                                       label = "Download the ANCOM result table (Contain all species)") %>% shinyjs::hidden()
+                                        
                                         
                                         
                                )
@@ -1533,13 +1758,14 @@ shinyUI(
       
       
       
-                 # Function Analysis -------------
+      # Function Analysis -------------
       tabPanel(title = span("Function Analysis", style = tabPanel_title_style),
                
-               icon = icon("caret-square-right"),
+               icon = icon("caret-square-right", class = "caret_icon"),
+               tags$style(".caret_icon {color: white}"),
                
                sidebarLayout(
-                 
+                 fluid = T,
                  sidebarPanel(
                    style = "background-color: #317EAC; border: none; border-radius: 5px; color: white;font-size: 20px;",
                    a("FAPROTAX", 
@@ -1550,21 +1776,28 @@ shinyUI(
                    br(),br(),
                    
                    fileInput(inputId = "sample_data_FA", 
-                             label = p(HTML("<b>Upload the metadata </b>"),span(shiny::icon("info-circle"),id = "info_metadata_FA")),
+                             label = p(HTML("<b>Upload the metadata </b>"),
+                                       span(shiny::icon("info-circle"),
+                                            id = "info_metadata_FA")),
                              multiple = F,
                              accept = ".tsv"),
-                   tippy::tippy_this(elementId = "info_metadata_FA", tooltip = "1st column name must be '#SampleID'", placement = "right"),
+                   tippy::tippy_this(elementId = "info_metadata_FA", 
+                                     tooltip = HTML("<p style='postion:relative;'>1st column name must be <b>#SampleID</b></p>"), 
+                                     placement = "right",
+                                     allowHTML = TRUE),
                    
                    fileInput(inputId = "taxonomic_table_FA", 
-                             label = p(HTML("<b>Upload the taxonomic table file </b>"),span(shiny::icon("info-circle"),id = "info_taxatable_FA")),
+                             label = p(HTML("<b>Upload the taxonomic table file </b>"),
+                                       span(shiny::icon("info-circle"),
+                                            id = "info_taxatable_FA")),
                              multiple = F,
-                             accept = ".tsv"),
-                   tippy::tippy_this(elementId = "info_taxatable_FA", tooltip = "Download from taxonomic analysis", placement = "right"),
+                             accept = ".qza"),
+                   tippy::tippy_this(elementId = "info_taxatable_FA", tooltip = "Download from taxonomic classification", placement = "right"),
                    
                    actionButton(inputId = "function_analysis", 
                                 label = strong("Start!"), 
                                 icon = icon("play-circle")
-                                ),
+                   ),
                    width = 3),
                  
                  mainPanel(
@@ -1600,28 +1833,29 @@ shinyUI(
                                         icon = icon("th"),
                                         div(
                                           id="func_barplot_ui",
-                                        h3("Function barplot"),
-                                        withSpinner(
-                                          plotlyOutput(outputId = "Function_barplot", 
-                                                   height = "800px"), 
-                                          type = spinner_type, 
-                                          color.background = spinner_bg_color
-                                        ),
-                                        radioButtons(inputId = "metadata_FA", 
-                                                     label = "Choose the group", 
-                                                     choices = " ",
-                                                     inline = T),
-                                        downloadButton(outputId = "FA_plot_download",
-                                                       label = "Download the function barplot")
+                                          h3("Function barplot"),
+                                          withSpinner(
+                                            plotlyOutput(outputId = "Function_barplot", 
+                                                         height = "800px"), 
+                                            type = spinner_type, 
+                                            color.background = spinner_bg_color
+                                          ),
+                                          radioButtons(inputId = "metadata_FA", 
+                                                       label = "Choose the group", 
+                                                       choices = " ",
+                                                       inline = T),
+                                          downloadButton(outputId = "FA_plot_download",
+                                                         label = "Download the function barplot")
                                         ) %>% shinyjs::hidden()
                                )
                    ), width = 9)
                )),
       
-                 # Tutorial--------------
+      # Tutorial--------------
       tabPanel(title = span("Tutorial", style = tabPanel_title_style),
                
-               icon = icon("question-circle"),
+               icon = icon("question-circle", class = "nav_qc_icon"),
+               tags$style(".nav_qc_icon {color: white}"),
                
                mainPanel(
                  # uiOutput("tutorial"),
@@ -1630,73 +1864,164 @@ shinyUI(
                              # tabPanel(title="Installation",
                              #          withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_install.Rmd"))
                              #          ),
-                             tabPanel(title="Sequences preprocessing",
+                             tabPanel(title="Sequence Preprocessing",
                                       h2("The tutorial of Sequences preprocessing"),
                                       selectInput(inputId = "seq_choice_tutorial",
                                                   label = "Choose the process",
-                                                  choices = c("1. Sequences summary", "2. Denoising", "3. Taxonomic analysis")),
+                                                  choices = c("Step 1. Sequence summary", "Step 2. Denoising", "Step 3. Taxonomic classification")),
                                       hr(),
                                       conditionalPanel(
-                                        condition = "input.seq_choice_tutorial == '1. Sequences summary'",
+                                        condition = "input.seq_choice_tutorial == 'Step 1. Sequence summary'",
                                         withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_seq_1.Rmd")
-                                                    ),
+                                        ),
                                       ),
                                       conditionalPanel(
-                                        condition = "input.seq_choice_tutorial == '2. Denoising'",
+                                        condition = "input.seq_choice_tutorial == 'Step 2. Denoising'",
                                         withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_seq_2.Rmd")
                                         ),
                                       ),
                                       conditionalPanel(
-                                        condition = "input.seq_choice_tutorial == '3. Taxonomic analysis'",
+                                        condition = "input.seq_choice_tutorial == 'Step 3. Taxonomic classification'",
                                         withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_seq_3.Rmd")
                                         ),
                                       )
-                                      ),
-                             tabPanel(title="Data Analysis",
+                             ),
+                             tabPanel(title="Taxonomic Analysis",
                                       withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_DA.Rmd"))
-                                      ),
+                             ),
                              tabPanel(title="Function analysis",
                                       withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_func.Rmd"))
-                                      )
-                                      
                              )
+                             
+                 )
                  
                  
                )
                
                
-      ),
-      
-                 # footer -----------
-      
-      tags$footer(
-        tags$span("Ting-Wen Chen Lab, National Chiao Tung University, Taiwan 300, ROC"),
-        tags$a(href="https://ibs.nctu.edu.tw/faculty/%E9%99%B3%E4%BA%AD%E5%A6%8F/", tags$b("Contact us!"), 
-               target = "_blank",
-               class="externallink", 
-               style = "color: white; padding-left: 100px;"), 
-        
-        style = "
-                       position:fixed;
-                       text-align:center;
-                       left: 15px;
-                       right: 15px;
-                       bottom: 0px;
-                       z-index:1000;  
-                       height:25px; /* Height of the footer */
-                       color: white;
-                       padding: 5px;
-                       font-weight: bold;
-                       background-color: #043B70;
-                       "
-      ),
-      
-      # avoid from footer cover contents
-      tags$body(
-        style = "margin-bottom: 50px"
       )
       
-    ) # navbarPage
+      
+    #   # user result ----
+    #   tabPanel(title = span("User results", style = tabPanel_title_style),
+    #            icon = icon("user", class = "user_icon"),
+    #            tags$style(".user_icon {color: white}"),
+    #            
+    #            sidebarLayout(
+    #              fluid = T,
+    #              column(width = 4,
+    #                     wellPanel(
+    #                       style = "background-color: #317EAC; border: none; border-radius: 5px; color: white;font-size: 20px;width:300px",
+    #                       # strong("Inpect your results", style = "font-size:20px;color:white"),
+    #                       strong("Download the results", style = "font-size:24px;color:white;top:20px"),
+    #                       textInput(inputId = "job_id",
+    #                                 label = strong("Job ID", style = "font-size:20px;color:white"),
+    #                                 placeholder = "Input your job id",
+    #                                 width = "200px"),
+    #                       actionButton(inputId = "submit_id",
+    #                                    label = "Submit")
+    #                     )
+    #              ),
+    #              mainPanel(
+    #                uiOutput(outputId = "users_results_download")
+    #                # downloadButton(outputId = "demux_single_download",
+    #                #                  label = "Download")
+    #                #   
+    #                
+    #                
+    #              )
+    #            )
+    #   )
+    #   
+    #   
+    #   
+    ), # navbarPage
+
+    # footer -----------
+    
+    tags$footer(
+      tags$span(
+        tags$a("Molecular Bioinformatics Lab", href = "https://fullofbeans.nctu.edu.tw/?page_id=333&lang=en", style = "color: white"), 
+        ", National Chiao Tung University, Taiwan 300, R.O.C."),
+      # tags$a(href="https://ibs.nctu.edu.tw/faculty/%E9%99%B3%E4%BA%AD%E5%A6%8F/", tags$span("Contact us!"), 
+      #        target = "_blank",
+      #        class="externallink", 
+      #        style = "color: white; padding-left: 100px;"), 
+      
+      style = "
+                       font-family: Arial;
+                       position:fixed;
+                       text-align:center;
+                       left: 0px;
+                       right: 0px;
+                       bottom: 0px;
+                       z-index:1000;  
+                      
+                       color: white;
+                       padding: 5px;
+                       background-color: #043B70;
+                       background-color: #317EAC;
+                       border-top: solid 1px white;
+                       "
+    ),
+    
+    tags$style("@media screen and (min-width: 611px) {
+               footer {
+               height: 30px;
+               }
+    }"),
+    tags$style("@media screen and (max-width: 611px) {
+               footer {
+               height: 60px;
+               }
+    }"),
+    
+    # avoid from navbar and footer cover contents
+    tags$body(
+      style = "position:relative;",
+      tags$style("@media screen and (min-width: 1134px) {
+                         body {
+                           position:relative;
+                           margin-top: 60px;
+                           margin-bottom: 30px;
+                                             }
+                 }"
+      ),
+      tags$style("@media screen and (max-width: 1400px) {
+                         body {
+                           position:relative;
+                           margin-top: 125px;
+                           margin-bottom: 30px;
+                                             }
+                 }"
+      ),
+      tags$style("@media screen and (max-width: 1135px) {
+                         body {
+                           position:relative;
+                           margin-top: 195px;
+                           margin-bottom: 30px;
+                                             }
+                 }"
+      ),
+      tags$style("@media screen and (max-width: 766px) {
+                         body {
+                           position:relative;
+                           margin-top: 60px;
+                           margin-bottom: 30px;
+                                             }
+                 }"
+      ),
+      tags$style("@media screen and (max-width: 611px) {
+                         body {
+                           position:relative;
+                           margin-top: 60px;
+                           margin-bottom: 60px;
+                                             }
+                 }"
+      )
+    )
+    
+    
   ) # fluidPage
 ) # shinyUI
 
