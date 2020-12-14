@@ -7832,43 +7832,60 @@ server <- function(session, input, output) {
     
     qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
     
-    system(paste0("mkdir", " /home/imuser/web_version/users_files/", job_id(), "_DA_phylo"))
-    system(paste0(qiime_cmd, 
-                  " phylogeny align-to-tree-mafft-fasttree --i-sequences ", input$rep_seq_dada2_upload$datapath, 
-                  " --p-n-threads ", input$threads_phylogenetic,
-                  " --o-alignment /home/imuser/web_version/users_files/",
-                  job_id(),"_DA_phylo",
-                  "/aligned-rep-seqs-dada2.qza",
-                  " --o-masked-alignment /home/imuser/web_version/users_files/",
-                  job_id(),"_DA_phylo",
-                  "/masked-aligned-rep-seqs-dada2.qza",
-                  " --o-tree /home/imuser/web_version/users_files/",
-                  job_id(),"_DA_phylo",
-                  "/unrooted-tree.qza --o-rooted-tree /home/imuser/web_version/users_files/",
-                  job_id(),"_DA_phylo",
-                  "/rooted-tree.qza"))
+    # system(paste0("mkdir", " /home/imuser/web_version/users_files/", job_id(), "_DA_phylo"))
+    # system(paste0(qiime_cmd, 
+    #               " phylogeny align-to-tree-mafft-fasttree --i-sequences ", input$rep_seq_dada2_upload$datapath, 
+    #               " --p-n-threads ", input$threads_phylogenetic,
+    #               " --o-alignment /home/imuser/web_version/users_files/",
+    #               job_id(),"_DA_phylo",
+    #               "/aligned-rep-seqs-dada2.qza",
+    #               " --o-masked-alignment /home/imuser/web_version/users_files/",
+    #               job_id(),"_DA_phylo",
+    #               "/masked-aligned-rep-seqs-dada2.qza",
+    #               " --o-tree /home/imuser/web_version/users_files/",
+    #               job_id(),"_DA_phylo",
+    #               "/unrooted-tree.qza --o-rooted-tree /home/imuser/web_version/users_files/",
+    #               job_id(),"_DA_phylo",
+    #               "/rooted-tree.qza"))
+    # 
+    # write.table(Metadata_stats(), 
+    #             file=paste0("/home/imuser/web_version/users_files/",
+    #                         job_id(),"_DA_phylo",
+    #                         "/metadata.tsv")
+    #             , quote=FALSE, sep='\t', row.names = F)
+    # # system("rm -r /home/imuser/qiime_output/core-metrics-results/")
+    # system(paste0(qiime_cmd, 
+    #               " diversity core-metrics-phylogenetic --i-phylogeny /home/imuser/web_version/users_files/",
+    #               job_id(),"_DA_phylo","/rooted-tree.qza",
+    #               " --i-table ", input$table_dada2_upload$datapath,
+    #               " --p-sampling-depth ", input$sampling_depth,
+    #               " --m-metadata-file",
+    #               " /home/imuser/web_version/users_files/",
+    #               job_id(),"_DA_phylo",
+    #               "/metadata.tsv", 
+    #               " --output-dir /home/imuser/web_version/users_files/",
+    #               job_id(),"_DA_phylo","/core-metrics-results"))
+    # 
+    # faith_PD <- reactive({
+    #   read_qza(paste0("/home/imuser/web_version/users_files/",
+    #                   job_id(),"_DA_phylo","/core-metrics-results/faith_pd_vector.qza"))[["data"]]
+    # }) # web version
     
-    write.table(Metadata_stats(), 
-                file=paste0("/home/imuser/web_version/users_files/",
-                            job_id(),"_DA_phylo",
-                            "/metadata.tsv")
-                , quote=FALSE, sep='\t', row.names = F)
-    # system("rm -r /home/imuser/qiime_output/core-metrics-results/")
-    system(paste0(qiime_cmd, 
-                  " diversity core-metrics-phylogenetic --i-phylogeny /home/imuser/web_version/users_files/",
-                  job_id(),"_DA_phylo","/rooted-tree.qza",
-                  " --i-table ", input$table_dada2_upload$datapath,
-                  " --p-sampling-depth ", input$sampling_depth,
-                  " --m-metadata-file",
-                  " /home/imuser/web_version/users_files/",
-                  job_id(),"_DA_phylo",
-                  "/metadata.tsv", 
-                  " --output-dir /home/imuser/web_version/users_files/",
-                  job_id(),"_DA_phylo","/core-metrics-results"))
+    system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences", input$rep_seq_dada2_upload$datapath, 
+                 "--p-n-threads", input$threads_phylogenetic,
+                 "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2.qza",
+                 "--o-tree /home/imuser/qiime_output/unrooted-tree.qza --o-rooted-tree /home/imuser/qiime_output/rooted-tree.qza"))
+    
+    write.table(Metadata_stats(), file='/home/imuser/metadata.tsv', quote=FALSE, sep='\t', row.names = F)
+    system("rm -r /home/imuser/qiime_output/core-metrics-results/")
+    system(paste(qiime_cmd, "diversity core-metrics-phylogenetic --i-phylogeny /home/imuser/qiime_output/rooted-tree.qza",
+                 "--i-table", input$table_dada2_upload$datapath,
+                 "--p-sampling-depth ", input$sampling_depth,
+                 "--m-metadata-file /home/imuser/metadata.tsv", 
+                 "--output-dir /home/imuser/qiime_output/core-metrics-results"))
     
     faith_PD <- reactive({
-      read_qza(paste0("/home/imuser/web_version/users_files/",
-                      job_id(),"_DA_phylo","/core-metrics-results/faith_pd_vector.qza"))[["data"]]
+      read_qza("/home/imuser/qiime_output/core-metrics-results/faith_pd_vector.qza")[["data"]]
     })
     
     output$contents4 <- renderDataTable({
@@ -8129,23 +8146,39 @@ server <- function(session, input, output) {
     
     output$unif_dm_hm <- renderPlotly({
       
+      # if(input$UnW_or_W=="Unweighted"){
+      #   unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                     job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix()
+      #   plot_ly(x=colnames(unW_unifrac_dm),
+      #           y=rownames(unW_unifrac_dm),
+      #           z=unW_unifrac_dm,
+      #           # colors = palette(50),
+      #           colors = colorRamp(c("green", "red")),
+      #           type = "heatmap") %>% layout(title="Unweighted unifrac distance matrix heatmap", xaxis=list(tickangle=45))
+      # }else{
+      #   W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                   job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix()
+      #   plot_ly(x=colnames(W_unifrac_dm),
+      #           y=rownames(W_unifrac_dm),
+      #           z=W_unifrac_dm,
+      #           # colors = palette(50),
+      #           colors = colorRamp(c("green", "red")),
+      #           type = "heatmap") %>% layout(title="Weighted unifrac distance matrix heatmap", xaxis=list(tickangle=45)) 
+      # } # web version
+      
       if(input$UnW_or_W=="Unweighted"){
-        unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                          job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix()
+        unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix()
         plot_ly(x=colnames(unW_unifrac_dm),
                 y=rownames(unW_unifrac_dm),
                 z=unW_unifrac_dm,
                 # colors = palette(50),
-                colors = colorRamp(c("green", "red")),
                 type = "heatmap") %>% layout(title="Unweighted unifrac distance matrix heatmap", xaxis=list(tickangle=45))
       }else{
-        W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                        job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix()
+        W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix()
         plot_ly(x=colnames(W_unifrac_dm),
                 y=rownames(W_unifrac_dm),
                 z=W_unifrac_dm,
                 # colors = palette(50),
-                colors = colorRamp(c("green", "red")),
                 type = "heatmap") %>% layout(title="Weighted unifrac distance matrix heatmap", xaxis=list(tickangle=45)) 
       }
     })
@@ -8153,11 +8186,17 @@ server <- function(session, input, output) {
     
     output$download_unif_dm<-downloadHandler(
       
+      # filename = "unifrac_distance_matrix.csv",
+      # content = function(file) {
+      #   
+      #   write.csv(as.matrix(read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                       job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]]), file, row.names = T)
+      #   
+      # } # web version
       filename = "unifrac_distance_matrix.csv",
       content = function(file) {
         
-        write.csv(as.matrix(read_qza(paste0("/home/imuser/web_version/users_files/",
-                                            job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]]), file, row.names = T)
+        write.csv(as.matrix(read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]), file, row.names = T)
         
       }
     )
@@ -8165,8 +8204,9 @@ server <- function(session, input, output) {
     unW_unif_pcoa_plot <- reactive({
       
       #PCoA
-      unW_unifrac_dm_pcoa_qiime <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                                   job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_pcoa_results.qza"))[["data"]]
+      # unW_unifrac_dm_pcoa_qiime <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                              job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_pcoa_results.qza"))[["data"]] # web version
+      unW_unifrac_dm_pcoa_qiime <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_pcoa_results.qza")[["data"]]
       unW_unifrac_dm_pcoa_qiime_forplot <- unW_unifrac_dm_pcoa_qiime$Vectors[,1:3]
       unW_unifrac_dm_pcoa_qiime_forplot <-merge(Metadata_stats(), unW_unifrac_dm_pcoa_qiime_forplot, by="SampleID") %>% as_tibble()
       
@@ -8284,8 +8324,9 @@ server <- function(session, input, output) {
       metadata_beta <- Metadata_stats()[nonNA_position,]
       colnames(metadata_beta)[1] <- "SampleID"
       
-      unW_unifrac_dm_qiime <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                              job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]]
+      # unW_unifrac_dm_qiime <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                         job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]]
+      unW_unifrac_dm_qiime <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]
       sample_original_names <- as.matrix(unW_unifrac_dm_qiime) %>% rownames()
       
       update_rownames <- function(feature_name, metadata, i){
@@ -8343,8 +8384,9 @@ server <- function(session, input, output) {
     W_unif_pcoa_plot <- reactive({
       
       #PCoA
-      W_unifrac_dm_pcoa_qiime <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                                 job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_pcoa_results.qza"))[["data"]]
+      # W_unifrac_dm_pcoa_qiime <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                            job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_pcoa_results.qza"))[["data"]] # web version
+      W_unifrac_dm_pcoa_qiime <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_pcoa_results.qza")[["data"]]
       W_unifrac_dm_pcoa_qiime_forplot <- W_unifrac_dm_pcoa_qiime$Vectors[,1:3]
       W_unifrac_dm_pcoa_qiime_forplot <-merge(Metadata_stats(), W_unifrac_dm_pcoa_qiime_forplot, by="SampleID") %>% as_tibble()
       
@@ -8390,8 +8432,9 @@ server <- function(session, input, output) {
       metadata_beta <- Metadata_stats()[nonNA_position,]
       colnames(metadata_beta)[1] <- "SampleID"
       
-      W_unifrac_dm_qiime <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                            job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]]
+      # W_unifrac_dm_qiime <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                       job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] # web version
+      W_unifrac_dm_qiime <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]
       sample_original_names <- as.matrix(W_unifrac_dm_qiime) %>% rownames()
       
       update_rownames <- function(feature_name, metadata, i){
@@ -8513,8 +8556,9 @@ server <- function(session, input, output) {
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
-      unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                        job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
+      # unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                   job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame() # web version
+      unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(unW_unifrac_dm))
       
@@ -8551,9 +8595,9 @@ server <- function(session, input, output) {
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
-      W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                      job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
-      
+      # W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                 job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
+      W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(W_unifrac_dm))
       
       adonis_result_table_list <- lapply(colnames(nonNA_metadata)[-1], function(x){
@@ -8651,9 +8695,9 @@ server <- function(session, input, output) {
       nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
-      unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                        job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
-      
+      # unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                   job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
+      unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(unW_unifrac_dm))
       
       group_names <- unique(nonNA_metadata[,input$metadata_phylo_beta])
@@ -8672,8 +8716,9 @@ server <- function(session, input, output) {
           
           feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
           sample_f1_f2 <- sample_list[[input$metadata_phylo_beta]] %>% filter(sample_list[[input$metadata_phylo_beta]][,input$metadata_phylo_beta] %in% feature1_feature2)
-          unW_unifrac_ds <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                            job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]]
+          # unW_unifrac_ds <- read_qza(paste0("/home/imuser/web_version/users_files/",
+          #                                   job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] # web version
+          unW_unifrac_ds <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]
           return(usedist::dist_subset(unW_unifrac_ds, sample_f1_f2[,"SampleID"]))
         })
         
@@ -8726,8 +8771,9 @@ server <- function(session, input, output) {
       nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
-      W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                      job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
+      # W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                 job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame() # web version
+      W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(W_unifrac_dm))
       
@@ -8747,8 +8793,9 @@ server <- function(session, input, output) {
           
           feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
           sample_f1_f2 <- sample_list[[input$metadata_phylo_beta]] %>% filter(sample_list[[input$metadata_phylo_beta]][,input$metadata_phylo_beta] %in% feature1_feature2)
-          W_unifrac_ds <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                          job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]]
+          # W_unifrac_ds <- read_qza(paste0("/home/imuser/web_version/users_files/",
+          #                                 job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] # web version
+          W_unifrac_ds <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]
           return(usedist::dist_subset(W_unifrac_ds, sample_f1_f2[,"SampleID"]))
         })
         
@@ -8839,8 +8886,9 @@ server <- function(session, input, output) {
       nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
-      unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                        job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
+      # unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                   job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame() # web version
+      unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(unW_unifrac_dm))
       
@@ -8864,8 +8912,9 @@ server <- function(session, input, output) {
       nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
-      W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                      job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
+      # W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                 job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame() # web version
+      W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(W_unifrac_dm))
       
@@ -8890,8 +8939,9 @@ server <- function(session, input, output) {
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
-      unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                        job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
+      # unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                   job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame() # web version
+      unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(unW_unifrac_dm))
       
@@ -8912,8 +8962,9 @@ server <- function(session, input, output) {
           
           feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
           sample_f1_f2 <- sample_list[[input$metadata_phylo_beta]] %>% filter(sample_list[[input$metadata_phylo_beta]][,input$metadata_phylo_beta] %in% feature1_feature2)
-          unW_unifrac_ds <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                            job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]]
+          # unW_unifrac_ds <- read_qza(paste0("/home/imuser/web_version/users_files/",
+          #                                   job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] # web version
+          unW_unifrac_ds <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]
           return(usedist::dist_subset(unW_unifrac_ds, sample_f1_f2[,"SampleID"]))
         })
         
@@ -8970,8 +9021,9 @@ server <- function(session, input, output) {
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
-      W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                      job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
+      # W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                 job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame() # web version
+      W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(W_unifrac_dm))
       
@@ -8992,8 +9044,9 @@ server <- function(session, input, output) {
           
           feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
           sample_f1_f2 <- sample_list[[input$metadata_phylo_beta]] %>% filter(sample_list[[input$metadata_phylo_beta]][,input$metadata_phylo_beta] %in% feature1_feature2)
-          W_unifrac_ds <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                          job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]]
+          # W_unifrac_ds <- read_qza(paste0("/home/imuser/web_version/users_files/",
+          #                                 job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] # web version
+          W_unifrac_ds <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]
           return(usedist::dist_subset(W_unifrac_ds, sample_f1_f2[,"SampleID"]))
         })
         
@@ -9128,8 +9181,9 @@ server <- function(session, input, output) {
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
-      unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                        job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
+      # unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                   job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame() # web version
+      unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(unW_unifrac_dm))
       
@@ -9160,8 +9214,9 @@ server <- function(session, input, output) {
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
       # bray_df <- vegdist(t(nonNA_taxtable), method = "bray") %>% as.matrix() %>% as.data.frame()
-      W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                      job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
+      # W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                 job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame() # web version
+      W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(W_unifrac_dm))
       
@@ -9191,8 +9246,9 @@ server <- function(session, input, output) {
       nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
-      unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                        job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
+      # unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                   job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame() # web version
+      unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(unW_unifrac_dm))
       
@@ -9211,8 +9267,9 @@ server <- function(session, input, output) {
           
           feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
           sample_f1_f2 <- sample_list[[input$metadata_phylo_beta]] %>% filter(sample_list[[input$metadata_phylo_beta]][,input$metadata_phylo_beta] %in% feature1_feature2)
-          unW_unifrac_ds <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                            job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]]
+          # unW_unifrac_ds <- read_qza(paste0("/home/imuser/web_version/users_files/",
+          #                                   job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] # web version
+          unW_unifrac_ds <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]
           return(usedist::dist_subset(unW_unifrac_ds, sample_f1_f2[,"SampleID"]))
           
         })
@@ -9281,8 +9338,9 @@ server <- function(session, input, output) {
       nonNA_taxtable <- asv_table()[,nonNA_sampleid]
       nonNA_metadata <- Metadata_stats()[nonNA_position, ]
       
-      W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                      job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame()
+      # W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                 job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix() %>% as.data.frame() # web version
+      W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix() %>% as.data.frame()
       
       nonNA_metadata <- filter(nonNA_metadata, SampleID %in% rownames(W_unifrac_dm))
       
@@ -9301,8 +9359,9 @@ server <- function(session, input, output) {
           
           feature1_feature2 <- t(combn(group_names, 2))[i,] %>% as.character()
           sample_f1_f2 <- sample_list[[input$metadata_phylo_beta]] %>% filter(sample_list[[input$metadata_phylo_beta]][,input$metadata_phylo_beta] %in% feature1_feature2)
-          W_unifrac_ds <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                          job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]]
+          # W_unifrac_ds <- read_qza(paste0("/home/imuser/web_version/users_files/",
+          #                                 job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] # web version
+          W_unifrac_ds <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]
           return(usedist::dist_subset(W_unifrac_ds, sample_f1_f2[,"SampleID"]))
           
         })
@@ -9445,8 +9504,8 @@ server <- function(session, input, output) {
     
     spent_time <- format(round(end_time-start_time, digits = 2))
     
-    if(file.exists(paste0('/home/imuser/web_version/users_files/', job_id(), '_DA_phylo', '/core-metrics-results/faith_pd_vector.qza'))){
-      
+    # if(file.exists(paste0('/home/imuser/web_version/users_files/', job_id(), '_DA_phylo', '/core-metrics-results/faith_pd_vector.qza'))){
+    if(file.exists('/home/imuser/qiime_output/core-metrics-results/faith_pd_vector.qza')){
       showModal(modalDialog(title = strong("Successful!"), 
                             HTML(
                               paste0(
@@ -9517,83 +9576,85 @@ server <- function(session, input, output) {
     nonNA_metadata_categorical <- cbind(nonNA_metadata_1stcol, nonNA_metadata_categorical)
     colnames(nonNA_metadata_categorical) <- c("SampleID", colnames(nonNA_metadata)[-1])
     
-    system(paste0("mkdir ", "/home/imuser/web_version/users_files/", job_id(), '_DA_ancom'))
-    write.table(nonNA_metadata_categorical, 
-                file=paste0('/home/imuser/web_version/users_files/',
-                            job_id(), '_DA_ancom',
-                            '/nonNA_metadata_categorical.tsv'), quote = F, sep='\t', row.names = F)
+    # system(paste0("mkdir ", "/home/imuser/web_version/users_files/", job_id(), '_DA_ancom'))
+    # write.table(nonNA_metadata_categorical, 
+    #             file=paste0('/home/imuser/web_version/users_files/',
+    #                         job_id(), '_DA_ancom',
+    #                         '/nonNA_metadata_categorical.tsv'), quote = F, sep='\t', row.names = F) # web version
+    write.table(nonNA_metadata_categorical, file='/home/imuser/nonNA_metadata_categorical.tsv', quote = F, sep='\t', row.names = F)
     
     # system("sed -i '2i\ #q2:types  categorical	categorical	categorical	categorical	categorical	categorical	categorical	categorical' /home/imuser/nonNA_metadata.tsv")
     
-    # # add categorical line
-    # categorical_word <- paste(rep("categorical", ncol(Metadata_stats())), collapse = " ")
-    # type_word <- paste("#q2:types", categorical_word)
-    # a <- read.csv('/home/imuser/nonNA_metadata.tsv', stringsAsFactors = F, header = F)
-    # b <- rbind(type_word, a) %>% as_tibble()
-    # colnames(b) <- b[2,]
-    # c <- b[-2,]
-    # write.table(c, file = "/home/imuser/nonNA_metadata_addline.tsv", sep = "/t", row.names = F, quote = F, col.names = T)
-    
-    # file.copy(from = input$taxonomic_table$datapath, to = "/home/imuser/upload_taxtable.qza", overwrite = T)
-    file.copy(from = input$taxonomic_table$datapath, 
-              to = paste0("/home/imuser/web_version/users_files/",
-                          job_id(), "_DA_ancom",
-                          "/upload_taxtable.qza"),
-              overwrite = T)
+
+    # file.copy(from = input$taxonomic_table$datapath, 
+    #           to = paste0("/home/imuser/web_version/users_files/",
+    #                       job_id(), "_DA_ancom",
+    #                       "/upload_taxtable.qza"),
+    #           overwrite = T) # ewb version
+    file.copy(from = input$taxonomic_table$datapath, to = "/home/imuser/upload_taxtable.qza", overwrite = T)
     nonNA_sampleid_1 <- c("SampleID", nonNA_sampleid) # for qiime2 reading format
-    write.table(x = nonNA_sampleid_1, 
-                file = paste0("/home/imuser/web_version/users_files/",
-                              job_id(), "_DA_ancom",
-                              "/nonNA_sampleid.tsv"),
-                quote = F, row.names = F, col.names = F)
+    # write.table(x = nonNA_sampleid_1, 
+    #             file = paste0("/home/imuser/web_version/users_files/",
+    #                           job_id(), "_DA_ancom",
+    #                           "/nonNA_sampleid.tsv"),
+    #             quote = F, row.names = F, col.names = F) # web version
+    write.table(x = nonNA_sampleid_1, file = "/home/imuser/nonNA_sampleid.tsv",quote = F, row.names = F, col.names = F)
     
-    system(paste0(qiime_cmd, 
-                  " feature-table filter-samples", 
-                  " --i-table /home/imuser/web_version/users_files/",
-                  job_id(), "_DA_ancom",
-                  "/upload_taxtable.qza", 
-                  " --m-metadata-file /home/imuser/web_version/users_files/",
-                  job_id(), "_DA_ancom",
-                  "/nonNA_sampleid.tsv", 
-                  " --o-filtered-table /home/imuser/web_version/users_files/",
-                  job_id(), "_DA_ancom",
-                  "/nonNA_table.qza"))
-    system(paste0(qiime_cmd, 
-                  " composition add-pseudocount --i-table ", 
-                  "/home/imuser/web_version/users_files/",
-                  job_id(), "_DA_ancom",
-                  "/nonNA_table.qza", 
-                  " --o-composition-table /home/imuser/web_version/users_files/",
-                  job_id(), "_DA_ancom",
-                  "/comp_table.qza"))
-    system(paste0(qiime_cmd, 
-                  " composition ancom --i-table /home/imuser/web_version/users_files/",
-                  job_id(), "_DA_ancom",
-                  "/comp_table.qza --m-metadata-file ", "/home/imuser/web_version/users_files/",
-                  job_id(), "_DA_ancom",
-                  "/nonNA_metadata_categorical.tsv",
-                  " --m-metadata-column ", input$metadata_ANCOM,
-                  " --o-visualization /home/imuser/web_version/users_files/",
-                  job_id(), "_DA_ancom",
-                  "/ancom_comparison.qzv"))
+    # system(paste0(qiime_cmd, 
+    #               " feature-table filter-samples", 
+    #               " --i-table /home/imuser/web_version/users_files/",
+    #               job_id(), "_DA_ancom",
+    #               "/upload_taxtable.qza", 
+    #               " --m-metadata-file /home/imuser/web_version/users_files/",
+    #               job_id(), "_DA_ancom",
+    #               "/nonNA_sampleid.tsv", 
+    #               " --o-filtered-table /home/imuser/web_version/users_files/",
+    #               job_id(), "_DA_ancom",
+    #               "/nonNA_table.qza"))
+    # system(paste0(qiime_cmd, 
+    #               " composition add-pseudocount --i-table ", 
+    #               "/home/imuser/web_version/users_files/",
+    #               job_id(), "_DA_ancom",
+    #               "/nonNA_table.qza", 
+    #               " --o-composition-table /home/imuser/web_version/users_files/",
+    #               job_id(), "_DA_ancom",
+    #               "/comp_table.qza"))
+    # system(paste0(qiime_cmd, 
+    #               " composition ancom --i-table /home/imuser/web_version/users_files/",
+    #               job_id(), "_DA_ancom",
+    #               "/comp_table.qza --m-metadata-file ", "/home/imuser/web_version/users_files/",
+    #               job_id(), "_DA_ancom",
+    #               "/nonNA_metadata_categorical.tsv",
+    #               " --m-metadata-column ", input$metadata_ANCOM,
+    #               " --o-visualization /home/imuser/web_version/users_files/",
+    #               job_id(), "_DA_ancom",
+    #               "/ancom_comparison.qzv")) # web version
     
-    # unlink("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname", recursive = T)
-    # system("cp /home/imuser/qiime_output/ancom_comparison.qzv /home/imuser/qiime_output/ancom_comparison.zip")
-    system(paste0("rm -r ", "/home/imuser/web_version/users_files/",job_id(), "/ancom_comparison_unzip"))
-    system(paste0("unzip -d /home/imuser/web_version/users_files/",
-                  job_id(), "_DA_ancom",
-                  "/ancom_comparison_unzip /home/imuser/web_version/users_files/",
-                  job_id(), "_DA_ancom",
-                  "/ancom_comparison.qzv"))
-    ancom_unzip_dirname <- list.files(paste0("/home/imuser/web_version/users_files/",
-                                             job_id(), "_DA_ancom",
-                                             "/ancom_comparison_unzip"), 
-                                      full.names = T)
-    system(paste0("mv ", 
-                  ancom_unzip_dirname, 
-                  " /home/imuser/web_version/users_files/",
-                  job_id(), "_DA_ancom",
-                  "/ancom_comparison_unzip/new_dirname"))
+    system(paste(qiime_cmd, "feature-table filter-samples", "--i-table /home/imuser/upload_taxtable.qza", "--m-metadata-file /home/imuser/nonNA_sampleid.tsv", "--o-filtered-table /home/imuser/qiime_output/nonNA_table.qza"))
+    system(paste(qiime_cmd, "composition add-pseudocount --i-table", "/home/imuser/qiime_output/nonNA_table.qza", "--o-composition-table /home/imuser/qiime_output/comp_table.qza"))
+    system(paste(qiime_cmd, "composition ancom --i-table /home/imuser/qiime_output/comp_table.qza --m-metadata-file", '/home/imuser/nonNA_metadata_categorical.tsv',
+                 "--m-metadata-column", input$metadata_ANCOM,"--o-visualization /home/imuser/qiime_output/ancom_comparison.qzv"))
+    
+    unlink("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname", recursive = T)
+    
+    # system(paste0("rm -r ", "/home/imuser/web_version/users_files/",job_id(), "/ancom_comparison_unzip"))
+    # system(paste0("unzip -d /home/imuser/web_version/users_files/",
+    #               job_id(), "_DA_ancom",
+    #               "/ancom_comparison_unzip /home/imuser/web_version/users_files/",
+    #               job_id(), "_DA_ancom",
+    #               "/ancom_comparison.qzv"))
+    # ancom_unzip_dirname <- list.files(paste0("/home/imuser/web_version/users_files/",
+    #                                          job_id(), "_DA_ancom",
+    #                                          "/ancom_comparison_unzip"), 
+    #                                   full.names = T)
+    # system(paste0("mv ", 
+    #               ancom_unzip_dirname, 
+    #               " /home/imuser/web_version/users_files/",
+    #               job_id(), "_DA_ancom",
+    #               "/ancom_comparison_unzip/new_dirname")) # web version
+    system("unzip -d /home/imuser/qiime_output/ancom_comparison_unzip /home/imuser/qiime_output/ancom_comparison.qzv")
+    ancom_unzip_dirname <- list.files("/home/imuser/qiime_output/ancom_comparison_unzip", full.names = T)
+    system(paste0("mv ", ancom_unzip_dirname, " /home/imuser/qiime_output/ancom_comparison_unzip/new_dirname"))
     
     output$word_ancom_plotly <- renderUI({
       
@@ -9603,15 +9664,17 @@ server <- function(session, input, output) {
     
     output$ancom_plotly <- renderPlotly({
       
-      ancom_data <- read.table(paste0("/home/imuser/web_version/users_files/",
-                                      job_id(), "_DA_ancom",
-                                      "/ancom_comparison_unzip/new_dirname/data/data.tsv"), 
-                               sep = "\t", header = T)
-      ancom_sig <- read.table(paste0("/home/imuser/web_version/users_files/",
-                                     job_id(), "_DA_ancom",
-                                     "/ancom_comparison_unzip/new_dirname/data/ancom.tsv"), 
-                              sep = "\t", header = T)
-      names(ancom_sig)[1] <- "id"
+      # ancom_data <- read.table(paste0("/home/imuser/web_version/users_files/",
+      #                                 job_id(), "_DA_ancom",
+      #                                 "/ancom_comparison_unzip/new_dirname/data/data.tsv"), 
+      #                          sep = "\t", header = T)
+      # ancom_sig <- read.table(paste0("/home/imuser/web_version/users_files/",
+      #                                job_id(), "_DA_ancom",
+      #                                "/ancom_comparison_unzip/new_dirname/data/ancom.tsv"), 
+      #                         sep = "\t", header = T) # web version
+      ancom_data <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
+      ancom_sig <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
+      names(ancom_sig)[1] <- "id" 
       
       ancom_merge <- merge(x = ancom_data, y = ancom_sig[, c(1,3)], by = "id")
       
@@ -9642,10 +9705,11 @@ server <- function(session, input, output) {
     
     output$ancom_sig <- renderDataTable({
       
-      ancom_sig <- read.table(paste0("/home/imuser/web_version/users_files/",
-                                     job_id(), "_DA_ancom",
-                                     "/ancom_comparison_unzip/new_dirname/data/ancom.tsv"), 
-                              sep = "\t", header = T)
+      # ancom_sig <- read.table(paste0("/home/imuser/web_version/users_files/",
+      #                                job_id(), "_DA_ancom",
+      #                                "/ancom_comparison_unzip/new_dirname/data/ancom.tsv"), 
+      #                         sep = "\t", header = T) # web version
+      ancom_sig <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
       names(ancom_sig)[1] <- "Species"
       
       ancom_sig_true <- filter(ancom_sig, Reject.null.hypothesis == "True")
@@ -9662,8 +9726,9 @@ server <- function(session, input, output) {
     
     spent_time <- format(round(end_time-start_time, digits = 2))
     
-    if (file.exists(paste0("/home/imuser/web_version/users_files/",
-                           job_id(), "_DA_ancom","/ancom_comparison.qzv"))){
+    # if (file.exists(paste0("/home/imuser/web_version/users_files/",
+    #                        job_id(), "_DA_ancom","/ancom_comparison.qzv"))){ # web version
+    if (file.exists("/home/imuser/qiime_output/ancom_comparison.qzv")){
       
       # output$word_ANCOM <- renderText(print("ANCOM successfully!"))
       showModal(modalDialog(title = strong("ANCOM has been finished."),
@@ -9693,14 +9758,16 @@ server <- function(session, input, output) {
   output$ancom_plot_download <- downloadHandler(
     filename = "ANCOM_plot.jpg",
     content = function(file){
-      ancom_data <- read.table(paste0("/home/imuser/web_version/users_files/",
-                                      job_id(), "_DA_ancom",
-                                      "/ancom_comparison_unzip/new_dirname/data/data.tsv"), 
-                               sep = "\t", header = T)
-      ancom_sig <- read.table(paste0("/home/imuser/web_version/users_files/",
-                                     job_id(), "_DA_ancom",
-                                     "/ancom_comparison_unzip/new_dirname/data/ancom.tsv"), 
-                              sep = "\t", header = T)
+      # ancom_data <- read.table(paste0("/home/imuser/web_version/users_files/",
+      #                                 job_id(), "_DA_ancom",
+      #                                 "/ancom_comparison_unzip/new_dirname/data/data.tsv"), 
+      #                          sep = "\t", header = T)
+      # ancom_sig <- read.table(paste0("/home/imuser/web_version/users_files/",
+      #                                job_id(), "_DA_ancom",
+      #                                "/ancom_comparison_unzip/new_dirname/data/ancom.tsv"), 
+      #                         sep = "\t", header = T) # web version
+      ancom_data <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
+      ancom_sig <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
       names(ancom_sig)[1] <- "id"
       
       ancom_merge <- merge(x = ancom_data, y = ancom_sig[, c(1,3)], by = "id")
@@ -9716,14 +9783,16 @@ server <- function(session, input, output) {
     filename = "ANCOM_table.csv",
     content = function(file){
       
-      ancom_data <- read.table(paste0("/home/imuser/web_version/users_files/",
-                                      job_id(), "_DA_ancom",
-                                      "/ancom_comparison_unzip/new_dirname/data/data.tsv")
-                               , sep = "\t", header = T)
-      ancom_sig <- read.table(paste0("/home/imuser/web_version/users_files/",
-                                     job_id(), "_DA_ancom",
-                                     "/ancom_comparison_unzip/new_dirname/data/ancom.tsv")
-                              , sep = "\t", header = T)
+      # ancom_data <- read.table(paste0("/home/imuser/web_version/users_files/",
+      #                                 job_id(), "_DA_ancom",
+      #                                 "/ancom_comparison_unzip/new_dirname/data/data.tsv")
+      #                          , sep = "\t", header = T)
+      # ancom_sig <- read.table(paste0("/home/imuser/web_version/users_files/",
+      #                                job_id(), "_DA_ancom",
+      #                                "/ancom_comparison_unzip/new_dirname/data/ancom.tsv")
+      #                         , sep = "\t", header = T) # web version
+      ancom_data <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
+      ancom_sig <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
       names(ancom_sig)[1] <- "id"
       
       ancom_merge <- merge(x = ancom_data, y = ancom_sig[, c(1,3)], by = "id")
@@ -9794,35 +9863,42 @@ server <- function(session, input, output) {
     
     qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
     
-    system(paste0(qiime_cmd, 
-                  " tools export --input-path ", 
-                  input$taxonomic_table_FA$datapath, 
-                  " --output-path /home/imuser/web_version/users_files/",
-                  job_id(), "_FA",
-                  "/exported-feature-table7"))
-    # system(paste0("/usr/local/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py ",
-    system(paste0("/home/imuser/miniconda3/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py ",
-                  " --force -i /home/imuser/web_version/users_files/",
-                  job_id(), "_FA",
-                  "/exported-feature-table7/feature-table.biom -o /home/imuser/web_version/users_files/",
-                  job_id(), "_FA",
-                  "/FAPROTAX_output/func-table7.biom -g /home/imuser/FAPROTAX_1.2.1/FAPROTAX.txt -r /home/imuser/web_version/users_files/",
-                  job_id(), "_FA",
-                  "/FAPROTAX_output/report7-record.txt --out_groups2records_table /home/imuser/web_version/users_files/",
-                  job_id(), "_FA",
-                  "/FAPROTAX_output/groups2record.biom"))
-    system(paste0(qiime_cmd, 
-                  " tools import --input-path /home/imuser/web_version/users_files/",
-                  job_id(), "_FA",
-                  "/FAPROTAX_output/func-table7.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/web_version/users_files/",
-                  job_id(), "_FA",
-                  "/func-table7.qza"))
-    system(paste0(qiime_cmd, 
-                  " tools import --input-path /home/imuser/web_version/users_files/",
-                  job_id(), "_FA",
-                  "/FAPROTAX_output/groups2record.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/web_version/users_files/",
-                  job_id(), "_FA",
-                  "/groups2record.qza"))
+    # system(paste0(qiime_cmd, 
+    #               " tools export --input-path ", 
+    #               input$taxonomic_table_FA$datapath, 
+    #               " --output-path /home/imuser/web_version/users_files/",
+    #               job_id(), "_FA",
+    #               "/exported-feature-table7"))
+    # # system(paste0("/usr/local/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py ",
+    # system(paste0("/home/imuser/miniconda3/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py ",
+    #               " --force -i /home/imuser/web_version/users_files/",
+    #               job_id(), "_FA",
+    #               "/exported-feature-table7/feature-table.biom -o /home/imuser/web_version/users_files/",
+    #               job_id(), "_FA",
+    #               "/FAPROTAX_output/func-table7.biom -g /home/imuser/FAPROTAX_1.2.1/FAPROTAX.txt -r /home/imuser/web_version/users_files/",
+    #               job_id(), "_FA",
+    #               "/FAPROTAX_output/report7-record.txt --out_groups2records_table /home/imuser/web_version/users_files/",
+    #               job_id(), "_FA",
+    #               "/FAPROTAX_output/groups2record.biom"))
+    # system(paste0(qiime_cmd, 
+    #               " tools import --input-path /home/imuser/web_version/users_files/",
+    #               job_id(), "_FA",
+    #               "/FAPROTAX_output/func-table7.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/web_version/users_files/",
+    #               job_id(), "_FA",
+    #               "/func-table7.qza"))
+    # system(paste0(qiime_cmd, 
+    #               " tools import --input-path /home/imuser/web_version/users_files/",
+    #               job_id(), "_FA",
+    #               "/FAPROTAX_output/groups2record.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/web_version/users_files/",
+    #               job_id(), "_FA",
+    #               "/groups2record.qza")) # web version
+    
+    system(paste(qiime_cmd, "tools export --input-path", input$taxonomic_table_FA$datapath, "--output-path /home/imuser/qiime_output/exported-feature-table7"))
+    system("/home/imuser/miniconda3/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py --force -i /home/imuser/qiime_output/exported-feature-table7/feature-table.biom -o /home/imuser/FAPROTAX_output/func-table7.biom -g /home/imuser/FAPROTAX_1.2.1/FAPROTAX.txt -r /home/imuser/FAPROTAX_output/report7-record.txt --out_groups2records_table /home/imuser/FAPROTAX_output/groups2record.biom")
+    system(paste(qiime_cmd, "tools import --input-path /home/imuser/FAPROTAX_output/func-table7.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/qiime_output/func-table7.qza"))
+    system(paste(qiime_cmd, "tools import --input-path /home/imuser/FAPROTAX_output/groups2record.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/qiime_output/groups2record.qza"))
+    
+    # removeModal() 
     
     # removeModal() 
     remove_modal_spinner()
@@ -9832,9 +9908,10 @@ server <- function(session, input, output) {
       
       req(input$sample_data_FA, input$taxonomic_table_FA, input$function_analysis)
       
-      func_table_BY_sampleid <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                                job_id(), "_FA",
-                                                "/func-table7.qza"))[["data"]]
+      # func_table_BY_sampleid <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                           job_id(), "_FA",
+      #                                           "/func-table7.qza"))[["data"]] # web version
+      func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
       
@@ -9849,9 +9926,10 @@ server <- function(session, input, output) {
     
     output$Function_barplot <- renderPlotly({
       
-      func_table_BY_sampleid <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                                job_id(), "_FA",
-                                                "/func-table7.qza"))[["data"]]
+      # func_table_BY_sampleid <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                           job_id(), "_FA",
+      #                                           "/func-table7.qza"))[["data"]] # web server
+      func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
       
@@ -9892,9 +9970,10 @@ server <- function(session, input, output) {
     
     output$function_report <- renderUI({
       
-      a <- read_table(paste0("/home/imuser/web_version/users_files/",
-                             job_id(), "_FA",
-                             "/FAPROTAX_output/report7-record.txt")) %>% as.data.frame()
+      # a <- read_table(paste0("/home/imuser/web_version/users_files/",
+      #                        job_id(), "_FA",
+      #                        "/FAPROTAX_output/report7-record.txt")) %>% as.data.frame() # web version
+      a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
       a_report <- a[104:106,2]
       a_report[1] <- str_replace_all(a_report[1], pattern = "records", replacement = "taxa")
       a_report[1] <- str_replace_all(a_report[1], pattern = "group", replacement = "function type")
@@ -9964,9 +10043,10 @@ server <- function(session, input, output) {
     filename = "function_table_bySampleID.csv",
     content = function(file) {
       
-      func_table_BY_sampleid <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                                job_id(), "_FA",
-                                                "/func-table7.qza"))[["data"]]
+      # func_table_BY_sampleid <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                           job_id(), "_FA",
+      #                                           "/func-table7.qza"))[["data"]] # web version
+      func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
       
@@ -10013,9 +10093,10 @@ server <- function(session, input, output) {
     
     content = function(file){
       
-      func_table_BY_sampleid <- read_qza(paste0("/home/imuser/web_version/users_files/",
-                                                job_id(), "_FA",
-                                                "/func-table7.qza"))[["data"]]
+      # func_table_BY_sampleid <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                           job_id(), "_FA",
+      #                                           "/func-table7.qza"))[["data"]] # web version
+      func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
       
