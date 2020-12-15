@@ -1515,7 +1515,7 @@ shinyUI(
                                           textInput(inputId = "sampling_depth", 
                                                     label = "Input the sampling depth"),
                                           actionButton(inputId = "Q_sampling_depth", 
-                                                       label = "What is this ?", 
+                                                       label = "learn more", 
                                                        icon = icon("question-circle")
                                           ),
                                           
