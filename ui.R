@@ -28,15 +28,14 @@ if(my_cores<=2){
   suggested_cores <- my_cores-2
 }
 
-# ip port
-if(is.na(ping_port(my_qiime_local_ip, port = "8011")[1])){
-
-  # my_qiime_ip <- my_qiime_public_ip # remote version
+# check ip port
+# if(file.exists("/home/imuser/mochi_title.png")){
+# 
+#   my_qiime_ip <- my_qiime_public_ip
+# 
+# }else{
   my_qiime_ip <- my_qiime_local_ip
-
-}else{
-  my_qiime_ip <- my_qiime_local_ip
-}
+# }
 
 my_qiime_ip_port <- paste0(my_qiime_ip, my_qiime_port)
 
@@ -73,7 +72,8 @@ shinyUI(
       #                             size = "32x32")),
       
       title = tags$head(tags$link(rel="shortcut icon", 
-                                  href="https://mochi.life.nctu.edu.tw/mochi_logo_3.png",
+                                  # href="https://mochi.life.nctu.edu.tw/mochi_logo_3.png",
+                                  href = paste0("http://", my_qiime_ip, my_qiime_port, "/mochi_logo_3.png"),
                                   type = "image/png",
                                   size = "64x64")
                         
@@ -113,7 +113,10 @@ shinyUI(
       inverse = T,
       
       # title = strong("MOCHI", style = "color: white; font-weight: 800;width: 50px;font-size: 24px;"),
-      title = a(img(src = "https://mochi.life.nctu.edu.tw/mochi_title_white.png", width = "250px", height = "100px", style = "position:relative;top: -20px;left:-10px"), 
+      title = a(img(
+        # src = "https://mochi.life.nctu.edu.tw/mochi_title_white.png", 
+        src = paste0("http://",my_qiime_ip, my_qiime_port, "/mochi_title_white.png"),
+        width = "250px", height = "100px", style = "position:relative;top: -20px;left:-10px"), 
                 href = "https://mochi.life.nctu.edu.tw"),
       # title = span("MOCHI ",
       #              style = "color: white; font-size: 40px; font-weight: 800;padding:10px;text-align:center;line-hight:50px",

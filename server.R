@@ -19,6 +19,7 @@ server <- function(session, input, output) {
   observe({
     system("sudo service nginx start")
     system("sudo chmod -R 777 /var/www/html")
+    
     system("sed -i 's/Eukaryota;//g' /home/imuser/taxa_database/PR2/18S/taxonomy/pr2_version_4.12.0_18S_mothur.tax")
     shinyDirChoose(input,
                    id = 'dirs',
@@ -54,7 +55,8 @@ server <- function(session, input, output) {
       span(" with a friendly web interface powered by the R package of "),
       a("Shiny", href = "https://shiny.rstudio.com/", target = "_blank"), span(".", .noWS = "outside"),
       p("MOCHI may also be downloaded and operated locally."),
-      img(src = "https://mochi.life.nctu.edu.tw/mochi_pipeline_new.png", alt = "pipeline", width = "80%", height = "80%", style = "margin:10px;max-width:1000px"),
+      img(src = paste0("http://",my_ip(), my_qiime_port(), "/mochi_pipeline_new.png"),
+                alt = "pipeline", width = "80%", height = "80%", style = "margin:10px;max-width:1000px"),
       hr(),
       h4("The advantages of MOCHI", style = "font-weight:bolder;color:#317EAC"),
       tags$ul(
@@ -798,7 +800,7 @@ server <- function(session, input, output) {
   # reactive object---------------------------------------------------------------------------------------------
   ## common objects
   
-  my_IP <- reactive(my_qiime_local_ip) # get the ip of local
+  my_ip <- reactive(my_qiime_local_ip) # get the ip of local
   
   my_qiime_port <- reactive(":8011") # give the port for this tool
   
