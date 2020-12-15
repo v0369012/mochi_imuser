@@ -800,7 +800,7 @@ server <- function(session, input, output) {
   # reactive object---------------------------------------------------------------------------------------------
   ## common objects
   
-  my_ip <- reactive(my_qiime_local_ip) # get the ip of local
+  my_ip <- reactive(my_qiime_ip) # get the ip of local
   
   my_qiime_port <- reactive(":8011") # give the port for this tool
   
@@ -1768,7 +1768,7 @@ server <- function(session, input, output) {
                           tagList(
                             p("If the total count for any sample(s) are smaller than this value, those samples will be dropped from the diversity analysis."),
                             p("The default value is the total count of a sample with the smallest count."),
-                            span("View the result in"), strong('Sequences Preprocessing/Sequences summary'), span("to determine this value.")
+                            span("View the result in"), strong('Sequence Preprocessing/Sequence summary'), span("to determine this value.")
                           )
                           , 
                           footer = NULL, easyClose = T, size = "l"))
