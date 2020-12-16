@@ -1,3 +1,4 @@
+# local version
 library(tidyverse)
 # install.packages("remotes")
 # remotes::install_github("jbisanz/qiime2R")
@@ -8174,6 +8175,7 @@ server <- function(session, input, output) {
                 y=rownames(unW_unifrac_dm),
                 z=unW_unifrac_dm,
                 # colors = palette(50),
+                colors = colorRamp(c("green", "red")),
                 type = "heatmap") %>% layout(title="Unweighted unifrac distance matrix heatmap", xaxis=list(tickangle=45))
       }else{
         W_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix()
@@ -8181,6 +8183,7 @@ server <- function(session, input, output) {
                 y=rownames(W_unifrac_dm),
                 z=W_unifrac_dm,
                 # colors = palette(50),
+                colors = colorRamp(c("green", "red")),
                 type = "heatmap") %>% layout(title="Weighted unifrac distance matrix heatmap", xaxis=list(tickangle=45)) 
       }
     })
@@ -9860,6 +9863,14 @@ server <- function(session, input, output) {
   # Function Analysis-------------------------------------------------------------------------------------------
   observeEvent(input$function_analysis, {
     
+    if(is.null(input$sample_data_FA) | is.null(input$taxonomic_table_FA)){
+      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                            "Please upload the files!", 
+                            footer = NULL, easyClose = T, size = "l"))
+    
+    }else{
+      req(input$sample_data_FA)
+      req(input$taxonomic_table_FA)
     # showModal(modalDialog(title = "Running FAPROTAX ...", "Waiting for a moment", footer = NULL))
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
     
@@ -9990,7 +10001,7 @@ server <- function(session, input, output) {
       
     })
     
-    
+    }
   })
   
   
