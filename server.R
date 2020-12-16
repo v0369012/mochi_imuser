@@ -508,7 +508,11 @@ server <- function(session, input, output) {
           # )
           actionButton("trim_info", 
                        "learn more",
-                       icon = icon("question-circle")),
+                       icon = icon("question-circle")) %>% div(),
+          actionButton(inputId = "load_parameter_denoise_single",
+                       label = strong("Demo", style = "margin: 5px;font-size: 18px"),
+                       icon = icon("chalkboard-teacher"),
+                       style = "color:#317EAC;background-color:white;margin-top:10px") %>% div(),
           # p("Reads that are shorter than the ending position will be discarded.",
           #   style = p_style),
           # p("If ending position is 0, no truncation or length filtering will be performed.",
@@ -572,10 +576,10 @@ server <- function(session, input, output) {
                        icon = icon("question-circle"),
                        style = "position:relative;"
           ),
-          downloadButton(outputId = "metadata_demo_download_paired", 
-                         label = " Demo metadata",
-                         style = "position:relative;left:5px;color:#317EAC"
-          ),
+          # downloadButton(outputId = "metadata_demo_download_paired", 
+          #                label = " Demo metadata",
+          #                style = "position:relative;left:5px;color:#317EAC"
+          # ),
           # tippy::tippy_this(elementId = "metadata_demo_download_single", 
           #                   tooltip = "Click to download the demo metadata", 
           #                   placement = "top",
@@ -1773,6 +1777,64 @@ server <- function(session, input, output) {
                           )
                           , 
                           footer = NULL, easyClose = T, size = "l"))
+  })
+  
+  observeEvent(input$load_parameter_demux, {
+    showModal(modalDialog(title = strong("Message"),
+                          HTML("<p>1. Demo parameters have been loaded. Click the button <b>Demo seqs</b> to download the demo sequences.</p>",
+                               "<p>2. Enter <b>seqs_folder</b> and create a folder to input the demo sequences.</p>",
+                               "<p>3. Click the button <b>Select the directory</b> to choose the folder containing the demo sequences.</p>",
+                               "<p>4. Click the button <b>Start!</b> to begin the process.</p>"), 
+                          footer = tagList(
+                            downloadButton(outputId = "seqs_demo_download",
+                                           label = span("Demo seqs", style ="font-weight: 800"),
+                                           style = "color:#317EAC;background-color:white;"
+                            )
+                          ), 
+                          easyClose = T, 
+                          size = "l"))
+    
+    updatePickerInput(session, inputId = "seqs_type", selected = "Single end")
+    updateCheckboxInput(session, inputId = "checkbox_primer", value = T)
+    updateSelectInput(session, inputId = "primer_f", selected = "515F")
+    updateSelectInput(session, inputId = "primer_r", selected = "806R")
+    updateTextInput(session, inputId = "n_jobs_demux", value = my_cores-2)
+    
+  })
+  
+  observeEvent(input$load_parameter_denoise_single, {
+    showModal(modalDialog(title = strong("Message"),
+                          HTML("<p>1. Demo parameters have been loaded. Click the button <b>Start!</b> to begin this process.</p>",
+                               "<p>2. You must finish the previous demo process or you will get the error <b>Please finish the previous step.</b>.</p>"), 
+                          footer = NULL,
+                          easyClose = T, 
+                          size = "l"))
+    
+    
+    updateTextInput(session, inputId = "trim_left_single", value = 0)
+    updateTextInput(session, inputId = "trunc_len_single", value = 120)
+    updateTextInput(session, inputId = "qvalue_single", value = 2)
+    updateTextInput(session, inputId = "threads_single", value = my_cores-2)
+    updateSelectInput(session, inputId = "select_database", selected = "Greengenes_16S_85")
+    updateTextInput(session, inputId = "min_length", value = 100)
+    updateTextInput(session, inputId = "max_length", value = 400)
+    updateTextInput(session, inputId = "n_jobs", value = my_cores-2)
+  })
+  
+  observeEvent(input$load_parameter_taxa, {
+    showModal(modalDialog(title = strong("Message"),
+                          HTML("<p>1. Demo parameters have been loaded. Click the button <b>Start!</b> to begin this process.</p>",
+                               "<p>2. You must finish the previous demo process or you will get the error <b>Please finish the previous step.</b>.</p>"),
+                          footer = NULL,
+                          easyClose = T, 
+                          size = "l"))
+    
+    updateSelectInput(session, inputId = "select_database", selected = "Greengenes_16S_85")
+    updateSelectInput(session, inputId = "primer_f", selected = "515F")
+    updateSelectInput(session, inputId = "primer_r", selected = "806R")
+    updateTextInput(session, inputId = "min_length", value = 100)
+    updateTextInput(session, inputId = "max_length", value = 400)
+    updateTextInput(session, inputId = "n_jobs", value = my_cores-2)
   })
   
   

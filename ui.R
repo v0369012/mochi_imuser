@@ -1,3 +1,4 @@
+# local version
 library(shiny)
 library(DT)
 library(plotly)
@@ -174,9 +175,9 @@ shinyUI(
                               shinyFiles::shinyDirButton(id = 'dirs',
                                                          label = 'Select the directory',
                                                          title = 'Please select a directory',
-                                                         style = "margin: 2px;",
+                                                         style = "margin-bottom: 10px;",
                                                          icon = icon("folder")
-                                                         ),
+                                                         ) %>% div(),
                               # fileInput(inputId = "seqs_data_upload",
                               #           label = span("Please upload the sequences data (.fastq.gz)", 
                               #                        style= "font-size: 20px; font-weight: 300; color: white;"),
@@ -190,6 +191,11 @@ shinyUI(
                               # ), # web version
                               
                               # br(),br(),
+                              actionButton(inputId = "load_parameter_demux",
+                                           label = strong("Demo", style = "margin: 5px;font-size: 18px"),
+                                           icon = icon("chalkboard-teacher"),
+                                           style = "color:#317EAC;background-color:white;") %>% div(),
+                              
                               hr(),
                               strong("Sequence type", style = "font-size:24px;color:white;top:20px"),
                               
@@ -893,9 +899,13 @@ shinyUI(
                                      selectInput(inputId = "select_database", 
                                                  label = span("Choose the database", style = "font-size:20px"),
                                                  choices = c(),
-                                                 width = "300px"),
+                                                 width = "300px") %>% div(),
                                      actionButton(inputId = "auto_load_db",
                                                   label = "Auto download database") %>% shinyjs::hidden(),
+                                     actionButton(inputId = "load_parameter_taxa",
+                                                  label = strong("Demo", style = "margin: 5px;font-size: 18px"),
+                                                  icon = icon("chalkboard-teacher"),
+                                                  style = "color:#317EAC;background-color:white;margin-top:10px") %>% div(),
                                      # p('If the database have been updated, you need to download the latest data by yourself.'),
                                      # actionButton(inputId = "database_tutorial", 
                                      #              label = "How to download the data", 
