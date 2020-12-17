@@ -1549,6 +1549,10 @@ server <- function(session, input, output) {
     if(file.exists("/home/imuser/qiime_output/func-table7.qza")){
       shinyjs::show("func_table_ui")
       shinyjs::show("func_barplot_ui")
+    }else{
+      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                            "Please check your input files.", 
+                            footer = NULL, easyClose = T, size = "l"))
     }
    
   })
@@ -10294,8 +10298,9 @@ server <- function(session, input, output) {
     #               "/FAPROTAX_output/groups2record.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/web_version/users_files/",
     #               job_id(), "_FA",
     #               "/groups2record.qza")) # web version
-    
+    system("rm -r /home/imuser/qiime_output/exported-feature-table7")
     system(paste(qiime_cmd, "tools export --input-path", input$taxonomic_table_FA$datapath, "--output-path /home/imuser/qiime_output/exported-feature-table7"))
+    system("rm /home/imuser/FAPROTAX_output/*")
     system("/home/imuser/miniconda3/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py --force -i /home/imuser/qiime_output/exported-feature-table7/feature-table.biom -o /home/imuser/FAPROTAX_output/func-table7.biom -g /home/imuser/FAPROTAX_1.2.1/FAPROTAX.txt -r /home/imuser/FAPROTAX_output/report7-record.txt --out_groups2records_table /home/imuser/FAPROTAX_output/groups2record.biom")
     system(paste(qiime_cmd, "tools import --input-path /home/imuser/FAPROTAX_output/func-table7.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/qiime_output/func-table7.qza"))
     system(paste(qiime_cmd, "tools import --input-path /home/imuser/FAPROTAX_output/groups2record.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/qiime_output/groups2record.qza"))
