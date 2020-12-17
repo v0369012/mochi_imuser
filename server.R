@@ -1920,9 +1920,13 @@ server <- function(session, input, output) {
   
   
   observeEvent(input$phylo_demo, {
+    
+    updateTextInput(session, "sampling_depth", value = colSums(TaxaTable()) %>% min())
+    updateTextInput(session, "threads_phylogenetic", value = my_cores-2)
+    
     showModal(modalDialog(
       title = "Message",
-      HTML("<p>1. Click the download button to download examlpe file</p>",
+      HTML("<p>1. Demo parameters have been loaded. Click the download button to download the examlpe file</p>",
            "<p>2. Upload the example file and click the button <b>Start!</b> to begin phylogenetic diversity analysis."),
       footer = tagList(
         downloadButton(outputId = "example_rep_seqs",
