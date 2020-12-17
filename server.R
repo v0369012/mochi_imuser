@@ -1546,9 +1546,11 @@ server <- function(session, input, output) {
   
   
   observeEvent(req(input$sample_data_FA, input$taxonomic_table_FA, input$function_analysis), {
-    
-    shinyjs::toggle("func_table_ui")
-    shinyjs::toggle("func_barplot_ui")
+    if(file.exists("/home/imuser/qiime_output/func-table7.qza")){
+      shinyjs::show("func_table_ui")
+      shinyjs::show("func_barplot_ui")
+    }
+   
   })
   
   
