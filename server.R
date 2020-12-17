@@ -51,12 +51,13 @@ server <- function(session, input, output) {
               strong("I", .noWS = "outside"),"mplement)",
               style = "font-size:20px;font-weight:200;letter-spacing:0px"),
          style = "color: #317EAC;"),
-      strong("MOCHI"), span(" is a 16S or 18S rRNA analytical tool for microbiota based primarily on "), 
+      strong("MOCHI"), span(" is a 16S or 18S microbiota amplicon rRNA analytical tool for microbiota based primarily on "), 
       a("QIIME2", href = "https://qiime2.org/", target = "_blank"),
       span(" with a friendly web interface powered by the R package of "),
       a("Shiny", href = "https://shiny.rstudio.com/", target = "_blank"), span(".", .noWS = "outside"),
       p("MOCHI may also be downloaded and operated locally."),
-      img(src = paste0("http://",my_ip(), my_qiime_port(), "/mochi_pipeline_new.png"),
+      # p(paste0("http://",my_ip(), my_qiime_port(), "/mochi_pipeline_new_2.png")),
+      img(src = paste0("http://",my_ip(), my_qiime_port(), "/mochi_pipeline_new_2.png"),
                 alt = "pipeline", width = "80%", height = "80%", style = "margin:10px;max-width:1000px"),
       hr(),
       h4("The advantages of MOCHI", style = "font-weight:bolder;color:#317EAC"),
@@ -481,7 +482,7 @@ server <- function(session, input, output) {
         
         tagList(
           # tags$style("position: relative"),
-          strong("Sequences trimming ", style = "font-size:24px;color: white;"),
+          strong("Sequence trimming ", style = "font-size:24px;color: white;"),
           # tags$i(
           #   class = "fa fa-info-circle", 
           #   style = "color: white", 
@@ -494,13 +495,13 @@ server <- function(session, input, output) {
           # splitLayout(cellWidths = "300px",
           
           textInput(inputId = "trim_left_single", 
-                    label = span("The starting position to trim",
+                    label = span("The start position",
                                  style = p_style),
                     placeholder = "Input number",
                     value = 0,
                     width = "250px"),
           textInput(inputId = "trunc_len_single", 
-                    label = span("The ending position to trim",
+                    label = span("The end position",
                                  style = p_style),
                     placeholder = "Input number",
                     value = 0,
@@ -518,13 +519,13 @@ server <- function(session, input, output) {
           # p("If ending position is 0, no truncation or length filtering will be performed.",
           #   style = "color: white;top:-10px;position:relative;font-size:16px"),
           hr(),
-          strong("Quality score", style = "font-size:24px;color: white"),
+          strong("Quality score filtering", style = "font-size:24px;color: white"),
           textInput(inputId = "qvalue_single", 
-                    label = span("Reads are truncated at the position of a quality score less than or equal to this value.",
+                    label = span("Quality score threshold",
                                  style = p_style),
                     placeholder = "Input number",
                     value = 0,
-                    width = "600px"),
+                    width = "350px"),
           # p("If the resulting read is then shorter than ending position, it is discarded.",
           #   style = p_style),
           actionButton("qc_info",
@@ -532,7 +533,7 @@ server <- function(session, input, output) {
                        icon = icon("question-circle")),
           br(),br(),
           
-          strong("Chimeric reads filter", style = "font-size:24px;color: white"),
+          strong("Chimeric reads filtering", style = "font-size:24px;color: white"),
           textInput(inputId = "chimera_single", 
                     label = span("The minimum fold-change value",
                                  style = p_style), 
@@ -549,9 +550,9 @@ server <- function(session, input, output) {
           # textOutput(outputId = "message_thread_single_position"),
           br(),br(),
           
-          strong("Training error model", style = "font-size:24px;color: white"),
+          strong("Error model training", style = "font-size:24px;color: white"),
           textInput(inputId = "n_reads_single", 
-                    label = span("The number of reads for training error model",
+                    label = span("Number of reads used for training the error model",
                                  style = p_style), 
                     value = format(1000000, scientific = F),
                     width = "350px"),
@@ -562,7 +563,7 @@ server <- function(session, input, output) {
           
           br(),br(),
           
-          strong("Integrating the metadata (optional)", style = "font-size:24px;color: white"),
+          strong("Metadata Integrating (optional)", style = "font-size:24px;color: white"),
           fileInput(inputId = "sample_data_single",
                     label = span("Upload the metadata (1st column name must be", 
                                  strong("#SampleID"),
@@ -595,7 +596,7 @@ server <- function(session, input, output) {
           hr(),
           strong("Computing setting", style = "font-size:24px;color: white"),
           textInput(inputId = "threads_single", 
-                    label = span("Input the number of threads",
+                    label = span("Number of threads MOCHI can use",
                                  style = p_style), 
                     value = suggested_cores,
                     width = "350px")
@@ -659,13 +660,13 @@ server <- function(session, input, output) {
                        icon = icon("question-circle")),
           
           hr(),
-          strong("Quality score", style = "font-size:24px;color: white"),
+          strong("Quality score filtering", style = "font-size:24px;color: white"),
           textInput(inputId = "qvalue_paired", 
-                    label = span("Reads will be truncated at the position of a quality score less than or equal to this value.",
+                    label = span("Quality score threshold",
                                  style = p_style),
                     placeholder = "Input number",
                     value = 0,
-                    width = "600px"),
+                    width = "350px"),
           actionButton("qc_info",
                        "learn more",
                        icon = icon("question-circle")),
@@ -674,7 +675,7 @@ server <- function(session, input, output) {
           
           br(),br(),
           
-          strong("Chimeric reads filter", style = "font-size:24px;color: white"),
+          strong("Chimeric reads filtering", style = "font-size:24px;color: white"),
           textInput(inputId = "chimera_paired", 
                     label = span("The minimum fold-change value",
                                  style = p_style), 
@@ -687,10 +688,10 @@ server <- function(session, input, output) {
           
           br(),br(),
           
-          strong("Training error model", 
+          strong("Error model training", 
                  style = "font-size:24px;color: white"),
           textInput(inputId = "n_reads_paired", 
-                    label = span("The number of reads for training error model",
+                    label = span("Number of reads used for training the error model",
                                  style = p_style), 
                     value = format(1000000, scientific = F),
                     width = "350px"),
@@ -700,7 +701,7 @@ server <- function(session, input, output) {
           ),
           br(),br(),
           
-          strong("Integrating the metadata (optional)", style = "font-size:24px;color: white"),
+          strong("Metadata Integrating (optional)", style = "font-size:24px;color: white"),
           fileInput(inputId = "sample_data_paired",
                     label = span("Upload the metadata (1st column name must be", 
                                  strong("#SampleID"),
@@ -716,10 +717,10 @@ server <- function(session, input, output) {
                        style = "position:relative;"
           ),
           
-          downloadButton(outputId = "metadata_demo_download_paired", 
-                         label = " Demo metadata",
-                         style = "position:relative;left:5px;color:#317EAC"
-          ),
+          # downloadButton(outputId = "metadata_demo_download_paired", 
+          #                label = " Demo metadata",
+          #                style = "position:relative;left:5px;color:#317EAC"
+          # ),
           # tippy::tippy_this(elementId = "metadata_demo_download_paired", 
           #                   tooltip = "Click to download the demo metadata", 
           #                   placement = "top",
@@ -730,7 +731,7 @@ server <- function(session, input, output) {
           hr(),
           strong("Computing setting", style = "font-size:24px;color: white"),
           textInput(inputId = "threads_paired", 
-                    label = span("Input the number of threads",
+                    label = span("Number of threads MOCHI can use",
                                  style = p_style), 
                     value = suggested_cores,
                     width = "350px")
@@ -750,8 +751,8 @@ server <- function(session, input, output) {
   observeEvent(input$trim_info, {
     showModal(modalDialog(title = strong("Message"),
                           tagList(
-                            p("1. Reads that are shorter than the ending position will be discarded."),
-                            p("2. If ending position is 0, no truncation or length filtering will be performed.")
+                            p("1. Reads shorter than the end position after trimming will be discarded."),
+                            p("2. If end position is 0, no truncation or length filtering will be performed.")
                           ),
                           
                           footer = NULL, easyClose = T, size = "l"))
@@ -760,7 +761,8 @@ server <- function(session, input, output) {
   observeEvent(input$qc_info, {
     showModal(modalDialog(title = strong("Message"),
                           tagList(
-                            p("If the resulting read is then shorter than ending position, it is discarded.")
+                            p("1. All the bases are required to be higher than this quality score. Reads will be truncated at the position having base quality lower than this quality score."),
+                            p("2. The resulting reads will be discarded if it is shorter than end position.")
                           ),
                           
                           footer = NULL, easyClose = T, size = "l"))
@@ -770,9 +772,9 @@ server <- function(session, input, output) {
     showModal(modalDialog(title = strong("Message"),
                           tagList(
                             
-                            span("This input is"),
-                            strong(" optional"),
-                            span(".If metadata is provided, the results would have metadata information.")
+                            # span("This input is"),
+                            # strong(" optional"),
+                            span("If the metadata is provided, you may group the samples in", strong("Alpha rarefaction"), "output.")
                             
                           ),
                           
@@ -783,11 +785,13 @@ server <- function(session, input, output) {
     showModal(modalDialog(title = strong("Message"),
                           tagList(
                             strong("Minimum length"),
-                            p("1. Shorter sequenceses are discarded. Set to zero to disable min length filtering."),
+                            p("1. Sequenceses shorter than the minimun length will be discarded."),
                             p("2. The default value is minimun length of denoised-sequences."),
+                            p("3. Set to zero to disable min length filtering."),
                             strong("Maximum length"),
-                            p("1. Longer sequenceses are discarded. Set to zero to disable max length filtering."),
-                            p("2. The default value is maximum length of denoised-sequences.")
+                            p("1. Sequenceses longer than the maximum length will be discarded."),
+                            p("2. The default value is maximum length of denoised-sequences."),
+                            p("3. Set to zero to disable max length filtering.")
                             
                           ),
                           
@@ -1232,7 +1236,7 @@ server <- function(session, input, output) {
       
       noOK_col <- c(names(col_vector)[position_1], noOKstats_col) %>% paste(collapse = ", ")
       
-      word_content <- paste("Your column '", noOK_col, "' would be ignored because don't have more than 2 categories or sample size of every category is less than 2.")
+      word_content <- paste("Your column '", noOK_col, "' would be ignored because the data don't have more than 2 categories or sample size of every category is less than 2.")
       
       
       if(length(position_1)!=0 | length(noOK_col)!=0) {
@@ -1398,7 +1402,7 @@ server <- function(session, input, output) {
       
       shinyjs::show("phylo_ui")
       
-      shinyjs::toggle("ancom_ui")
+      shinyjs::show("ancom_ui")
       
     }else{
       shinyjs::hide("taxatable_ui")
@@ -1420,19 +1424,11 @@ server <- function(session, input, output) {
     
   })
   
-  observeEvent(input$ANCOM_start, {
-    shinyjs::toggle("ancom_output_ui")
-    shinyjs::toggle("ancom_table_download")
-  })
+  # observeEvent(input$ANCOM_start, {
+  #   shinyjs::toggle("ancom_output_ui")
+  #   shinyjs::toggle("ancom_table_download")
+  # })
   
-  observeEvent(req(input$phylogenetic_tree, input$table_dada2_upload, input$rep_seq_dada2_upload), {
-    
-    if(file.exists("/home/imuser/qiime_output/core-metrics-results/faith_pd_vector.qza")){
-      shinyjs::show("phylo_output_ui")
-    }
-    
-    
-  })
   
   # observeEvent(input$checkbox_primer == F, {
   #   shinyjs::toggle("primer_trim")
@@ -1503,7 +1499,7 @@ server <- function(session, input, output) {
       
       noOK_col <- c(names(col_vector)[position_1], noOKstats_col) %>% paste(collapse = ", ")
       
-      word_content <- paste("Your column '", noOK_col, "' would be ignored because don't have more than 2 categories or sample size of every category is less than 2.")
+      word_content <- paste("Your column '", noOK_col, "' would be ignored because the data don't have more than 2 categories or sample size of every category is less than 2.")
       
       if(length(position_1)!=0 | length(noOK_col)!=0) {
         createAlert(session, 
@@ -1688,7 +1684,7 @@ server <- function(session, input, output) {
           ) %>% shinyjs::hidden(),
           
           
-          h1("2. Denoising"),
+          h1("2. Sequence denoising"),
           h4("Single end"),
           downloadButton(outputId = "summary_table_single", label = "Download summary table"),
           downloadButton(outputId = "seqs_info_single", label = "Download seqs info"),
@@ -1721,6 +1717,42 @@ server <- function(session, input, output) {
     }
   })
   
+  # log file  download----
+
+  output$log_demux_single <- downloadHandler(
+    filename = "demux_single_log.csv",
+    content = function(file){
+      file.copy("/home/imuser/parameter_demux_single.csv", file)
+    }
+  )
+  
+  output$log_demux_paired <- downloadHandler(
+    filename = "demux_paired_log.csv",
+    content = function(file){
+      file.copy("/home/imuser/parameter_demux_paired.csv", file)
+    }
+  )
+  
+  output$log_file_denoise_single <- downloadHandler(
+    filename = "denoise_single_log.csv",
+    content = function(file){
+      file.copy("/home/imuser/parameter_denoise_single.csv", file)
+    }
+  )
+  
+  output$log_file_denoise_paired <- downloadHandler(
+    filename = "denoise_paired_log.csv",
+    content = function(file){
+      file.copy("/home/imuser/parameter_denoise_paired.csv", file)
+    }
+  )
+  
+  output$log_file_taxonomy_classification <- downloadHandler(
+    filename = "taxonomy_classification_log.csv",
+    content = function(file){
+      file.copy("/home/imuser/parameter_taxonomy_classification.csv", file)
+    }
+  )
   
   # Demo files ----
   
@@ -1782,9 +1814,9 @@ server <- function(session, input, output) {
   observeEvent(input$load_parameter_demux, {
     showModal(modalDialog(title = strong("Message"),
                           HTML("<p>1. Demo parameters have been loaded. Click the button <b>Demo seqs</b> to download the demo sequences.</p>",
-                               "<p>2. Enter <b>seqs_folder</b> and create a folder to input the demo sequences.</p>",
+                               "<p>2. Open <b>seqs_folder</b> where MOCHI installed and create a folder to put the demo sequences.</p>",
                                "<p>3. Click the button <b>Select the directory</b> to choose the folder containing the demo sequences.</p>",
-                               "<p>4. Click the button <b>Start!</b> to begin the process.</p>"), 
+                               "<p>4. Click the button <b>Start!</b> to begin sequence summary.</p>"), 
                           footer = tagList(
                             downloadButton(outputId = "seqs_demo_download",
                                            label = span("Demo seqs", style ="font-weight: 800"),
@@ -1804,9 +1836,13 @@ server <- function(session, input, output) {
   
   observeEvent(input$load_parameter_denoise_single, {
     showModal(modalDialog(title = strong("Message"),
-                          HTML("<p>1. Demo parameters have been loaded. Click the button <b>Start!</b> to begin this process.</p>",
-                               "<p>2. You must finish the previous demo process or you will get the error <b>Please finish the previous step.</b>.</p>"), 
-                          footer = NULL,
+                          HTML("<p>1. Demo parameters have been loaded. Click the button <b>Start!</b> to begin sequence denoising.</p>",
+                               "<p>2. You must finish sequence summary first.</p>"), 
+                          footer = tagList(
+                            downloadButton("metadata_demo_download_single",
+                                           label = "Demo metadata (optional)",
+                                           style = "position:relative;left:5px;color:#317EAC")
+                          ),
                           easyClose = T, 
                           size = "l"))
     
@@ -1823,8 +1859,8 @@ server <- function(session, input, output) {
   
   observeEvent(input$load_parameter_taxa, {
     showModal(modalDialog(title = strong("Message"),
-                          HTML("<p>1. Demo parameters have been loaded. Click the button <b>Start!</b> to begin this process.</p>",
-                               "<p>2. You must finish the previous demo process or you will get the error <b>Please finish the previous step.</b>.</p>"),
+                          HTML("<p>1. Demo parameters have been loaded. Click the button <b>Start!</b> to begin taxonomy classification.</p>",
+                               "<p>2. You must finish sequence denoising first.</p>"),
                           footer = NULL,
                           easyClose = T, 
                           size = "l"))
@@ -1835,6 +1871,67 @@ server <- function(session, input, output) {
     updateTextInput(session, inputId = "min_length", value = 100)
     updateTextInput(session, inputId = "max_length", value = 400)
     updateTextInput(session, inputId = "n_jobs", value = my_cores-2)
+  })
+  
+  
+  observeEvent(input$TA_demo, {
+    showModal(
+      modalDialog(
+        title = "Message",
+        HTML("<p>1. Click the download buttons to download the example files.</p>",
+             "<p>2. Upload the example files to inspect the demo results."),
+        footer = tagList(
+          # p('Example files', style = "font-weight:700"),
+          downloadButton(outputId = "downloadMetaData", 
+                             label = span("Metadata_example.tsv"),
+                             style = "margin: 5px;color: #317EAC"),
+          downloadButton(outputId = "downloadData", 
+                             label = span("Taxonomic_table_example.qza"),
+                             style = "margin: 5px;color: #317EAC"),
+          downloadButton(outputId = "example_feature_table",
+                             label = span("ASVs_table_example.qza"),
+                             style = "margin: 5px;color: #317EAC")
+        ),
+        easyClose = T, size = "l"
+      )
+    )
+  })
+  
+  observeEvent(input$FA_demo, {
+    showModal(
+      modalDialog(
+        title = "Message",
+        HTML("<p>1. Click the download buttons to download the example files.</p>",
+             "<p>2. Upload the example files and click the button <b>Start!</b> to begin function analysis."),
+        footer = tagList(
+          # p('Example files', style = "font-weight:700"),
+          downloadButton(outputId = "downloadMetaData_FA", 
+                         label = span("Metadata_example.tsv"),
+                         style = "margin: 5px;color: #317EAC"),
+          downloadButton(outputId = "downloadData_FA", 
+                         label = span("Taxonomic_table_example.qza"),
+                         style = "margin: 5px;color: #317EAC")
+
+        ),
+        easyClose = T, size = "l"
+      )
+    )
+  })
+  
+  
+  observeEvent(input$phylo_demo, {
+    showModal(modalDialog(
+      title = "Message",
+      HTML("<p>1. Click the download button to download examlpe file</p>",
+           "<p>2. Upload the example file and click the button <b>Start!</b> to begin phylogenetic diversity analysis."),
+      footer = tagList(
+        downloadButton(outputId = "example_rep_seqs",
+                       label = span("Seqs_forPhylo_example.qza"),
+                       style = "margin: 5px;color: #317EAC"),
+      ),
+      easyClose = T,
+      size = "l"
+    ))
   })
   
   
@@ -2043,14 +2140,44 @@ server <- function(session, input, output) {
         system(paste0('sudo mv ', seqs_name_new[[i]], ' ',seqs_name[i]))
       }
       
-      
-      
+      # show view button
+      observe({
+        if(file.exists('/home/imuser/qiime_output/demux_single_end.qzv')){
+          shinyjs::enable("show_demux_single")
+        }
+      })
       
       remove_modal_spinner()
       
       end_time <- Sys.time()
       
       spent_time <- format(round(end_time-start_time, digits = 2))
+      
+      parameter_table <- data.frame(
+        # "JobID" = input$input_job_id_demux,
+        "Step" = "Sequence summary",
+        "time" = Sys.time(),
+        "duration" = spent_time,
+        "sequence_type" = input$seqs_type,
+        "sample_size" = length(seqs_name),
+        "primer_trimmed" = input$checkbox_primer,
+        "forward_primer" = paste(input$primer_f, input$primer_f_manu),
+        "reverse_primer" = paste(input$primer_r, input$primer_r_manu),
+        # "forward_primer_seqs" = primer_f_manu,
+        # "reverse_primer_seqs" = primer_r_manu,
+        "computing_setting" = input$n_jobs_demux
+      )
+      write.csv(parameter_table,
+                paste0("/home/imuser/parameter_demux_single.csv"), 
+                quote = F, 
+                row.names = F)
+      
+      # log file
+      observe({
+        if(file.exists("/home/imuser/parameter_demux_single.csv")){
+          shinyjs::enable("log_demux_single") 
+        }
+      })
       
       # if(file.exists(paste0('/home/imuser/web_version/users_files/', input$input_job_id_demux, '/demux_single_end.qzv'))){ # web version
       if(file.exists('/home/imuser/qiime_output/demux_single_end.qzv')){
@@ -2060,7 +2187,7 @@ server <- function(session, input, output) {
         showModal(modalDialog(title = strong("Successful!"), 
                               HTML(
                                 paste0(
-                                  "The process took ", spent_time, ". ",
+                                  " This analysis took ", spent_time, ". ",
                                   "You can click the button ", strong('View') ," to inspect the result.")
                               ), 
                               footer = NULL, easyClose = T, size = "l"))
@@ -2104,10 +2231,17 @@ server <- function(session, input, output) {
     }
   )
   
-  
+  # show view button
   observe({
     if(file.exists('/home/imuser/qiime_output/demux_single_end.qzv')){
       shinyjs::enable("show_demux_single")
+    }
+  })
+  
+  # log file
+  observe({
+    if(file.exists("/home/imuser/parameter_demux_single.csv")){
+      shinyjs::enable("log_demux_single") 
     }
   })
   
@@ -2291,11 +2425,44 @@ server <- function(session, input, output) {
         
       }
       
+      # show view button
+      observe({
+        if(file.exists('/home/imuser/qiime_output/demux_paired_end.qzv')){
+          shinyjs::enable("show_demux_paired")
+        }
+      })
+      
       remove_modal_spinner()
       
       end_time <- Sys.time()
       
       spent_time <- format(round(end_time-start_time, digits = 2))
+      
+      parameter_table <- data.frame(
+        # "JobID" = input$input_job_id_demux,
+        "Step" = "Sequence summary",
+        "time" = Sys.time(),
+        "duration" = spent_time,
+        "sequence_type" = input$seqs_type,
+        "sample_size" = length(seqs_name),
+        "primer_trimmed" = input$checkbox_primer,
+        "forward_primer" = paste(input$primer_f, input$primer_f_manu),
+        "reverse_primer" = paste(input$primer_r, input$primer_r_manu),
+        # "forward_primer_seqs" = primer_f_manu,
+        # "reverse_primer_seqs" = primer_r_manu,
+        "computing_setting" = input$n_jobs_demux
+      )
+      write.csv(parameter_table,
+                paste0("/home/imuser/parameter_demux_paired.csv"), 
+                quote = F, 
+                row.names = F)
+      
+      # log file
+      observe({
+        if(file.exists("/home/imuser/parameter_demux_paired.csv")){
+          shinyjs::enable("log_demux_paired") 
+        }
+      })
       
       # if(file.exists(paste0('/home/imuser/web_version/users_files/', input$input_job_id_demux, '/demux_paired_end.qzv'))){ # web version
       if(file.exists('/home/imuser/qiime_output/demux_paired_end.qzv')){
@@ -2305,7 +2472,7 @@ server <- function(session, input, output) {
         showModal(modalDialog(title = strong("Successful!"), 
                               HTML(
                                 paste0(
-                                  "The process took ", spent_time, ". ",
+                                  " This analysis took ", spent_time, ". ",
                                   "You can click the button ", strong('View') ," to inspect the result.")
                               ), 
                               footer = NULL, easyClose = T, size = "l"))
@@ -2353,9 +2520,17 @@ server <- function(session, input, output) {
     }
   )
   
+  # show view button
   observe({
     if(file.exists('/home/imuser/qiime_output/demux_paired_end.qzv')){
       shinyjs::enable("show_demux_paired")
+    }
+  })
+  
+  # log file
+  observe({
+    if(file.exists("/home/imuser/parameter_demux_paired.csv")){
+      shinyjs::enable("log_demux_paired") 
     }
   })
   
@@ -2371,7 +2546,7 @@ server <- function(session, input, output) {
                              "/demux_single_trimmed.qza"))){
       
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-                            "Please finish the previous step.", 
+                            "Please finish sequence summary first.", 
                             footer = NULL, easyClose = T, size = "l"))
       
       
@@ -2671,6 +2846,7 @@ server <- function(session, input, output) {
       system(paste0("mv ", unzip_dirnames_seqs, " /home/imuser/qiime_output/denoise_single_rarefaction/new_dirname"))
       system("cp -r /home/imuser/qiime_output/denoise_single_rarefaction/ /var/www/html/")
       
+      # show results button
       observe({
         if(file.exists("/home/imuser/qiime_output/table-dada2_single.qzv")){
           shinyjs::enable("show_dada2_single_table")
@@ -2699,6 +2875,33 @@ server <- function(session, input, output) {
       end_time <- Sys.time()
       spent_time <- format(round(end_time-start_time, digits = 2))
       
+      parameter_table <- data.frame(
+        # "JobID" = input$input_job_id_denoise,
+        "Step" = "Denoising",
+        "time" = Sys.time(),
+        "duration" = spent_time,
+        "sequence_type" = input$seqs_type,
+        "start_position_trim" = input$trim_left_single,
+        "end_position_trim" = input$trunc_len_single,
+        "quality_score_truncate" = input$qvalue_single,
+        "chimeric_reads_min_fold_change" = input$chimera_single,
+        "reads_error_model" = input$n_reads_single,
+        "metadata_upload" = is.null(input$sample_data_single),
+        "computing_setting" = input$threads_single
+      )
+      write.csv(parameter_table,
+                paste0("/home/imuser/parameter_denoise_single.csv"), 
+                quote = F, 
+                row.names = F)
+      
+      # log file
+      observe({
+        if(file.exists("/home/imuser/parameter_denoise_single.csv")){
+          shinyjs::enable("log_file_denoise_single") 
+        }
+      })
+      
+      
     #   stats_dada2_single.qzv_path <- paste0("/home/imuser/web_version/users_files/",
     #                                         input$input_job_id_denoise,
     #                                         "/stats-dada2_single.qzv")
@@ -2721,7 +2924,7 @@ server <- function(session, input, output) {
     #     showModal(modalDialog(title = strong("Denoising succecessfully!"), 
     #                           HTML(
     #                             paste0(
-    #                               "The process took ", spent_time, ". ",
+    #                               " This analysis took ", spent_time, ". ",
     #                               "You can inspect the results!")
     #                           ), 
     #                           footer = NULL, easyClose = T, size = "l"))
@@ -2747,7 +2950,7 @@ server <- function(session, input, output) {
         showModal(modalDialog(title = strong("Denoising succecessfully!"), 
                               HTML(
                                 paste0(
-                                  "The process took ", spent_time, ". ",
+                                  " This analysis took ", spent_time, ". ",
                                   "You can inspect the results!")
                               ), 
                               footer = NULL, easyClose = T, size = "l"))
@@ -2839,7 +3042,7 @@ server <- function(session, input, output) {
                          <p>For example, let’s imagine you have 3 sequences in your data: x, y, and z (which appears to be a chimera of x + y). 
                          If min-fold-parent-over-abundance (minF) = 1, z must be equally or less abundant than x and y. If minF = 2, x and y must be at least twice as abundant as z for z to be removed. 
                                If minF = 8, x and y must be at least 8 times as abundant as z for z to be removed!.</p>
-                               <b>That is to say, the higher this value is, the more retained chimera reads are. For most cases, 1 is the default value.</b>"), 
+                               <b>The higher this value is, the more potentially chimeric reads will be used in analysis. For most cases, 1 is the default value.</b>"), 
                           footer = NULL, easyClose = T, size = "l"))
   })
   
@@ -2847,7 +3050,7 @@ server <- function(session, input, output) {
     # output$message_learn_single_position <- renderText(
     #   " The number of reads to use when training the error model. Smaller numbers will result in a shorter run time but a less reliable error model. [default: 1000000]")
     showModal(modalDialog(title = strong("Message"),
-                          "The number of reads to use when training the error model. Smaller numbers will result in a shorter run time but a less reliable error model. [default: 1000000]", 
+                          "Smaller numbers will shorten the run time but result in a less reliable error model. [default: 1000000]", 
                           footer = NULL, easyClose = T, size = "l"))
   })
   
@@ -2879,6 +3082,8 @@ server <- function(session, input, output) {
   #     fs::file_copy(path = paste0("/home/imuser/web_version/users_files/", input_job_id(), "/rarefaction-dada2_single.zip"), new_path = file)
   #   }
   # ) web version
+  
+  # show results button
   observe({
     if(file.exists("/home/imuser/qiime_output/table-dada2_single.qzv")){
       shinyjs::enable("show_dada2_single_table")
@@ -2903,6 +3108,12 @@ server <- function(session, input, output) {
     }
     })
 
+  # log file
+  observe({
+    if(file.exists("/home/imuser/parameter_denoise_single.csv")){
+      shinyjs::enable("log_file_denoise_single") 
+    }
+  })
   
   # Denoising_paired -----------------------------------------------------------------------------------------------------------------------  
   observeEvent(input$denoising_paired, {
@@ -2914,7 +3125,7 @@ server <- function(session, input, output) {
                            "/demux_paired_trimmed.qza"))){
       
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-                            "Please finish the previous step.", 
+                            "Please finish sequence summary first.", 
                             footer = NULL, easyClose = T, size = "l"))
       
       
@@ -3213,6 +3424,7 @@ server <- function(session, input, output) {
       system(paste0("mv ", unzip_dirnames_seqs, " /home/imuser/qiime_output/denoise_paired_rarefaction/new_dirname"))
       system("cp -r /home/imuser/qiime_output/denoise_paired_rarefaction/ /var/www/html/")
       
+      # show results button
       observe({
         if(file.exists("/home/imuser/qiime_output/table-dada2_paired.qzv")){
           shinyjs::enable("show_dada2_paired_table")
@@ -3242,6 +3454,31 @@ server <- function(session, input, output) {
       end_time <- Sys.time()
       spent_time <- format(round(end_time-start_time, digits = 2))
       
+      parameter_table <- data.frame(
+        # "JobID" = input$input_job_id_denoise,
+        "Step" = "Denoising",
+        "time" = Sys.time(),
+        "duration" = spent_time,
+        "sequence_type" = input$seqs_type,
+        "start_position_trim" = input$trim_left_single,
+        "end_position_trim" = input$trunc_len_single,
+        "quality_score_truncate" = input$qvalue_single,
+        "chimeric_reads_min_fold_change" = input$chimera_single,
+        "reads_error_model" = input$n_reads_single,
+        "metadata_upload" = is.null(input$sample_data_single),
+        "computing_setting" = input$threads_single
+      )
+      write.csv(parameter_table,
+                paste0("/home/imuser/parameter_denoise_paired.csv"), 
+                quote = F, 
+                row.names = F)
+
+      # log file
+      observe({
+        if(file.exists("/home/imuser/parameter_denoise_paired.csv")){
+          shinyjs::enable("log_file_denoise_paired") 
+        }
+      })
     #   stats_dada2_paired.qzv_path <- paste0("/home/imuser/web_version/users_files/",
     #                                         input$input_job_id_denoise,
     #                                         "/stats-dada2_paired.qzv")
@@ -3264,7 +3501,7 @@ server <- function(session, input, output) {
     #     showModal(modalDialog(title = strong("Denoising succecessfully!"), 
     #                           HTML(
     #                             paste0(
-    #                               "The process took ", spent_time, ". ",
+    #                               " This analysis took ", spent_time, ". ",
     #                               "You can inspect the results!")
     #                           ), 
     #                           footer = NULL, easyClose = T, size = "l"))
@@ -3292,7 +3529,7 @@ server <- function(session, input, output) {
         showModal(modalDialog(title = strong("Denoising succecessfully!"), 
                               HTML(
                                 paste0(
-                                  "The process took ", spent_time, ". ",
+                                  " This analysis took ", spent_time, ". ",
                                   "You can inspect the results!")
                               ), 
                               footer = NULL, easyClose = T, size = "l"))
@@ -3368,7 +3605,7 @@ server <- function(session, input, output) {
     # output$message_learn_paired_position <- renderText(
     #   " The number of reads to use when training the error model. Smaller numbers will result in a shorter run time but a less reliable error model. [default: 1000000]")
     showModal(modalDialog(title = strong("Message"),
-                          " The number of reads to use when training the error model. Smaller numbers will result in a shorter run time but a less reliable error model. [default: 1000000]", 
+                          "Smaller numbers will shorten the run time but result in a less reliable error model. [default: 1000000]", 
                           footer = NULL, easyClose = T, size = "l"))
   })
   
@@ -3425,13 +3662,20 @@ server <- function(session, input, output) {
     }
   })
   
+  # log file
+  observe({
+    if(file.exists("/home/imuser/parameter_denoise_paired.csv")){
+      shinyjs::enable("log_file_denoise_paired") 
+    }
+  })
+  
   
   # Clustering -----------------------------------------------------------------------------------------------
   observeEvent(input$clustering, {
     
     output$word_clustering <- renderText({
       
-      showModal(modalDialog(title = "Running denoising for single end ...", "Waiting for a moment",footer = NULL))
+      showModal(modalDialog(title = "Running Sequence denoising for single end ...", "Waiting for a moment",footer = NULL))
       
       
       qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
@@ -3513,7 +3757,7 @@ server <- function(session, input, output) {
   
   
   
-  # Taxonomic classification ------------------------------------------------------------------------------------------
+  # Taxonomy classification ------------------------------------------------------------------------------------------
   
   # output$in_r <- renderUI({
   #   
@@ -3761,26 +4005,20 @@ server <- function(session, input, output) {
     # output$mk_taxa <- renderUI({
     shinyjs::toggle("primer_table_hide")
     
-    output$taxonomy_output <- renderDataTable({
+    output$primer_seqs_table <- renderDataTable({
       
-      # addResourcePath(prefix = "text_files",directoryPath = "/home/imuser/")
-      # # file.copy(from = "/home/imuser/text_files/Primer_table.html", to = "/var/www/html/", overwrite = T)
-      # # withMathJax(includeMarkdown((path = "/home/imuser/text_files/Primer_table.Rmd")))
-      # 
-      # # tags$iframe(src="Primer_table.html")
-      # # HTML(markdown::markdownToHTML(knit('/home/imuser/text_files/Primer_table.Rmd', quiet = F)))
-      # rmarkdown::render('/home/imuser/text_files/Primer_table.Rmd')
-      primer_table <- data.frame(Primer=c("8F", "27F", "CC [F]", "341F","357F", "515F", "533F", "16S.1100.F16", "1237F", 
-                                          "519R", "CD [R]", "806R","907R", "1100R", "1391R", "1492R (l)", "1492R (s)"), 
-                                 Sequences=c("AGAGTTTGATCCTGGCTCAG", "AGAGTTTGATCMTGGCTCAG", "CCAGACTCCTACGGGAGGCAGC", "CTCCTACGGGAGGCAGCAG", "CCTACGGGNGGCWGCAG",
-                                             "GTGCCAGCMGCCGCGGTAA", "GTGCCAGCAGCCGCGGTAA", "CAACGAGCGCAACCCT", "GGGCTACACACGYGCWAC",
-                                             "GWATTACCGCGGCKGCTG", "CTTGTGCGGGCCCCCGTCAATTC", "GGACTACHVGGGTWTCTAAT","CCGTCAATTCMTTTRAGTTT", "AGGGTTGCGCTCGTTG",
-                                             "GACGGGCGGTGTGTRCA", "GGTTACCTTGTTACGACTT", "ACCTTGTTACGACTT"),
+      
+      primer_table <- data.frame(`Primer name`=c("8F", "27F", "CC [F]", "341F","357F", "515F", "533F", "16S.1100.F16", "1237F", 
+                                                 "519R", "CD [R]", "806R","907R", "1100R", "1391R", "1492R (l)", "1492R (s)"), 
+                                 `Primer sequence`=c("AGAGTTTGATCCTGGCTCAG", "AGAGTTTGATCMTGGCTCAG", "CCAGACTCCTACGGGAGGCAGC", "CTCCTACGGGAGGCAGCAG", "CCTACGGGNGGCWGCAG",
+                                                     "GTGCCAGCMGCCGCGGTAA", "GTGCCAGCAGCCGCGGTAA", "CAACGAGCGCAACCCT", "GGGCTACACACGYGCWAC",
+                                                     "GWATTACCGCGGCKGCTG", "CTTGTGCGGGCCCCCGTCAATTC", "GGACTACHVGGGTWTCTAAT","CCGTCAATTCMTTTRAGTTT", "AGGGTTGCGCTCGTTG",
+                                                     "GACGGGCGGTGTGTRCA", "GGTTACCTTGTTACGACTT", "ACCTTGTTACGACTT"),
                                  # Target_Group=c(rep("Universal", 11), "Bacterial", rep("Universal", 3)),
                                  Reference=c("Turner et al. 1999", "Lane et al. 1991", "Rudi et al. 1997", "Herlemann et al. 2011","Turner et al. 1999", "Turner et al. 1999",
                                              "Weisburg et al. 1991", "Turner et al. 1999", "Turner et al. 1999", "Turner et al. 1999", "Rudi et al. 1997", "Liu Z et al. 2007",
                                              "Lane et al. 1991", "Turner et al. 1999", "Turner et al. 1999", "Turner et al. 1999", "Lane et al. 1991"))
-      colnames(primer_table)[2] <- "Sequences (5'-3')"
+      colnames(primer_table)[2] <- "Primer sequence (5'-3')"
       # colnames(primer_table)[3] <- "Target group"
       
       return(primer_table)
@@ -3799,7 +4037,7 @@ server <- function(session, input, output) {
     if(sum(str_detect(rep_seq_path, "^rep-seqs-dada2_"))==0){
       
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-                            "Please finish the previous step.", 
+                            "Please finish sequence denoising first.", 
                             footer = NULL, easyClose = T, size = "l"))
       
       
@@ -4108,6 +4346,7 @@ server <- function(session, input, output) {
       system(paste0("mv ", unzip_dirnames_taxa, " /home/imuser/qiime_output/taxonomy_unzip/new_dirname"))
       system("cp -r /home/imuser/qiime_output/taxonomy_unzip/ /var/www/html/")
       
+      # show results button
       observe({
         if(file.exists("/home/imuser/qiime_output/taxonomy.qzv")){
           shinyjs::enable("view_taxa")
@@ -4150,6 +4389,30 @@ server <- function(session, input, output) {
       end_time <- Sys.time()
       spent_time <- format(round(end_time-start_time, digits = 2))
       
+      parameter_table <- data.frame(
+        # "JobID" = input$input_job_id_taxa,
+        "Step" = "Taxonomy classification",
+        "time" = Sys.time(),
+        "duration" = spent_time,
+        "sequence_type" = input$seqs_type,
+        "database" = input$select_database,
+        "forward_primer" = paste(input$primer_f, input$primer_f_manu),
+        "reverse_primer" = paste(input$primer_r, input$primer_r_manu),
+        "min_length" = input$min_length,
+        "max_length" = input$max_length,
+        "computing_setting" = input$n_jobs
+      )
+      write.csv(parameter_table,
+                paste0("/home/imuser/parameter_taxonomy_classification.csv"), 
+                quote = F, 
+                row.names = F)
+      # log file
+      observe({
+        if(file.exists("/home/imuser/parameter_taxonomy_classification.csv")){
+          shinyjs::enable("log_file_taxonomy_classification") 
+        }
+      })
+      
     #   if(file.exists(paste0("/home/imuser/web_version/users_files/",
     #                         input$input_job_id_taxa,
     #                         "/taxonomy.qzv"))){
@@ -4160,7 +4423,7 @@ server <- function(session, input, output) {
     #     showModal(modalDialog(title = strong("Taxonomic analysis has been finished!"), 
     #                           HTML(
     #                             paste0(
-    #                               "The process took ", spent_time, ". ",
+    #                               " This analysis took ", spent_time, ". ",
     #                               "You can inspect the results!")
     #                           ), 
     #                           footer = NULL, easyClose = T, size = "l"))
@@ -4182,10 +4445,10 @@ server <- function(session, input, output) {
       
       if(file.exists("/home/imuser/qiime_output/taxonomy.qzv")){
 
-        showModal(modalDialog(title = strong("Taxonomic classification has been finished!"), 
+        showModal(modalDialog(title = strong("Taxonomy classification has been finished!"), 
                               HTML(
                                 paste0(
-                                  "The process took ", spent_time, ". ",
+                                  " This analysis took ", spent_time, ". ",
                                   "You can inspect the results!")
                               ), 
                               footer = NULL, easyClose = T, size = "l"))
@@ -4324,6 +4587,13 @@ server <- function(session, input, output) {
       if(file.exists("/home/imuser/qiime_output/table-dada2_paired.qza")){
         shinyjs::enable("table_dada2_download")
       }
+    }
+  })
+  
+  # log file
+  observe({
+    if(file.exists("/home/imuser/parameter_taxonomy_classification.csv")){
+      shinyjs::enable("log_file_taxonomy_classification") 
     }
   })
   
@@ -5041,9 +5311,33 @@ server <- function(session, input, output) {
     
   )
   
+  output$downloadData_FA <- downloadHandler(
+    
+    filename <-"Taxonomic_table_example.qza",
+    
+    content = function(file){
+      file.copy("/home/imuser/example_files/taxtable.qza", file)
+    },
+    
+    contentType = "application/qza"
+    
+  )
+  
   # Metadata examples for download(From QIIME2)--------------------------------------------------------------------
   
   output$downloadMetaData <- downloadHandler(
+    
+    filename <-"Metadata_example.tsv",
+    
+    content = function(file){
+      file.copy("/home/imuser/example_files/sample-metadata.tsv", file)
+    },
+    
+    contentType = "application/tsv"
+    
+  )
+  
+  output$downloadMetaData_FA <- downloadHandler(
     
     filename <-"Metadata_example.tsv",
     
@@ -7832,7 +8126,8 @@ server <- function(session, input, output) {
               to = "/var/www/html/",
               overwrite = T)
     
-    write_file(x = paste0('<iframe src="http://',"140.113.83.24:8011",'/Krona_rawdata.html" height=800px width=100% align = middle frameborder = 0></iframe>'),
+    # write_file(x = paste0('<iframe src="http://',"140.113.83.24:8011",'/Krona_rawdata.html" height=800px width=100% align = middle frameborder = 0></iframe>'),
+    write_file(x = paste0('<iframe src="http://', my_ip(), my_qiime_port(),'/Krona_rawdata.html" height=800px width=100% align = middle frameborder = 0></iframe>'),
                path = "/home/imuser/Krona_files/iframe_krona.html",
                append = F)
     file.copy(from = "/home/imuser/Krona_files/iframe_krona.html",
@@ -7889,7 +8184,13 @@ server <- function(session, input, output) {
     contentType = "application/qza"
   )
   
-  observeEvent(req(input$phylogenetic_tree, input$table_dada2_upload, input$rep_seq_dada2_upload), {
+  observeEvent(req(input$phylogenetic_tree, input$table_dada2_upload), {
+    
+    if(is.null(input$rep_seq_dada2_upload)){
+      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                            "Please upload the file!", 
+                            footer = NULL, easyClose = T, size = "l"))
+    }else{
     
     start_time <- Sys.time()
     # showModal(modalDialog(title = "Running making tree ...", "Waiting for a moment",footer = NULL))
@@ -7948,6 +8249,15 @@ server <- function(session, input, output) {
                  "--p-sampling-depth ", input$sampling_depth,
                  "--m-metadata-file /home/imuser/metadata.tsv", 
                  "--output-dir /home/imuser/qiime_output/core-metrics-results"))
+    
+    # show phylo ui
+    if(file.exists("/home/imuser/qiime_output/core-metrics-results/faith_pd_vector.qza")){
+      shinyjs::show("phylo_output_ui")
+    }else{
+      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                            "Please check your input files.", 
+                            footer = NULL, easyClose = T, size = "l"))
+    }
     
     faith_PD <- reactive({
       read_qza("/home/imuser/qiime_output/core-metrics-results/faith_pd_vector.qza")[["data"]]
@@ -9576,7 +9886,7 @@ server <- function(session, input, output) {
       showModal(modalDialog(title = strong("Successful!"), 
                             HTML(
                               paste0(
-                                "The process took ", spent_time, ". ",
+                                " This analysis took ", spent_time, ". ",
                                 "You can inspect the results now.")
                             ), 
                             footer = NULL, easyClose = T, size = "l"))
@@ -9585,6 +9895,8 @@ server <- function(session, input, output) {
                             "Please check your files.", 
                             footer = NULL, easyClose = T, size = "l"))
     }
+    
+    } # if file upload
     
   })
   
@@ -9702,6 +10014,15 @@ server <- function(session, input, output) {
     system(paste(qiime_cmd, "composition ancom --i-table /home/imuser/qiime_output/comp_table.qza --m-metadata-file", '/home/imuser/nonNA_metadata_categorical.tsv',
                  "--m-metadata-column", input$metadata_ANCOM,"--o-visualization /home/imuser/qiime_output/ancom_comparison.qzv"))
     
+    if(file.exists("/home/imuser/qiime_output/ancom_comparison.qzv")){
+     shinyjs::show("ancom_output_ui") 
+     shinyjs::show("ancom_table_download")
+    }else{
+      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                            "Please check your input files.", 
+                            footer = NULL, easyClose = T, size = "l"))
+    }
+    
     unlink("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname", recursive = T)
     
     # system(paste0("rm -r ", "/home/imuser/web_version/users_files/",job_id(), "/ancom_comparison_unzip"))
@@ -9801,7 +10122,7 @@ server <- function(session, input, output) {
       showModal(modalDialog(title = strong("ANCOM has been finished."),
                             HTML(
                               paste0(
-                                "The process took ", spent_time, ". ",
+                                " This analysis took ", spent_time, ". ",
                                 "You can inspect the results.")
                             ), 
                             footer = NULL, easyClose = T, size = "l"))

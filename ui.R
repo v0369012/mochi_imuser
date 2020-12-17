@@ -169,7 +169,7 @@ shinyUI(
                               strong("Sequence files", 
                                      
                                      style = "font-size:24px;color:white;top:20px"),
-                              p("Please choose the directory containing sequence data (fastq.gz)", style = "color: white;font-size: 20px"),
+                              p("Please choose the directory containing sequence files (*.fastq.gz)", style = "color: white;font-size: 20px"),
                               # h4("Please upload the sequences data",
                               #    style = "color: white; left:5px"), # web version
                               shinyFiles::shinyDirButton(id = 'dirs',
@@ -217,20 +217,20 @@ shinyUI(
                               
                               
                               selectInput(inputId = "primer_f", 
-                                          label = span("Choose the forward primer sequences", style = "font-size: 20px; font-weight: 300; color: white; margin-top: 5px;"), 
+                                          label = span("Choose the forward primer sequence", style = "font-size: 20px; font-weight: 300; color: white; margin-top: 5px;"), 
                                           choice = c("8F", "27F", "CC [F]", "341F","357F", "515F", "533F", "16S.1100.F16", "1237F", "other"),
                                           width = "400px"
                               ),
                               
                               selectInput(inputId = "primer_r", 
-                                          label = span("Choose the reverse primer sequences", style = "font-size: 20px; font-weight: 300; color: white; margin-top: 5px;"), 
+                                          label = span("Choose the reverse primer sequence", style = "font-size: 20px; font-weight: 300; color: white; margin-top: 5px;"), 
                                           choice = c("519R", "CD [R]", "806R","907R", "1100R", "1391R", "1492R (l)", "1492R (s)", "other"),
                                           width = "400px"
                               ),
                               
                               # uiOutput(outputId = "in_r"),
                               actionButton(inputId = "show_primer", 
-                                           label = "Show the primer table", 
+                                           label = "Show primer sequences", 
                                            icon = icon("table"),
                                            style = "margin-bottom:10px"
                               ),
@@ -246,12 +246,12 @@ shinyUI(
                               hr(),
                               strong("Computing setting", style = "font-size:24px;color:white"),
                               textInput(inputId = "n_jobs_demux", 
-                                        label = span("Number of threads to run", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"),
+                                        label = span("Number of threads MOCHI can use", style = "font-size: 18px; font-weight: 300; color: white; margin-top: 5px;"),
                                         value = my_cores-2,
                                         placeholder = "Input number",
                                         width = "300px"),
                               actionButton(inputId = "my_cores_demux", 
-                                           label = "Show the threads of this server",
+                                           label = "Show the number of threads on system",
                                            icon = icon("calculator"))
                               # actionButton(inputId = "Q_cores_demux", 
                               #              label = "What is thread ?", 
@@ -306,16 +306,17 @@ shinyUI(
                                          actionButton(inputId = "show_demux_single",
                                                       label = "View!",
                                                       icon = icon("eye"),
-                                                      style = "margin: 10px; display: inline-block;",
+                                                      style = "margin-left: 10px; display: inline-block;",
                                                       onclick = paste0("window.open('http://",
                                                                        my_qiime_ip, my_qiime_port,
                                                                        # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_demux, # web version
                                                                        "/demux_single_unzip/new_dirname/data/index.html#",
                                                                        "', '_blank')")
                                          ) %>% shinyjs::disabled(),
+                                         downloadButton("log_demux_single", "log file") %>% shinyjs::disabled(),
                                          
-                                         span("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
-                                              style = "position: relative; top:5px;")
+                                         p("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
+                                              style = "position: relative; margin-top:10px;margin-left:10px")
                                        ) ,
                                        
                                        # span("Go to", strong('User results'), ", you can inspect the result by your user id."),
@@ -326,13 +327,13 @@ shinyUI(
                                        
                                        
                                        
-                                       br(),br(),
-                                       # hr(),
-                                       h4('What the result you will get at this step'),
+                                       # br(),br(),
+                                       hr(),
+                                       h4('Example output for sequence summary'),
                                        actionButton(inputId = "demux_example_single", 
-                                                    label = "example result for single end", 
+                                                    label = "Example result for single end", 
                                                     # icon = icon("link"),
-                                                    style = "top:20px; margin: 10px; display: inline-block;",
+                                                    style = "margin-lfet: 10px; display: inline-block;",
                                                     # onclick = paste0("window.open('http://", 
                                                     #                  "mochi.life.nctu.edu.tw",
                                                     #                  "/example_files/demux_single/data/index.html",
@@ -372,7 +373,7 @@ shinyUI(
                                        #    ),
                                        #    
                                        # ),
-                                       h1("1. Sequences summary (for paired end)"),
+                                       h1("1. Sequence summary (for paired end)"),
                                        h4("(1) Summarize the paired-end sequences.",style = "color: #317EAC;"),
                                        actionButton(inputId = "demultiplexed_paired_ends", 
                                                     label = strong("Start!"), 
@@ -388,28 +389,28 @@ shinyUI(
                                          actionButton(inputId = "show_demux_paired",
                                                                      label = "View!",
                                                                      icon = icon("eye"),
-                                                                     style = "margin: 10px; display: inline-block;",
+                                                                     style = "margin-left: 10px; display: inline-block;",
                                                                      onclick = paste0("window.open('http://",
                                                                                       my_qiime_ip, my_qiime_port,
                                                                                       # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_demux, # web version
                                                                                       "/demux_paired_unzip/new_dirname/data/index.html#",
                                                                                       "', '_blank')")
                                                         ) %>% shinyjs::disabled(),
-                                         
-                                         span("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
-                                              style = "position: relative; top:5px;")
+                                         downloadButton("log_demux_paired", "log file") %>% shinyjs::disabled(),
+                                         p("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
+                                              style = "position: relative; margin-top:10px;margin-left:10px")
                                        ),
                                        
                                        # span("Go to", strong('User results'), ", you can inspect the result by your user id."),
                                        
                                        
-                                       br(),br(),
-                                       # hr(),
-                                       h4('What the result you will get at this step'),
+                                       # br(),br(),
+                                       hr(),
+                                       h4('Example output for sequence summary'),
                                        actionButton(inputId = "demux_example_paired", 
                                                     label = "Example result for paired end", 
                                                     # icon = icon("link"),
-                                                    style = "top:20px; margin: 10px; display: inline-block;", 
+                                                    style = "margin-left: 10px; display: inline-block;", 
                                                     # onclick = paste0("window.open('http://", 
                                                     #                  "mochi.life.nctu.edu.tw",
                                                     #                  "/example_files/demux_paired/data/index.html",
@@ -433,13 +434,15 @@ shinyUI(
                               
                               div(
                                 id = "primer_table_hide",
-                                h2("Primer table"),
-                                p('If your primers could not be found from the table, you can manually input your primer sequences by choosing',
-                                  strong(' other'), span("."),
-                                  style = "font-size: 16px; font-weight: 300; margin-top: 5px;"),
-                                dataTableOutput(outputId = "taxonomy_output"),
+                                hr(),
+                                h2("Primer sequences table"),
+                                # p('If your primers could not be found from the table, you can manually input your primer sequences by choosing',
+                                p("Select",strong("other")," and enter your primer sequences if you can't  find your primer sequence in this table."),
+                                # strong(' other'), span("."),
+                                style = "font-size: 16px; font-weight: 300; margin-top: 5px;",
+                                dataTableOutput(outputId = "primer_seqs_table"),
                                 
-                                style = "left:15px;top: 25px;position: relative"
+                                # style = "left:15px;top: 25px;position: relative"
                               ) %>% shinyjs::hidden()
                               
                               ,width = 8
@@ -452,8 +455,8 @@ shinyUI(
                  
                  
                  
-                 # Denoising ----
-                 tabPanel(title = span("Step 2. Denoising", 
+                 # Sequence denoising ----
+                 tabPanel(title = span("Step 2. Sequence denoising", 
                                        style = tabPanel_navmenu_style),
                           
                           sidebarLayout(
@@ -467,7 +470,7 @@ shinyUI(
                             ),
                             
                             mainPanel(
-                              width = 6,
+                              width = 8,
                               # style = "margin-top: -20px;position:relative;margin-left:-40px;display: inline-block;",
                               style = "position:relative;margin-top: -20px",
                               # style = "position: relative;margin-top: -20px;border: solid 2px black;",
@@ -477,7 +480,7 @@ shinyUI(
                                 
                                 column(width = 12,
                                        
-                                       h1('2. Denoising (dada2) for Single end'),
+                                       h1('2. Sequence denoising (DADA2) for Single end'),
                                        # strong("Sequences", style = "font-size:20px;color: #317EAC;"),
                                        # splitLayout(cellWidths = "300px",
                                        #             
@@ -565,7 +568,7 @@ shinyUI(
                                        # strong('Results', style = "font-size: 20px;color: #317EAC"),
                                        div(
                                          id = "dada2_results_single",
-                                         h4('(2) Inpect the denoising result.'),
+                                         h4('(2) Inspect the sequence denoising result.'),
                                          # uiOutput("dada2_single_results_bttn"),
                                          actionButton(inputId = "show_dada2_single_table",
                                                       label = "Show summary table",
@@ -574,7 +577,8 @@ shinyUI(
                                                                        # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
                                                                        "/denoise_single_position_table/new_dirname/data/index.html",
                                                                        "')"),
-                                                      icon = icon("eye")) %>% shinyjs::disabled(),
+                                                      icon = icon("eye"),
+                                                      style = "margin-left:10px") %>% shinyjs::disabled(),
                                          actionButton(inputId = "show_dada2_single_seqs",
                                                       label = "Show seqs info",
                                                       onclick = paste0("window.open('http://",
@@ -600,13 +604,13 @@ shinyUI(
                                                                        "')"),
                                                       icon = icon("eye")
                                          ) %>% shinyjs::disabled(),
-                                         style = "margin-top: 10px;margin-bottom: 25px"
+                                         downloadButton("log_file_denoise_single", "log file") %>% shinyjs::disabled()
                                        ),
                                        
-                                       br(),br(),
-                                       # hr(),
+                                       # br(),br(),
+                                       hr(),
                                        # strong('Examples', style = "font-size: 20px;color: #317EAC"),
-                                       h4('What the result you will get at this step',
+                                       h4('Example output for sequence denoising',
                                           style = ""),
                                        div(
                                          actionButton(inputId = "table_dada2_single_example",
@@ -619,7 +623,8 @@ shinyUI(
                                                       onclick = paste0("window.open('http://", 
                                                                        my_qiime_ip, my_qiime_port,
                                                                        "/example_files/denoising_table/data/index.html",
-                                                                       "')")
+                                                                       "')"),
+                                                      style = "margin-left:10px" 
                                          ),
                                          
                                          actionButton(inputId = "rep_dada2_single_example",
@@ -658,7 +663,7 @@ shinyUI(
                                                                        my_qiime_ip, my_qiime_port,
                                                                        "/example_files/alpha-rarefaction_example/data/index.html",
                                                                        "')")
-                                         ),
+                                         )
                                          # textOutput(outputId = "word_denoising_single_position")
                                        )
                                 )
@@ -673,7 +678,7 @@ shinyUI(
                                 column(width = 12,
                                        
                                        # uiOutput(outputId = "show_job_id_denoise_paired"), # web version
-                                       h1('2. Denoising (dada2) for Paired end'),
+                                       h1('2. Sequence denoising (DADA2) for Paired end'),
                                        
                                        # strong("Forward sequences", style = "font-size:20px;color: #317EAC"),
                                        # splitLayout(cellWidths = "300px",
@@ -773,7 +778,7 @@ shinyUI(
                                        # strong('Results', style = "font-size: 20px;color: #317EAC"),
                                        div(
                                          id = "dada2_results_paired",
-                                         h4('(2) Inpect the denoising result.'),
+                                         h4('(2) Inspect the sequence denoising result.'),
                                          # uiOutput("dada2_paired_results_bttn"),
                                          actionButton(inputId = "show_dada2_paired_table",
                                                       label = "Show summary table",
@@ -782,7 +787,8 @@ shinyUI(
                                                                        # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
                                                                        "/denoise_paired_position_table/new_dirname/data/index.html",
                                                                        "')"),
-                                                      icon = icon("eye")) %>% shinyjs::disabled(),
+                                                      icon = icon("eye"),
+                                                      style = "margin-left:10px") %>% shinyjs::disabled(),
                                          actionButton(inputId = "show_dada2_paired_seqs",
                                                       label = "Show seqs info",
                                                       onclick = paste0("window.open('http://",
@@ -808,13 +814,13 @@ shinyUI(
                                                                        "')"),
                                                       icon = icon("eye")
                                          ) %>% shinyjs::disabled(),
-                                         style = "margin-top: 10px;margin-bottom: 25px"
+                                         downloadButton("log_file_denoise_paired", "log file") %>% shinyjs::disabled()
                                        ),
                                        
-                                       br(),br(),
-                                       # hr(),
+                                       # br(),br(),
+                                       hr(),
                                        # strong('Examples', style = "font-size: 20px;color: #317EAC"),
-                                       h4('What the result you will get at this step'),
+                                       h4('Example output for sequence denoising'),
                                        div(
                                          actionButton(inputId = "table_dada2_paired_example",
                                                       label = "Summary table",
@@ -826,7 +832,8 @@ shinyUI(
                                                       onclick = paste0("window.open('http://",
                                                                        my_qiime_ip, my_qiime_port,
                                                                        "/example_files/denoising_table/data/index.html",
-                                                                       "')")
+                                                                       "')"),
+                                                      style = "margin-left:10px"
                                          ),
                                          actionButton(inputId = "rep_dada2_paired_example",
                                                       label = "Seqs info",
@@ -883,8 +890,8 @@ shinyUI(
                  
                  
                  
-                 # Taxonomic Classification ----
-                 tabPanel(span("Step 3. Taxonomic classification", style = tabPanel_navmenu_style),
+                 # Taxonomy classification ----
+                 tabPanel(span("Step 3. Taxonomy classification", style = tabPanel_navmenu_style),
                           
                           sidebarLayout(
                             fluid = T,
@@ -894,10 +901,11 @@ shinyUI(
                                      # p('First, download the data from database'),
                                      # uiOutput(outputId = "show_job_id_taxa"), # web version
                                      textInput(inputId = "input_job_id_taxa", label = "Nothing") %>% shinyjs::hidden(),
-                                     strong("Database selection", style = "font-size:24px;color:white"),
+                                     strong("Database", style = "font-size:24px;color:white"),
                                      p('Select the reference database for taxonomy classification.', style = "font-size:18px;"),
                                      selectInput(inputId = "select_database", 
-                                                 label = span("Choose the database", style = "font-size:20px"),
+                                                 # label = span("Choose the database", style = "font-size:20px"),
+                                                 label = "",
                                                  choices = c(),
                                                  width = "300px") %>% div(),
                                      actionButton(inputId = "auto_load_db",
@@ -941,10 +949,10 @@ shinyUI(
                                      #           label = "Give the trunc length you want",
                                      #           placeholder = "Input number",
                                      #           width = "300px"),
-                                     strong("Reference sequences filter", style = "font-size:24px;color:white"),
+                                     strong("Reference sequence filtering", style = "font-size:24px;color:white"),
                                      br(),br(),
-                                     strong("1. Check your primers", style = "color: white;font-size: 20px;"),
-                                     p("If incorrect, go to Sequence summary to change.", style = "font-size:18px;"),
+                                     strong("1. Check primers", style = "color: white;font-size: 20px;"),
+                                     p("If incorrect, go to 'Sequence summary' to select the correct primer.", style = "font-size:18px;"),
                                      # p(HTML("<b>1. Check your primers</b>"), span(shiny::icon("info-circle"), id = "info_check")
                                      #   , style = "font-size:20px;font-weight:700; margin-top:15px"),
                                      # tippy::tippy_this(elementId = "info_check", tooltip = "If incorrect, go to Sequences summary to change", placement = "right"),
@@ -952,10 +960,10 @@ shinyUI(
                                      uiOutput(outputId = "check_primer"),
                                      # uiOutput(outputId = "check_r_primer"),
                                      br(),br(),
-                                     strong("2. Filter the reference sequences", style = "font-size:20px; margin-top:15px"),
-                                     p("Filter the reference sequences based on length.", style = "font-size:18px;"),
+                                     strong("2. Filter the reference sequence by length", style = "font-size:20px; margin-top:15px"),
+                                     # p("Filter the reference sequences based on length.", style = "font-size:18px;"),
                                      textInput(inputId = "min_length", 
-                                               label = span("Give the minimum length to retain",
+                                               label = span("Minimum length",
                                                             style = "font-size:20px;"),
                                                # label = "Give the minimum length to retain",
                                                placeholder = "Input number",
@@ -967,7 +975,7 @@ shinyUI(
                                      
                                      
                                      textInput(inputId = "max_length", 
-                                               label = span("Give the maximum length to retain",
+                                               label = span("Maximum length",
                                                             style = "font-size:20px;"),
                                                # label = "Give the maximum length to retain",
                                                placeholder = "Input number",
@@ -983,7 +991,7 @@ shinyUI(
                                      hr(),
                                      strong("Computing setting", style = "font-size:24px;color:white"),
                                      textInput(inputId = "n_jobs", 
-                                               label = "Number of threads to run",
+                                               label = "Number of threads MOCHI can use",
                                                value = my_cores-2,
                                                placeholder = "Input number",
                                                width = "300px")
@@ -1039,9 +1047,9 @@ shinyUI(
                             ), # collumn
                             
                             mainPanel(
-                              h1("3. Taxonomic classification", 
+                              h1("3. Taxonomy classification", 
                                  style = "color: #317EAC;margin-top: 0px;"),
-                              h4("(1) Taxonomy classification"),
+                              h4("(1) Classify taxonomy"),
                               actionButton(inputId = "start_training", 
                                            label = strong("Start!"),
                                            icon = icon("play-circle"),
@@ -1051,7 +1059,7 @@ shinyUI(
                               
                               div(
                                 id = "taxa_results_view",
-                                h4("(2) Inpect the taxonomy classification result.", 
+                                h4("(2) Inspect the taxonomy classification result.", 
                                    style = "margin-top: 25px"),
                                 # uiOutput(outputId = "taxa_view_bttn"), # web version
                                 actionButton(inputId = "view_taxa",
@@ -1061,11 +1069,13 @@ shinyUI(
                                                               # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_taxa,
                                                               "/taxonomy_unzip/new_dirname/data/index.html",
                                                               "')"),
-                                             icon = icon("eye")
+                                             icon = icon("eye"),
+                                             style = "margin-left:10px"
                                 ) %>% shinyjs::disabled(),
+                                downloadButton("log_file_taxonomy_classification", "log file") %>% shinyjs::disabled()
                                 # span("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
                                 #      style = "position: relative; top:5px;"),
-                                style = "margin-top: 10px;margin-bottom: 25px"
+                                # style = "margin-top: 10px;margin-bottom: 25px"
                               ),
                               # span("Go to", strong('User results'), ", you can inspect the result by your user id."),
                               
@@ -1075,12 +1085,11 @@ shinyUI(
                                 h4("(3) Download the files for the next step.",
                                    style = "margin-top: 25px"),
                                 downloadButton(outputId = "taxatable_download",
-                                               label = "The taxonomic table for the next step.",
-                                               style = "margin-bottom: 10px") %>% shinyjs::disabled(),
+                                               label = "The taxonomic table  ",
+                                               style = "margin-left: 10px") %>% shinyjs::disabled(),
                                 
                                 downloadButton(outputId = "table_dada2_download",
-                                               label = "The ASVs table for the next step.",
-                                               style = "margin-bottom: 10px") %>% shinyjs::disabled(),
+                                               label = "The ASVs table  ") %>% shinyjs::disabled(),
                                 
                                 
                                 tippy::tippy_this(elementId = "table_dada2_download",
@@ -1089,15 +1098,15 @@ shinyUI(
                                                   placement = "bottom"),
                                 
                                 downloadButton(outputId = "rep_seq_dada2_download",
-                                               label = "The seqs data for the next step.",
-                                               style = "margin-bottom: 10px") %>% shinyjs::disabled()
+                                               label = "The seqs data  ") %>% shinyjs::disabled()
                               ),
                               
-                              br(),br(),
-                              h4('What the result you will get at this step'),
+                              # br(),br(),
+                              hr(),
+                              h4('Example output for taxonomy classification'),
                               actionButton(inputId = "view_taxonomy_example",
                                            label = "taxonomy result",
-                                           style = "margin-bottom: 10px;margin-top: 0px",
+                                           style = "margin-left: 10px",
                                            # onclick = paste0("window.open('http://",
                                            #                  "mochi.life.nctu.edu.tw",
                                            #                  "/example_files/taxonomy_analysis/data/index.html",
@@ -1120,8 +1129,8 @@ shinyUI(
       
       
       
-      # Taxonomic Analysis ----
-      tabPanel(title = span("Taxonomic Analysis", style = tabPanel_title_style),
+      # Taxonomy Analysis ----
+      tabPanel(title = span("Taxonomy Analysis", style = tabPanel_title_style),
                
                icon = icon("chart-bar", class = "chart-bar_icon"),
                tags$style(".chart-bar_icon {color: white}"),
@@ -1134,7 +1143,7 @@ shinyUI(
                    # strong("Metadata", style = "font-size:20px;color:white"),
                    # span("Upload the metadata (1st column name must be"), strong('#SampleID'),span(")"),
                    fileInput(inputId = "sample_data", 
-                             label = p(HTML("<b>Upload the metadata </b>"),span(shiny::icon("info-circle"),id = "info_metadata")),
+                             label = p(HTML("<b>Upload the metadata file</b>"),span(shiny::icon("info-circle"),id = "info_metadata")),
                              multiple = F,
                              accept = ".tsv"),
                    tippy::tippy_this(elementId = "info_metadata", 
@@ -1150,34 +1159,38 @@ shinyUI(
                    # style = "font-size: 16px"),
                    # textOutput(outputId="word_metadata_samecol"),
                    
-                   # span("Upload the taxonomic table file (Download from taxonomic analysis)"),
+                   # span("Upload the taxonomic table file (Download from Taxonomy Analysis)"),
                    fileInput(inputId = "taxonomic_table", 
                              label = p(HTML("<b>Upload the taxonomic table file </b>"),span(shiny::icon("info-circle"), id = "info_taxatable")),
                              multiple = F,
                              accept = ".qza"),
-                   tippy::tippy_this(elementId = "info_taxatable", tooltip = "Download from taxonomic classification", placement = "right"),
+                   tippy::tippy_this(elementId = "info_taxatable", tooltip = "Download from taxonomy classification", placement = "right"),
                    
-                   # span("Upload the ASVs table file (Download from taxonomic analysis)"),
+                   # span("Upload the ASVs table file (Download from Taxonomy Analysis)"),
                    fileInput(inputId = "table_dada2_upload", 
                              label = p(HTML("<b>Upload the ASVs table file </b>"),span(shiny::icon("info-circle"), id = "info_ASVs")),
                              multiple = F,
                              accept = ".qza"),
-                   tippy::tippy_this(elementId = "info_ASVs", tooltip = "Download from taxonomic classification", placement = "right"),
+                   tippy::tippy_this(elementId = "info_ASVs", tooltip = "Download from taxonomy classification", placement = "right"),
                    checkboxInput(inputId = "18S", label = p(HTML("<b>18S rRNA</b>"),span(shiny::icon("info-circle"), id = "18S_check"))),
                    tippy::tippy_this(elementId = "18S_check", tooltip = "Check this if your sequences are 18S rRNA", placement = "right"),
+                   actionButton("TA_demo",
+                                strong("Demo", style = "margin: 5px;font-size: 18px"),
+                                icon = icon("chalkboard-teacher"),
+                                style = "color:#317EAC;background-color:white;"),
                    
                    # Download example button
-                   hr(),
-                   p('Download the example files', style = "font-weight:700"),
-                   div(downloadButton(outputId = "downloadMetaData", 
-                                      label = span("Metadata_example.tsv"),
-                                      style = "margin: 5px;color: #317EAC")),
-                   div(downloadButton(outputId = "downloadData", 
-                                      label = span("Taxonomic_table_example.qza"),
-                                      style = "margin: 5px;color: #317EAC")),
-                   div(downloadButton(outputId = "example_feature_table",
-                                      label = span("ASVs_table_example.qza"),
-                                      style = "margin: 5px;color: #317EAC")),
+                   # hr(),
+                   # p('Download the example files', style = "font-weight:700"),
+                   # div(downloadButton(outputId = "downloadMetaData", 
+                   #                    label = span("Metadata_example.tsv"),
+                   #                    style = "margin: 5px;color: #317EAC")),
+                   # div(downloadButton(outputId = "downloadData", 
+                   #                    label = span("Taxonomic_table_example.qza"),
+                   #                    style = "margin: 5px;color: #317EAC")),
+                   # div(downloadButton(outputId = "example_feature_table",
+                   #                    label = span("ASVs_table_example.qza"),
+                   #                    style = "margin: 5px;color: #317EAC")),
                    # div(downloadButton(outputId = "example_rep_seqs",
                    #                    label = "Seqs_forPhylo_example.qza"),
                    #     style = "margin: 5px;"),
@@ -1507,21 +1520,21 @@ shinyUI(
                                           # strong("program to perform a multiple sequence alignment of the sequences."),
                                           # br(),br(), 
                                           # fileInput(inputId = "table_dada2_upload", 
-                                          #           label = "Upload the feature table (Download from Taxonomic anlysis)",
+                                          #           label = "Upload the feature table (Download from Taxonomy Anlysis)",
                                           #           multiple = F,
                                           #           accept = ".qza", 
                                           #           width = "40%"),
                                           fileInput(inputId ="rep_seq_dada2_upload", 
-                                                    # label = "Upload the sequences data (Download from Taxonomic analysis)",
+                                                    # label = "Upload the sequences data (Download from Taxonomy Analysis)",
                                                     label = p(HTML("<b >Upload the sequences data </b>"),span(shiny::icon("info-circle"),id = "info_seqs_forPhylo")),
                                                     multiple = F,
                                                     accept = ".qza",
                                                     width = "40%"),
-                                          tippy::tippy_this(elementId = "info_seqs_forPhylo", tooltip = "Download from taxonomic analysis", placement = "right"),
-                                          div(downloadButton(outputId = "example_rep_seqs",
-                                                             label = span("Seqs_forPhylo_example.qza"),
-                                                             style = "margin: 5px;color: #317EAC")),
-                                          br(),br(),
+                                          tippy::tippy_this(elementId = "info_seqs_forPhylo", tooltip = "Download from taxonomy classification", placement = "right"),
+                                          # div(downloadButton(outputId = "example_rep_seqs",
+                                          #                    label = span("Seqs_forPhylo_example.qza"),
+                                          #                    style = "margin: 5px;color: #317EAC")),
+                                          # br(),br(),
                                           textInput(inputId = "sampling_depth", 
                                                     label = "Input the sampling depth"),
                                           actionButton(inputId = "Q_sampling_depth", 
@@ -1539,7 +1552,11 @@ shinyUI(
                                           actionButton(inputId = "phylogenetic_tree", 
                                                        label = strong("Start!"),
                                                        icon = icon("play-circle")
-                                          )
+                                          ),
+                                          actionButton("phylo_demo",
+                                                       strong("Demo", style = "margin: 5px;font-size: 18px"),
+                                                       icon = icon("chalkboard-teacher"),
+                                                       style = "color:#317EAC;background-color:white;margin-top:10px") %>% div()
                                           , style = "margin-top: 10px;"
                                         ) %>% shinyjs::hidden(),
                                         
@@ -1729,7 +1746,8 @@ shinyUI(
                                                        choices = " ", 
                                                        inline = T),
                                           actionButton(inputId = "ANCOM_start", 
-                                                       label = strong("Start!")
+                                                       label = strong("Start!"),
+                                                       icon = icon("play-circle")
                                           ),
                                           
                                           # textOutput(outputId = "word_ANCOM"),
@@ -1775,7 +1793,7 @@ shinyUI(
       # Function Analysis -------------
       tabPanel(title = span("Function Analysis", style = tabPanel_title_style),
                
-               icon = icon("caret-square-right", class = "caret_icon"),
+               icon = icon("project-diagram", class = "caret_icon"),
                tags$style(".caret_icon {color: white}"),
                
                sidebarLayout(
@@ -1790,7 +1808,7 @@ shinyUI(
                    br(),br(),
                    
                    fileInput(inputId = "sample_data_FA", 
-                             label = p(HTML("<b>Upload the metadata </b>"),
+                             label = p(HTML("<b>Upload the metadata file</b>"),
                                        span(shiny::icon("info-circle"),
                                             id = "info_metadata_FA")),
                              multiple = F,
@@ -1806,12 +1824,17 @@ shinyUI(
                                             id = "info_taxatable_FA")),
                              multiple = F,
                              accept = ".qza"),
-                   tippy::tippy_this(elementId = "info_taxatable_FA", tooltip = "Download from taxonomic classification", placement = "right"),
+                   tippy::tippy_this(elementId = "info_taxatable_FA", tooltip = "Download from Taxonomy classification", placement = "right"),
                    
                    actionButton(inputId = "function_analysis", 
                                 label = strong("Start!"), 
                                 icon = icon("play-circle")
+                                
                    ),
+                   actionButton("FA_demo",
+                                strong("Demo", style = "margin: 5px;font-size: 18px"),
+                                icon = icon("chalkboard-teacher"),
+                                style = "color:#317EAC;background-color:white;margin-top:10px") %>% div(),
                    width = 3),
                  
                  mainPanel(
@@ -1882,7 +1905,7 @@ shinyUI(
                                       h2("The tutorial of Sequences preprocessing"),
                                       selectInput(inputId = "seq_choice_tutorial",
                                                   label = "Choose the process",
-                                                  choices = c("Step 1. Sequence summary", "Step 2. Denoising", "Step 3. Taxonomic classification")),
+                                                  choices = c("Step 1. Sequence summary", "Step 2. Sequence denoising", "Step 3. Taxonomy classification")),
                                       hr(),
                                       conditionalPanel(
                                         condition = "input.seq_choice_tutorial == 'Step 1. Sequence summary'",
@@ -1890,17 +1913,17 @@ shinyUI(
                                         ),
                                       ),
                                       conditionalPanel(
-                                        condition = "input.seq_choice_tutorial == 'Step 2. Denoising'",
+                                        condition = "input.seq_choice_tutorial == 'Step 2. Sequence denoising'",
                                         withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_seq_2.Rmd")
                                         ),
                                       ),
                                       conditionalPanel(
-                                        condition = "input.seq_choice_tutorial == 'Step 3. Taxonomic classification'",
+                                        condition = "input.seq_choice_tutorial == 'Step 3. Taxonomy classification'",
                                         withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_seq_3.Rmd")
                                         ),
                                       )
                              ),
-                             tabPanel(title="Taxonomic Analysis",
+                             tabPanel(title="Taxonomy Analysis",
                                       withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_DA.Rmd"))
                              ),
                              tabPanel(title="Function analysis",
@@ -1926,7 +1949,7 @@ shinyUI(
     #              column(width = 4,
     #                     wellPanel(
     #                       style = "background-color: #317EAC; border: none; border-radius: 5px; color: white;font-size: 20px;width:300px",
-    #                       # strong("Inpect your results", style = "font-size:20px;color:white"),
+    #                       # strong("Inspect your results", style = "font-size:20px;color:white"),
     #                       strong("Download the results", style = "font-size:24px;color:white;top:20px"),
     #                       textInput(inputId = "job_id",
     #                                 label = strong("Job ID", style = "font-size:20px;color:white"),
@@ -1993,7 +2016,7 @@ shinyUI(
     # avoid from navbar and footer cover contents
     tags$body(
       style = "position:relative;",
-      tags$style("@media screen and (min-width: 1134px) {
+      tags$style("@media screen and (min-width: 1221px) {
                          body {
                            position:relative;
                            margin-top: 60px;
@@ -2001,7 +2024,7 @@ shinyUI(
                                              }
                  }"
       ),
-      tags$style("@media screen and (max-width: 1400px) {
+      tags$style("@media screen and (max-width: 1221px) {
                          body {
                            position:relative;
                            margin-top: 125px;
@@ -2009,7 +2032,7 @@ shinyUI(
                                              }
                  }"
       ),
-      tags$style("@media screen and (max-width: 1135px) {
+      tags$style("@media screen and (max-width: 956px) {
                          body {
                            position:relative;
                            margin-top: 195px;
@@ -2017,7 +2040,7 @@ shinyUI(
                                              }
                  }"
       ),
-      tags$style("@media screen and (max-width: 766px) {
+      tags$style("@media screen and (max-width: 767px) {
                          body {
                            position:relative;
                            margin-top: 60px;
