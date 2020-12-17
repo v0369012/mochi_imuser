@@ -57,7 +57,7 @@ server <- function(session, input, output) {
       a("Shiny", href = "https://shiny.rstudio.com/", target = "_blank"), span(".", .noWS = "outside"),
       p("MOCHI may also be downloaded and operated locally."),
       # p(paste0("http://",my_ip(), my_qiime_port(), "/mochi_pipeline_new_2.png")),
-      img(src = paste0("http://",my_ip(), my_qiime_port(), "/mochi_pipeline_new_2.png"),
+      img(src = paste0("http://", my_ip(), my_qiime_port(), "/mochi_pipeline.png"),
                 alt = "pipeline", width = "80%", height = "80%", style = "margin:10px;max-width:1000px"),
       hr(),
       h4("The advantages of MOCHI", style = "font-weight:bolder;color:#317EAC"),
