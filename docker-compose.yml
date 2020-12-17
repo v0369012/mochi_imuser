@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+        
+        mochi_server:
+         # build: .
+         image: dockerjjz/mochi_local
+         ports:
+                 - "3811:3838"
+                 - "8011:80"
+         volumes:
+                 - ./seqs_folder:/home/imuser/raw_data/:rw
+                 - ./taxa_database/:/home/imuser/taxa_database/:rw
+         container_name: mochi_server
+         
+         deploy:
+           resources:
+             limits:
+               cpus: '0.80'
+               memory: 6G
+         
+         environment:
+                 - shiny_port=3811
+                 - nginx_port=8011
+                  
