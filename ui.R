@@ -1926,7 +1926,7 @@ shinyUI(
                              tabPanel(title="Taxonomy Analysis",
                                       withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_DA.Rmd"))
                              ),
-                             tabPanel(title="Function analysis",
+                             tabPanel(title="Function Analysis",
                                       withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_func.Rmd"))
                              )
                              
