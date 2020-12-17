@@ -1842,14 +1842,14 @@ shinyUI(
                    shinyBS::bsAlert("sample_data_alert_FA"),
                    shinyBS::bsAlert("taxatable_alert_FA"),
                    tabsetPanel(type="tabs",
-                               tabPanel(title = "Function table",
+                               tabPanel(title = "Function annotation table",
                                         icon = icon("table"),
                                         div(
                                           id = "func_table_ui",
                                           h3("Summary"),
                                           uiOutput(outputId = "function_report"),
                                           hr(),
-                                          h3("Function table"),
+                                          h3("Function annotation table"),
                                           withSpinner(
                                             dataTableOutput(outputId = "func_table_BY_sampleid",
                                                             height = "auto"), 
@@ -1857,7 +1857,7 @@ shinyUI(
                                             color.background = spinner_bg_color
                                           ),
                                           downloadButton(outputId = "func_table_ID", 
-                                                         label = "Download the function table")
+                                                         label = "Download the function annotation table")
                                         ) %>% shinyjs::hidden()
                                ),
                                # tabPanel(title = "Function Tale (by Species Name)", 

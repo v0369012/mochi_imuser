@@ -10436,7 +10436,8 @@ server <- function(session, input, output) {
   
   output$func_table_ID<-downloadHandler(
     
-    filename = "function_table_bySampleID.csv",
+    # filename = "function_table_bySampleID.csv",
+    filename = "function_table.csv",
     content = function(file) {
       
       # func_table_BY_sampleid <- read_qza(paste0("/home/imuser/web_version/users_files/",
