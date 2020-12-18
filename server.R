@@ -3860,7 +3860,15 @@ server <- function(session, input, output) {
     system("sudo chmod -R 777 /home/imuser/taxa_database/greengenes/")
     
     remove_modal_spinner()
-    showModal(modalDialog(title = "Successfully!", "Greengenes (gg_13_5_otus.tar.gz) has been downloaded. Please restart MOCHI.", footer = NULL, easyClose = T))
+    if(file.exists("/home/imuser/taxa_database/greengenes/rep_set/99_otus.fasta")){
+      showModal(modalDialog(title = "Successfully!", "Greengenes (gg_13_5_otus.tar.gz) has been downloaded. Please reload MOCHI.", footer = NULL, easyClose = T))
+    }else{
+      showModal(modalDialog(
+        title = strong("Error!", style = "color: red"), 
+        "Greengenes (gg_13_5_otus.tar.gz) were not downloaded. Please download it manually.", 
+        footer = NULL, easyClose = T))
+    }
+    
     
   })
   
@@ -3880,7 +3888,15 @@ server <- function(session, input, output) {
     system("sudo chmod -R 777 /home/imuser/taxa_database/silva/")
     
     remove_modal_spinner()
-    showModal(modalDialog(title = "Successfully!", "Silva (Silva_132_release.zip) has been downloaded. Please restart MOCHI.", footer = NULL, easyClose = T))
+    if(file.exists("/home/imuser/taxa_database/silva/rep_set/rep_set_16S_only/99/silva_132_99_16S.fna")){
+      showModal(modalDialog(title = "Successfully!", "Silva (Silva_132_release.zip) has been downloaded. Please reload MOCHI.", footer = NULL, easyClose = T))
+    }else{
+      showModal(modalDialog(
+        title = strong("Error!", style = "color: red"), 
+        "Silva (Silva_132_release.zip) were not downloaded. Please download it manually.", 
+        footer = NULL, easyClose = T))
+    }
+    
     
   })
   
@@ -3898,7 +3914,15 @@ server <- function(session, input, output) {
     system("sudo chmod -R 777 /home/imuser/taxa_database/PR2")
     
     remove_modal_spinner()
-    showModal(modalDialog(title = "Successfully!", "PR2 (pr2_version_4.12.0_18S) has been downloaded. Please restart MOCHI.", footer = NULL, easyClose = T))
+    if(file.exists("/home/imuser/taxa_database/PR2/18S/taxonomy/pr2_version_4.12.0_18S_mothur.tax")){
+      showModal(modalDialog(title = "Successfully!", "PR2 (pr2_version_4.12.0_18S) has been downloaded. Please reload MOCHI.", footer = NULL, easyClose = T))
+    }else{
+      showModal(modalDialog(
+        title = strong("Error!", style = "color: red"), 
+        "PR2 (pr2_version_4.12.0_18S) were not downloaded. Please download it manually.", 
+        footer = NULL, easyClose = T))
+    }
+    
   })
   
   
