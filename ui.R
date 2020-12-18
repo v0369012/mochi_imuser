@@ -1895,42 +1895,48 @@ shinyUI(
                tags$style(".nav_qc_icon {color: white}"),
                
                mainPanel(
+                 width = 12,
                  # uiOutput("tutorial"),
                  # htmlOutput("tutorial")
-                 tabsetPanel(type="tabs",
-                             # tabPanel(title="Installation",
-                             #          withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_install.Rmd"))
-                             #          ),
-                             tabPanel(title="Sequence Preprocessing",
-                                      h2("The tutorial of Sequences preprocessing"),
-                                      selectInput(inputId = "seq_choice_tutorial",
-                                                  label = "Choose the process",
-                                                  choices = c("Step 1. Sequence summary", "Step 2. Sequence denoising", "Step 3. Taxonomy classification")),
-                                      hr(),
-                                      conditionalPanel(
-                                        condition = "input.seq_choice_tutorial == 'Step 1. Sequence summary'",
-                                        withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_seq_1.Rmd")
-                                        ),
-                                      ),
-                                      conditionalPanel(
-                                        condition = "input.seq_choice_tutorial == 'Step 2. Sequence denoising'",
-                                        withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_seq_2.Rmd")
-                                        ),
-                                      ),
-                                      conditionalPanel(
-                                        condition = "input.seq_choice_tutorial == 'Step 3. Taxonomy classification'",
-                                        withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_seq_3.Rmd")
-                                        ),
-                                      )
-                             ),
-                             tabPanel(title="Taxonomy Analysis",
-                                      withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_DA.Rmd"))
-                             ),
-                             tabPanel(title="Function Analysis",
-                                      withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_func.Rmd"))
+                 # tabsetPanel(type="tabs",
+                 #             # tabPanel(title="Installation",
+                 #             #          withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_install.Rmd"))
+                 #             #          ),
+                 #             tabPanel(title="Sequence Preprocessing",
+                 #                      h2("The tutorial of Sequences preprocessing"),
+                 #                      selectInput(inputId = "seq_choice_tutorial",
+                 #                                  label = "Choose the process",
+                 #                                  choices = c("Step 1. Sequence summary", "Step 2. Sequence denoising", "Step 3. Taxonomy classification")),
+                 #                      hr(),
+                 #                      conditionalPanel(
+                 #                        condition = "input.seq_choice_tutorial == 'Step 1. Sequence summary'",
+                 #                        withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_seq_1.Rmd")
+                 #                        ),
+                 #                      ),
+                 #                      conditionalPanel(
+                 #                        condition = "input.seq_choice_tutorial == 'Step 2. Sequence denoising'",
+                 #                        withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_seq_2.Rmd")
+                 #                        ),
+                 #                      ),
+                 #                      conditionalPanel(
+                 #                        condition = "input.seq_choice_tutorial == 'Step 3. Taxonomy classification'",
+                 #                        withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_seq_3.Rmd")
+                 #                        ),
+                 #                      )
+                 #             ),
+                 #             tabPanel(title="Taxonomy Analysis",
+                 #                      withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_DA.Rmd"))
+                 #             ),
+                 #             tabPanel(title="Function Analysis",
+                 #                      withMathJax(includeMarkdown("/home/imuser/text_files/tutorial_func.Rmd"))
+                 #             )
+                 #             
+                 # )
+                 
+                 tags$iframe(style="height:800px; width:90%; scrolling=yes;margin:0 100px",
+                             src=paste0("http://", my_qiime_ip, my_qiime_port, "/MOCHI_Tutorial_Ch_2.pdf")
+                             # src=paste0("http://", "140.113.83.24:8011", "/MOCHI_Tutorial_Ch_2.pdf")
                              )
-                             
-                 )
                  
                  
                )
