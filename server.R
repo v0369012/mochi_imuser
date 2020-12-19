@@ -1959,17 +1959,37 @@ server <- function(session, input, output) {
     return(inFile$name)
   })
   
+  
+  observe({
+    raw_data_path_list <- list()
+    raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+    seqs_name <- list.files(raw_data_path_list[[1]])
+    if(sum(str_count(seqs_name, ".fastq.gz"))!=length(seqs_name)){
+      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                            "File format of all files must be .fastq.gz!", 
+                            footer = NULL, easyClose = T, size = "l"))
+    }
+  })
+  
   observeEvent(input$demultiplexed_single_ends, {
     
     # if(is.null(input$seqs_data_upload)){
     #   showModal(modalDialog(title = strong("Error!", style = "color: red"), 
     #                         "Please upload the sequences.", 
     #                         footer = NULL, easyClose = T, size = "l")) # web version
+    raw_data_path_list <- list()
+    raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+    seqs_name <- list.files(raw_data_path_list[[1]])
       
-      if(is.null(input$dirs)){
+    if(is.null(input$dirs)){
         showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                               "Please choose the directory.", 
                               footer = NULL, easyClose = T, size = "l"))
+      
+    }else if(sum(str_count(seqs_name, ".fastq.gz"))!=length(seqs_name)){
+      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                            "File format of all files must be .fastq.gz!", 
+                            footer = NULL, easyClose = T, size = "l"))
     }else{
       
       # req(input$seqs_data_upload) # web version
