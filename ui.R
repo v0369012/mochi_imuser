@@ -1741,14 +1741,22 @@ shinyUI(
                                         icon = icon("window-maximize"),
                                         div(
                                           id = "ancom_ui",
+                                          strong("ANCOM (Analysis of composition of microbiomes) is used for comparing the composition of microbiomes in two or more populations.",
+                                                 style = "font-size: 18px"),
+                                          br(),br(),
                                           radioButtons(inputId = "metadata_ANCOM", 
                                                        label = "Choose the target comparison (Should be categorical data)", 
                                                        choices = " ", 
                                                        inline = T),
                                           actionButton(inputId = "ANCOM_start", 
                                                        label = strong("Start!"),
-                                                       icon = icon("play-circle")
+                                                       icon = icon("play-circle"),
+                                                       
                                           ),
+                                          # actionButton(inputId = "load_parameter_ANCOM",
+                                          #              label = strong("Demo", style = "margin: 5px;font-size: 18px"),
+                                          #              icon = icon("chalkboard-teacher"),
+                                          #              style = "color:#317EAC;background-color:white;margin-top:10px") %>% div(),
                                           
                                           # textOutput(outputId = "word_ANCOM"),
                                           hr(),

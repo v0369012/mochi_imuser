@@ -1236,6 +1236,10 @@ server <- function(session, input, output) {
       
       noOK_col <- c(names(col_vector)[position_1], noOKstats_col) %>% paste(collapse = ", ")
       
+      if(noOK_col==""){
+        noOK_col <- c()
+      }
+      
       word_content <- paste("Your column '", noOK_col, "' would be ignored because the data don't have more than 2 categories or sample size of every category is less than 2.")
       
       
@@ -1498,6 +1502,10 @@ server <- function(session, input, output) {
       }) %>% unlist()
       
       noOK_col <- c(names(col_vector)[position_1], noOKstats_col) %>% paste(collapse = ", ")
+      
+      if(noOK_col==""){
+        noOK_col <- c()
+      }
       
       word_content <- paste("Your column '", noOK_col, "' would be ignored because the data don't have more than 2 categories or sample size of every category is less than 2.")
       
@@ -5234,7 +5242,7 @@ server <- function(session, input, output) {
     library(ggrepel)
     pca_Bray_df_data_plot_gg <- ggplot(data = pca_Bray_df_data_plot, aes(x=PC1, y=PC2, label=sample_original_names, color=sample))+
       geom_point(size=1.5)+
-      geom_text_repel(show.legend = FALSE)+
+      ggrepel::geom_text_repel(show.legend = FALSE)+
       xlab(paste("PC1 (", round(pc_prop[1], 2)*100, "%", ")", sep = ""))+
       ylab(paste("PC2 (", round(pc_prop[2], 2)*100, "%", ")", sep = ""))+
       geom_vline(xintercept =0, linetype="dotted")+
@@ -5294,7 +5302,7 @@ server <- function(session, input, output) {
     library(ggrepel)
     pcoa_Bray_df_data_plot_gg<-ggplot(data = pcoa_Bray_df_data_plot, aes(x=PC1, y=PC2, label=sample_original_names, color=sample))+
       geom_point(size=1.5)+
-      geom_text_repel(show.legend = FALSE)+
+      ggrepel::geom_text_repel(show.legend = FALSE)+
       xlab(paste("PC1 (", round(pcoa_Bray_df_data$values[1,2],2)*100, "%", ")", sep = ""))+
       ylab(paste("PC2 (", round(pcoa_Bray_df_data$values[2,2],2)*100, "%", ")", sep = ""))+
       geom_vline(xintercept =0, linetype="dotted")+
@@ -5312,7 +5320,7 @@ server <- function(session, input, output) {
     
     NMDS_beta_df_data_plot_gg<-ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, label=sample_original_names,color=sample))+
       geom_point(size=1.5)+
-      geom_text_repel(show.legend = FALSE)+
+      ggrepel::geom_text_repel(show.legend = FALSE)+
       xlab("NMDS1")+
       ylab("NMDS2")+
       geom_vline(xintercept =0, linetype="dotted")+
@@ -8073,18 +8081,17 @@ server <- function(session, input, output) {
     
     return(MRPP_pair_table())
     
-    output$download_MRPP_pair <- downloadHandler(
-      
-      filename = "MRPP_pair_table.csv",
-      content = function(file) {
-        
-        write.csv(MRPP_pair_table(), file, row.names = FALSE)
-        
-      }
-    )
-    
-  })
+      })
   
+  output$download_MRPP_pair <- downloadHandler(
+    
+    filename = "MRPP_pair_table.csv",
+    content = function(file) {
+      
+      write.csv(MRPP_pair_table(), file, row.names = FALSE)
+      
+    }
+  )
   
   
   # Krona ------------------------------------------------------------------------------------------------------
@@ -8324,6 +8331,16 @@ server <- function(session, input, output) {
       return(b)
     })
     
+    output$download_faithPD_table <- downloadHandler(
+      filename = "faithPD_table.csv",
+      content = function(file){
+        a <- faith_PD()
+        b <- data.frame(SampleID=rownames(a),
+                        FaithPD=a[,1])
+        write.csv(b, file, row.names = FALSE)
+      }
+    )
+    
     faithPD_boxplot_anova <- reactive({
       
       as_faithPD_boxplot <- function(metadata, feature)
@@ -8474,11 +8491,16 @@ server <- function(session, input, output) {
     output$download_faithPD_boxplot <- downloadHandler(
       
       filename = function(){
-        paste0("faithPD_boxplot_", input$metadata_phylo_alpha, ".jpg")
+        paste0("faithPD_boxplot_", input$select_stat_phylo, "_", input$metadata_phylo_alpha, ".jpg")
       },
       content = function(file){
+        if(input$select_stat_phylo=="ANOVA"){
+          ggsave(file, plot = faithPD_boxplot_anova())
+        }else{
+          ggsave(file, plot = faithPD_boxplot_KWtest())
+        }
         
-        ggsave(file, plot = faithPD_boxplot())
+        
         
       })
     
@@ -8799,7 +8821,7 @@ server <- function(session, input, output) {
       
       NMDS_beta_df_data_plot_gg <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, label=sample_original_names, color=sample))+
         geom_point(size=1.5)+
-        geom_text_repel(show.legend = FALSE)+
+        ggrepel::geom_text_repel(show.legend = FALSE)+
         xlab("NMDS1")+
         ylab("NMDS2")+
         geom_vline(xintercept = 0, linetype = "dotted")+
@@ -8908,7 +8930,7 @@ server <- function(session, input, output) {
       
       NMDS_beta_df_data_plot_gg <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, label=sample_original_names,color=sample))+
         geom_point(size=1.5)+
-        geom_text_repel(show.legend = FALSE)+
+        ggrepel::geom_text_repel(show.legend = FALSE)+
         xlab("NMDS1")+
         ylab("NMDS2")+
         geom_vline(xintercept = 0, linetype = "dotted")+
@@ -8964,13 +8986,23 @@ server <- function(session, input, output) {
     output$download_unif_plot <- downloadHandler(
       
       filename = function(){
-        paste0("Unifrac_plot_", input$UnW_or_W_phylo, "_", input$metadata_phylo_beta, ".jpg")
+        paste0("Unifrac_plot_", input$UnW_or_W_phylo, "_", input$ordination_phylo,"_", input$metadata_phylo_beta, ".jpg")
       },
       content = function(file){
         if(input$UnW_or_W_phylo=="Unweighted"){
-          ggsave(file, plot = unW_unif_pcoa_plot())
+          if(input$ordination_phylo=="PCoA"){
+            ggsave(file, plot = unW_unif_pcoa_plot())
+          }else{
+            ggsave(file, plot = unW_unif_nmds_plot())
+          }
+          
         }else{
-          ggsave(file, plot = W_unif_pcoa_plot())
+          if(input$ordination_phylo=="PCoA"){
+            ggsave(file, plot = W_unif_pcoa_plot())
+          }else{
+            ggsave(file, plot = W_unif_nmds_plot())
+          }
+          
         }
         
       }
