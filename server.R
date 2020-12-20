@@ -1822,9 +1822,12 @@ server <- function(session, input, output) {
     
     showModal(modalDialog(title = strong("Message"),
                           tagList(
-                            p("If the total count for any sample(s) are smaller than this value, those samples will be dropped from the diversity analysis."),
-                            p("The default value is the total count of a sample with the smallest count."),
-                            span("View the result in"), strong('Sequence Preprocessing/Sequence summary'), span("to determine this value.")
+                            # p("If the total count for any sample(s) are smaller than this value, those samples will be dropped from the diversity analysis."),
+                            # p("The default value is the total count of a sample with the smallest count."),
+                            # span("View the result in"), strong('Sequence Preprocessing/Sequence summary'), span("to determine this value.")
+                            p("Sampling depth is how many reads will be used in the phylogenetic distance analysis"),
+                            p("Any sample(s) have read count less than this number will be dropped from this diversity analysis. The default value is the lowest read count among all samples"),
+                            p("You may revisit the results in Sequence preprocessing/Sequence summary to determine this value.")
                           )
                           , 
                           footer = NULL, easyClose = T, size = "l"))
@@ -8202,6 +8205,11 @@ server <- function(session, input, output) {
     system(paste('ktImportText -o /home/imuser/Krona_files/Krona_rawdata.html', filename_forKrona))
     file.remove(list.files(pattern = "taxtable_forKrona"))
     
+    krona_html <- readLines("/home/imuser/Krona_files/Krona_rawdata.html")
+    krona_html_new <- gsub(x = krona_html, pattern = 'id="linkButton" value="Link"', replacement = 'id="linkButton" value="Link" style="display: none;"')
+    krona_html_new <- gsub(x = krona_html_new, pattern = 'id="snapshot" value="Snapshot"', replacement = 'id="snapshot" value="Snapshot" style="display: none;"')
+    writeLines(krona_html_new, con="/home/imuser/Krona_files/Krona_rawdata.html")
+    
     # file.copy(from = "/home/imuser/Krona_files/Krona_rawdata.html",
     #           to = "/var/www/html/",
     #           overwrite = T)
@@ -8435,7 +8443,7 @@ server <- function(session, input, output) {
           #           size = 5) +
           geom_boxplot() +
           ggtitle("Phylogenetic Alpha diversity") +
-          xlab(input$metadata_phylo_beta) +
+          xlab(input$metadata_phylo_alpha) +
           ylab("Faith_PD")+
           labs(caption=paste0("p value of ANOVA = ", round(anova_summary[[1]][[5]][1], 4))) + theme(text = element_text(size = 15)) + stat_summary(fun.data = stat_box_data,
                                                                                                                                                    geom = "text", 
@@ -8641,7 +8649,7 @@ server <- function(session, input, output) {
     output$download_faithPD_posttest <- downloadHandler(
       filename = function(){
         
-        if(input$select_stat=="ANOVA"){
+        if(input$select_stat_phylo=="ANOVA"){
           paste0("faithPD_Tukey_", input$metadata_phylo_alpha,".csv")
         }else{
           paste0("faithPD_diversity_Dunn_", input$metadata_phylo_alpha, ".csv")
@@ -10232,12 +10240,12 @@ server <- function(session, input, output) {
     
     
     output$annotation_ancom <- renderUI({
-      HTML("<p>The W value is essentially a count of the number of sub-hypotheses that have passed for a given species.<br>The clr represent log-fold change relative to the average microbe.</p>")
+      HTML("<p>The W value is the number of sub-hypotheses that have rejected for a given taxon in ANCOM analysis.<br>The clr represents log-fold change relative to the average microbe.</p>")
     })
     
     output$word_ancom_table <- renderUI({
       
-      h3("ANCOM statistical results (Species with significant w value)", 
+      h3("ANCOM results (Taxa with significant W value)", 
          style = "color: black;top: 10px;")
     })
     
@@ -10269,7 +10277,7 @@ server <- function(session, input, output) {
     if (file.exists("/home/imuser/qiime_output/ancom_comparison.qzv")){
       
       # output$word_ANCOM <- renderText(print("ANCOM successfully!"))
-      showModal(modalDialog(title = strong("ANCOM has been finished."),
+      showModal(modalDialog(title = strong("Successful!"),
                             HTML(
                               paste0(
                                 " This analysis took ", spent_time, ". ",
@@ -10523,12 +10531,13 @@ server <- function(session, input, output) {
       a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
       a_report <- a[104:106,2]
       a_report[1] <- str_replace_all(a_report[1], pattern = "records", replacement = "taxa")
-      a_report[1] <- str_replace_all(a_report[1], pattern = "group", replacement = "function type")
+      a_report[1] <- str_replace_all(a_report[1], pattern = "group", replacement = "function type.")
       a_report[2] <- str_replace_all(a_report[2], pattern = "records", replacement = "taxa")
-      a_report[2] <- str_replace_all(a_report[2], pattern = "group", replacement = "function type")
+      a_report[2] <- str_replace_all(a_report[2], pattern = "group", replacement = "function type.")
       a_report[2] <- str_remove(a_report[2], pattern = "\\(leftovers\\)")
       a_report[3] <- str_replace_all(a_report[3], pattern = "record", replacement = "taxa")
       a_report[3] <- str_replace_all(a_report[3], pattern = "group", replacement = "function type")
+      a_report[3] <- str_replace_all(a_report[3], pattern = "taxa", replacement = "taxon.")
       
       HTML(paste(a_report[1], a_report[2] ,a_report[3], sep = "<br/>"))
       
@@ -10582,7 +10591,23 @@ server <- function(session, input, output) {
   # })
   
   
-  
+  observeEvent(input$function_info, {
+    showModal(
+      modalDialog(
+        title = "Message",
+        tagList(
+          span("MOCHI uses "),
+          a("FAPROTAX",
+            href ="https://pages.uoregon.edu/slouca/LoucaLab/archive/FAPROTAX/lib/php/index.php",
+            target="_blank",
+            style = "font-weight: 700; color:black;"),
+          span(" database for function analysis. FAPROTAX is a database that maps prokaryotic clades (e.g. genera or species) to established metabolic or other ecologically relevant functions.")
+        ),
+        footer = NULL,
+        easyClose = T
+      )
+    )
+  })
   
   
   output$func_table_ID<-downloadHandler(
