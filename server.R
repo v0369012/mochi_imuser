@@ -577,6 +577,9 @@ server <- function(session, input, output) {
                        icon = icon("question-circle"),
                        style = "position:relative;"
           ),
+          
+          actionButton("reset_metadata_single",
+                       label = "reset"),
           # downloadButton(outputId = "metadata_demo_download_paired", 
           #                label = " Demo metadata",
           #                style = "position:relative;left:5px;color:#317EAC"
@@ -716,7 +719,8 @@ server <- function(session, input, output) {
                        icon = icon("question-circle"),
                        style = "position:relative;"
           ),
-          
+          actionButton("reset_metadata_paired",
+                       label = "reset"),
           # downloadButton(outputId = "metadata_demo_download_paired", 
           #                label = " Demo metadata",
           #                style = "position:relative;left:5px;color:#317EAC"
@@ -3025,7 +3029,9 @@ server <- function(session, input, output) {
       }
   })
   
-  
+  observeEvent(input$reset_metadata_single, {
+    shinyjs::reset("sample_data_single")
+  })
   # output$dada2_single_results_bttn <- renderUI({
   #   tagList(
   #     actionButton(inputId = "show_dada2_single_table",
@@ -3612,7 +3618,9 @@ server <- function(session, input, output) {
     }
   })
   
-  
+  observeEvent(input$reset_metadata_paired, {
+    shinyjs::reset("sample_data_paired")
+  })
   # output$dada2_paired_results_bttn <- renderUI({
   #   tagList(
   #     actionButton(inputId = "show_dada2_paired_table",
