@@ -56,6 +56,7 @@ server <- function(session, input, output) {
       span(" with a friendly web interface powered by the R package of "),
       a("Shiny", href = "https://shiny.rstudio.com/", target = "_blank"), span(".", .noWS = "outside"),
       p("MOCHI may also be downloaded and operated locally."),
+      # actionButton("home_demo", "Demo"),
       # p(paste0("http://",my_ip(), my_qiime_port(), "/mochi_pipeline_new_2.png")),
       img(src = paste0("http://", my_ip(), my_qiime_port(), "/mochi_pipeline.png"),
                 alt = "pipeline", width = "80%", height = "80%", style = "margin:10px;max-width:1000px"),
@@ -4142,6 +4143,11 @@ server <- function(session, input, output) {
       
       
     # }else if(sum(list.files("/home/imuser/web_version/users_files/") %in% input$input_job_id_taxa)>0){ # wev version
+      
+    }else if(input$select_database %in% c("Silva (Not detected)", "Greengenes (Not detected)", "PR2_18S (Not detected)")){  
+      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                            "Please download taxonomy database first!", 
+                            footer = NULL, easyClose = T, size = "l"))
     }else{
       
       start_time <- Sys.time()

@@ -153,7 +153,7 @@ shinyUI(
                  
                  # Demultiplexed ----
                  tabPanel(title = span("Step 1. Sequence summary", style = tabPanel_navmenu_style),
-                          
+                          # id = "first_demo_page",
                           # fluidRow(
                           sidebarLayout(
                             
