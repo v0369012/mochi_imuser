@@ -8594,6 +8594,26 @@ server <- function(session, input, output) {
       }
     })
     
+    output$download_faithPD_posttest <- downloadHandler(
+      filename = function(){
+        
+        if(input$select_stat=="ANOVA"){
+          paste0("faithPD_Tukey_", input$metadata_phylo_alpha,".csv")
+        }else{
+          paste0("faithPD_diversity_Dunn_", input$metadata_phylo_alpha, ".csv")
+        }
+        
+      },
+      content = function(file){
+        if(input$select_stat_phylo=="ANOVA"){
+          write.csv(faith_PD_post_test_tukey(), file, row.names = T)
+        }else{
+          write.csv(faith_PD_post_test_Dunn(), file, row.names = T)
+        }
+        
+      }
+    )
+    
     
     output$unif_dm_hm <- renderPlotly({
       
