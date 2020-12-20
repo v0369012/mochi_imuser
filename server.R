@@ -2255,7 +2255,15 @@ server <- function(session, input, output) {
   # })
   # 
   
-  
+  observe({
+    if(is.data.frame(try(read.table(input$sample_data_single$datapath, header = T, na.strings = "", sep = "\t"), silent = T))){
+      if(colnames(read.table(input$sample_data_single$datapath, header = T, na.strings = "", sep = "\t"))[1]!="#SampleID"){
+        showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                              "The first column name of metadata must be '#SampleID'.", 
+                              footer = NULL, easyClose = T, size = "l"))
+      }
+    }
+  })
   
   observeEvent(input$submit_id,{
     if(file.exists(paste0("/home/imuser/web_version/users_files/", input_job_id(), "/demux_single.zip")))
@@ -2295,6 +2303,8 @@ server <- function(session, input, output) {
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                             "Please choose the directory.", 
                             footer = NULL, easyClose = T, size = "l"))
+      
+      
     }else{
       
       # req(input$seqs_data_upload) # web version
@@ -2540,7 +2550,15 @@ server <- function(session, input, output) {
   # }) # web version
   
   
-  
+  observe({
+    if(is.data.frame(try(read.table(input$sample_data_paired$datapath, header = T, na.strings = "", sep = "\t"), silent = T))){
+      if(colnames(read.table(input$sample_data_paired$datapath, header = T, na.strings = "", sep = "\t"))[1]!="#SampleID"){
+        showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                              "The first column name of metadata must be '#SampleID'.", 
+                              footer = NULL, easyClose = T, size = "l"))
+      }
+    }
+  })
   
   observeEvent(input$submit_id,{
     if(file.exists(paste0("/home/imuser/web_version/users_files/", input_job_id(), "/demux_paired.zip"))){
@@ -2587,6 +2605,12 @@ server <- function(session, input, output) {
                             "Please finish sequence summary first.", 
                             footer = NULL, easyClose = T, size = "l"))
       
+      }else if(is.data.frame(try(read.table(input$sample_data_single$datapath, header = T, na.strings = "", sep = "\t"), silent = T))){
+        if(colnames(read.table(input$sample_data_single$datapath, header = T, na.strings = "", sep = "\t"))[1]!="#SampleID"){
+          showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                                "The first column name of metadata must be '#SampleID'.", 
+                                footer = NULL, easyClose = T, size = "l"))
+        }
       
     # }else if(sum(list.files("/home/imuser/web_version/users_files/") %in% input$input_job_id_denoise)>0){ web version
       }else{
@@ -3166,6 +3190,12 @@ server <- function(session, input, output) {
                             "Please finish sequence summary first.", 
                             footer = NULL, easyClose = T, size = "l"))
       
+    }else if(is.data.frame(try(read.table(input$sample_data_paired$datapath, header = T, na.strings = "", sep = "\t"), silent = T))){
+      if(colnames(read.table(input$sample_data_paired$datapath, header = T, na.strings = "", sep = "\t"))[1]!="#SampleID"){
+        showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                              "The first column name of metadata must be '#SampleID'.", 
+                              footer = NULL, easyClose = T, size = "l"))
+      }
       
     # }else if(sum(list.files("/home/imuser/web_version/users_files/") %in% input$input_job_id_denoise)>0){ # web version
     }else{
