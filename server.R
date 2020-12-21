@@ -9062,17 +9062,38 @@ server <- function(session, input, output) {
       },
       content = function(file){
         if(input$UnW_or_W_phylo=="Unweighted"){
+          
           if(input$ordination_phylo=="PCoA"){
-            ggsave(file, plot = unW_unif_pcoa_plot())
+            if(input$phylo_cluster){
+              ggsave(file, plot = unW_unif_pcoa_plot() + stat_ellipse(type = "t"))
+            }else{
+              ggsave(file, plot = unW_unif_pcoa_plot())
+            }
+            
           }else{
-            ggsave(file, plot = unW_unif_nmds_plot())
+            if(input$phylo_cluster){
+              ggsave(file, plot = unW_unif_nmds_plot() + stat_ellipse(type = "t"))
+            }else{
+              ggsave(file, plot = unW_unif_nmds_plot())
+            }
+            
           }
           
         }else{
           if(input$ordination_phylo=="PCoA"){
-            ggsave(file, plot = W_unif_pcoa_plot())
+            if(input$phylo_cluster){
+              ggsave(file, plot = W_unif_pcoa_plot() + stat_ellipse(type = "t"))
+            }else{
+              ggsave(file, plot = W_unif_pcoa_plot())
+            }
+            
           }else{
-            ggsave(file, plot = W_unif_nmds_plot())
+            if(input$phylo_cluster){
+              ggsave(file, plot = W_unif_nmds_plot() + stat_ellipse(type = "t"))
+            }else{
+              ggsave(file, plot = W_unif_nmds_plot())
+            }
+            
           }
           
         }
