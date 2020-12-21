@@ -46,9 +46,12 @@ tabPanel_navmenu_style <- "color: black; font-size: 18px; font-weight: 200;font-
 
 # denoise btn label
 denoise_btn_start_label <- strong("Start!")
+jscode <- "shinyjs.refresh = function() { window.location.reload(true) }"
 
 shinyUI(
   fluidPage(
+    useShinyjs(),
+    extendShinyjs(text = jscode),
     theme = shinytheme("readable"),
     # shinythemes::themeSelector(),
     tags$style(type = 'text/css', '.navbar { background-color: #317EAC;border-color: white;position:fixed;width:100%;}'),
@@ -61,6 +64,7 @@ shinyUI(
     titlePanel( 
       # window title
       windowTitle = "MOCHI",
+      
       
       # title = span("MOCHI ",
       #              style = "color: blue; font-size: 50px; font-weight: 900; font-family: Comic Sans MS;",
@@ -77,6 +81,8 @@ shinyUI(
                                   href = paste0("http://", my_qiime_ip, my_qiime_port, "/mochi_logo_3.png"),
                                   type = "image/png",
                                   size = "64x64")
+                        
+      
                         
                         # ,tags$head(span("MOCHI ",
                         #                style = "position:relative;left:15px;bottom:-20px;color: blue; font-size: 50px; font-weight: 900; font-family: Comic Sans MS;",
