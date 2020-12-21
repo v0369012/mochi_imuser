@@ -7568,7 +7568,11 @@ server <- function(session, input, output) {
     },
     content = function(file){
       
-      ggsave(file, plot = alpha_anova_boxplot())
+      if(input$select_stat=="ANOVA"){
+        ggsave(file, plot = alpha_anova_boxplot())
+      }else{
+        ggsave(file, plot = alpha_KW_boxplot())
+      }
       
     }
   )
@@ -8510,7 +8514,7 @@ server <- function(session, input, output) {
           #           size = 5) +
           geom_boxplot() +
           ggtitle("Phylogenetic Alpha diversity") +
-          xlab(input$metadata_phylo_beta) +
+          xlab(input$metadata_phylo_alpha) +
           ylab("Faith_PD")+
           labs(caption=paste0("p value of KW-test = ", round(KW_result$p.value, 4))) + theme(text = element_text(size = 15)) + stat_summary(fun.data = stat_box_data,
                                                                                                                                             geom = "text", 
@@ -8658,9 +8662,9 @@ server <- function(session, input, output) {
       },
       content = function(file){
         if(input$select_stat_phylo=="ANOVA"){
-          write.csv(faith_PD_post_test_tukey(), file, row.names = T)
+          write.csv(faith_PD_post_test_tukey(), file, row.names = F)
         }else{
-          write.csv(faith_PD_post_test_Dunn(), file, row.names = T)
+          write.csv(faith_PD_post_test_Dunn(), file, row.names = F)
         }
         
       }
