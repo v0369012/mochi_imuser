@@ -21,9 +21,6 @@ server <- function(session, input, output) {
     
     # Sys.sleep(5)
     
-    shinyjs::js$refresh()
-    system("sed -i 's/shinyjs::js$refresh()//g' /srv/shiny-server/server.R")
-    # system("sed -i 's/#shinyjs::js$refresh()/shinyjs::js$refresh()/g' /home/imuser/server.R")
     
     system("sudo service nginx start")
     system("sudo chmod -R 777 /var/www/html")

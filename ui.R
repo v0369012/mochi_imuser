@@ -46,12 +46,12 @@ tabPanel_navmenu_style <- "color: black; font-size: 18px; font-weight: 200;font-
 
 # denoise btn label
 denoise_btn_start_label <- strong("Start!")
-jscode <- "shinyjs.refresh = function() { window.location.reload(true) }"
+# jscode <- "shinyjs.refresh = function() { window.location.reload(true) }"
 
 shinyUI(
   fluidPage(
-    useShinyjs(),
-    extendShinyjs(text = jscode),
+    # useShinyjs(),
+    # extendShinyjs(text = jscode),
     theme = shinytheme("readable"),
     # shinythemes::themeSelector(),
     tags$style(type = 'text/css', '.navbar { background-color: #317EAC;border-color: white;position:fixed;width:100%;}'),
