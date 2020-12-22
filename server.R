@@ -5462,7 +5462,27 @@ server <- function(session, input, output) {
     
   )
   
+  # Taxonomy analysis upload reset----
   
+  observeEvent(input$TA_reset,{
+    
+    shinyjs::reset("sample_data")
+    shinyjs::reset("taxonomic_table")
+    shinyjs::reset("table_dada2_upload")
+    closeAlert(session, "sampleAlert")
+    
+  })
+  
+  # FA reset
+  
+  observeEvent(input$FA_reset,{
+    
+    shinyjs::reset("sample_data_FA")
+    shinyjs::reset("taxonomic_table_FA")
+    shinyjs::reset("table_dada2_upload_FA")
+    closeAlert(session, "sampleAlert_FA")
+    
+  })
   
   # Taxatable_output---------------------------------------------------------------------------------------------------
   
