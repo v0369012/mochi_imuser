@@ -1,4 +1,4 @@
-sample-id	barcode-sequence	body-site	year	month	day	subject	reported-antibiotic-usage	days-since-experiment-start
+SampleID	barcode-sequence	body-site	year	month	day	subject	reported-antibiotic-usage	days-since-experiment-start
 #q2:types	categorical	categorical	numeric	numeric	numeric	categorical	categorical	numeric
 L1S8	AGCTGACTAGTC	gut	2008	10	28	subject-1	Yes	0
 L1S57	ACACACTATGGC	gut	2009	1	20	subject-1	No	84
