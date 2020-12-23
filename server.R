@@ -584,7 +584,7 @@ server <- function(session, input, output) {
           ),
           
           actionButton("reset_metadata_single",
-                       label = "reset"),
+                       label = "reset" , icon = icon("trash")),
           # downloadButton(outputId = "metadata_demo_download_paired", 
           #                label = " Demo metadata",
           #                style = "position:relative;left:5px;color:#317EAC"
@@ -725,7 +725,7 @@ server <- function(session, input, output) {
                        style = "position:relative;"
           ),
           actionButton("reset_metadata_paired",
-                       label = "reset"),
+                       label = "reset" , icon = icon("trash")),
           # downloadButton(outputId = "metadata_demo_download_paired", 
           #                label = " Demo metadata",
           #                style = "position:relative;left:5px;color:#317EAC"

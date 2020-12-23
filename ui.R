@@ -1180,7 +1180,7 @@ shinyUI(
                    tippy::tippy_this(elementId = "info_ASVs", tooltip = "Downloaded from taxonomy classification", placement = "right"),
                    checkboxInput(inputId = "18S", label = p(HTML("<b>18S rRNA</b>"),span(shiny::icon("info-circle"), id = "18S_check"))),
                    tippy::tippy_this(elementId = "18S_check", tooltip = "Select this checkbox if the sequences are 18S rRNA.", placement = "right"),
-                   actionButton("TA_reset", "reset"),
+                   actionButton("TA_reset", "reset" , icon = icon("trash")),
                    actionButton("TA_demo",
                                 strong("Demo", style = "margin: 5px;font-size: 18px"),
                                 icon = icon("chalkboard-teacher"),
@@ -1847,7 +1847,7 @@ shinyUI(
                                 
                    ),
                    
-                   actionButton("FA_reset", "reset"),
+                   actionButton("FA_reset", "reset" , icon = icon("trash")),
                    
                    actionButton(inputId = "function_info",
                                 label = "learn more",
