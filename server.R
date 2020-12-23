@@ -1195,12 +1195,13 @@ server <- function(session, input, output) {
       # sample_data <- readr::read_tsv(input$sample_data$datapath, col_names = T, comment = "#", na = "NA")
       '%!in%' <- function(x,y)!('%in%'(x,y))
       
-      if(colnames(sample_data[1]) %!in% c("sample.id", "sample-id", "SampleID")) {
+      # if(colnames(sample_data[1]) %!in% c("sample.id", "sample-id", "SampleID")) {
+      if(colnames(sample_data[1]) != "SampleID") {
         createAlert(session, 
                     anchorId = "sample_data_alert", 
                     alertId = "sampleAlert", 
                     title = "Oops!",
-                    content = "Please check your sample data. Your first column names should be 'sample.id' or 'sample-id' or 'SampleID'.", 
+                    content = "Please check your sample data. Your first column names should be 'SampleID'.", 
                     append = T,
                     style = "danger")
       } else {
@@ -1462,12 +1463,14 @@ server <- function(session, input, output) {
       # sample_data <- readr::read_tsv(input$sample_data$datapath, col_names = T, comment = "#", na = "NA")
       '%!in%' <- function(x,y)!('%in%'(x,y))
       
-      if(colnames(sample_data[1]) %!in% c("sample.id", "sample-id")) {
+      # if(colnames(sample_data[1]) %!in% c("sample.id", "sample-id")) {
+        if(colnames(sample_data[1]) != "SampleID") {
         createAlert(session, 
                     anchorId = "sample_data_alert_FA", 
                     alertId = "sampleAlert_FA", 
                     title = "Oops!",
-                    content = "Please check your sample data. Your first column names should be 'sample.id' or 'sample-id'.", 
+                    # content = "Please check your sample data. Your first column names should be 'sample.id' or 'sample-id'.", 
+                    content = "Please check your sample data. Your first column names should be 'SampleID'.", 
                     append = T,
                     style = "danger")
       } else {
