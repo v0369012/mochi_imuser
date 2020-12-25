@@ -3641,13 +3641,15 @@ server <- function(session, input, output) {
         "time" = Sys.time(),
         "duration" = spent_time,
         "sequence_type" = input$seqs_type,
-        "start_position_trim" = input$trim_left_single,
-        "end_position_trim" = input$trunc_len_single,
-        "quality_score_truncate" = input$qvalue_single,
-        "chimeric_reads_min_fold_change" = input$chimera_single,
-        "reads_error_model" = input$n_reads_single,
-        "metadata_upload" = is.null(input$sample_data_single),
-        "computing_setting" = input$threads_single
+        "f_start_position_trim" = input$trim_left_f_paired,
+        "f_end_position_trim" = input$trunc_len_f_paired,
+        "r_start_position_trim" = input$trim_left_r_paired,
+        "r_end_position_trim" = input$trunc_len_r_paired,
+        "quality_score_truncate" = input$qvalue_paired,
+        "chimeric_reads_min_fold_change" = input$chimera_paired,
+        "reads_error_model" = input$n_reads_paired,
+        "metadata_upload" = is.null(input$sample_data_paired),
+        "computing_setting" = input$threads_paired
       )
       write.csv(parameter_table,
                 paste0("/home/imuser/parameter_denoise_paired.csv"), 
