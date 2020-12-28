@@ -3043,6 +3043,30 @@ server <- function(session, input, output) {
           shinyjs::enable("show_dada2_single_rarefaction")
         }
       })
+      
+      # update reference seqs filter length
+      if(input$seqs_type == "Paired end"){
+        if(file.exists("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv")){
+          min_length <- read.table("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
+          max_length <- read.table("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+          updateTextInput(session, inputId = "min_length", value = min_length)
+          updateTextInput(session, inputId = "max_length", value = max_length)
+        }else{
+          updateTextInput(session, inputId = "min_length", value = 0)
+          updateTextInput(session, inputId = "max_length", value = 0)
+        }
+      }else if(input$seqs_type == "Single end"){
+        if(file.exists("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv")){
+          min_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
+          max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+          updateTextInput(session, inputId = "min_length", value = min_length)
+          updateTextInput(session, inputId = "max_length", value = max_length)
+        }else{
+          updateTextInput(session, inputId = "min_length", value = 0)
+          updateTextInput(session, inputId = "max_length", value = 0)
+        }
+      }
+      
       # removeModal()
       remove_modal_spinner()
       end_time <- Sys.time()
@@ -3629,6 +3653,29 @@ server <- function(session, input, output) {
           shinyjs::enable("show_dada2_paired_rarefaction")
         }
       })
+      
+      # update reference seqs filter length
+      if(input$seqs_type == "Paired end"){
+        if(file.exists("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv")){
+          min_length <- read.table("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
+          max_length <- read.table("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+          updateTextInput(session, inputId = "min_length", value = min_length)
+          updateTextInput(session, inputId = "max_length", value = max_length)
+        }else{
+          updateTextInput(session, inputId = "min_length", value = 0)
+          updateTextInput(session, inputId = "max_length", value = 0)
+        }
+      }else if(input$seqs_type == "Single end"){
+        if(file.exists("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv")){
+          min_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
+          max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+          updateTextInput(session, inputId = "min_length", value = min_length)
+          updateTextInput(session, inputId = "max_length", value = max_length)
+        }else{
+          updateTextInput(session, inputId = "min_length", value = 0)
+          updateTextInput(session, inputId = "max_length", value = 0)
+        }
+      }
       
       # removeModal()
       remove_modal_spinner()
