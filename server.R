@@ -3001,7 +3001,14 @@ server <- function(session, input, output) {
       system("cp -r /home/imuser/qiime_output/denoise_single_seqs/ /var/www/html/")
       
       # alpha-rarefaction
-      max_depth <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]] %>% colSums() %>% min()
+      max_depth <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]] %>% colSums() %>% median() %>% ceiling()
+      if(max_depth == 0){
+        max_depth <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]] %>% colSums() %>% max()
+        
+        if(max_depth == 0){
+          max_depth <- 100
+        }
+      }
       system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences /home/imuser/qiime_output/rep-seqs-dada2_single.qza", 
                    "--p-n-threads", input$threads_single,
                    "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2_single.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2_single.qza",
@@ -3611,7 +3618,14 @@ server <- function(session, input, output) {
       system("cp -r /home/imuser/qiime_output/denoise_paired_seqs/ /var/www/html/")
       
       # alpha-rarefaction
-      max_depth <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]] %>% colSums() %>% min()
+      max_depth <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]] %>% colSums() %>% median() %>% ceiling()
+      if(max_depth == 0){
+        max_depth <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]] %>% colSums() %>% max()
+        
+        if(max_depth == 0){
+          max_depth <- 100
+        }
+      }
       system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences /home/imuser/qiime_output/rep-seqs-dada2_paired.qza", 
                    "--p-n-threads", input$threads_paired,
                    "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2_paired.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2_paired.qza",
