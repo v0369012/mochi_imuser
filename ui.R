@@ -122,9 +122,11 @@ shinyUI(
       # title = strong("MOCHI", style = "color: white; font-weight: 800;width: 50px;font-size: 24px;"),
       title = a(img(
         # src = "https://mochi.life.nctu.edu.tw/mochi_title_white.png", 
-        src = paste0("http://",my_qiime_ip, my_qiime_port, "/mochi_title_white.png"),
+        # src = paste0("http://",my_qiime_ip, my_qiime_port, "/mochi_title_white.png"),
+        src = paste0("http://",my_qiime_ip, ":3811", "/mochi_title_white.png"),
         width = "250px", height = "100px", style = "position:relative;top: -20px;left:-10px"), 
                 href = "https://mochi.life.nctu.edu.tw", target = "_blank"),
+      
       # title = span("MOCHI ",
       #              style = "color: white; font-size: 40px; font-weight: 800;padding:10px;text-align:center;line-hight:50px",
       #              ),
