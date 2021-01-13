@@ -1039,7 +1039,7 @@ server <- function(session, input, output) {
       metadata <- filter(metadata, SampleID %in% colnames(asv_table))
       colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "-", ".")
       
-      col_vector <- apply(metadata[,1:ncol(metadata)], MARGIN = 2, FUN = function(x){length(unique(x))})
+      col_vector <- apply(as.data.frame(metadata[,2:ncol(metadata)]), MARGIN = 2, FUN = function(x){length(unique(x))})
       
       if( 1 %in% col_vector){
         
@@ -1086,7 +1086,7 @@ server <- function(session, input, output) {
       metadata <- filter(metadata, SampleID %in% colnames(taxatable_FA))
       colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "-", ".")
       
-      col_vector <- apply(metadata[,1:ncol(metadata)], MARGIN = 2, FUN = function(x){length(unique(x))})
+      col_vector <- apply(as.data.frame(metadata[,2:ncol(metadata)]), MARGIN = 2, FUN = function(x){length(unique(x))})
       
       if( 1 %in% col_vector){
         
@@ -1142,7 +1142,7 @@ server <- function(session, input, output) {
       metadata <- filter(metadata, SampleID %in% colnames(asv_table))
       colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "-", ".")
       
-      col_vector <- apply(metadata[,1:ncol(metadata)], MARGIN = 2, FUN = function(x){length(unique(x))})
+      col_vector <- apply(as.data.frame(metadata[,2:ncol(metadata)]), MARGIN = 2, FUN = function(x){length(unique(x))})
       
       if( 1 %in% col_vector){
         
@@ -1335,7 +1335,7 @@ server <- function(session, input, output) {
       metadata <- read.table(input$sample_data$datapath, header = T, na.strings = "", sep = "\t" )
       colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "-", ".")
       
-      col_vector <- apply(metadata[,2:ncol(metadata)], MARGIN = 2, FUN = function(x){length(unique(x))})
+      col_vector <- apply(as.data.frame(metadata[,2:ncol(metadata)]), MARGIN = 2, FUN = function(x){length(unique(x))})
       
       position_1 <- which(col_vector==1)
       
@@ -1610,7 +1610,7 @@ server <- function(session, input, output) {
       metadata <- read.table(input$sample_data_FA$datapath, header = T, na.strings = "", sep = "\t" )
       colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "-", ".")
       
-      col_vector <- apply(metadata[,1:ncol(metadata)], MARGIN = 2, FUN = function(x){length(unique(x))})
+      col_vector <- apply(as.data.frame(metadata[,2:ncol(metadata)]), MARGIN = 2, FUN = function(x){length(unique(x))})
       
       position_1 <- which(col_vector==1)
       
