@@ -177,7 +177,7 @@ shinyUI(
                               strong("Sequence files", 
                                      
                                      style = "font-size:24px;color:white;top:20px"),
-                              p("Please choose the directory containing sequence files (*.fastq.gz)", style = "color: white;font-size: 20px"),
+                              p("Please choose the directory containing sequence files (*.fastq.gz or *.fq.gz)", style = "color: white;font-size: 20px"),
                               # h4("Please upload the sequences data",
                               #    style = "color: white; left:5px"), # web version
                               shinyFiles::shinyDirButton(id = 'dirs',

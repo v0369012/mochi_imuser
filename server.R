@@ -1249,6 +1249,7 @@ server <- function(session, input, output) {
     # raw_data_path_list[[1]] <- "/home/imuser/seqs_upload" # web version
     
     a <- list.files(path = raw_data_path_list[[1]])
+    a <- str_replace_all(a, pattern = ".fq.gz", replacement = ".fastq.gz")
     
     if(sum(str_detect(a, '.+_.+_L[0-9][0-9][0-9]_R[12]_001\\.fastq\\.gz'))==length(a)){
       
@@ -2099,16 +2100,23 @@ server <- function(session, input, output) {
   })
   
   
-  observe({
-    raw_data_path_list <- list()
-    raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
-    seqs_name <- list.files(raw_data_path_list[[1]])
-    if(sum(str_count(seqs_name, ".fastq.gz"))!=length(seqs_name)){
-      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-                            "File format of all files must be .fastq.gz!", 
-                            footer = NULL, easyClose = T, size = "l"))
-    }
-  })
+  # observe({
+  #   req(input$dirs)
+  #   raw_data_path_list <- list()
+  #   raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+  #   seqs_name <- list.files(raw_data_path_list[[1]])
+  #   if(sum(str_count(seqs_name, ".fastq.gz|.fq.gz"))!=length(seqs_name)){
+  #     showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+  #                           "File format of all files must be .fastq.gz or .fq.gz!", 
+  #                           footer = NULL, easyClose = T, size = "l"))
+  #   }
+  #   else if(sum(str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_001\\."))==0 | sum(str_detect(seqs_name, ".+_R{0,1}[12]\\."))==0){
+  #     showModal(modalDialog(title = strong("Error!", style = "color: red"),
+  #                           "File names must be {Sample ID}_{barcode id}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
+  #                           footer = NULL, easyClose = T, size = "l"))
+  #   }
+  # })
+
   
   observeEvent(input$demultiplexed_single_ends, {
     
@@ -2118,6 +2126,11 @@ server <- function(session, input, output) {
     #                         footer = NULL, easyClose = T, size = "l")) # web version
     raw_data_path_list <- list()
     raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+    # seqs_name <- list.files(raw_data_path_list[[1]])
+    
+    seqs_name_original <- list.files(raw_data_path_list[[1]])
+    seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
+    file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name))
     seqs_name <- list.files(raw_data_path_list[[1]])
       
     if(is.null(input$dirs)){
@@ -2125,9 +2138,14 @@ server <- function(session, input, output) {
                               "Please choose the directory.", 
                               footer = NULL, easyClose = T, size = "l"))
       
-    }else if(sum(str_count(seqs_name, ".fastq.gz"))!=length(seqs_name)){
+    }else if(sum(str_count(seqs_name, ".fastq.gz|.fq.gz"))!=length(seqs_name)){
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-                            "File format of all files must be .fastq.gz!", 
+                            "File format of all files must be .fastq.gz or .fq.gz!", 
+                            footer = NULL, easyClose = T, size = "l"))
+      
+    }else if(!str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_001\\.") | !str_detect(seqs_name, ".+_R{0,1}[12]\\.")){
+      showModal(modalDialog(title = strong("Error!", style = "color: red"),
+                            "File names must be {Sample ID}_{barcode id}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
                             footer = NULL, easyClose = T, size = "l"))
     }else{
       
@@ -2157,7 +2175,11 @@ server <- function(session, input, output) {
       
       # rename seqs file name
       # setwd(raw_data_path_list[[1]])
+      seqs_name_original <- list.files(raw_data_path_list[[1]])
+      seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
+      file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name))
       seqs_name <- list.files(raw_data_path_list[[1]])
+      
       
       if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_001\\.fastq\\.gz'))<length(seqs_name)){
         
@@ -2430,12 +2452,35 @@ server <- function(session, input, output) {
     #   showModal(modalDialog(title = strong("Error!", style = "color: red"), 
     #                         "Please upload the sequences.", 
     #                         footer = NULL, easyClose = T, size = "l")) # web version
-    if(is.null(input$dirs)){
-      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-                            "Please choose the directory.", 
-                            footer = NULL, easyClose = T, size = "l"))
-      
-      
+    raw_data_path <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+    # raw_data_path <- input$seqs_data_upload$datapath
+    # file.remove("/home/imuser/seqs_upload/*")
+    # system("rm /home/imuser/seqs_upload/*")
+    # file.copy(input$seqs_data_upload$datapath, paste0("/home/imuser/seqs_upload/", input$seqs_data_upload$name))
+    
+    # rename seqs file name
+    # setwd(raw_data_path)
+    # seqs_name <- list.files("/home/imuser/seqs_upload")
+    seqs_name_original <- list.files(raw_data_path)
+    seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
+    file.rename(from = list.files(raw_data_path, full.names = T), to = paste0(raw_data_path, "/",seqs_name))
+    seqs_name <- list.files(raw_data_path)
+    
+      if(is.null(input$dirs)){
+        showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                              "Please choose the directory.", 
+                              footer = NULL, easyClose = T, size = "l"))
+        
+      }else if(sum(str_count(seqs_name, ".fastq.gz|.fq.gz"))!=length(seqs_name)){
+        showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                              "File format of all files must be .fastq.gz or .fq.gz!", 
+                              footer = NULL, easyClose = T, size = "l"))
+        
+      }else if(!str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_001\\.") | !str_detect(seqs_name, ".+_R{0,1}[12]\\.")){
+        showModal(modalDialog(title = strong("Error!", style = "color: red"),
+                              "File names must be {Sample ID}_{barcode id}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
+                              footer = NULL, easyClose = T, size = "l"))
+    
     }else{
       
       # req(input$seqs_data_upload) # web version
@@ -2448,17 +2493,6 @@ server <- function(session, input, output) {
       
       
       qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
-      raw_data_path <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
-      # raw_data_path <- input$seqs_data_upload$datapath
-      # file.remove("/home/imuser/seqs_upload/*")
-      # system("rm /home/imuser/seqs_upload/*")
-      # file.copy(input$seqs_data_upload$datapath, paste0("/home/imuser/seqs_upload/", input$seqs_data_upload$name))
-      
-      # rename seqs file name
-      # setwd(raw_data_path)
-      # seqs_name <- list.files("/home/imuser/seqs_upload")
-      seqs_name <- list.files(raw_data_path)
-      
       
       if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_001\\.fastq\\.gz'))<length(seqs_name)){
         
