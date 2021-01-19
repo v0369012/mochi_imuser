@@ -1251,7 +1251,7 @@ server <- function(session, input, output) {
     a <- list.files(path = raw_data_path_list[[1]])
     a <- str_replace_all(a, pattern = ".fq.gz", replacement = ".fastq.gz")
     
-    if(sum(str_detect(a, '.+_.+_L[0-9][0-9][0-9]_R[12]_001\\.fastq\\.gz'))==length(a)){
+    if(sum(str_detect(a, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))==length(a)){
       
       if(sum(stringr::str_detect(a, "_R2[(\\.)(_)]")) > 0 ){
         updatePickerInput(session, "seqs_type", choices = c("Paired end", "Single end"))
@@ -2137,16 +2137,27 @@ server <- function(session, input, output) {
         showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                               "Please choose the directory.", 
                               footer = NULL, easyClose = T, size = "l"))
+      file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
       
     }else if(sum(str_count(seqs_name, ".fastq.gz|.fq.gz"))!=length(seqs_name)){
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                             "File format of all files must be .fastq.gz or .fq.gz!", 
                             footer = NULL, easyClose = T, size = "l"))
+      file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
       
-    }else if(!str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_001\\.") | !str_detect(seqs_name, ".+_R{0,1}[12]\\.")){
-      showModal(modalDialog(title = strong("Error!", style = "color: red"),
-                            "File names must be {Sample ID}_{barcode id}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
-                            footer = NULL, easyClose = T, size = "l"))
+    }else if(sum(str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\."))==0){
+      if(sum(str_detect(seqs_name, ".+_R{0,1}[12]\\."))==0){
+        showModal(modalDialog(title = strong("Error!", style = "color: red"),
+                              "File names must be {sample ID}_{barcode identifier}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
+                              footer = NULL, easyClose = T, size = "l"))
+        file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
+      }else{
+        showModal(modalDialog(title = strong("Error!", style = "color: red"),
+                              "File names must be {sample ID}_{barcode identifier}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
+                              footer = NULL, easyClose = T, size = "l"))
+        file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
+      }
+      
     }else{
       
       # req(input$seqs_data_upload) # web version
@@ -2181,7 +2192,7 @@ server <- function(session, input, output) {
       seqs_name <- list.files(raw_data_path_list[[1]])
       
       
-      if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_001\\.fastq\\.gz'))<length(seqs_name)){
+      if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))<length(seqs_name)){
         
         
         library(stringr)
@@ -2331,6 +2342,8 @@ server <- function(session, input, output) {
         system(paste0('sudo mv ', seqs_name_new[[i]], ' ',seqs_name[i]))
       }
       
+      file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
+      
       # show view button
       observe({
         if(file.exists('/home/imuser/qiime_output/demux_single_end.qzv')){
@@ -2470,16 +2483,26 @@ server <- function(session, input, output) {
         showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                               "Please choose the directory.", 
                               footer = NULL, easyClose = T, size = "l"))
+        file.rename(from = list.files(raw_data_path, full.names = T), to = paste0(raw_data_path, "/",seqs_name_original))
         
       }else if(sum(str_count(seqs_name, ".fastq.gz|.fq.gz"))!=length(seqs_name)){
         showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                               "File format of all files must be .fastq.gz or .fq.gz!", 
                               footer = NULL, easyClose = T, size = "l"))
+        file.rename(from = list.files(raw_data_path, full.names = T), to = paste0(raw_data_path, "/",seqs_name_original))
         
-      }else if(!str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_001\\.") | !str_detect(seqs_name, ".+_R{0,1}[12]\\.")){
-        showModal(modalDialog(title = strong("Error!", style = "color: red"),
-                              "File names must be {Sample ID}_{barcode id}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
-                              footer = NULL, easyClose = T, size = "l"))
+      }else if(sum(str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\."))==0){
+        if(sum(str_detect(seqs_name, ".+_R{0,1}[12]\\."))==0){
+          showModal(modalDialog(title = strong("Error!", style = "color: red"),
+                                "File names must be {sample ID}_{barcode identifier}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
+                                footer = NULL, easyClose = T, size = "l"))
+          file.rename(from = list.files(raw_data_path, full.names = T), to = paste0(raw_data_path, "/",seqs_name_original))
+        }else{
+          showModal(modalDialog(title = strong("Error!", style = "color: red"),
+                                "File names must be {sample ID}_{barcode identifier}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
+                                footer = NULL, easyClose = T, size = "l"))
+          file.rename(from = list.files(raw_data_path, full.names = T), to = paste0(raw_data_path, "/",seqs_name_original))
+        }
     
     }else{
       
@@ -2494,7 +2517,7 @@ server <- function(session, input, output) {
       
       qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
       
-      if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_001\\.fastq\\.gz'))<length(seqs_name)){
+      if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))<length(seqs_name)){
         
         library(stringr)
         seqs_name_split <- str_split(seqs_name, "_")
@@ -2637,6 +2660,8 @@ server <- function(session, input, output) {
         file.rename(seqs_name_new[[i]], seqs_name[i])
         
       }
+      
+      file.rename(from = list.files(raw_data_path, full.names = T), to = paste0(raw_data_path, "/",seqs_name_original))
       
       # show view button
       observe({
