@@ -2328,6 +2328,8 @@ server <- function(session, input, output) {
       system(paste0("mv ", unzip_dirnames, " /home/imuser/qiime_output/demux_single_unzip/new_dirname"))
       system("cp -rf /home/imuser/qiime_output/demux_single_unzip /var/www/html/")
       
+      # system("zip -r /home/imuser/demux_single.zip /home/imuser/qiime_output/demux_single_unzip/new_dirname/data")
+      system("cp /home/imuser/qiime_output/demux_single_end.qzv /home/imuser/demux_single.zip")
       
       
       # system(paste0("cp /home/imuser/web_version/users_files/",
@@ -2348,6 +2350,14 @@ server <- function(session, input, output) {
       observe({
         if(file.exists('/home/imuser/qiime_output/demux_single_end.qzv')){
           shinyjs::enable("show_demux_single")
+          
+        }
+      })
+      
+      # show zip button
+      observe({
+        if(file.exists('/home/imuser/demux_single.zip')){
+          shinyjs::enable("zip_demux_single")
         }
       })
       
@@ -2447,6 +2457,13 @@ server <- function(session, input, output) {
   observe({
     if(file.exists('/home/imuser/qiime_output/demux_single_end.qzv')){
       shinyjs::enable("show_demux_single")
+    }
+  })
+  
+  # show zip button
+  observe({
+    if(file.exists('/home/imuser/demux_single.zip')){
+      shinyjs::enable("zip_demux_single")
     }
   })
   
@@ -2645,6 +2662,9 @@ server <- function(session, input, output) {
       system(paste0("mv ", unzip_dirnames, " /home/imuser/qiime_output/demux_paired_unzip/new_dirname"))
       system("cp -rf /home/imuser/qiime_output/demux_paired_unzip /var/www/html/")
       
+      # system("zip -r /home/imuser/demux_paired.zip /home/imuser/qiime_output/demux_paired_unzip/new_dirname/data")
+      system("cp /home/imuser/qiime_output/demux_paired_end.qzv /home/imuser/demux_paired.zip")
+      
       # unzip_dirnames <- list.files(paste0("/home/imuser/web_version/users_files/", input$input_job_id_demux, "/demux_paired_unzip"), full.names = T)
       # system(paste0("mv ", unzip_dirnames, " /home/imuser/web_version/users_files/", input$input_job_id_demux, "/demux_paired_unzip/new_dirname"))
       # system(paste0("sudo cp -r /home/imuser/web_version/users_files/", input$input_job_id_demux, " /srv/shiny-server/www/users_files")) # web version
@@ -2667,6 +2687,13 @@ server <- function(session, input, output) {
       observe({
         if(file.exists('/home/imuser/qiime_output/demux_paired_end.qzv')){
           shinyjs::enable("show_demux_paired")
+        }
+      })
+      
+      # show zip button
+      observe({
+        if(file.exists('/home/imuser/demux_paired.zip')){
+          shinyjs::enable("zip_demux_paired")
         }
       })
       
@@ -2773,6 +2800,13 @@ server <- function(session, input, output) {
     }
   })
   
+  # show zip button
+  observe({
+    if(file.exists('/home/imuser/demux_paired.zip')){
+      shinyjs::enable("zip_demux_paired")
+    }
+  })
+  
   # log file
   observe({
     if(file.exists("/home/imuser/parameter_demux_paired.csv")){
@@ -2780,6 +2814,20 @@ server <- function(session, input, output) {
     }
   })
   
+  # download demux zip
+  output$zip_demux_single <- downloadHandler(
+    filename = "demux_single.zip",
+    content = function(file){
+      file.copy("/home/imuser/demux_single.zip", file)
+    }
+  )
+  
+  output$zip_demux_paired <- downloadHandler(
+    filename = "demux_paired.zip",
+    content = function(file){
+      file.copy("/home/imuser/demux_paired.zip", file)
+    }
+  )
   
   # Denoising_single -----------------------------------------------------------------------------------------------------------------------  
   observeEvent(input$denoising_single, {
@@ -3062,6 +3110,8 @@ server <- function(session, input, output) {
       unzip_dirnames_stats <- list.files("/home/imuser/qiime_output/denoise_single_stats", full.names = T)
       system(paste0("mv ", unzip_dirnames_stats, " /home/imuser/qiime_output/denoise_single_stats/new_dirname"))
       system("cp -r /home/imuser/qiime_output/denoise_single_stats/ /var/www/html/")
+      system("rm /home/imuser/stats-dada2_single.zip") # delete old zip file 
+      system("cp /home/imuser/qiime_output/stats-dada2_single.qzv /home/imuser/stats-dada2_single.zip") # cp qzv to zip
       
       unlink("/home/imuser/qiime_output/denoise_single_position_table/new_dirname", recursive = T)
       unlink("/var/www/html/denoise_single_position_table/new_dirname", recursive = T)
@@ -3070,6 +3120,8 @@ server <- function(session, input, output) {
       unzip_dirnames_table <- list.files("/home/imuser/qiime_output/denoise_single_position_table", full.names = T)
       system(paste0("mv ", unzip_dirnames_table, " /home/imuser/qiime_output/denoise_single_position_table/new_dirname"))
       system("cp -r /home/imuser/qiime_output/denoise_single_position_table/ /var/www/html/")
+      system("rm /home/imuser/table-dada2_single.zip") # delete old zip file
+      system("cp /home/imuser/qiime_output/table-dada2_single.qzv /home/imuser/table-dada2_single.zip") # cp qzv to zip
       
       unlink("/home/imuser/qiime_output/denoise_single_seqs/new_dirname", recursive = T)
       unlink("/var/www/html/denoise_single_seqs/new_dirname", recursive = T)
@@ -3078,6 +3130,8 @@ server <- function(session, input, output) {
       unzip_dirnames_seqs <- list.files("/home/imuser/qiime_output/denoise_single_seqs", full.names = T)
       system(paste0("mv ", unzip_dirnames_seqs, " /home/imuser/qiime_output/denoise_single_seqs/new_dirname"))
       system("cp -r /home/imuser/qiime_output/denoise_single_seqs/ /var/www/html/")
+      system("rm /home/imuser/rep-seqs-dada2_single.zip") # delete old zip file
+      system("cp /home/imuser/qiime_output/rep-seqs-dada2_single.qzv /home/imuser/rep-seqs-dada2_single.zip") # cp qzv to zip
       
       # alpha-rarefaction
       max_depth <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]] %>% colSums() %>% median() %>% ceiling()
@@ -3104,29 +3158,35 @@ server <- function(session, input, output) {
       unzip_dirnames_seqs <- list.files("/home/imuser/qiime_output/denoise_single_rarefaction", full.names = T)
       system(paste0("mv ", unzip_dirnames_seqs, " /home/imuser/qiime_output/denoise_single_rarefaction/new_dirname"))
       system("cp -r /home/imuser/qiime_output/denoise_single_rarefaction/ /var/www/html/")
+      system("rm /home/imuser/rarefaction-dada2_single.zip") # delete old zip file
+      system("cp /home/imuser/qiime_output/rarefaction-dada2_single.qzv /home/imuser/rarefaction-dada2_single.zip") # cp qzv to zip
       
       # show results button
       observe({
         if(file.exists("/home/imuser/qiime_output/table-dada2_single.qzv")){
           shinyjs::enable("show_dada2_single_table")
+          shinyjs::enable("zip_dada2_single_table")
         }
       })
       
       observe({
         if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_single.qzv")){
           shinyjs::enable("show_dada2_single_seqs")
+          shinyjs::enable("zip_dada2_single_seqs_info")
         }
       })
       
       observe({
         if(file.exists("/home/imuser/qiime_output/stats-dada2_single.qzv")){
           shinyjs::enable("show_dada2_single_stats")
+          shinyjs::enable("zip_dada2_single_filter_info")
         }
       })
       
       observe({
         if(file.exists("/home/imuser/qiime_output/rarefaction-dada2_single.qzv")){
           shinyjs::enable("show_dada2_single_rarefaction")
+          shinyjs::enable("zip_dada2_single_rarefaction")
         }
       })
       
@@ -3372,33 +3432,66 @@ server <- function(session, input, output) {
   observe({
     if(file.exists("/home/imuser/qiime_output/table-dada2_single.qzv")){
       shinyjs::enable("show_dada2_single_table")
+      shinyjs::enable("zip_dada2_single_table")
     }
   })
   
   observe({
     if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_single.qzv")){
       shinyjs::enable("show_dada2_single_seqs")
+      shinyjs::enable("zip_dada2_single_seqs_info")
     }
   })
   
   observe({
     if(file.exists("/home/imuser/qiime_output/stats-dada2_single.qzv")){
       shinyjs::enable("show_dada2_single_stats")
+      shinyjs::enable("zip_dada2_single_filter_info")
     }
   })
   
   observe({
     if(file.exists("/home/imuser/qiime_output/rarefaction-dada2_single.qzv")){
       shinyjs::enable("show_dada2_single_rarefaction")
+      shinyjs::enable("zip_dada2_single_rarefaction")
     }
     })
 
   # log file
   observe({
     if(file.exists("/home/imuser/parameter_denoise_single.csv")){
-      shinyjs::enable("log_file_denoise_single") 
-    }
+      shinyjs::enable("log_file_denoise_single")
+      }
   })
+  
+  # zip file
+  output$zip_dada2_single_table <- downloadHandler(
+    filename = "denoise_table_single.zip",
+    content = function(file){
+      file.copy("/home/imuser/table-dada2_single.zip", file)
+    }
+  )
+  
+  output$zip_dada2_single_seqs_info <- downloadHandler(
+    filename = "denoise_seqs_info_single.zip",
+    content = function(file){
+      file.copy("/home/imuser/rep-seqs-dada2_single.zip", file)
+    }
+  )
+  
+  output$zip_dada2_single_filter_info <- downloadHandler(
+    filename = "denoise_filter_info_single.zip",
+    content = function(file){
+      file.copy("/home/imuser/stats-dada2_single.zip", file)
+    }
+  )
+  
+  output$zip_dada2_single_rarefaction <- downloadHandler(
+    filename = "denoise_rarefaction_single.zip",
+    content = function(file){
+      file.copy("/home/imuser/rarefaction-dada2_single.zip", file)
+    }
+  )
   
   # Denoising_paired -----------------------------------------------------------------------------------------------------------------------  
   observeEvent(input$denoising_paired, {
@@ -3679,6 +3772,8 @@ server <- function(session, input, output) {
       unzip_dirnames_stats <- list.files("/home/imuser/qiime_output/denoise_paired_stats", full.names = T)
       system(paste0("mv ", unzip_dirnames_stats, " /home/imuser/qiime_output/denoise_paired_stats/new_dirname"))
       system("cp -r /home/imuser/qiime_output/denoise_paired_stats/ /var/www/html/")
+      system("rm /home/imuser/stats-dada2_paired.zip") # delete old zip file 
+      system("cp /home/imuser/qiime_output/stats-dada2_paired.qzv /home/imuser/stats-dada2_paired.zip") # cp qzv to zip
       
       unlink("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname", recursive = T)
       unlink("/var/www/html/denoise_paired_position_table/new_dirname", recursive = T)
@@ -3687,6 +3782,8 @@ server <- function(session, input, output) {
       unzip_dirnames_table <- list.files("/home/imuser/qiime_output/denoise_paired_position_table", full.names = T)
       system(paste0("mv ", unzip_dirnames_table, " /home/imuser/qiime_output/denoise_paired_position_table/new_dirname"))
       system("cp -r /home/imuser/qiime_output/denoise_paired_position_table/ /var/www/html/")
+      system("rm /home/imuser/table-dada2_paired.zip") # delete old zip file 
+      system("cp /home/imuser/qiime_output/table-dada2_paired.qzv /home/imuser/table-dada2_paired.zip") # cp qzv to zip
       
       unlink("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname", recursive = T)
       unlink("/var/www/html/denoise_paired_seqs/new_dirname", recursive = T)
@@ -3695,6 +3792,8 @@ server <- function(session, input, output) {
       unzip_dirnames_seqs <- list.files("/home/imuser/qiime_output/denoise_paired_seqs", full.names = T)
       system(paste0("mv ", unzip_dirnames_seqs, " /home/imuser/qiime_output/denoise_paired_seqs/new_dirname"))
       system("cp -r /home/imuser/qiime_output/denoise_paired_seqs/ /var/www/html/")
+      system("rm /home/imuser/rep-seqs-dada2_paired.zip") # delete old zip file 
+      system("cp /home/imuser/qiime_output/rep-seqs-dada2_paired.qzv /home/imuser/rep-seqs-dada2_paired.zip") # cp qzv to zip
       
       # alpha-rarefaction
       max_depth <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]] %>% colSums() %>% median() %>% ceiling()
@@ -3721,29 +3820,35 @@ server <- function(session, input, output) {
       unzip_dirnames_seqs <- list.files("/home/imuser/qiime_output/denoise_paired_rarefaction", full.names = T)
       system(paste0("mv ", unzip_dirnames_seqs, " /home/imuser/qiime_output/denoise_paired_rarefaction/new_dirname"))
       system("cp -r /home/imuser/qiime_output/denoise_paired_rarefaction/ /var/www/html/")
+      system("rm /home/imuser/rarefaction-dada2_paired.zip") # delete old zip file 
+      system("cp /home/imuser/qiime_output/rarefaction-dada2_paired.qzv /home/imuser/rarefaction-dada2_paired.zip") # cp qzv to zip
       
       # show results button
       observe({
         if(file.exists("/home/imuser/qiime_output/table-dada2_paired.qzv")){
           shinyjs::enable("show_dada2_paired_table")
+          shinyjs::enable("zip_dada2_paired_table")
         }
       })
       
       observe({
         if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_paired.qzv")){
           shinyjs::enable("show_dada2_paired_seqs")
+          shinyjs::enable("zip_dada2_paired_seqs_info")
         }
       })
       
       observe({
         if(file.exists("/home/imuser/qiime_output/stats-dada2_paired.qzv")){
           shinyjs::enable("show_dada2_paired_stats")
+          shinyjs::enable("zip_dada2_paired_filter_info")
         }
       })
       
       observe({
         if(file.exists("/home/imuser/qiime_output/rarefaction-dada2_paired.qzv")){
           shinyjs::enable("show_dada2_paired_rarefaction")
+          shinyjs::enable("zip_dada2_paired_rarefaction")
         }
       })
       
@@ -3966,24 +4071,28 @@ server <- function(session, input, output) {
   observe({
     if(file.exists("/home/imuser/qiime_output/table-dada2_paired.qzv")){
       shinyjs::enable("show_dada2_paired_table")
+      shinyjs::enable("zip_dada2_paired_table")
     }
   })
   
   observe({
     if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_paired.qzv")){
       shinyjs::enable("show_dada2_paired_seqs")
+      shinyjs::enable("zip_dada2_paired_seqs_info")
     }
   })
   
   observe({
     if(file.exists("/home/imuser/qiime_output/stats-dada2_paired.qzv")){
       shinyjs::enable("show_dada2_paired_stats")
+      shinyjs::enable("zip_dada2_paired_filter_info")
     }
   })
   
   observe({
     if(file.exists("/home/imuser/qiime_output/rarefaction-dada2_paired.qzv")){
       shinyjs::enable("show_dada2_paired_rarefaction")
+      shinyjs::enable("zip_dada2_paired_rarefaction")
     }
   })
   
@@ -3993,6 +4102,35 @@ server <- function(session, input, output) {
       shinyjs::enable("log_file_denoise_paired") 
     }
   })
+  
+  # zip file
+  output$zip_dada2_paired_table <- downloadHandler(
+    filename = "denoise_table_paired.zip",
+    content = function(file){
+      file.copy("/home/imuser/table-dada2_paired.zip", file)
+    }
+  )
+  
+  output$zip_dada2_paired_seqs_info <- downloadHandler(
+    filename = "denoise_seqs_info_paired.zip",
+    content = function(file){
+      file.copy("/home/imuser/rep-seqs-dada2_paired.zip", file)
+    }
+  )
+  
+  output$zip_dada2_paired_filter_info <- downloadHandler(
+    filename = "denoise_filter_info_paired.zip",
+    content = function(file){
+      file.copy("/home/imuser/stats-dada2_paired.zip", file)
+    }
+  )
+  
+  output$zip_dada2_paired_rarefaction <- downloadHandler(
+    filename = "denoise_rarefaction_paired.zip",
+    content = function(file){
+      file.copy("/home/imuser/rarefaction-dada2_paired.zip", file)
+    }
+  )
   
   
   # Clustering -----------------------------------------------------------------------------------------------
@@ -4699,11 +4837,14 @@ server <- function(session, input, output) {
       unzip_dirnames_taxa <- list.files("/home/imuser/qiime_output/taxonomy_unzip", full.names = T)
       system(paste0("mv ", unzip_dirnames_taxa, " /home/imuser/qiime_output/taxonomy_unzip/new_dirname"))
       system("cp -r /home/imuser/qiime_output/taxonomy_unzip/ /var/www/html/")
+      system("rm /home/imuser/taxonomy.zip") # delete old zip
+      system("cp /home/imuser/qiime_output/taxonomy.qzv /home/imuser/taxonomy.zip") # cp qzv to zip
       
       # show results button
       observe({
         if(file.exists("/home/imuser/qiime_output/taxonomy.qzv")){
           shinyjs::enable("view_taxa")
+          shinyjs::enable("zip_taxonomy_classification")
         }
       })
       
@@ -4911,6 +5052,7 @@ server <- function(session, input, output) {
   observe({
     if(file.exists("/home/imuser/qiime_output/taxonomy.qzv")){
       shinyjs::enable("view_taxa")
+      shinyjs::enable("zip_taxonomy_classification")
     }
   })
   
@@ -4950,6 +5092,14 @@ server <- function(session, input, output) {
       shinyjs::enable("log_file_taxonomy_classification") 
     }
   })
+  
+  # zip file
+  output$zip_taxonomy_classification <- downloadHandler(
+    filename = "taxonomy_classification_table.zip",
+    content = function(file){
+      file.copy("/home/imuser/taxonomy.zip", file)
+    }
+  )
   
   # Taxonomic analysis -----------------------------------------------------------------------------------------
   

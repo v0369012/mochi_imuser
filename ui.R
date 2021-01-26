@@ -321,10 +321,11 @@ shinyUI(
                                                                        "/demux_single_unzip/new_dirname/data/index.html#",
                                                                        "', '_blank')")
                                          ) %>% shinyjs::disabled(),
-                                         downloadButton("log_demux_single", "log file") %>% shinyjs::disabled(),
+                                         downloadButton("zip_demux_single", "result") %>% shinyjs::disabled(),
+                                         downloadButton("log_demux_single", "log file") %>% shinyjs::disabled()
                                          
-                                         p("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
-                                              style = "position: relative; margin-top:10px;margin-left:10px")
+                                         # p("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
+                                         #      style = "position: relative; margin-top:10px;margin-left:10px")
                                        ) ,
                                        
                                        # span("Go to", strong('User results'), ", you can inspect the result by your user id."),
@@ -404,9 +405,10 @@ shinyUI(
                                                                                       "/demux_paired_unzip/new_dirname/data/index.html#",
                                                                                       "', '_blank')")
                                                         ) %>% shinyjs::disabled(),
-                                         downloadButton("log_demux_paired", "log file") %>% shinyjs::disabled(),
-                                         p("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
-                                              style = "position: relative; margin-top:10px;margin-left:10px")
+                                         downloadButton("zip_demux_paired", "result") %>% shinyjs::disabled(),
+                                         downloadButton("log_demux_paired", "log file") %>% shinyjs::disabled()
+                                         # p("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
+                                         #      style = "position: relative; margin-top:10px;margin-left:10px")
                                        ),
                                        
                                        # span("Go to", strong('User results'), ", you can inspect the result by your user id."),
@@ -586,7 +588,9 @@ shinyUI(
                                                                        "/denoise_single_position_table/new_dirname/data/index.html",
                                                                        "')"),
                                                       icon = icon("eye"),
-                                                      style = "margin-left:10px") %>% shinyjs::disabled(),
+                                                      style = "margin-left:10px;margin-top:10px") %>% shinyjs::disabled(),
+                                         downloadButton("zip_dada2_single_table", "Download", style = "margin-top:10px") %>% shinyjs::disabled(),
+                                         br(),
                                          actionButton(inputId = "show_dada2_single_seqs",
                                                       label = "Show seqs info",
                                                       onclick = paste0("window.open('http://",
@@ -594,7 +598,10 @@ shinyUI(
                                                                        # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
                                                                        "/denoise_single_seqs/new_dirname/data/index.html",
                                                                        "')"),
-                                                      icon = icon("eye")) %>% shinyjs::disabled(),
+                                                      icon = icon("eye"),
+                                                      style = "margin-left:10px;margin-top:10px") %>% shinyjs::disabled(),
+                                         downloadButton("zip_dada2_single_seqs_info", "Download", style = "margin-top:10px") %>% shinyjs::disabled(),
+                                         br(),
                                          actionButton(inputId = "show_dada2_single_stats",
                                                       label = "Show filter info",
                                                       onclick = paste0("window.open('http://",
@@ -602,7 +609,10 @@ shinyUI(
                                                                        # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
                                                                        "/denoise_single_stats/new_dirname/data/index.html",
                                                                        "')"),
-                                                      icon = icon("eye")) %>% shinyjs::disabled(),
+                                                      icon = icon("eye"),
+                                                      style = "margin-left:10px;margin-top:10px") %>% shinyjs::disabled(),
+                                         downloadButton("zip_dada2_single_filter_info", "Download", style = "margin-top:10px") %>% shinyjs::disabled(),
+                                         br(),
                                          actionButton(inputId = "show_dada2_single_rarefaction",
                                                       label = "Show alpha rarefaction",
                                                       onclick = paste0("window.open('http://",
@@ -610,9 +620,12 @@ shinyUI(
                                                                        # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
                                                                        "/denoise_single_rarefaction/new_dirname/data/index.html",
                                                                        "')"),
-                                                      icon = icon("eye")
+                                                      icon = icon("eye"),
+                                                      style = "margin-left:10px;margin-top:10px"
                                          ) %>% shinyjs::disabled(),
-                                         downloadButton("log_file_denoise_single", "log file") %>% shinyjs::disabled()
+                                         downloadButton("zip_dada2_single_rarefaction", "Download", style = "margin-top:10px") %>% shinyjs::disabled(),
+                                         br(),
+                                         downloadButton("log_file_denoise_single", "log file", style = "margin-left:10px;margin-top:10px") %>% shinyjs::disabled()
                                        ),
                                        
                                        # br(),br(),
@@ -796,7 +809,9 @@ shinyUI(
                                                                        "/denoise_paired_position_table/new_dirname/data/index.html",
                                                                        "')"),
                                                       icon = icon("eye"),
-                                                      style = "margin-left:10px") %>% shinyjs::disabled(),
+                                                      style = "margin-left:10px;margin-top:10px") %>% shinyjs::disabled(),
+                                         downloadButton("zip_dada2_paired_table", "Download", style = "margin-top:10px") %>% shinyjs::disabled(),
+                                         br(),
                                          actionButton(inputId = "show_dada2_paired_seqs",
                                                       label = "Show seqs info",
                                                       onclick = paste0("window.open('http://",
@@ -804,7 +819,10 @@ shinyUI(
                                                                        # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
                                                                        "/denoise_paired_seqs/new_dirname/data/index.html",
                                                                        "')"),
-                                                      icon = icon("eye")) %>% shinyjs::disabled(),
+                                                      icon = icon("eye"),
+                                                      style = "margin-left:10px;margin-top:10px") %>% shinyjs::disabled(),
+                                         downloadButton("zip_dada2_paired_seqs_info", "Download", style = "margin-top:10px") %>% shinyjs::disabled(),
+                                         br(),
                                          actionButton(inputId = "show_dada2_paired_stats",
                                                       label = "Show filter info",
                                                       onclick = paste0("window.open('http://",
@@ -812,7 +830,10 @@ shinyUI(
                                                                        # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
                                                                        "/denoise_paired_stats/new_dirname/data/index.html",
                                                                        "')"),
-                                                      icon = icon("eye")) %>% shinyjs::disabled(),
+                                                      icon = icon("eye"),
+                                                      style = "margin-left:10px;margin-top:10px") %>% shinyjs::disabled(),
+                                         downloadButton("zip_dada2_paired_filter_info", "Download", style = "margin-top:10px") %>% shinyjs::disabled(),
+                                         br(),
                                          actionButton(inputId = "show_dada2_paired_rarefaction",
                                                       label = "Show alpha rarefaction",
                                                       onclick = paste0("window.open('http://",
@@ -820,9 +841,12 @@ shinyUI(
                                                                        # "mochi.life.nctu.edu.tw/users_files/", input$input_job_id_denoise,
                                                                        "/denoise_paired_rarefaction/new_dirname/data/index.html",
                                                                        "')"),
-                                                      icon = icon("eye")
+                                                      icon = icon("eye"),
+                                                      style = "margin-left:10px;margin-top:10px"
                                          ) %>% shinyjs::disabled(),
-                                         downloadButton("log_file_denoise_paired", "log file") %>% shinyjs::disabled()
+                                         downloadButton("zip_dada2_paired_rarefaction", "Download", style = "margin-top:10px") %>% shinyjs::disabled(),
+                                         br(),
+                                         downloadButton("log_file_denoise_paired", "log file", style = "margin-left:10px;margin-top:10px") %>% shinyjs::disabled()
                                        ),
                                        
                                        # br(),br(),
@@ -1080,7 +1104,10 @@ shinyUI(
                                              icon = icon("eye"),
                                              style = "margin-left:10px"
                                 ) %>% shinyjs::disabled(),
-                                downloadButton("log_file_taxonomy_classification", "log file") %>% shinyjs::disabled()
+                                downloadButton("zip_taxonomy_classification", "Download", style = "margin-left:10px") %>% shinyjs::disabled(),
+                                br(),
+                                downloadButton("log_file_taxonomy_classification", 
+                                               "log file", style = "margin-left:10px;margin-top:5px") %>% shinyjs::disabled()
                                 # span("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
                                 #      style = "position: relative; top:5px;"),
                                 # style = "margin-top: 10px;margin-bottom: 25px"
