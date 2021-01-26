@@ -3466,7 +3466,7 @@ server <- function(session, input, output) {
   
   # zip file
   output$zip_dada2_single_table <- downloadHandler(
-    filename = "denoise_table_single.zip",
+    filename = "denoise_summary_table_single.zip",
     content = function(file){
       file.copy("/home/imuser/table-dada2_single.zip", file)
     }
@@ -4105,7 +4105,7 @@ server <- function(session, input, output) {
   
   # zip file
   output$zip_dada2_paired_table <- downloadHandler(
-    filename = "denoise_table_paired.zip",
+    filename = "denoise_summary_table_paired.zip",
     content = function(file){
       file.copy("/home/imuser/table-dada2_paired.zip", file)
     }

@@ -321,7 +321,7 @@ shinyUI(
                                                                        "/demux_single_unzip/new_dirname/data/index.html#",
                                                                        "', '_blank')")
                                          ) %>% shinyjs::disabled(),
-                                         downloadButton("zip_demux_single", "result") %>% shinyjs::disabled(),
+                                         downloadButton("zip_demux_single", "Download") %>% shinyjs::disabled(),
                                          downloadButton("log_demux_single", "log file") %>% shinyjs::disabled()
                                          
                                          # p("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
@@ -405,7 +405,7 @@ shinyUI(
                                                                                       "/demux_paired_unzip/new_dirname/data/index.html#",
                                                                                       "', '_blank')")
                                                         ) %>% shinyjs::disabled(),
-                                         downloadButton("zip_demux_paired", "result") %>% shinyjs::disabled(),
+                                         downloadButton("zip_demux_paired", "Download") %>% shinyjs::disabled(),
                                          downloadButton("log_demux_paired", "log file") %>% shinyjs::disabled()
                                          # p("On the", strong('View'), "webpage, you can download the result by right click" ,strong('Save as ...'),
                                          #      style = "position: relative; margin-top:10px;margin-left:10px")
