@@ -2235,8 +2235,9 @@ server <- function(session, input, output) {
       
       # demuxed transform
       Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
-      # file.remove("/home/imuser/qiime_output/demux_single_trimmed.qza", "/home/imuser/qiime_output/demux_single_end.qzv")
-      # file.remove("", "/home/imuser/qiime_output/demux_single_end.qzv")
+      file.remove("/home/imuser/qiime_output/demux_single_trimmed.qza", "/home/imuser/qiime_output/demux_single_end.qzv", "/home/imuser/qiime_output/demux_single_end.qza")
+      
+      
       
       
       if(input$checkbox_primer==T){
@@ -2282,14 +2283,14 @@ server <- function(session, input, output) {
         system(paste0(qiime_cmd, " cutadapt trim-single --i-demultiplexed-sequences", 
                       # " /home/imuser/home/imuser/web_version/users_files/",
                       # job_id(), # web version
-                      " /home/imuser/home/imuser/qiime_output",
+                      " /home/imuser/qiime_output",
                       "/demux_single_end.qza", 
                       " --p-front ", primer_list[[input$primer_f]],
                       " --p-cores ", input$n_jobs_demux,
                       " --o-trimmed-sequences",
                       # " /home/imuser/web_version/users_files/",
                       # input$input_job_id_demux, # web version
-                      " /home/imuser/home/imuser/qiime_output",
+                      " /home/imuser/qiime_output",
                       "/demux_single_trimmed.qza"
         ))
         
@@ -2575,7 +2576,7 @@ server <- function(session, input, output) {
       
       # demux
       Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
-      # file.remove("/home/imuser/qiime_output/demux_paired_trimmed.qza", "/home/imuser/qiime_output/demux_paired_end.qzv")
+      file.remove("/home/imuser/qiime_output/demux_paired_trimmed.qza", "/home/imuser/qiime_output/demux_paired_end.qzv","/home/imuser/qiime_output/demux_paired_end.qza")
       
       if(input$checkbox_primer==T){
         # system(paste0(qiime_cmd, " tools import --type 'SampleData[PairedEndSequencesWithQuality]'", 
@@ -4567,7 +4568,7 @@ server <- function(session, input, output) {
       )
       
       #  transform database to .qza
-      # rm("/home/imuser/qiime_output/identity_otus.qza", "/home/imuser/qiime_output/ref-taxonomy-7.qza")
+      file.remove("/home/imuser/qiime_output/identity_otus.qza", "/home/imuser/qiime_output/ref-taxonomy-7.qza")
       system(paste0(qiime_cmd, 
                     " tools import --type 'FeatureData[Sequence]' --input-path ", database_list[[input$select_database]][1], 
                     " --output-path",
@@ -4603,7 +4604,7 @@ server <- function(session, input, output) {
       )
       
       
-      # rm("/home/imuser/qiime_output/ref-seqs.qza")
+      file.remove("/home/imuser/qiime_output/ref-seqs.qza")
       if(input$primer_f != "other" & input$primer_r != "other"){
         system(paste0(qiime_cmd, 
                       " feature-classifier extract-reads --i-sequences",
@@ -4684,7 +4685,7 @@ server <- function(session, input, output) {
                       "/ref-seqs.qza"))
       }
       
-      # rm("/home/imuser/qiime_output/classifier.qza")
+      file.remove("/home/imuser/qiime_output/classifier.qza")
       system(paste0(qiime_cmd, 
                     " feature-classifier fit-classifier-naive-bayes --i-reference-reads",
                     # " /home/imuser/web_version/users_files/",
@@ -4702,7 +4703,7 @@ server <- function(session, input, output) {
                     " /home/imuser/qiime_output",
                     "/classifier.qza"))
       
-      # rm("/home/imuser/qiime_output/taxonomy.qza")
+      file.remove("/home/imuser/qiime_output/taxonomy.qza")
       if(input$seqs_type == "Single end"){
         system(paste0(qiime_cmd, 
                       " feature-classifier classify-sklearn --i-classifier",
@@ -4745,7 +4746,7 @@ server <- function(session, input, output) {
       #              "--p-n-jobs", input$n_jobs,
       #              "--o-classification /home/imuser/qiime_output/taxonomy.qza"))
       
-      # rm("/home/imuser/qiime_output/taxonomy.qzv")
+      file.remove("/home/imuser/qiime_output/taxonomy.qzv")
       system(paste0(qiime_cmd, 
                     " metadata tabulate --m-input-file",
                     # " /home/imuser/web_version/users_files/",
@@ -4759,7 +4760,7 @@ server <- function(session, input, output) {
                     "/taxonomy.qzv"))
       
       
-      # rm("/home/imuser/qiime_output/taxatable7.qza")
+      file.remove("/home/imuser/qiime_output/taxatable7.qza")
       if(input$seqs_type == "Single end"){
         system(paste0(qiime_cmd, 
                       " taxa collapse --i-table",
