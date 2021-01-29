@@ -2152,10 +2152,261 @@ server <- function(session, input, output) {
                               footer = NULL, easyClose = T, size = "l"))
         file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
       }else{
-        showModal(modalDialog(title = strong("Error!", style = "color: red"),
-                              "File names must be {sample ID}_{barcode identifier}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
-                              footer = NULL, easyClose = T, size = "l"))
+        # showModal(modalDialog(title = strong("Error!", style = "color: red"),
+        #                       "File names must be {sample ID}_{barcode identifier}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
+        #                       footer = NULL, easyClose = T, size = "l"))
         file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
+        
+        req(input$dirs)
+        start_time <- Sys.time()
+        
+        Sys.setenv(LANG="C.UTF-8")
+        
+        # showModal(modalDialog(title = "Running demultiplexed for single end ...", "Waiting for a moment", footer = NULL))
+        show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
+        
+        
+        
+        
+        qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+        # raw_data_path_list <- list()
+        # raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+        # raw_data_path_list[[1]] <- input$seqs_data_upload$datapath # web version
+        
+        raw_data_path_list <- list()
+        raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+        
+        # file.remove("/home/imuser/seqs_upload/*")
+        # system("rm /home/imuser/seqs_upload/*")
+        # file.copy(input$seqs_data_upload$datapath, paste0("/home/imuser/seqs_upload/", input$seqs_data_upload$name)) # web version
+        
+        # rename seqs file name
+        # setwd(raw_data_path_list[[1]])
+        seqs_name_original <- list.files(raw_data_path_list[[1]])
+        seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
+        file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name))
+        seqs_name <- list.files(raw_data_path_list[[1]])
+        
+        
+        # if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))<length(seqs_name)){
+          
+          
+          library(stringr)
+          seqs_name_split <- str_split(seqs_name, "_")
+          lane_number <- "L001"
+          set_number <- "001"
+          
+          seqs_name_new <- lapply(1:length(seqs_name_split), function(x){
+            
+            paste0(
+              seqs_name_split[[x]][1],
+              "_",
+              seqs_name_split[[x]][1],
+              "_",
+              lane_number,
+              "_R",
+              str_split(seqs_name_split[[x]][2], "\\.")[[1]][1] %>% str_extract("[0-9]"),
+              "_",
+              set_number,
+              ".",
+              str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+              ".",
+              str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+              
+            )
+            
+          })
+          
+          for (i in 1:length(seqs_name_new)) {
+            
+            # file.rename(seqs_name[i], seqs_name_new[[i]])
+            setwd(raw_data_path_list[[1]])
+            system(paste0('sudo mv ', seqs_name[i], ' ',seqs_name_new[[i]]))
+          }
+          
+        # }else{
+        #   seqs_name_new <- seqs_name
+        # }
+        
+        
+        # demuxed transform
+        Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
+        file.remove("/home/imuser/qiime_output/demux_single_trimmed.qza", "/home/imuser/qiime_output/demux_single_end.qzv", "/home/imuser/qiime_output/demux_single_end.qza")
+        
+        
+        
+        
+        if(input$checkbox_primer==T){
+          # system(paste0(qiime_cmd, " tools import --type 'SampleData[SequencesWithQuality]'", 
+          #               " --input-path", " /home/imuser/seqs_upload",
+          #               " --input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,
+          #               ' --output-path /home/imuser/web_version/users_files/',
+          #               input$input_job_id_demux,
+          #               '/demux_single_trimmed.qza')
+          # ) # web version
+          system(paste(qiime_cmd, "tools import --type", "'SampleData[SequencesWithQuality]'", "--input-path", raw_data_path_list[[1]],
+                       "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path /home/imuser/qiime_output/demux_single_trimmed.qza'))
+        }else{
+          file.remove("/home/imuser/qiime_output/demux_single_end.qza")
+          # system(paste0(qiime_cmd, " tools import --type 'SampleData[SequencesWithQuality]'", 
+          #               " --input-path", " /home/imuser/seqs_upload",
+          #               " --input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,
+          #               ' --output-path /home/imuser/web_version/users_files/',
+          #               input$input_job_id_demux,
+          #               '/demux_single_end.qza')) # web version
+          system(paste(qiime_cmd, "tools import --type", "'SampleData[SequencesWithQuality]'", "--input-path", raw_data_path_list[[1]],
+                       "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path /home/imuser/qiime_output/demux_single_end.qza'))
+          
+          primer_list <- list("8F"="AGAGTTTGATCCTGGCTCAG",
+                              "27F"="AGAGTTTGATCMTGGCTCAG",
+                              "CC [F]"="CCAGACTCCTACGGGAGGCAGC",
+                              "341F"="CTCCTACGGGAGGCAGCAG",
+                              "357F"="CTCCTACGGGAGGCAGCAG",
+                              "515F"="GTGCCAGCMGCCGCGGTAA",
+                              "533F"="GTGCCAGCAGCCGCGGTAA",
+                              "16S.1100.F16"="CAACGAGCGCAACCCT",
+                              "1237F"="GGGCTACACACGYGCWAC",
+                              "519R"="GWATTACCGCGGCKGCTG",
+                              "806R"="GGACTACHVGGGTWTCTAAT",
+                              "CD [R]"="CTTGTGCGGGCCCCCGTCAATTC",
+                              "907R"="CCGTCAATTCMTTTRAGTTT",
+                              "1100R"="AGGGTTGCGCTCGTTG",
+                              "1391R"="GACGGGCGGTGTGTRCA",
+                              "1492R (l)"="GGTTACCTTGTTACGACTT",
+                              "1492R (s)"="ACCTTGTTACGACTT" 
+          )
+          
+          system(paste0(qiime_cmd, " cutadapt trim-single --i-demultiplexed-sequences", 
+                        # " /home/imuser/home/imuser/web_version/users_files/",
+                        # job_id(), # web version
+                        " /home/imuser/qiime_output",
+                        "/demux_single_end.qza", 
+                        " --p-front ", primer_list[[input$primer_f]],
+                        " --p-cores ", input$n_jobs_demux,
+                        " --o-trimmed-sequences",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_demux, # web version
+                        " /home/imuser/qiime_output",
+                        "/demux_single_trimmed.qza"
+          ))
+          
+        }
+        
+        system(paste0(qiime_cmd, 
+                      ' demux summarize --i-data',
+                      # ' /home/imuser/web_version/users_files/',
+                      # input$input_job_id_demux, # web version
+                      ' /home/imuser/qiime_output',
+                      '/demux_single_trimmed.qza',
+                      ' --o-visualization',
+                      # ' /home/imuser/web_version/users_files/',
+                      # input$input_job_id_demux, # web version
+                      ' /home/imuser/qiime_output',
+                      '/demux_single_end.qzv'))
+        # viewer_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime_2_ll_quick_viewer'
+        # system('kill -9 $(lsof -t -i:8080 -sTCP:LISTEN)')
+        # system(paste(viewer_cmd, '--filename /home/imuser/qiime_output/demux_single_end.qzv &'))
+        
+        unlink("/home/imuser/qiime_output/demux_single_unzip/new_dirname", recursive = T)
+        unlink("/var/www/html/demux_single_unzip/new_dirname", recursive = T)
+        # system(paste0("rm -r ", "/home/imuser/web_version/users_files/",input$input_job_id_denoise, "/demux_single_unzip"))
+        # system(paste0("unzip -d /home/imuser/web_version/users_files/",
+        #               input$input_job_id_demux, "/demux_single_unzip",
+        #               " /home/imuser/web_version/users_files/",
+        #               input$input_job_id_demux,
+        #               "/demux_single_end.qzv")) # web version
+        
+        # unzip_dirnames <- list.files(paste0("/home/imuser/web_version/users_files/", input$input_job_id_demux, "/demux_single_unzip"), full.names = T)
+        # system(paste0("mv ", unzip_dirnames, " /home/imuser/web_version/users_files/", input$input_job_id_demux, "/demux_single_unzip/new_dirname"))
+        # system(paste0("sudo cp -r /home/imuser/web_version/users_files/", input$input_job_id_demux, " /srv/shiny-server/www/users_files"))
+        # system(paste0("sudo cp -r /home/imuser/web_version/users_files/", input$input_job_id_demux, " /var/www/html/users_files")) # web version
+        system("unzip -d /home/imuser/qiime_output/demux_single_unzip /home/imuser/qiime_output/demux_single_end.qzv")
+        unzip_dirnames <- list.files("/home/imuser/qiime_output/demux_single_unzip", full.names = T)
+        system(paste0("mv ", unzip_dirnames, " /home/imuser/qiime_output/demux_single_unzip/new_dirname"))
+        system("cp -rf /home/imuser/qiime_output/demux_single_unzip /var/www/html/")
+        
+        # system("zip -r /home/imuser/demux_single.zip /home/imuser/qiime_output/demux_single_unzip/new_dirname/data")
+        system("cp /home/imuser/qiime_output/demux_single_end.qzv /home/imuser/demux_single.zip")
+        
+        
+        # system(paste0("cp /home/imuser/web_version/users_files/",
+        #               input$input_job_id_demux,
+        #               "/demux_single_end.qzv /home/imuser/web_version/users_files/",
+        #               input$input_job_id_demux, "/demux_single.zip")) # web version
+        
+        # recover file name
+        for (i in 1:length(seqs_name_new)) {
+          
+          # file.rename(seqs_name_new[[i]], seqs_name[i])
+          system(paste0('sudo mv ', seqs_name_new[[i]], ' ',seqs_name[i]))
+        }
+        
+        file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
+        
+        # show view button
+        observe({
+          if(file.exists('/home/imuser/qiime_output/demux_single_end.qzv')){
+            shinyjs::enable("show_demux_single")
+            
+          }
+        })
+        
+        # show zip button
+        observe({
+          if(file.exists('/home/imuser/demux_single.zip')){
+            shinyjs::enable("zip_demux_single")
+          }
+        })
+        
+        remove_modal_spinner()
+        
+        end_time <- Sys.time()
+        
+        spent_time <- format(round(end_time-start_time, digits = 2))
+        
+        parameter_table <- data.frame(
+          # "JobID" = input$input_job_id_demux,
+          "Step" = "Sequence summary",
+          "time" = Sys.time(),
+          "duration" = spent_time,
+          "sequence_type" = input$seqs_type,
+          "sample_size" = length(seqs_name),
+          "primer_trimmed" = input$checkbox_primer,
+          "forward_primer" = paste(input$primer_f, input$primer_f_manu),
+          "reverse_primer" = paste(input$primer_r, input$primer_r_manu),
+          # "forward_primer_seqs" = primer_f_manu,
+          # "reverse_primer_seqs" = primer_r_manu,
+          "computing_setting" = input$n_jobs_demux
+        )
+        write.csv(parameter_table,
+                  paste0("/home/imuser/parameter_demux_single.csv"), 
+                  quote = F, 
+                  row.names = F)
+        
+        # log file
+        observe({
+          if(file.exists("/home/imuser/parameter_demux_single.csv")){
+            shinyjs::enable("log_demux_single") 
+          }
+        })
+        
+        # if(file.exists(paste0('/home/imuser/web_version/users_files/', input$input_job_id_demux, '/demux_single_end.qzv'))){ # web version
+        if(file.exists('/home/imuser/qiime_output/demux_single_end.qzv')){
+          
+          # shinyjs::show("demux_results_view_single") # web version
+          
+          showModal(modalDialog(title = strong("Successful!"), 
+                                HTML(
+                                  paste0(
+                                    " This analysis took ", spent_time, ". ",
+                                    "You can click the button ", strong('View') ," to inspect the result.")
+                                ), 
+                                footer = NULL, easyClose = T, size = "l"))
+        }else{
+          showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                                "Please check your files.", 
+                                footer = NULL, easyClose = T, size = "l"))
+        }
       }
       
     }else{
@@ -2192,45 +2443,45 @@ server <- function(session, input, output) {
       seqs_name <- list.files(raw_data_path_list[[1]])
       
       
-      if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))<length(seqs_name)){
-        
-        
-        library(stringr)
-        seqs_name_split <- str_split(seqs_name, "_")
-        lane_number <- "L001"
-        set_number <- "001"
-        
-        seqs_name_new <- lapply(1:length(seqs_name_split), function(x){
-          
-          paste0(
-            seqs_name_split[[x]][1],
-            "_",
-            seqs_name_split[[x]][1],
-            "_",
-            lane_number,
-            "_R",
-            str_split(seqs_name_split[[x]][2], "\\.")[[1]][1] %>% str_extract("[0-9]"),
-            "_",
-            set_number,
-            ".",
-            str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
-            ".",
-            str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
-            
-          )
-          
-        })
-        
-        for (i in 1:length(seqs_name_new)) {
-          
-          # file.rename(seqs_name[i], seqs_name_new[[i]])
-          setwd(raw_data_path_list[[1]])
-          system(paste0('sudo mv ', seqs_name[i], ' ',seqs_name_new[[i]]))
-        }
-        
-      }else{
-        seqs_name_new <- seqs_name
-      }
+      # if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))<length(seqs_name)){
+      #   
+      #   
+      #   library(stringr)
+      #   seqs_name_split <- str_split(seqs_name, "_")
+      #   lane_number <- "L001"
+      #   set_number <- "001"
+      #   
+      #   seqs_name_new <- lapply(1:length(seqs_name_split), function(x){
+      #     
+      #     paste0(
+      #       seqs_name_split[[x]][1],
+      #       "_",
+      #       seqs_name_split[[x]][1],
+      #       "_",
+      #       lane_number,
+      #       "_R",
+      #       str_split(seqs_name_split[[x]][2], "\\.")[[1]][1] %>% str_extract("[0-9]"),
+      #       "_",
+      #       set_number,
+      #       ".",
+      #       str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+      #       ".",
+      #       str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+      #       
+      #     )
+      #     
+      #   })
+      #   
+      #   for (i in 1:length(seqs_name_new)) {
+      #     
+      #     # file.rename(seqs_name[i], seqs_name_new[[i]])
+      #     setwd(raw_data_path_list[[1]])
+      #     system(paste0('sudo mv ', seqs_name[i], ' ',seqs_name_new[[i]]))
+      #   }
+      #   
+      # }else{
+      #   seqs_name_new <- seqs_name
+      # }
       
       
       # demuxed transform
@@ -2516,10 +2767,233 @@ server <- function(session, input, output) {
                                 footer = NULL, easyClose = T, size = "l"))
           file.rename(from = list.files(raw_data_path, full.names = T), to = paste0(raw_data_path, "/",seqs_name_original))
         }else{
-          showModal(modalDialog(title = strong("Error!", style = "color: red"),
-                                "File names must be {sample ID}_{barcode identifier}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
-                                footer = NULL, easyClose = T, size = "l"))
+          # showModal(modalDialog(title = strong("Error!", style = "color: red"),
+          #                       "File names must be {sample ID}_{barcode identifier}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
+          #                       footer = NULL, easyClose = T, size = "l"))
           file.rename(from = list.files(raw_data_path, full.names = T), to = paste0(raw_data_path, "/",seqs_name_original))
+          
+          start_time <- Sys.time()
+          
+          Sys.setenv(LANG="C.UTF-8")
+          
+          # showModal(modalDialog(title = "Running demultiplexed for paired end ...", "Waiting for a moment",footer = NULL))
+          show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
+          
+          
+          qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+          
+          # if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))<length(seqs_name)){
+            
+            library(stringr)
+            seqs_name_split <- str_split(seqs_name, "_")
+            lane_number <- "L001"
+            set_number <- "001"
+            
+            seqs_name_new <- lapply(1:length(seqs_name_split), function(x){
+              
+              paste0(
+                seqs_name_split[[x]][1],
+                "_",
+                seqs_name_split[[x]][1],
+                "_",
+                lane_number,
+                "_R",
+                str_split(seqs_name_split[[x]][2], "\\.")[[1]][1] %>% str_extract("[0-9]"),
+                "_",
+                set_number,
+                ".",
+                str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+                ".",
+                str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+                
+              )
+              
+            })
+            
+            for (i in 1:length(seqs_name_new)) {
+              
+              setwd(raw_data_path)
+              file.rename(seqs_name[i], seqs_name_new[[i]])
+              
+            }
+            
+          # }else{
+          #   seqs_name_new <- seqs_name
+          # }
+          
+          # demux
+          Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
+          file.remove("/home/imuser/qiime_output/demux_paired_trimmed.qza", "/home/imuser/qiime_output/demux_paired_end.qzv","/home/imuser/qiime_output/demux_paired_end.qza")
+          
+          if(input$checkbox_primer==T){
+            # system(paste0(qiime_cmd, " tools import --type 'SampleData[PairedEndSequencesWithQuality]'", 
+            #               " --input-path", " /home/imuser/seqs_upload",
+            #               " --input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,
+            #               ' --output-path /home/imuser/web_version/users_files/',
+            #               input$input_job_id_demux,
+            #               '/demux_paired_trimmed.qza')
+            # ) # web version
+            system(paste(qiime_cmd, "tools import --type", "'SampleData[PairedEndSequencesWithQuality]'", "--input-path", raw_data_path,
+                         "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path /home/imuser/qiime_output/demux_paired_trimmed.qza'))
+          }else{
+            # system(paste0(qiime_cmd, " tools import --type 'SampleData[SequencesWithQuality]'", 
+            #               " --input-path", " /home/imuser/seqs_upload",
+            #               " --input-format 'CasavaOneEightpairedLanePerSampleDirFmt'" ,
+            #               ' --output-path /home/imuser/web_version/users_files/',
+            #               input$input_job_id_demux,
+            #               '/demux_paired_end.qza')) # web version
+            file.remove("/home/imuser/qiime_output/demux_paired_end.qza")
+            system(paste(qiime_cmd, "tools import --type", "'SampleData[PairedEndSequencesWithQuality]'", "--input-path", raw_data_path,
+                         "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path /home/imuser/qiime_output/demux_paired_end.qza'))
+            
+            primer_list <- list("8F"="AGAGTTTGATCCTGGCTCAG",
+                                "27F"="AGAGTTTGATCMTGGCTCAG",
+                                "CC [F]"="CCAGACTCCTACGGGAGGCAGC",
+                                "341F"="CTCCTACGGGAGGCAGCAG",
+                                "357F"="CTCCTACGGGAGGCAGCAG",
+                                "515F"="GTGCCAGCMGCCGCGGTAA",
+                                "533F"="GTGCCAGCAGCCGCGGTAA",
+                                "16S.1100.F16"="CAACGAGCGCAACCCT",
+                                "1237F"="GGGCTACACACGYGCWAC",
+                                "519R"="GWATTACCGCGGCKGCTG",
+                                "806R"="GGACTACHVGGGTWTCTAAT",
+                                "CD [R]"="CTTGTGCGGGCCCCCGTCAATTC",
+                                "907R"="CCGTCAATTCMTTTRAGTTT",
+                                "1100R"="AGGGTTGCGCTCGTTG",
+                                "1391R"="GACGGGCGGTGTGTRCA",
+                                "1492R (l)"="GGTTACCTTGTTACGACTT",
+                                "1492R (s)"="ACCTTGTTACGACTT" 
+            )
+            
+            # system(paste0(qiime_cmd, " cutadapt trim-paired --i-demultiplexed-sequences", 
+            #               " /home/imuser/home/imuser/web_version/users_files/",
+            #               input$input_job_id_demux,
+            #               "/demux_paired_end.qza", 
+            #               " --p-front ", primer_list[[input$primer_f]],
+            #               " --p-cores ", input$n_jobs_demux,
+            #               " --o-trimmed-sequences",
+            #               " /home/imuser/web_version/users_files/",
+            #               input$input_job_id_demux,
+            #               "/demux_paired_trimmed.qza"
+            # )) # web version
+            system(paste(qiime_cmd, "cutadapt trim-paired --i-demultiplexed-sequences", 
+                         "/home/imuser/qiime_output/demux_paired_end.qza", 
+                         "--p-front-f", primer_list[[input$primer_f]],
+                         "--p-front-r", primer_list[[input$primer_r]],
+                         "--p-cores", input$n_jobs_demux,
+                         "--o-trimmed-sequences /home/imuser/qiime_output/demux_paired_trimmed.qza"))
+            
+          }
+          
+          # system(paste0(qiime_cmd, 
+          #               ' demux summarize --i-data',
+          #               ' /home/imuser/web_version/users_files/',
+          #               input$input_job_id_demux,
+          #               '/demux_paired_trimmed.qza',
+          #               ' --o-visualization',
+          #               ' /home/imuser/web_version/users_files/',
+          #               input$input_job_id_demux,
+          #               '/demux_paired_end.qzv')) # web version
+          
+          system(paste(qiime_cmd, 'demux summarize --i-data /home/imuser/qiime_output/demux_paired_trimmed.qza --o-visualization /home/imuser/qiime_output/demux_paired_end.qzv'))
+          
+          unlink("/home/imuser/qiime_output/demux_paired_unzip/new_dirname", recursive = T)
+          unlink("/var/www/html/demux_paired_unzip/new_dirname", recursive = T)
+          # system(paste0("rm -r ", "/home/imuser/web_version/users_files/",input$input_job_id_demux, "/demux_paired_unzip"))
+          # system(paste0("unzip -d /home/imuser/web_version/users_files/",
+          #               input$input_job_id_demux, "/demux_paired_unzip",
+          #               " /home/imuser/web_version/users_files/",
+          #               input$input_job_id_demux,
+          #               "/demux_paired_end.qzv")) # web version
+          system("unzip -d /home/imuser/qiime_output/demux_paired_unzip /home/imuser/qiime_output/demux_paired_end.qzv")
+          unzip_dirnames <- list.files("/home/imuser/qiime_output/demux_paired_unzip", full.names = T)
+          system(paste0("mv ", unzip_dirnames, " /home/imuser/qiime_output/demux_paired_unzip/new_dirname"))
+          system("cp -rf /home/imuser/qiime_output/demux_paired_unzip /var/www/html/")
+          
+          # system("zip -r /home/imuser/demux_paired.zip /home/imuser/qiime_output/demux_paired_unzip/new_dirname/data")
+          system("cp /home/imuser/qiime_output/demux_paired_end.qzv /home/imuser/demux_paired.zip")
+          
+          # unzip_dirnames <- list.files(paste0("/home/imuser/web_version/users_files/", input$input_job_id_demux, "/demux_paired_unzip"), full.names = T)
+          # system(paste0("mv ", unzip_dirnames, " /home/imuser/web_version/users_files/", input$input_job_id_demux, "/demux_paired_unzip/new_dirname"))
+          # system(paste0("sudo cp -r /home/imuser/web_version/users_files/", input$input_job_id_demux, " /srv/shiny-server/www/users_files")) # web version
+          
+          # system(paste0("cp /home/imuser/web_version/users_files/", input$input_job_id_demux,
+          #               "/demux_paired_end.qzv /home/imuser/web_version/users_files/", input$input_job_id_demux,
+          #               "/demux_paired.zip")) # web version
+          
+          
+          # recover file name
+          for (i in 1:length(seqs_name_new)) {
+            
+            file.rename(seqs_name_new[[i]], seqs_name[i])
+            
+          }
+          
+          file.rename(from = list.files(raw_data_path, full.names = T), to = paste0(raw_data_path, "/",seqs_name_original))
+          
+          # show view button
+          observe({
+            if(file.exists('/home/imuser/qiime_output/demux_paired_end.qzv')){
+              shinyjs::enable("show_demux_paired")
+            }
+          })
+          
+          # show zip button
+          observe({
+            if(file.exists('/home/imuser/demux_paired.zip')){
+              shinyjs::enable("zip_demux_paired")
+            }
+          })
+          
+          remove_modal_spinner()
+          
+          end_time <- Sys.time()
+          
+          spent_time <- format(round(end_time-start_time, digits = 2))
+          
+          parameter_table <- data.frame(
+            # "JobID" = input$input_job_id_demux,
+            "Step" = "Sequence summary",
+            "time" = Sys.time(),
+            "duration" = spent_time,
+            "sequence_type" = input$seqs_type,
+            "sample_size" = length(seqs_name),
+            "primer_trimmed" = input$checkbox_primer,
+            "forward_primer" = paste(input$primer_f, input$primer_f_manu),
+            "reverse_primer" = paste(input$primer_r, input$primer_r_manu),
+            # "forward_primer_seqs" = primer_f_manu,
+            # "reverse_primer_seqs" = primer_r_manu,
+            "computing_setting" = input$n_jobs_demux
+          )
+          write.csv(parameter_table,
+                    paste0("/home/imuser/parameter_demux_paired.csv"), 
+                    quote = F, 
+                    row.names = F)
+          
+          # log file
+          observe({
+            if(file.exists("/home/imuser/parameter_demux_paired.csv")){
+              shinyjs::enable("log_demux_paired") 
+            }
+          })
+          
+          # if(file.exists(paste0('/home/imuser/web_version/users_files/', input$input_job_id_demux, '/demux_paired_end.qzv'))){ # web version
+          if(file.exists('/home/imuser/qiime_output/demux_paired_end.qzv')){
+            
+            # shinyjs::show("demux_results_view_paired") # web version
+            
+            showModal(modalDialog(title = strong("Successful!"), 
+                                  HTML(
+                                    paste0(
+                                      " This analysis took ", spent_time, ". ",
+                                      "You can click the button ", strong('View') ," to inspect the result.")
+                                  ), 
+                                  footer = NULL, easyClose = T, size = "l"))
+          }else{
+            showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                                  "Please check your files.", 
+                                  footer = NULL, easyClose = T, size = "l"))
+          }
         }
     
     }else{
@@ -2535,44 +3009,44 @@ server <- function(session, input, output) {
       
       qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
       
-      if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))<length(seqs_name)){
-        
-        library(stringr)
-        seqs_name_split <- str_split(seqs_name, "_")
-        lane_number <- "L001"
-        set_number <- "001"
-        
-        seqs_name_new <- lapply(1:length(seqs_name_split), function(x){
-          
-          paste0(
-            seqs_name_split[[x]][1],
-            "_",
-            seqs_name_split[[x]][1],
-            "_",
-            lane_number,
-            "_R",
-            str_split(seqs_name_split[[x]][2], "\\.")[[1]][1] %>% str_extract("[0-9]"),
-            "_",
-            set_number,
-            ".",
-            str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
-            ".",
-            str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
-            
-          )
-          
-        })
-        
-        for (i in 1:length(seqs_name_new)) {
-          
-          setwd(raw_data_path)
-          file.rename(seqs_name[i], seqs_name_new[[i]])
-          
-        }
-        
-      }else{
-        seqs_name_new <- seqs_name
-      }
+      # if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))<length(seqs_name)){
+      #   
+      #   library(stringr)
+      #   seqs_name_split <- str_split(seqs_name, "_")
+      #   lane_number <- "L001"
+      #   set_number <- "001"
+      #   
+      #   seqs_name_new <- lapply(1:length(seqs_name_split), function(x){
+      #     
+      #     paste0(
+      #       seqs_name_split[[x]][1],
+      #       "_",
+      #       seqs_name_split[[x]][1],
+      #       "_",
+      #       lane_number,
+      #       "_R",
+      #       str_split(seqs_name_split[[x]][2], "\\.")[[1]][1] %>% str_extract("[0-9]"),
+      #       "_",
+      #       set_number,
+      #       ".",
+      #       str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+      #       ".",
+      #       str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+      #       
+      #     )
+      #     
+      #   })
+      #   
+      #   for (i in 1:length(seqs_name_new)) {
+      #     
+      #     setwd(raw_data_path)
+      #     file.rename(seqs_name[i], seqs_name_new[[i]])
+      #     
+      #   }
+      #   
+      # }else{
+      #   seqs_name_new <- seqs_name
+      # }
       
       # demux
       Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
