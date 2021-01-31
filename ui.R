@@ -1813,6 +1813,7 @@ shinyUI(
                                           ),
                                           
                                           uiOutput(outputId = "annotation_ancom"),
+                                          # downloadButton("ancom_plot_download", "Download the ANCOM plot"),
                                           hr(),
                                           uiOutput(outputId = "word_ancom_table"),
                                           
