@@ -2590,12 +2590,6 @@ server <- function(session, input, output) {
       #               input$input_job_id_demux, "/demux_single.zip")) # web version
       
       # recover file name
-      for (i in 1:length(seqs_name_new)) {
-        
-        # file.rename(seqs_name_new[[i]], seqs_name[i])
-        system(paste0('sudo mv ', seqs_name_new[[i]], ' ',seqs_name[i]))
-      }
-      
       file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
       
       # show view button
@@ -3150,12 +3144,6 @@ server <- function(session, input, output) {
       
       
       # recover file name
-      for (i in 1:length(seqs_name_new)) {
-        
-        file.rename(seqs_name_new[[i]], seqs_name[i])
-        
-      }
-      
       file.rename(from = list.files(raw_data_path, full.names = T), to = paste0(raw_data_path, "/",seqs_name_original))
       
       # show view button
