@@ -4997,6 +4997,17 @@ server <- function(session, input, output) {
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                             "Please download taxonomy database first!", 
                             footer = NULL, easyClose = T, size = "l"))
+      
+    }else if(input$seqs_type == "Single end" & file.exists("/home/imuser/qiime_output/rep-seqs-dada2_single.qza")==F){
+      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                            "Please check the sequence type.", 
+                            footer = NULL, easyClose = T, size = "l"))
+      
+    }else if(input$seqs_type == "Paired end" & file.exists("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza")==F){
+      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                            "Please check the sequence type.", 
+                            footer = NULL, easyClose = T, size = "l"))
+      
     }else{
       
       start_time <- Sys.time()
@@ -5413,7 +5424,7 @@ server <- function(session, input, output) {
       }else{
 
         showModal(modalDialog(title = strong("Error!", style = "color: red"),
-                              "Please check your files.", 
+                              "Please check your files or parameters.", 
                               footer = NULL, easyClose = T, size = "l"))
       }  
     
