@@ -555,18 +555,18 @@ server <- function(session, input, output) {
           # textOutput(outputId = "message_thread_single_position"),
           br(),br(),
           
-          strong("Error model training", style = "font-size:24px;color: white"),
-          textInput(inputId = "n_reads_single", 
-                    label = span("Number of reads used for training the error model",
-                                 style = p_style), 
-                    value = format(1000000, scientific = F),
-                    width = "350px"),
-          actionButton(inputId = "Q_learn_reads_single", 
-                       label = "learn more", 
-                       icon = icon("question-circle")
-          ),
-          
-          br(),br(),
+          # strong("Error model training", style = "font-size:24px;color: white"),
+          # textInput(inputId = "n_reads_single", 
+          #           label = span("Number of reads used for training the error model",
+          #                        style = p_style), 
+          #           value = format(1000000, scientific = F),
+          #           width = "350px"),
+          # actionButton(inputId = "Q_learn_reads_single", 
+          #              label = "learn more", 
+          #              icon = icon("question-circle")
+          # ),
+          # 
+          # br(),br(),
           
           strong("Metadata Integrating (optional)", style = "font-size:24px;color: white"),
           fileInput(inputId = "sample_data_single",
@@ -696,18 +696,18 @@ server <- function(session, input, output) {
           
           br(),br(),
           
-          strong("Error model training", 
-                 style = "font-size:24px;color: white"),
-          textInput(inputId = "n_reads_paired", 
-                    label = span("Number of reads used for training the error model",
-                                 style = p_style), 
-                    value = format(1000000, scientific = F),
-                    width = "350px"),
-          actionButton(inputId = "Q_learn_reads_paired", 
-                       label = "learn more", 
-                       icon = icon("question-circle")
-          ),
-          br(),br(),
+          # strong("Error model training", 
+          #        style = "font-size:24px;color: white"),
+          # textInput(inputId = "n_reads_paired", 
+          #           label = span("Number of reads used for training the error model",
+          #                        style = p_style), 
+          #           value = format(1000000, scientific = F),
+          #           width = "350px"),
+          # actionButton(inputId = "Q_learn_reads_paired", 
+          #              label = "learn more", 
+          #              icon = icon("question-circle")
+          # ),
+          # br(),br(),
           
           strong("Metadata Integrating (optional)", style = "font-size:24px;color: white"),
           fileInput(inputId = "sample_data_paired",
@@ -3347,7 +3347,7 @@ server <- function(session, input, output) {
                     " --p-trunc-q ", input$qvalue_single,
                     " --p-n-threads ", input$threads_single,
                     " --p-min-fold-parent-over-abundance ", input$chimera_single,
-                    " --p-n-reads-learn ", input$n_reads_single,
+                    # " --p-n-reads-learn ", input$n_reads_single,
                     # " --o-representative-sequences /home/imuser/web_version/users_files/",
                     # input$input_job_id_denoise, # web version
                     " --o-representative-sequences /home/imuser/qiime_output",
@@ -3691,7 +3691,7 @@ server <- function(session, input, output) {
         "end_position_trim" = input$trunc_len_single,
         "quality_score_truncate" = input$qvalue_single,
         "chimeric_reads_min_fold_change" = input$chimera_single,
-        "reads_error_model" = input$n_reads_single,
+        # "reads_error_model" = input$n_reads_single,
         "metadata_upload" = is.null(input$sample_data_single),
         "computing_setting" = input$threads_single
       )
