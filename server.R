@@ -3681,6 +3681,7 @@ server <- function(session, input, output) {
       end_time <- Sys.time()
       spent_time <- format(round(end_time-start_time, digits = 2))
       
+      file.remove("/home/imuser/parameter_denoise_single.csv")
       parameter_table <- data.frame(
         # "JobID" = input$input_job_id_denoise,
         "Step" = "Denoising",
@@ -4343,6 +4344,7 @@ server <- function(session, input, output) {
       end_time <- Sys.time()
       spent_time <- format(round(end_time-start_time, digits = 2))
       
+      file.remove("/home/imuser/parameter_denoise_paired.csv")
       parameter_table <- data.frame(
         # "JobID" = input$input_job_id_denoise,
         "Step" = "Denoising",
