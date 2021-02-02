@@ -4355,7 +4355,7 @@ server <- function(session, input, output) {
         "r_end_position_trim" = input$trunc_len_r_paired,
         "quality_score_truncate" = input$qvalue_paired,
         "chimeric_reads_min_fold_change" = input$chimera_paired,
-        "reads_error_model" = input$n_reads_paired,
+        # "reads_error_model" = input$n_reads_paired,
         "metadata_upload" = is.null(input$sample_data_paired),
         "computing_setting" = input$threads_paired
       )
