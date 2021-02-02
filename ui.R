@@ -1991,7 +1991,7 @@ shinyUI(
                  # )
                  
                  tags$iframe(style="height:800px; width:90%; scrolling=yes;margin:0 100px",
-                             src=paste0("http://", my_qiime_ip, my_qiime_port, "/MOCHI_Tutorial_Ch_2_Local.pdf")
+                             src=paste0("http://", my_qiime_ip, ":3811", "/MOCHI_Tutorial_Ch_2_Local.pdf")
                              # src=paste0("http://", "140.113.83.24:8011", "/MOCHI_Tutorial_Ch_2.pdf")
                              )
                  
