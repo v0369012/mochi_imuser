@@ -4008,7 +4008,7 @@ server <- function(session, input, output) {
                     " --p-trunc-q ", input$qvalue_paired,
                     " --p-n-threads ", input$threads_paired,
                     " --p-min-fold-parent-over-abundance ", input$chimera_paired,
-                    " --p-n-reads-learn ", input$n_reads_paired,
+                    # " --p-n-reads-learn ", input$n_reads_paired,
                     # " --o-representative-sequences /home/imuser/web_version/users_files/",
                     # input$input_job_id_denoise, # web version
                     " --o-representative-sequences /home/imuser/qiime_output",
