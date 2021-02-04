@@ -8607,7 +8607,7 @@ server <- function(session, input, output) {
   # download permanova table
   output$download_permanova <- downloadHandler(
     
-    filename = "PerMANOVA_table.csv",
+    filename = "PERMANOVA_table.csv",
     content = function(file) {
       
       write.csv(Permanova_table(), file, row.names = FALSE)
@@ -8738,7 +8738,7 @@ server <- function(session, input, output) {
   # download permanova pair table
   output$download_permanova_pair <- downloadHandler(
     
-    filename = "PerMANOVA_pair_table.csv",
+    filename = "PERMANOVA_pair_table.csv",
     content = function(file) {
       
       write.csv(Permanova_pair_table(), file, row.names = FALSE)
@@ -10120,7 +10120,7 @@ server <- function(session, input, output) {
         
         return(NULL)
       }else{
-        return("PerMANOVA")
+        return("PERMANOVA")
       }
       
       
@@ -10336,7 +10336,7 @@ server <- function(session, input, output) {
         
         return(NULL)
       }else{
-        return("PerMANOVA pair")
+        return("PERMANOVA pair")
       }
       
       
@@ -11082,7 +11082,37 @@ server <- function(session, input, output) {
     #                       job_id(), "_DA_ancom",
     #                       "/upload_taxtable.qza"),
     #           overwrite = T) # ewb version
-    file.copy(from = input$taxonomic_table$datapath, to = "/home/imuser/upload_taxtable.qza", overwrite = T)
+    file.copy(from = input$taxonomic_table$datapath, to = "/home/imuser/upload_taxatable.qza", overwrite = T)
+    
+    taxa_table_7 <- read_qza("/home/imuser/upload_taxatable.qza")$data
+    species <- rownames(taxa_table_7)
+    species_list <- list()
+    level_list <- list(
+      "Phylum"= 1:2,
+      "Class"= 1:3,
+      "Order"= 1:4,
+      "Family"= 1:5,
+      "Genus"= 1:6,
+      "Species"= 1:7
+    )
+    for (i in 1:length(species)) {
+      for (j in 1:length(species[i])) {
+        species_list[[i]] <- str_split(species[i], ";")[[j]][level_list[[input$ANCOM_level]]]
+        species_list[[i]] <- paste0(species_list[[i]], collapse = ";")
+        
+      }
+      
+    }
+    
+    taxa_table_ <- taxa_table_7
+    row.names(taxa_table_) <- unlist(species_list)
+    taxa_table__ag <- aggregate(taxa_table_, by=list(rownames(taxa_table_)), FUN=sum)
+    colnames(taxa_table__ag)[1] <- "taxonomy"
+    write.table(x=taxa_table__ag,"/home/imuser/taxatable_.txt", quote = F, col.names = T, row.names = F, sep = "\t")
+    system("/home/imuser/miniconda3/envs/qiime2-2019.10/bin/biom convert -i /home/imuser/taxatable_.txt -o /home/imuser/taxatable_.biom --table-type='OTU table' --to-hdf5")
+    system(paste0(qiime_cmd, " tools import --input-path /home/imuser/taxatable_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/upload_taxatable_.qza"))
+    
+    taxa_table_7 <- read_qza("/home/imuser/upload_taxatable_.qza")$data
     nonNA_sampleid_1 <- c("SampleID", nonNA_sampleid) # for qiime2 reading format
     # write.table(x = nonNA_sampleid_1, 
     #             file = paste0("/home/imuser/web_version/users_files/",
@@ -11121,7 +11151,7 @@ server <- function(session, input, output) {
     #               job_id(), "_DA_ancom",
     #               "/ancom_comparison.qzv")) # web version
     
-    system(paste(qiime_cmd, "feature-table filter-samples", "--i-table /home/imuser/upload_taxtable.qza", "--m-metadata-file /home/imuser/nonNA_sampleid.tsv", "--o-filtered-table /home/imuser/qiime_output/nonNA_table.qza"))
+    system(paste(qiime_cmd, "feature-table filter-samples", "--i-table /home/imuser/upload_taxatable_.qza", "--m-metadata-file /home/imuser/nonNA_sampleid.tsv", "--o-filtered-table /home/imuser/qiime_output/nonNA_table.qza"))
     system(paste(qiime_cmd, "composition add-pseudocount --i-table", "/home/imuser/qiime_output/nonNA_table.qza", "--o-composition-table /home/imuser/qiime_output/comp_table.qza"))
     system(paste(qiime_cmd, "composition ancom --i-table /home/imuser/qiime_output/comp_table.qza --m-metadata-file", '/home/imuser/nonNA_metadata_categorical.tsv',
                  "--m-metadata-column", input$metadata_ANCOM,"--o-visualization /home/imuser/qiime_output/ancom_comparison.qzv"))
