@@ -7939,6 +7939,7 @@ server <- function(session, input, output) {
         Samples_ID <- paste0( y_name, "__", barplot_taxa_table_data_percent_Level_noUnassigned_percentage$Sample_ID)
       }
       
+      
       # plot
       library(viridis)
       p_Level<-ggplot()+geom_bar(data = barplot_taxa_table_data_percent_Level_noUnassigned_percentage,
@@ -11235,7 +11236,7 @@ server <- function(session, input, output) {
               type = "scatter",
               hoverinfo = "text",
               hovertext = paste("Species:", ancom_merge$id,
-                                "<br> clr:", ancom_merge$clr,
+                                "<br> clr:", round(ancom_merge$clr, digits = 4),
                                 "<br> W:", ancom_merge$W) 
       ) %>% layout(showlegend = T)
       
