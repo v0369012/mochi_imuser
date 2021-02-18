@@ -1182,7 +1182,7 @@ shinyUI(
                              multiple = F,
                              accept = ".tsv"),
                    tippy::tippy_this(elementId = "info_metadata", 
-                                     tooltip = HTML("<p style='postion:relative;'>1st column name must be <b>#SampleID</b></p>"), 
+                                     tooltip = HTML("<p style='postion:relative;'>1st column name must be <b>SampleID</b></p>"), 
                                      placement = "right",
                                      allowHTML =T),
                    tags$style(".tooltip {position:relative;bottom:20px}"),
@@ -1867,7 +1867,7 @@ shinyUI(
                              multiple = F,
                              accept = ".tsv"),
                    tippy::tippy_this(elementId = "info_metadata_FA", 
-                                     tooltip = HTML("<p style='postion:relative;'>1st column name must be <b>#SampleID</b></p>"), 
+                                     tooltip = HTML("<p style='postion:relative;'>1st column name must be <b>SampleID</b></p>"), 
                                      placement = "right",
                                      allowHTML = TRUE),
                    
