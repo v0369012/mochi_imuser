@@ -1474,7 +1474,7 @@ shinyUI(
                                               type = spinner_type, 
                                               color.background = spinner_bg_color),
                                             downloadButton(outputId = "download_permanova", 
-                                                           label = "Download permanova table"),
+                                                           label = "Download PERMANOVA table"),
                                             hr()
                                           ),
                                           
@@ -1703,7 +1703,7 @@ shinyUI(
                                               type = spinner_type, 
                                               color.background = spinner_bg_color),
                                             downloadButton(outputId = "download_permanova_phylo", 
-                                                           label = "Download PerMANOVA table"),
+                                                           label = "Download PERMANOVA table"),
                                             hr()
                                           ),
                                           
