@@ -200,7 +200,7 @@ shinyUI(
                               
                               # br(),br(),
                               actionButton(inputId = "load_parameter_demux",
-                                           label = strong("Demo", style = "margin: 5px;font-size: 18px"),
+                                           label = strong("Demo files", style = "margin: 5px;font-size: 18px"),
                                            icon = icon("chalkboard-teacher"),
                                            style = "color:#317EAC;background-color:white;") %>% div(),
                               
@@ -943,7 +943,7 @@ shinyUI(
                                      actionButton(inputId = "auto_load_db",
                                                   label = "Auto download database") %>% shinyjs::hidden(),
                                      actionButton(inputId = "load_parameter_taxa",
-                                                  label = strong("Demo", style = "margin: 5px;font-size: 18px"),
+                                                  label = strong("Demo files", style = "margin: 5px;font-size: 18px"),
                                                   icon = icon("chalkboard-teacher"),
                                                   style = "color:#317EAC;background-color:white;margin-top:10px") %>% div(),
                                      # p('If the database have been updated, you need to download the latest data by yourself.'),
@@ -1215,7 +1215,7 @@ shinyUI(
                    ),
                    actionButton("TA_reset", "reset" , icon = icon("trash")),
                    actionButton("TA_demo",
-                                strong("Demo", style = "margin: 5px;font-size: 18px"),
+                                strong("Demo files", style = "margin: 5px;font-size: 18px"),
                                 icon = icon("chalkboard-teacher"),
                                 style = "color:#317EAC;background-color:white;margin-top:10px") %>% div(),
                    
@@ -1594,7 +1594,7 @@ shinyUI(
                                                        icon = icon("play-circle")
                                           ),
                                           actionButton("phylo_demo",
-                                                       strong("Demo", style = "margin: 5px;font-size: 18px"),
+                                                       strong("Demo files", style = "margin: 5px;font-size: 18px"),
                                                        icon = icon("chalkboard-teacher"),
                                                        style = "color:#317EAC;background-color:white;margin-top:10px") %>% div()
                                           , style = "margin-top: 10px;"
@@ -1798,7 +1798,7 @@ shinyUI(
                                                        
                                           ),
                                           # actionButton(inputId = "load_parameter_ANCOM",
-                                          #              label = strong("Demo", style = "margin: 5px;font-size: 18px"),
+                                          #              label = strong("Demo files", style = "margin: 5px;font-size: 18px"),
                                           #              icon = icon("chalkboard-teacher"),
                                           #              style = "color:#317EAC;background-color:white;margin-top:10px") %>% div(),
                                           
@@ -1893,7 +1893,7 @@ shinyUI(
                                 style = "margin-top:10px") %>% div(),
                    
                    actionButton("FA_demo",
-                                strong("Demo", style = "margin: 5px;font-size: 18px"),
+                                strong("Demo files", style = "margin: 5px;font-size: 18px"),
                                 icon = icon("chalkboard-teacher"),
                                 style = "color:#317EAC;background-color:white;margin-top:10px") %>% div(),
                    width = 3),
