@@ -6307,6 +6307,18 @@ server <- function(session, input, output) {
     }
   )
   
+  output$taxonomy_classificatio_table_dl <- downloadHandler(
+    filename = "taxonomy_classificatio_table.csv",
+    
+    content = function(file){
+      
+      taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy.qza")[["data"]]
+      colnames(taxonomy)[1] <- "ASV"
+      write.csv(taxonomy, file)
+      
+    }
+  )
+  
   observe({
     if(file.exists("/home/imuser/qiime_output/taxonomy.qzv")){
       # shinyjs::enable("view_taxa")

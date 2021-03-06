@@ -776,7 +776,8 @@ shinyUI(
                                   tabPanel(
                                     title = "Taxonomy result",
                                     br(),br(),
-                                    dataTableOutput("taxonomy_classificatio_table")
+                                    dataTableOutput("taxonomy_classificatio_table"),
+                                    downloadButton("taxonomy_classificatio_table_dl")
                                     
                                   ),
                                   tabPanel(
@@ -802,7 +803,7 @@ shinyUI(
                                    style = "margin-top: 25px"),
                                 downloadButton(outputId = "taxatable_download",
                                                label = "The taxonomic table  ",
-                                               style = "margin-left: 10px") %>% shinyjs::disabled(),
+                                               style = "margin-left: 0px") %>% shinyjs::disabled(),
                                 
                                 downloadButton(outputId = "table_dada2_download",
                                                label = "The ASVs table  ") %>% shinyjs::disabled(),
