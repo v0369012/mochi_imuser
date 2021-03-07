@@ -4283,8 +4283,8 @@ server <- function(session, input, output) {
     
     # summary table
     output$dada2_sample_summary_single <- renderTable({
-      req(input$input_job_id_denoise)
-      sample_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
+      # req(input$input_job_id_denoise)
+      # sample_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
       
       sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]]
       sample_found_number <- c()
@@ -4295,7 +4295,7 @@ server <- function(session, input, output) {
       
       sample_summary_table <- data.frame(
         SampleID = colnames(sample_qiime2),
-        "Read count" = sample_table[,2],
+        "Read count" = colSums(sample_qiime2),
         "Number of ASVs observed in" = sample_found_number
       )
       
@@ -4310,8 +4310,8 @@ server <- function(session, input, output) {
     })
     
     output$dada2_sample_table_single <- renderDataTable({
-      req(input$input_job_id_denoise)
-      sample_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
+      # req(input$input_job_id_denoise)
+      # sample_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
       
       sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]]
       sample_found_number <- c()
@@ -4322,9 +4322,9 @@ server <- function(session, input, output) {
       
       sample_summary_table <- data.frame(
         SampleID = colnames(sample_qiime2),
-        "Read count" = sample_table[,2],
+        "Read count" = colSums(sample_qiime2),
         "Number of ASVs observed in" = sample_found_number
-      )
+      ) %>% as_tibble()
       
       colnames(sample_summary_table) <- c("SampleID", "Read count", "Number of ASVs observed in")
       return(sample_summary_table)
@@ -4332,14 +4332,16 @@ server <- function(session, input, output) {
     
     output$dada2_asv_summary_table_single <- renderTable({
       req(input$input_job_id_denoise)
-      asv_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
+      # asv_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
+      asv_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]]
+      asv_read_count <- rowSums(asv_qiime2)
       asv_summary <- data.frame(
-        Min = min(asv_table[,2]),
-        Mean = mean(asv_table[,2]),
-        Median = median(asv_table[,2]),
-        Max = max(asv_table[,2]),
-        Total = sum(asv_table[,2]),
-        "Number of ASVs" = nrow(asv_table)
+        Min = min(asv_read_count),
+        Mean = mean(asv_read_count),
+        Median = median(asv_read_count),
+        Max = max(asv_read_count),
+        Total = sum(asv_read_count),
+        "Number of ASVs" = length(asv_read_count)
       )
     })
     
@@ -4352,11 +4354,11 @@ server <- function(session, input, output) {
         asv_found_number[i] <- sum(asv_qiime2[i,]!=0)
       }
       
-      asv_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
+      # asv_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
       
-      asv_smr_table <- cbind(asv_table, "Number of samples observed in" = asv_found_number)
+      asv_smr_table <- cbind("ASV" = colnames(asv_qiime2), "Read count" = rowSums(asv_qiime2), "Number of samples observed in" = asv_found_number) %>% as_tibble()
       
-      colnames(asv_smr_table)[1:2] <- c("ASV", "Read count")
+      # colnames(asv_smr_table)[1:2] <- c("ASV", "Read count")
       
       return(asv_smr_table)
     })
@@ -4900,7 +4902,7 @@ server <- function(session, input, output) {
       # summary table
       output$dada2_sample_summary_paired <- renderTable({
         
-        sample_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
+        # sample_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
         
         sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]]
         sample_found_number <- c()
@@ -4911,7 +4913,7 @@ server <- function(session, input, output) {
         
         sample_summary_table <- data.frame(
           SampleID = colnames(sample_qiime2),
-          "Read count" = sample_table[,2],
+          "Read count" = colSums(sample_qiime2),
           "Number of ASVs observed in" = sample_found_number
         )
         
@@ -4927,7 +4929,7 @@ server <- function(session, input, output) {
       
       output$dada2_sample_table_paired <- renderDataTable({
         
-        sample_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
+        # sample_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
         
         sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]]
         sample_found_number <- c()
@@ -4938,9 +4940,9 @@ server <- function(session, input, output) {
         
         sample_summary_table <- data.frame(
           SampleID = colnames(sample_qiime2),
-          "Read count" = sample_table[,2],
+          "Read count" = colSums(sample_qiime2),
           "Number of ASVs observed in" = sample_found_number
-        )
+        ) %>% as_tibble()
         
         colnames(sample_summary_table) <- c("SampleID", "Read count", "Number of ASVs observed in")
         return(sample_summary_table)
@@ -4948,14 +4950,16 @@ server <- function(session, input, output) {
       
       output$dada2_asv_summary_table_paired <- renderTable({
         
-        asv_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
+        # asv_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
+        asv_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]]
+        asv_read_count <- rowSums(asv_qiime2)
         asv_summary <- data.frame(
-          Min = min(asv_table[,2]),
-          Mean = mean(asv_table[,2]),
-          Median = median(asv_table[,2]),
-          Max = max(asv_table[,2]),
-          Total = sum(asv_table[,2]),
-          "Number of ASVs" = nrow(asv_table)
+          Min = min(asv_read_count),
+          Mean = mean(asv_read_count),
+          Median = median(asv_read_count),
+          Max = max(asv_read_count),
+          Total = sum(asv_read_count),
+          "Number of ASVs" = length(asv_read_count)
         )
       })
       
@@ -4968,11 +4972,11 @@ server <- function(session, input, output) {
           asv_found_number[i] <- sum(asv_qiime2[i,]!=0)
         }
         
-        asv_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
+        # asv_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
         
-        asv_smr_table <- cbind(asv_table, "Number of samples observed in" = asv_found_number)
+        asv_smr_table <- cbind("ASV" = colnames(asv_qiime2), "Read count" = rowSums(asv_qiime2), "Number of samples observed in" = asv_found_number) %>% as_tibble()
         
-        colnames(asv_smr_table)[1:2] <- c("ASV", "Read count")
+        # colnames(asv_smr_table)[1:2] <- c("ASV", "Read count")
         
         return(asv_smr_table)
       })
