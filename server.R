@@ -4356,7 +4356,7 @@ server <- function(session, input, output) {
       
       # asv_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
       
-      asv_smr_table <- cbind("ASV" = colnames(asv_qiime2), "Read count" = rowSums(asv_qiime2), "Number of samples observed in" = asv_found_number) %>% as_tibble()
+      asv_smr_table <- cbind("ASV" = rownames(asv_qiime2), "Read count" = rowSums(asv_qiime2), "Number of samples observed in" = asv_found_number) %>% as_tibble()
       
       # colnames(asv_smr_table)[1:2] <- c("ASV", "Read count")
       
@@ -4974,7 +4974,7 @@ server <- function(session, input, output) {
         
         # asv_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
         
-        asv_smr_table <- cbind("ASV" = colnames(asv_qiime2), "Read count" = rowSums(asv_qiime2), "Number of samples observed in" = asv_found_number) %>% as_tibble()
+        asv_smr_table <- cbind("ASV" = rownames(asv_qiime2), "Read count" = rowSums(asv_qiime2), "Number of samples observed in" = asv_found_number) %>% as_tibble()
         
         # colnames(asv_smr_table)[1:2] <- c("ASV", "Read count")
         
