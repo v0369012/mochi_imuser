@@ -548,25 +548,8 @@ server <- function(session, input, output) {
                        label = "learn more",
                        icon = icon("question-circle")
           ),
-          
-          
-          
-          
-          # textOutput(outputId = "message_thread_single_position"),
+
           br(),br(),
-          
-          # strong("Error model training", style = "font-size:24px;color: white"),
-          # textInput(inputId = "n_reads_single", 
-          #           label = span("Number of reads used for training the error model",
-          #                        style = p_style), 
-          #           value = format(1000000, scientific = F),
-          #           width = "350px"),
-          # actionButton(inputId = "Q_learn_reads_single", 
-          #              label = "learn more", 
-          #              icon = icon("question-circle")
-          # ),
-          # 
-          # br(),br(),
           
           strong("Metadata Integrating (optional)", style = "font-size:24px;color: white"),
           fileInput(inputId = "sample_data_single",
@@ -613,7 +596,7 @@ server <- function(session, input, output) {
           
         )
       })
-    }else{
+    }else if(input$seqs_type == "Paired end"){
       output$dada2_parameter <- renderUI({
         p_style <- "color: white;font-size: 20px;font-weight:200;"
         tagList(
@@ -1254,36 +1237,20 @@ server <- function(session, input, output) {
     if(sum(str_detect(a, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))==length(a)){
       
       if(sum(stringr::str_detect(a, "_R2[(\\.)(_)]")) > 0 ){
-        updatePickerInput(session, "seqs_type", choices = c("Paired end", "Single end"))
+        updatePickerInput(session, "seqs_type", choices = c("Paired end", "Single end", "Pacbio long read"))
       }else{
-        updatePickerInput(session, "seqs_type", choices = c("Single end", "Paired end"))
+        updatePickerInput(session, "seqs_type", choices = c("Single end", "Paired end", "Pacbio long read"))
       }
     }else{
       if(sum(stringr::str_detect(a, "_(R){0,1}2[(\\.)(_)]")) > 0 ){
-        updatePickerInput(session, "seqs_type", choices = c("Paired end", "Single end"))
+        updatePickerInput(session, "seqs_type", choices = c("Paired end", "Single end", "Pacbio long read"))
       }else{
-        updatePickerInput(session, "seqs_type", choices = c("Single end", "Paired end"))
+        updatePickerInput(session, "seqs_type", choices = c("Single end", "Paired end", "Pacbio long read"))
       }
     }
   })
   
-  # observeEvent(input$input_job_id_denoise,{
-  #   a <- list.files(paste0("/home/imuser/web_version/users_files/", input$input_job_id_denoise), full.names = T)
-  #   if(sum(str_detect(a, "single")) > 0){
-  #     updatePickerInput(session, "seqs_type", choices = c("Single end", "Paired end"))
-  #   }else{
-  #     updatePickerInput(session, "seqs_type", choices = c("Paired end", "Single end"))
-  #   }
-  # })
-  # 
-  # observeEvent(input$input_job_id_taxa,{
-  #   a <- list.files(paste0("/home/imuser/web_version/users_files/", input$input_job_id_taxa), full.names = T)
-  #   if(sum(str_detect(a, "single")) > 0){
-  #     updatePickerInput(session, "seqs_type", choices = c("Single end", "Paired end"))
-  #   }else{
-  #     updatePickerInput(session, "seqs_type", choices = c("Paired end", "Single end"))
-  #   }
-  # }) web version
+
   
   # Check the sample data input
   observe({
@@ -2115,34 +2082,14 @@ server <- function(session, input, output) {
     return(inFile$name)
   })
   
-  
-  # observe({
-  #   req(input$dirs)
-  #   raw_data_path_list <- list()
-  #   raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
-  #   seqs_name <- list.files(raw_data_path_list[[1]])
-  #   if(sum(str_count(seqs_name, ".fastq.gz|.fq.gz"))!=length(seqs_name)){
-  #     showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-  #                           "File format of all files must be .fastq.gz or .fq.gz!", 
-  #                           footer = NULL, easyClose = T, size = "l"))
-  #   }
-  #   else if(sum(str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_001\\."))==0 | sum(str_detect(seqs_name, ".+_R{0,1}[12]\\."))==0){
-  #     showModal(modalDialog(title = strong("Error!", style = "color: red"),
-  #                           "File names must be {Sample ID}_{barcode id}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
-  #                           footer = NULL, easyClose = T, size = "l"))
-  #   }
-  # })
 
   
   observeEvent(input$demultiplexed_single_ends, {
     
-    # if(is.null(input$seqs_data_upload)){
-    #   showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-    #                         "Please upload the sequences.", 
-    #                         footer = NULL, easyClose = T, size = "l")) # web version
+    
     raw_data_path_list <- list()
     raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
-    # seqs_name <- list.files(raw_data_path_list[[1]])
+    
     
     seqs_name_original <- list.files(raw_data_path_list[[1]])
     seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
@@ -2705,6 +2652,25 @@ server <- function(session, input, output) {
       ggplotly(a_plot) %>% layout(xaxis=list(tickangle=45))
     })
     
+    output$demux_Q_seven_table_single <- renderTable({
+      demux_Pacbio_qp <- readLines("/home/imuser/qiime_output/demux_single_unzip/new_dirname/data/quality-plot.html")
+      nts_position <- which(str_detect(demux_Pacbio_qp, "nts") == T)
+      nts_value <- demux_Pacbio_qp[nts_position]
+      nts <- str_remove_all(nts_value, "<td>") %>% str_remove_all("nts</td>") %>% as.numeric()
+      q_seven_table <- data.frame(
+        "Total sequences sampled" = 10000,
+        "2%" = nts[1],
+        "9%" = nts[2],
+        "25%" = nts[3],
+        "50%" = nts[4],
+        "75%" = nts[5],
+        "91%" = nts[6],
+        "98%" = nts[7]
+      )
+      colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+      return(q_seven_table)
+    })
+    
     output$demux_Q_plot_single <- renderPlotly({
       Q <- read.table("/home/imuser/qiime_output/demux_single_unzip/new_dirname/data/forward-seven-number-summaries.tsv", sep = "\t", header = T)
       Q_t <- t(Q) %>% as.data.frame()
@@ -2822,6 +2788,25 @@ server <- function(session, input, output) {
           axis.line = element_line(colour = "black")
         )
         ggplotly(a_plot) %>% layout(xaxis=list(tickangle=45))
+      })
+      
+      output$demux_Q_seven_table_single <- renderTable({
+        demux_Pacbio_qp <- readLines("/home/imuser/qiime_output/demux_single_unzip/new_dirname/data/quality-plot.html")
+        nts_position <- which(str_detect(demux_Pacbio_qp, "nts") == T)
+        nts_value <- demux_Pacbio_qp[nts_position]
+        nts <- str_remove_all(nts_value, "<td>") %>% str_remove_all("nts</td>") %>% as.numeric()
+        q_seven_table <- data.frame(
+          "Total sequences sampled" = 10000,
+          "2%" = nts[1],
+          "9%" = nts[2],
+          "25%" = nts[3],
+          "50%" = nts[4],
+          "75%" = nts[5],
+          "91%" = nts[6],
+          "98%" = nts[7]
+        )
+        colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+        return(q_seven_table)
       })
       
       output$demux_Q_plot_single <- renderPlotly({
@@ -3528,6 +3513,44 @@ server <- function(session, input, output) {
       ggplotly(a_plot) %>% layout(xaxis=list(tickangle=45))
     })
     
+    output$demux_Q_seven_table_paired_f <- renderTable({
+      demux_Pacbio_qp <- readLines("/home/imuser/qiime_output/demux_paired_unzip/new_dirname/data/quality-plot.html")
+      nts_position <- which(str_detect(demux_Pacbio_qp, "nts") == T)
+      nts_value <- demux_Pacbio_qp[nts_position]
+      nts <- str_remove_all(nts_value, "<td>") %>% str_remove_all("nts</td>") %>% as.numeric()
+      q_seven_table <- data.frame(
+        "Total sequences sampled" = 10000,
+        "2%" = nts[1],
+        "9%" = nts[2],
+        "25%" = nts[3],
+        "50%" = nts[4],
+        "75%" = nts[5],
+        "91%" = nts[6],
+        "98%" = nts[7]
+      )
+      colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+      return(q_seven_table)
+    })
+    
+    output$demux_Q_seven_table_paired_r <- renderTable({
+      demux_Pacbio_qp <- readLines("/home/imuser/qiime_output/demux_paired_unzip/new_dirname/data/quality-plot.html")
+      nts_position <- which(str_detect(demux_Pacbio_qp, "nts") == T)
+      nts_value <- demux_Pacbio_qp[nts_position]
+      nts <- str_remove_all(nts_value, "<td>") %>% str_remove_all("nts</td>") %>% as.numeric()
+      q_seven_table <- data.frame(
+        "Total sequences sampled" = 10000,
+        "2%" = nts[8],
+        "9%" = nts[9],
+        "25%" = nts[10],
+        "50%" = nts[11],
+        "75%" = nts[12],
+        "91%" = nts[13],
+        "98%" = nts[14]
+      )
+      colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+      return(q_seven_table)
+    })
+    
     output$demux_Q_plot_paired_f <- renderPlotly({
       Q <- read.table("/home/imuser/qiime_output/demux_paired_unzip/new_dirname/data/forward-seven-number-summaries.tsv", sep = "\t", header = T)
       Q_t <- t(Q) %>% as.data.frame()
@@ -3732,6 +3755,44 @@ server <- function(session, input, output) {
         ggplotly(a_plot) %>% layout(xaxis=list(tickangle=45))
       })
       
+      output$demux_Q_seven_table_paired_f <- renderTable({
+        demux_Pacbio_qp <- readLines("/home/imuser/qiime_output/demux_paired_unzip/new_dirname/data/quality-plot.html")
+        nts_position <- which(str_detect(demux_Pacbio_qp, "nts") == T)
+        nts_value <- demux_Pacbio_qp[nts_position]
+        nts <- str_remove_all(nts_value, "<td>") %>% str_remove_all("nts</td>") %>% as.numeric()
+        q_seven_table <- data.frame(
+          "Total sequences sampled" = 10000,
+          "2%" = nts[1],
+          "9%" = nts[2],
+          "25%" = nts[3],
+          "50%" = nts[4],
+          "75%" = nts[5],
+          "91%" = nts[6],
+          "98%" = nts[7]
+        )
+        colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+        return(q_seven_table)
+      })
+      
+      output$demux_Q_seven_table_paired_r <- renderTable({
+        demux_Pacbio_qp <- readLines("/home/imuser/qiime_output/demux_paired_unzip/new_dirname/data/quality-plot.html")
+        nts_position <- which(str_detect(demux_Pacbio_qp, "nts") == T)
+        nts_value <- demux_Pacbio_qp[nts_position]
+        nts <- str_remove_all(nts_value, "<td>") %>% str_remove_all("nts</td>") %>% as.numeric()
+        q_seven_table <- data.frame(
+          "Total sequences sampled" = 10000,
+          "2%" = nts[8],
+          "9%" = nts[9],
+          "25%" = nts[10],
+          "50%" = nts[11],
+          "75%" = nts[12],
+          "91%" = nts[13],
+          "98%" = nts[14]
+        )
+        colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+        return(q_seven_table)
+      })
+      
       output$demux_Q_plot_paired_f <- renderPlotly({
         Q <- read.table("/home/imuser/qiime_output/demux_paired_unzip/new_dirname/data/forward-seven-number-summaries.tsv", sep = "\t", header = T)
         Q_t <- t(Q) %>% as.data.frame()
@@ -3832,6 +3893,614 @@ server <- function(session, input, output) {
       shinyjs::show("demux_results_view_paired")
     }
   })
+  
+  # Demux Pacbio ----
+  observe({
+    if(input$seqs_type == "Pacbio long read"){
+      shinyjs::hide("primer_seqs_bttn")
+      updateSelectInput(session, "primer_f", choices = c("27F", "8F", "CC [F]", "341F","357F", "515F", "533F", "16S.1100.F16", "1237F", "other"))
+      updateSelectInput(session, "primer_r", choices = c("1492R (l)", "519R", "CD [R]", "806R","907R", "1100R", "1391R", "1492R (s)", "other"))
+      
+    }else if(input$seqs_type == "Paired end"){
+      shinyjs::show("primer_seqs_bttn")
+    }else if(input$seqs_type == "Single end"){
+      shinyjs::show("primer_seqs_bttn")
+    }
+  })
+  
+  
+  observeEvent(input$demultiplexed_Pacbio_ends, {
+    
+    
+    raw_data_path_list <- list()
+    raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+    
+    
+    seqs_name_original <- list.files(raw_data_path_list[[1]])
+    seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
+    file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name))
+    seqs_name <- list.files(raw_data_path_list[[1]])
+    
+    if(is.null(input$dirs)){
+      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                            "Please choose the directory.", 
+                            footer = NULL, easyClose = T, size = "l"))
+      file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
+      
+    }else if(sum(str_count(seqs_name, ".fastq.gz|.fq.gz"))!=length(seqs_name)){
+      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                            "File format of all files must be .fastq.gz or .fq.gz!", 
+                            footer = NULL, easyClose = T, size = "l"))
+      file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
+      
+    }else if(sum(str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\."))==0){
+      if(sum(str_detect(seqs_name, ".+_R{0,1}[12]\\."))==0){
+        showModal(modalDialog(title = strong("Error!", style = "color: red"),
+                              "File names must be {sample ID}_{barcode identifier}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
+                              footer = NULL, easyClose = T, size = "l"))
+        file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
+      }else{
+        
+        file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
+        
+        req(input$dirs)
+        start_time <- Sys.time()
+        
+        Sys.setenv(LANG="C.UTF-8")
+        
+        
+        show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
+        
+        
+        
+        
+        qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+        
+        
+        raw_data_path_list <- list()
+        raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+        
+       
+        seqs_name_original <- list.files(raw_data_path_list[[1]])
+        seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
+        file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name))
+        seqs_name <- list.files(raw_data_path_list[[1]])
+        
+        
+        # if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))<length(seqs_name)){
+        
+        
+        library(stringr)
+        seqs_name_split <- str_split(seqs_name, "_")
+        lane_number <- "L001"
+        set_number <- "001"
+        
+        seqs_name_new <- lapply(1:length(seqs_name_split), function(x){
+          
+          paste0(
+            seqs_name_split[[x]][1],
+            "_",
+            seqs_name_split[[x]][1],
+            "_",
+            lane_number,
+            "_R",
+            str_split(seqs_name_split[[x]][2], "\\.")[[1]][1] %>% str_extract("[0-9]"),
+            "_",
+            set_number,
+            ".",
+            str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+            ".",
+            str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+            
+          )
+          
+        })
+        
+        for (i in 1:length(seqs_name_new)) {
+          
+          # file.rename(seqs_name[i], seqs_name_new[[i]])
+          setwd(raw_data_path_list[[1]])
+          system(paste0('sudo mv ', seqs_name[i], ' ',seqs_name_new[[i]]))
+        }
+        
+        # }else{
+        #   seqs_name_new <- seqs_name
+        # }
+        
+        
+        # demuxed transform
+        Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
+        file.remove("/home/imuser/qiime_output/demux_Pacbio_trimmed.qza", "/home/imuser/qiime_output/demux_Pacbio_end.qzv", "/home/imuser/qiime_output/demux_Pacbio_end.qza")
+        
+        
+        
+        
+        system(paste(qiime_cmd, "tools import --type", "'SampleData[SequencesWithQuality]'", "--input-path", raw_data_path_list[[1]],
+                       "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path /home/imuser/qiime_output/demux_Pacbio_trimmed.qza'))
+        
+        
+        system(paste0(qiime_cmd, 
+                      ' demux summarize --i-data',
+                      ' /home/imuser/qiime_output',
+                      '/demux_Pacbio_trimmed.qza',
+                      ' --o-visualization',
+                      ' /home/imuser/qiime_output',
+                      '/demux_Pacbio_end.qzv'))
+        
+        
+        unlink("/home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname", recursive = T)
+        unlink("/var/www/html/demux_Pacbio_unzip/new_dirname", recursive = T)
+        
+        system("unzip -d /home/imuser/qiime_output/demux_Pacbio_unzip /home/imuser/qiime_output/demux_Pacbio_end.qzv")
+        unzip_dirnames <- list.files("/home/imuser/qiime_output/demux_Pacbio_unzip", full.names = T)
+        system(paste0("mv ", unzip_dirnames, " /home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname"))
+        system("cp -rf /home/imuser/qiime_output/demux_Pacbio_unzip /var/www/html/")
+        
+        # system("zip -r /home/imuser/demux_single.zip /home/imuser/qiime_output/demux_single_unzip/new_dirname/data")
+        system("cp /home/imuser/qiime_output/demux_Pacbio_end.qzv /home/imuser/demux_Pacbio.zip")
+        
+        
+        
+        # recover file name
+        for (i in 1:length(seqs_name_new)) {
+          
+          system(paste0('sudo mv ', seqs_name_new[[i]], ' ',seqs_name[i]))
+        }
+        
+        file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
+        
+        # # show view button
+        # observe({
+        #   if(file.exists('/home/imuser/qiime_output/demux_Pacbio_end.qzv')){
+        #     shinyjs::enable("show_demux_Pacbio")
+        #     
+        #   }
+        # })
+        
+        # # show zip button
+        # observe({
+        #   if(file.exists('/home/imuser/demux_single.zip')){
+        #     shinyjs::enable("zip_demux_single")
+        #   }
+        # })
+        
+        remove_modal_spinner()
+        
+        end_time <- Sys.time()
+        
+        spent_time <- format(round(end_time-start_time, digits = 2))
+        
+        parameter_table <- data.frame(
+          # "JobID" = input$input_job_id_demux,
+          "Step" = "Sequence summary",
+          "time" = Sys.time(),
+          "duration" = spent_time,
+          "sequence_type" = input$seqs_type,
+          "sample_size" = length(seqs_name),
+          # "primer_trimmed" = input$checkbox_primer,
+          # "forward_primer" = paste(input$primer_f, input$primer_f_manu),
+          # "reverse_primer" = paste(input$primer_r, input$primer_r_manu),
+          # "forward_primer_seqs" = primer_f_manu,
+          # "reverse_primer_seqs" = primer_r_manu,
+          "computing_setting" = input$n_jobs_demux
+        )
+        write.csv(parameter_table,
+                  paste0("/home/imuser/parameter_demux_Pacbio.csv"), 
+                  quote = F, 
+                  row.names = F)
+        
+        # # log file
+        # observe({
+        #   if(file.exists("/home/imuser/parameter_demux_single.csv")){
+        #     shinyjs::enable("log_demux_single") 
+        #   }
+        # })
+        
+        # if(file.exists(paste0('/home/imuser/web_version/users_files/', input$input_job_id_demux, '/demux_single_end.qzv'))){ # web version
+        if(file.exists('/home/imuser/qiime_output/demux_Pacbio_end.qzv')){
+          
+          shinyjs::show("demux_results_view_Pacbio")
+          
+          showModal(modalDialog(title = strong("Successful!"), 
+                                HTML(
+                                  paste0(
+                                    " This analysis took ", spent_time, ". ",
+                                    "You can click the button ", strong('View') ," to inspect the result.")
+                                ), 
+                                footer = NULL, easyClose = T, size = "l"))
+        }else{
+          showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                                "Please check your files.", 
+                                footer = NULL, easyClose = T, size = "l"))
+        }
+      }
+      
+    }else{
+      
+      # req(input$seqs_data_upload) # web version
+      req(input$dirs)
+      start_time <- Sys.time()
+      
+      Sys.setenv(LANG="C.UTF-8")
+      
+      # showModal(modalDialog(title = "Running demultiplexed for single end ...", "Waiting for a moment", footer = NULL))
+      show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
+      
+      
+      
+      
+      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+      
+      raw_data_path_list <- list()
+      raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
+      
+      seqs_name_original <- list.files(raw_data_path_list[[1]])
+      seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
+      file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name))
+      seqs_name <- list.files(raw_data_path_list[[1]])
+      
+      
+      
+      
+      
+      # demuxed transform
+      Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
+      file.remove("/home/imuser/qiime_output/demux_Pacbio_trimmed.qza", "/home/imuser/qiime_output/demux_Pacbio_end.qzv", "/home/imuser/qiime_output/demux_Pacbio_end.qza")
+      
+      
+      
+      
+      system(paste(qiime_cmd, "tools import --type", "'SampleData[SequencesWithQuality]'", "--input-path", raw_data_path_list[[1]],
+                     "--input-format 'CasavaOneEightSingleLanePerSampleDirFmt'" ,'--output-path /home/imuser/qiime_output/demux_Pacbio_trimmed.qza'))
+     
+      
+      system(paste0(qiime_cmd, 
+                    ' demux summarize --i-data',
+                    ' /home/imuser/qiime_output',
+                    '/demux_Pacbio_trimmed.qza',
+                    ' --o-visualization',
+                    ' /home/imuser/qiime_output',
+                    '/demux_Pacbio_end.qzv'))
+      
+      
+      unlink("/home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname", recursive = T)
+      unlink("/var/www/html/demux_Pacbio_unzip/new_dirname", recursive = T)
+      
+      system("unzip -d /home/imuser/qiime_output/demux_Pacbio_unzip /home/imuser/qiime_output/demux_Pacbio_end.qzv")
+      unzip_dirnames <- list.files("/home/imuser/qiime_output/demux_Pacbio_unzip", full.names = T)
+      system(paste0("mv ", unzip_dirnames, " /home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname"))
+      system("cp -rf /home/imuser/qiime_output/demux_Pacbio_unzip /var/www/html/")
+      
+      
+      system("cp /home/imuser/qiime_output/demux_Pacbio_end.qzv /home/imuser/demux_Pacbio.zip")
+      
+      
+      
+      # recover file name
+      file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
+      
+      
+      
+      remove_modal_spinner()
+      
+      end_time <- Sys.time()
+      
+      spent_time <- format(round(end_time-start_time, digits = 2))
+      
+      parameter_table <- data.frame(
+        # "JobID" = input$input_job_id_demux,
+        "Step" = "Sequence summary",
+        "time" = Sys.time(),
+        "duration" = spent_time,
+        "sequence_type" = input$seqs_type,
+        "sample_size" = length(seqs_name),
+        # "primer_trimmed" = input$checkbox_primer,
+        # "forward_primer" = paste(input$primer_f, input$primer_f_manu),
+        # "reverse_primer" = paste(input$primer_r, input$primer_r_manu),
+        # "forward_primer_seqs" = primer_f_manu,
+        # "reverse_primer_seqs" = primer_r_manu,
+        "computing_setting" = input$n_jobs_demux
+      )
+      write.csv(parameter_table,
+                paste0("/home/imuser/parameter_demux_Pacbio.csv"), 
+                quote = F, 
+                row.names = F)
+      
+      # # log file
+      # observe({
+      #   if(file.exists("/home/imuser/parameter_demux_single.csv")){
+      #     shinyjs::enable("log_demux_single") 
+      #   }
+      # })
+
+      if(file.exists('/home/imuser/qiime_output/demux_Pacbio_end.qzv')){
+        
+        shinyjs::show("demux_results_view_Pacbio") 
+        
+        showModal(modalDialog(title = strong("Successful!"), 
+                              HTML(
+                                paste0(
+                                  " This analysis took ", spent_time, ". ",
+                                  "You can click the button ", strong('View') ," to inspect the result.")
+                              ), 
+                              footer = NULL, easyClose = T, size = "l"))
+      }else{
+        showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                              "Please check your files.", 
+                              footer = NULL, easyClose = T, size = "l"))
+      }
+      
+    }
+    
+    
+  })
+  
+  
+  
+  
+  
+  
+  
+  
+  # demux R Pacbio ----
+  observeEvent(input$demultiplexed_Pacbio_ends, {
+    
+    output$demux_table_Pacbio <- renderTable({
+      
+      demux_table <- read.table(
+        "/home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname/data/per-sample-fastq-counts.tsv"
+        , 
+        header = T, sep = "\t")
+      colnames(demux_table) <- c("SampleID", "Forward read count")
+      
+      summary_table <- data.frame(
+        Min = min(demux_table[,2]),
+        Mean = mean(demux_table[,2]) %>% round(4),
+        Median = median(demux_table[,2]),
+        Max = max(demux_table[,2]),
+        Total = sum(demux_table[,2]),
+        `Sample size` = length(demux_table[,2])
+      )
+      return(summary_table)
+      
+    })
+    
+    output$demux_table_boxplot_Pacbio <- renderPlotly({
+      demux_table <- read.table("/home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname/data/per-sample-fastq-counts.tsv", 
+                                header = T, sep = "\t")
+      colnames(demux_table) <- c("SampleID", "Forward read count")
+      
+      demux_table_sort <- demux_table[order(demux_table[,2]),]
+      
+      demux_table_sort[,1] <- factor(demux_table_sort[,1], levels = demux_table_sort[,1])
+      
+      a_plot <- ggplot(demux_table_sort, aes(x= SampleID, y=`Forward read count`)) + geom_bar(stat = "identity", fill = "#317EAC") + theme_bw() +theme(
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black")
+      )
+      ggplotly(a_plot) %>% layout(xaxis=list(tickangle=45))
+    })
+    
+    output$demux_Q_seven_table_Pacbio <- renderTable({
+      demux_Pacbio_qp <- readLines("/home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname/data/quality-plot.html")
+      nts_position <- which(str_detect(demux_Pacbio_qp, "nts") == T)
+      nts_value <- demux_Pacbio_qp[nts_position]
+      nts <- str_remove_all(nts_value, "<td>") %>% str_remove_all("nts</td>") %>% as.numeric()
+      q_seven_table <- data.frame(
+        "Total sequences sampled" = 10000,
+        "2%" = nts[1],
+        "9%" = nts[2],
+        "25%" = nts[3],
+        "50%" = nts[4],
+        "75%" = nts[5],
+        "91%" = nts[6],
+        "98%" = nts[7]
+      )
+      colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+      return(q_seven_table)
+    })
+    
+    output$demux_Q_plot_Pacbio <- renderPlotly({
+      Q <- read.table("/home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname/data/forward-seven-number-summaries.tsv", sep = "\t", header = T)
+      Q_t <- t(Q) %>% as.data.frame()
+      colnames(Q_t) <- c("count","2%", "9%", "25%", "50%", "75%", "91%","98%")
+      Q_t <- Q_t[-1,]
+      Q_t_plot <- cbind(position = 1:nrow(Q_t), Q_t)
+      
+      for (i in 1:ncol(Q_t_plot)) {
+        Q_t_plot[,i] <- as.character(Q_t_plot[,i]) %>% as.numeric()
+      }
+      
+      
+      # Q_ggplot <- ggplot(Q_t_plot, aes(x = as.factor(position), ymin = `2%`, lower = `25%`, middle = `50%`, upper = `75%`, ymax = `98%`)) + 
+      #   geom_boxplot(stat="identity") +  
+      #   xlab("Sequence Base") + ylab("Qality Score") + ylim(0, 100)
+      f <- list(
+        family = "Courier New, monospace",
+        size = 18,
+        color = "#7f7f7f"
+      )
+      x <- list(
+        title = "Sequence Base",
+        titlefont = f
+      )
+      y <- list(
+        title = "Quality Score",
+        titlefont = f
+      )
+      
+      Q_ggplotly <- plot_ly(
+        x = as.factor(1:nrow(Q_t_plot)),
+        # y = as.list(1:152),
+        type = "box", 
+        lowerfence = as.list(Q_t_plot[,"2%"]),
+        q1 = as.list(Q_t_plot[,"25%"]),
+        median = as.list(Q_t_plot[,"50%"]),
+        q3 = as.list(Q_t_plot[,"75%"]),
+        upperfence = as.list(Q_t_plot[,"98%"]),
+        
+      ) %>% layout(xaxis=list(tickangle=45)) %>% layout(xaxis = x, yaxis = y)
+      
+      
+      return(Q_ggplotly)
+    })
+    
+    output$demux_parameter_table_Pacbio <- renderTable({
+      log_table <- read.csv("/home/imuser/parameter_demux_Pacbio.csv") %>% t() %>% as.data.frame()
+      
+      parameter_names <- rownames(log_table)
+      log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
+      return(log_table_[-1,])
+    })
+    
+  })
+  
+  output$demux_table_Pacbio_dl <- downloadHandler(
+    filename = "per-sample-fastq-counts.tsv",
+    content = function(file){
+      file.copy("/home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname/data/per-sample-fastq-counts.tsv", file)
+    }
+  )
+  
+  output$demux_Q_table_Pacbio_dl <- downloadHandler(
+    filename = "forward-seven-number-summaries.tsv",
+    content = function(file){
+      file.copy("/home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname/data/forward-seven-number-summaries.tsv", file)
+    }
+  )
+  
+  output$demux_parameter_table_Pacbio_dl <- downloadHandler(
+    filename = "parameter_summarize_Pacbio.csv",
+    content = function(file){
+      file.copy("/home/imuser/parameter_demux_Pacbio.csv", file
+      )
+    }
+  )
+  
+  # demux Pacbio show
+  observe({
+   if(file.exists("/home/imuser/qiime_output/demux_Pacbio_end.qzv")){
+     
+  
+    output$demux_table_Pacbio <- renderTable({
+      
+      demux_table <- read.table(
+        "/home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname/data/per-sample-fastq-counts.tsv"
+        , 
+        header = T, sep = "\t")
+      colnames(demux_table) <- c("SampleID", "Forward read count")
+      
+      summary_table <- data.frame(
+        Min = min(demux_table[,2]),
+        Mean = mean(demux_table[,2]) %>% round(4),
+        Median = median(demux_table[,2]),
+        Max = max(demux_table[,2]),
+        Total = sum(demux_table[,2]),
+        `Sample size` = length(demux_table[,2])
+      )
+      return(summary_table)
+      
+    })
+    
+    output$demux_table_boxplot_Pacbio <- renderPlotly({
+      demux_table <- read.table("/home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname/data/per-sample-fastq-counts.tsv", 
+                                header = T, sep = "\t")
+      colnames(demux_table) <- c("SampleID", "Forward read count")
+      
+      demux_table_sort <- demux_table[order(demux_table[,2]),]
+      
+      demux_table_sort[,1] <- factor(demux_table_sort[,1], levels = demux_table_sort[,1])
+      
+      a_plot <- ggplot(demux_table_sort, aes(x= SampleID, y=`Forward read count`)) + geom_bar(stat = "identity", fill = "#317EAC") + theme_bw() +theme(
+        panel.border = element_blank(), 
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), 
+        axis.line = element_line(colour = "black")
+      )
+      ggplotly(a_plot) %>% layout(xaxis=list(tickangle=45))
+    })
+    
+    output$demux_Q_seven_table_Pacbio <- renderTable({
+      demux_Pacbio_qp <- readLines("/home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname/data/quality-plot.html")
+      nts_position <- which(str_detect(demux_Pacbio_qp, "nts") == T)
+      nts_value <- demux_Pacbio_qp[nts_position]
+      nts <- str_remove_all(nts_value, "<td>") %>% str_remove_all("nts</td>") %>% as.numeric()
+      q_seven_table <- data.frame(
+        "Total sequences sampled" = 10000,
+        "2%" = nts[1],
+        "9%" = nts[2],
+        "25%" = nts[3],
+        "50%" = nts[4],
+        "75%" = nts[5],
+        "91%" = nts[6],
+        "98%" = nts[7]
+      )
+      colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+      return(q_seven_table)
+    })
+    
+    output$demux_Q_plot_Pacbio <- renderPlotly({
+      Q <- read.table("/home/imuser/qiime_output/demux_Pacbio_unzip/new_dirname/data/forward-seven-number-summaries.tsv", sep = "\t", header = T)
+      Q_t <- t(Q) %>% as.data.frame()
+      colnames(Q_t) <- c("count","2%", "9%", "25%", "50%", "75%", "91%","98%")
+      Q_t <- Q_t[-1,]
+      Q_t_plot <- cbind(position = 1:nrow(Q_t), Q_t)
+      
+      for (i in 1:ncol(Q_t_plot)) {
+        Q_t_plot[,i] <- as.character(Q_t_plot[,i]) %>% as.numeric()
+      }
+      
+      
+      # Q_ggplot <- ggplot(Q_t_plot, aes(x = as.factor(position), ymin = `2%`, lower = `25%`, middle = `50%`, upper = `75%`, ymax = `98%`)) + 
+      #   geom_boxplot(stat="identity") +  
+      #   xlab("Sequence Base") + ylab("Qality Score") + ylim(0, 100)
+      f <- list(
+        family = "Courier New, monospace",
+        size = 18,
+        color = "#7f7f7f"
+      )
+      x <- list(
+        title = "Sequence Base",
+        titlefont = f
+      )
+      y <- list(
+        title = "Quality Score",
+        titlefont = f
+      )
+      
+      Q_ggplotly <- plot_ly(
+        x = as.factor(1:nrow(Q_t_plot)),
+        # y = as.list(1:152),
+        type = "box", 
+        lowerfence = as.list(Q_t_plot[,"2%"]),
+        q1 = as.list(Q_t_plot[,"25%"]),
+        median = as.list(Q_t_plot[,"50%"]),
+        q3 = as.list(Q_t_plot[,"75%"]),
+        upperfence = as.list(Q_t_plot[,"98%"]),
+        
+      ) %>% layout(xaxis=list(tickangle=45)) %>% layout(xaxis = x, yaxis = y)
+      
+      
+      return(Q_ggplotly)
+    })
+    
+    output$demux_parameter_table_Pacbio <- renderTable({
+      log_table <- read.csv("/home/imuser/parameter_demux_Pacbio.csv") %>% t() %>% as.data.frame()
+      
+      parameter_names <- rownames(log_table)
+      log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
+      return(log_table_[-1,])
+    })
+    
+    shinyjs::show("demux_results_view_Pacbio")
+   }
+  })
+  
+  
+
+  
   
   # Denoising_single -----------------------------------------------------------------------------------------------------------------------  
   observeEvent(input$denoising_single, {
@@ -6073,7 +6742,7 @@ server <- function(session, input, output) {
                       # input$input_job_id_taxa,
                       " /home/imuser/qiime_output",
                       "/taxonomy.qza"))
-      }else{
+      }else if(input$seqs_type == "Paired end"){
         system(paste0(qiime_cmd, 
                       " feature-classifier classify-sklearn --i-classifier",
                       # " /home/imuser/web_version/users_files/",
@@ -6178,7 +6847,7 @@ server <- function(session, input, output) {
           if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_single.qza")){
             shinyjs::enable("rep_seq_dada2_download")
           }
-        }else{
+        }else if(input$seqs_type == "Paired end"){
           if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza")){
             shinyjs::enable("rep_seq_dada2_download")
           }
@@ -6190,7 +6859,7 @@ server <- function(session, input, output) {
           if(file.exists("/home/imuser/qiime_output/table-dada2_single.qza")){
             shinyjs::enable("table_dada2_download")
           }
-        }else{
+        }else if(input$seqs_type == "Paired end"){
           if(file.exists("/home/imuser/qiime_output/table-dada2_paired.qza")){
             shinyjs::enable("table_dada2_download")
           }
@@ -6289,7 +6958,7 @@ server <- function(session, input, output) {
     content = function(file){
       if(input$seqs_type == "Single end"){
         file.copy("/home/imuser/qiime_output/table-dada2_single.qza", file)
-      }else{
+      }else if(input$seqs_type == "Paired end"){
         file.copy("/home/imuser/qiime_output/table-dada2_paired.qza", file)
       }
       
@@ -6304,7 +6973,7 @@ server <- function(session, input, output) {
     content = function(file){
       if(input$seqs_type == "Single end"){
         file.copy("/home/imuser/qiime_output/rep-seqs-dada2_single.qza", file)
-      }else{
+      }else if(input$seqs_type == "Paired end"){
         file.copy("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza", file)
       }
       
@@ -6357,7 +7026,7 @@ server <- function(session, input, output) {
       if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_single.qza")){
         shinyjs::enable("rep_seq_dada2_download")
       }
-    }else{
+    }else if(input$seqs_type == "Paired end"){
       if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza")){
         shinyjs::enable("rep_seq_dada2_download")
       }
@@ -6369,7 +7038,7 @@ server <- function(session, input, output) {
       if(file.exists("/home/imuser/qiime_output/table-dada2_single.qza")){
         shinyjs::enable("table_dada2_download")
       }
-    }else{
+    }else if(input$seqs_type == "Paired end"){
       if(file.exists("/home/imuser/qiime_output/table-dada2_paired.qza")){
         shinyjs::enable("table_dada2_download")
       }
