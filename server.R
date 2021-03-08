@@ -2668,6 +2668,7 @@ server <- function(session, input, output) {
         "98%" = nts[7]
       )
       colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+      q_seven_table[1,] <- as.character(q_seven_table[1,])
       return(q_seven_table)
     })
     
@@ -2806,6 +2807,7 @@ server <- function(session, input, output) {
           "98%" = nts[7]
         )
         colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+        q_seven_table[1,] <- as.character(q_seven_table[1,])
         return(q_seven_table)
       })
       
@@ -3529,6 +3531,7 @@ server <- function(session, input, output) {
         "98%" = nts[7]
       )
       colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+      q_seven_table[1,] <- as.character(q_seven_table[1,])
       return(q_seven_table)
     })
     
@@ -3548,6 +3551,7 @@ server <- function(session, input, output) {
         "98%" = nts[14]
       )
       colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+      q_seven_table[1,] <- as.character(q_seven_table[1,])
       return(q_seven_table)
     })
     
@@ -3771,6 +3775,7 @@ server <- function(session, input, output) {
           "98%" = nts[7]
         )
         colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+        q_seven_table[1,] <- as.character(q_seven_table[1,])
         return(q_seven_table)
       })
       
@@ -3790,6 +3795,7 @@ server <- function(session, input, output) {
           "98%" = nts[14]
         )
         colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+        q_seven_table[1,] <- as.character(q_seven_table[1,])
         return(q_seven_table)
       })
       
@@ -4299,6 +4305,7 @@ server <- function(session, input, output) {
         "98%" = nts[7]
       )
       colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+      q_seven_table[1,] <- as.character(q_seven_table[1,])
       return(q_seven_table)
     })
     
@@ -4438,6 +4445,7 @@ server <- function(session, input, output) {
         "98%" = nts[7]
       )
       colnames(q_seven_table) <- c("Total sequences sampled", "2%", "9%", "25%", "50%", "75%", "91%", "98%")
+      q_seven_table[1,] <- as.character(q_seven_table[1,])
       return(q_seven_table)
     })
     
