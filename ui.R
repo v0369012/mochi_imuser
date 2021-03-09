@@ -840,10 +840,10 @@ shinyUI(
                                    style = "margin-top: 25px"),
                                 downloadButton(outputId = "taxatable_download",
                                                label = "The taxonomic table  ",
-                                               style = "margin-left: 0px") %>% shinyjs::disabled(),
+                                               style = "margin-left: 0px"),
                                 
                                 downloadButton(outputId = "table_dada2_download",
-                                               label = "The ASVs table  ") %>% shinyjs::disabled(),
+                                               label = "The ASVs table  "),
                                 
                                 
                                 tippy::tippy_this(elementId = "table_dada2_download",
@@ -852,7 +852,7 @@ shinyUI(
                                                   placement = "bottom"),
                                 
                                 downloadButton(outputId = "rep_seq_dada2_download",
-                                               label = "The seqs data  ") %>% shinyjs::disabled()
+                                               label = "The seqs data  ")
                               ),
                               
                              

@@ -1789,49 +1789,7 @@ server <- function(session, input, output) {
   
   
   observe({
-    # req(input$input_job_id_taxa)
-    # if(input$seqs_type == "Single end"){
-    #   if(file.exists(paste0("/home/imuser/web_version/users_files/",
-    #                         input$input_job_id_taxa,
-    #                         "/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv"))){
-    #     min_length <- read.table(paste0("/home/imuser/web_version/users_files/",
-    #                                     input$input_job_id_taxa,
-    #                                     "/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv"), 
-    #                              sep = "\t", 
-    #                              stringsAsFactors = F)[3,2]
-    #     max_length <- read.table(paste0("/home/imuser/web_version/users_files/",
-    #                                     input$input_job_id_taxa,
-    #                                     "/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv"), 
-    #                              sep = "\t", 
-    #                              stringsAsFactors = F)[4,2]
-    #     updateTextInput(session, inputId = "min_length", value = min_length)
-    #     updateTextInput(session, inputId = "max_length", value = max_length)
-    #   }else{
-    #     updateTextInput(session, inputId = "min_length", value = 0)
-    #     updateTextInput(session, inputId = "max_length", value = 0)
-    #   }
-    # }else{
-    #   if(file.exists(paste0("/home/imuser/web_version/users_files/",
-    #                         input$input_job_id_taxa,
-    #                         "/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv"))){
-    #     min_length <- read.table(paste0("/home/imuser/web_version/users_files/",
-    #                                     input$input_job_id_taxa,
-    #                                     "/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv"), 
-    #                              sep = "\t", 
-    #                              stringsAsFactors = F)[3,2]
-    #     max_length <- read.table(paste0("/home/imuser/web_version/users_files/",
-    #                                     input$input_job_id_taxa,
-    #                                     "/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv"), 
-    #                              sep = "\t", 
-    #                              stringsAsFactors = F)[4,2]
-    #     updateTextInput(session, inputId = "min_length", value = min_length)
-    #     updateTextInput(session, inputId = "max_length", value = max_length)
-    #   }else{
-    #     updateTextInput(session, inputId = "min_length", value = 0)
-    #     updateTextInput(session, inputId = "max_length", value = 0)
-    #   }
-    # }
-    # # web version
+
     if(input$seqs_type == "Paired end"){
       if(file.exists("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv")){
         min_length <- read.table("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
@@ -1846,6 +1804,16 @@ server <- function(session, input, output) {
       if(file.exists("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv")){
         min_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
         max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+        updateTextInput(session, inputId = "min_length", value = min_length)
+        updateTextInput(session, inputId = "max_length", value = max_length)
+      }else{
+        updateTextInput(session, inputId = "min_length", value = 0)
+        updateTextInput(session, inputId = "max_length", value = 0)
+      }
+    }else if(input$seqs_type == "Pacbio long read"){
+      if(file.exists("/home/imuser/qiime_output/denoise_Pacbio_seqs/new_dirname/data/descriptive_stats.tsv")){
+        min_length <- read.table("/home/imuser/qiime_output/denoise_Pacbio_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
+        max_length <- read.table("/home/imuser/qiime_output/denoise_Pacbio_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
         updateTextInput(session, inputId = "min_length", value = min_length)
         updateTextInput(session, inputId = "max_length", value = max_length)
       }else{
@@ -1957,7 +1925,14 @@ server <- function(session, input, output) {
   output$log_file_taxonomy_classification <- downloadHandler(
     filename = "taxonomy_classification_log.csv",
     content = function(file){
-      file.copy("/home/imuser/parameter_taxonomy_classification.csv", file)
+      if(input$seqs_type == "Single end"){
+        file.copy("/home/imuser/parameter_taxonomy_classification_single.csv", file)
+      }else if(input$seqs_type == "Paired end"){
+        file.copy("/home/imuser/parameter_taxonomy_classification_paired.csv", file)
+      }else if(input$seqs_type == "Pacbio long read"){
+        file.copy("/home/imuser/parameter_taxonomy_classification_Pacbio.csv", file)
+      }
+      
     }
   )
   
@@ -7283,23 +7258,33 @@ server <- function(session, input, output) {
   
   # check primer
   observe({
-    req(input$primer_f, input$primer_r)
+    # req(input$primer_f, input$primer_r)
     
-    output$check_primer <- renderUI(
-      tagList(
-        p("Your forward primer is ",  strong(input$primer_f),  " now.",
-          style = "color: #317EAC;background-color:white;font-size: 18px;position:relative;padding: 5px 10px;width:300px;border-radius: 5px;"),
-        p("Your reverse primer is ",  strong(input$primer_r),  " now.",
-          style = "color: #317EAC;background-color:white;font-size: 18px;position:relative;padding: 5px 10px;width:300px;border-radius: 5px;")
-        # paste0("<p style='color: #317EAC;background-color:white;font-size: 16px;position:relative;padding: 5px;width:300px;border-radius: 5px;'>Your forward primer is ", strong(input$primer_f), " now.</p>") %>% HTML(),
-        # paste0("<p style='color: #317EAC;background-color:white;font-size: 16px;position:relative;padding: 5px;width:300px;border-radius: 5px;>Your reverse primer is ", strong(input$primer_r), " now.</p>") %>% HTML()
+    if(input$seqs_type == "Pacbio long read"){
+      output$check_primer <- renderUI(
+        tagList(
+          p("Your forward primer is ",  strong(input$primer_f_Pacbio),  " now.",
+            style = "color: #317EAC;background-color:white;font-size: 18px;position:relative;padding: 5px 10px;width:300px;border-radius: 5px;"),
+          p("Your reverse primer is ",  strong(input$primer_r_Pacbio),  " now.",
+            style = "color: #317EAC;background-color:white;font-size: 18px;position:relative;padding: 5px 10px;width:300px;border-radius: 5px;")
+          
+        )
+        
       )
-      
-    )
+    }else{
+      output$check_primer <- renderUI(
+        tagList(
+          p("Your forward primer is ",  strong(input$primer_f),  " now.",
+            style = "color: #317EAC;background-color:white;font-size: 18px;position:relative;padding: 5px 10px;width:300px;border-radius: 5px;"),
+          p("Your reverse primer is ",  strong(input$primer_r),  " now.",
+            style = "color: #317EAC;background-color:white;font-size: 18px;position:relative;padding: 5px 10px;width:300px;border-radius: 5px;")
+          
+        )
+        
+      )
+    }
     
-    # output$check_r_primer <- renderUI(
-    #   paste0("<p style='color: #317EAC;background-color:white;font-size: 16px;position:relative;padding: 5px;width:300px;border-radius: 5px;>Your reverse primer is ", strong(input$primer_r), " now.</p>") %>% HTML()
-    # )
+    
     
   })
   
@@ -7402,6 +7387,11 @@ server <- function(session, input, output) {
                             footer = NULL, easyClose = T, size = "l"))
       
     }else if(input$seqs_type == "Paired end" & file.exists("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza")==F){
+      showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                            "Please check the sequence type.", 
+                            footer = NULL, easyClose = T, size = "l"))
+      
+    }else if(input$seqs_type == "Pacbio long read" & file.exists("/home/imuser/qiime_output/rep-seqs-dada2_Pacbio.qza")==F){
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                             "Please check the sequence type.", 
                             footer = NULL, easyClose = T, size = "l"))
@@ -7574,8 +7564,10 @@ server <- function(session, input, output) {
                     " /home/imuser/qiime_output",
                     "/classifier.qza"))
       
-      file.remove("/home/imuser/qiime_output/taxonomy.qza")
+
       if(input$seqs_type == "Single end"){
+        file.remove("/home/imuser/qiime_output/taxonomy_single.qza")
+
         system(paste0(qiime_cmd, 
                       " feature-classifier classify-sklearn --i-classifier",
                       # " /home/imuser/web_version/users_files/",
@@ -7592,8 +7584,10 @@ server <- function(session, input, output) {
                       # " /home/imuser/web_version/users_files/",
                       # input$input_job_id_taxa,
                       " /home/imuser/qiime_output",
-                      "/taxonomy.qza"))
+                      "/taxonomy_single.qza"))
       }else if(input$seqs_type == "Paired end"){
+        file.remove("/home/imuser/qiime_output/taxonomy_paired.qza")
+
         system(paste0(qiime_cmd, 
                       " feature-classifier classify-sklearn --i-classifier",
                       # " /home/imuser/web_version/users_files/",
@@ -7610,29 +7604,80 @@ server <- function(session, input, output) {
                       # " /home/imuser/web_version/users_files/",
                       # input$input_job_id_taxa,
                       " /home/imuser/qiime_output",
-                      "/taxonomy.qza"))
+                      "/taxonomy_paired.qza"))
+      }else if(input$seqs_type == "Pacbio long read"){
+        file.remove("/home/imuser/qiime_output/taxonomy_Pacbio.qza")
+        system(paste0(qiime_cmd, 
+                      " feature-classifier classify-sklearn --i-classifier",
+                      # " /home/imuser/web_version/users_files/",
+                      # input$input_job_id_taxa,
+                      " /home/imuser/qiime_output",
+                      "/classifier.qza",
+                      " --i-reads",
+                      # " /home/imuser/web_version/users_files/",
+                      # input$input_job_id_taxa,
+                      " /home/imuser/qiime_output",
+                      "/rep-seqs-dada2_Pacbio.qza", 
+                      " --p-n-jobs ", input$n_jobs,
+                      " --o-classification",
+                      # " /home/imuser/web_version/users_files/",
+                      # input$input_job_id_taxa,
+                      " /home/imuser/qiime_output",
+                      "/taxonomy_Pacbio.qza"))
       }
       
-      # system(paste(qiime_cmd, "feature-classifier classify-sklearn --i-classifier /home/imuser/qiime_output/classifier.qza --i-reads /home/imuser/qiime_output/rep-seqs-dada2.qza", 
-      #              "--p-n-jobs", input$n_jobs,
-      #              "--o-classification /home/imuser/qiime_output/taxonomy.qza"))
+
       
-      file.remove("/home/imuser/qiime_output/taxonomy.qzv")
-      system(paste0(qiime_cmd, 
-                    " metadata tabulate --m-input-file",
-                    # " /home/imuser/web_version/users_files/",
-                    # input$input_job_id_taxa,
-                    " /home/imuser/qiime_output",
-                    "/taxonomy.qza",
-                    " --o-visualization",
-                    # " /home/imuser/web_version/users_files/",
-                    # input$input_job_id_taxa,
-                    " /home/imuser/qiime_output",
-                    "/taxonomy.qzv"))
-      
-      
-      file.remove("/home/imuser/qiime_output/taxatable7.qza")
+
       if(input$seqs_type == "Single end"){
+        file.remove("/home/imuser/qiime_output/taxonomy_single.qzv")
+
+        system(paste0(qiime_cmd, 
+                      " metadata tabulate --m-input-file",
+                      # " /home/imuser/web_version/users_files/",
+                      # input$input_job_id_taxa,
+                      " /home/imuser/qiime_output",
+                      "/taxonomy_single.qza",
+                      " --o-visualization",
+                      # " /home/imuser/web_version/users_files/",
+                      # input$input_job_id_taxa,
+                      " /home/imuser/qiime_output",
+                      "/taxonomy_single.qzv"))
+      }else if(input$seqs_type == "Paired end"){
+        file.remove("/home/imuser/qiime_output/taxonomy_paired.qzv")
+
+        system(paste0(qiime_cmd, 
+                      " metadata tabulate --m-input-file",
+                      # " /home/imuser/web_version/users_files/",
+                      # input$input_job_id_taxa,
+                      " /home/imuser/qiime_output",
+                      "/taxonomy_paired.qza",
+                      " --o-visualization",
+                      # " /home/imuser/web_version/users_files/",
+                      # input$input_job_id_taxa,
+                      " /home/imuser/qiime_output",
+                      "/taxonomy_paired.qzv"))
+      }else if(input$seqs_type == "Pacbio long read"){
+        file.remove("/home/imuser/qiime_output/taxonomy_Pacbio.qzv")
+        system(paste0(qiime_cmd, 
+                      " metadata tabulate --m-input-file",
+                      # " /home/imuser/web_version/users_files/",
+                      # input$input_job_id_taxa,
+                      " /home/imuser/qiime_output",
+                      "/taxonomy_Pacbio.qza",
+                      " --o-visualization",
+                      # " /home/imuser/web_version/users_files/",
+                      # input$input_job_id_taxa,
+                      " /home/imuser/qiime_output",
+                      "/taxonomy_Pacbio.qzv"))
+      }
+      
+      
+      
+      
+      
+      if(input$seqs_type == "Single end"){
+        file.remove("/home/imuser/qiime_output/taxatable7_single.qza")
         system(paste0(qiime_cmd, 
                       " taxa collapse --i-table",
                       # " /home/imuser/web_version/users_files/",
@@ -7643,13 +7688,15 @@ server <- function(session, input, output) {
                       # " /home/imuser/web_version/users_files/",
                       # input$input_job_id_taxa,
                       " /home/imuser/qiime_output",
-                      "/taxonomy.qza",
+                      "/taxonomy_single.qza",
                       " --p-level 7 --o-collapsed-table",
                       # " /home/imuser/web_version/users_files/",
                       # input$input_job_id_taxa,
                       " /home/imuser/qiime_output",
-                      "/taxatable7.qza"))
-      }else{
+                      "/taxatable7_single.qza"))
+      }else if(input$seqs_type == "Paired end"){
+        file.remove("/home/imuser/qiime_output/taxatable7_paired.qza")
+
         system(paste0(qiime_cmd, 
                       " taxa collapse --i-table",
                       # " /home/imuser/web_version/users_files/",
@@ -7660,78 +7707,132 @@ server <- function(session, input, output) {
                       # " /home/imuser/web_version/users_files/",
                       # input$input_job_id_taxa,
                       " /home/imuser/qiime_output",
-                      "/taxonomy.qza",
+                      "/taxonomy_paired.qza",
                       " --p-level 7 --o-collapsed-table",
                       # " /home/imuser/web_version/users_files/",
                       # input$input_job_id_taxa,
                       " /home/imuser/qiime_output",
-                      "/taxatable7.qza"))
+                      "/taxatable7_paired.qza"))
+      }else if(input$seqs_type == "Pacbio long read"){
+        file.remove("/home/imuser/qiime_output/taxatable7_Pacbio.qza")
+        system(paste0(qiime_cmd, 
+                      " taxa collapse --i-table",
+                      # " /home/imuser/web_version/users_files/",
+                      # input$input_job_id_taxa,
+                      " /home/imuser/qiime_output",
+                      "/table-dada2_Pacbio.qza",
+                      " --i-taxonomy",
+                      # " /home/imuser/web_version/users_files/",
+                      # input$input_job_id_taxa,
+                      " /home/imuser/qiime_output",
+                      "/taxonomy_Pacbio.qza",
+                      " --p-level 7 --o-collapsed-table",
+                      # " /home/imuser/web_version/users_files/",
+                      # input$input_job_id_taxa,
+                      " /home/imuser/qiime_output",
+                      "/taxatable7_Pacbio.qza"))
       }
       
       
-      
-      system("rm -r /home/imuser/qiime_output/taxonomy_unzip/new_dirname")
-      system("rm -r /home/imuser/var/www/html/taxonomy_unzip/new_dirname")
-      system("unzip -d /home/imuser/qiime_output/taxonomy_unzip /home/imuser/qiime_output/taxonomy.qzv")
-      unzip_dirnames_taxa <- list.files("/home/imuser/qiime_output/taxonomy_unzip", full.names = T)
-      system(paste0("mv ", unzip_dirnames_taxa, " /home/imuser/qiime_output/taxonomy_unzip/new_dirname"))
-      system("cp -r /home/imuser/qiime_output/taxonomy_unzip/ /var/www/html/")
-      system("rm /home/imuser/taxonomy.zip") # delete old zip
-      system("cp /home/imuser/qiime_output/taxonomy.qzv /home/imuser/taxonomy.zip") # cp qzv to zip
+      if(input$seqs_type == "Single end"){
+        system("rm -r /home/imuser/qiime_output/taxonomy_single_unzip/new_dirname")
+        system("rm -r /home/imuser/var/www/html/taxonomy_single_unzip/new_dirname")
+        system("unzip -d /home/imuser/qiime_output/taxonomy_single_unzip /home/imuser/qiime_output/taxonomy_single.qzv")
+        unzip_dirnames_taxa <- list.files("/home/imuser/qiime_output/taxonomy_single_unzip", full.names = T)
+        system(paste0("mv ", unzip_dirnames_taxa, " /home/imuser/qiime_output/taxonomy_single_unzip/new_dirname"))
+        system("cp -r /home/imuser/qiime_output/taxonomy_single_unzip/ /var/www/html/")
+        system("rm /home/imuser/taxonomy_single.zip") # delete old zip
+        system("cp /home/imuser/qiime_output/taxonomy_single.qzv /home/imuser/taxonomy_single.zip") # cp qzv to zip
+      }else if(input$seqs_type == "Paired end"){
+        system("rm -r /home/imuser/qiime_output/taxonomy_paired_unzip/new_dirname")
+        system("rm -r /home/imuser/var/www/html/taxonomy_paired_unzip/new_dirname")
+        system("unzip -d /home/imuser/qiime_output/taxonomy_paired_unzip /home/imuser/qiime_output/taxonomy_paired.qzv")
+        unzip_dirnames_taxa <- list.files("/home/imuser/qiime_output/taxonomy_paired_unzip", full.names = T)
+        system(paste0("mv ", unzip_dirnames_taxa, " /home/imuser/qiime_output/taxonomy_paired_unzip/new_dirname"))
+        system("cp -r /home/imuser/qiime_output/taxonomy_paired_unzip/ /var/www/html/")
+        system("rm /home/imuser/taxonomy_paired.zip") # delete old zip
+        system("cp /home/imuser/qiime_output/taxonomy_paired.qzv /home/imuser/taxonomy_paired.zip") # cp qzv to zip
+      }else if(input$seqs_type == "Pacbio long read"){
+        system("rm -r /home/imuser/qiime_output/taxonomy_Pacbio_unzip/new_dirname")
+        system("rm -r /home/imuser/var/www/html/taxonomy_Pacbio_unzip/new_dirname")
+        system("unzip -d /home/imuser/qiime_output/taxonomy_Pacbio_unzip /home/imuser/qiime_output/taxonomy_Pacbio.qzv")
+        unzip_dirnames_taxa <- list.files("/home/imuser/qiime_output/taxonomy_Pacbio_unzip", full.names = T)
+        system(paste0("mv ", unzip_dirnames_taxa, " /home/imuser/qiime_output/taxonomy_Pacbio_unzip/new_dirname"))
+        system("cp -r /home/imuser/qiime_output/taxonomy_Pacbio_unzip/ /var/www/html/")
+        system("rm /home/imuser/taxonomy_Pacbio.zip") # delete old zip
+        system("cp /home/imuser/qiime_output/taxonomy_Pacbio.qzv /home/imuser/taxonomy_Pacbio.zip") # cp qzv to zip
+      }
+
       
       # show results button
-      observe({
-        if(file.exists("/home/imuser/qiime_output/taxonomy.qzv")){
-          shinyjs::enable("view_taxa")
-          shinyjs::enable("zip_taxonomy_classification")
-        }
-      })
+      # observe({
+      #   if(file.exists("/home/imuser/qiime_output/taxonomy.qzv")){
+      #     shinyjs::enable("view_taxa")
+      #     shinyjs::enable("zip_taxonomy_classification")
+      #   }
+      # })
+      # 
+      # observe({
+      #   if(file.exists("/home/imuser/qiime_output/taxatable7.qza")){
+      #     shinyjs::enable("taxatable_download")
+      #   }
+      # })
+      # 
+      # observe({
+      #   if(input$seqs_type == "Single end"){
+      #     if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_single.qza")){
+      #       shinyjs::enable("rep_seq_dada2_download")
+      #     }
+      #   }else if(input$seqs_type == "Paired end"){
+      #     if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza")){
+      #       shinyjs::enable("rep_seq_dada2_download")
+      #     }
+      #   }
+      # })
       
-      observe({
-        if(file.exists("/home/imuser/qiime_output/taxatable7.qza")){
-          shinyjs::enable("taxatable_download")
-        }
-      })
+      # observe({
+      #   if(input$seqs_type == "Single end"){
+      #     if(file.exists("/home/imuser/qiime_output/table-dada2_single.qza")){
+      #       # shinyjs::enable("table_dada2_download")
+      #       shinyjs::show("taxa_results_view")
+      #     }
+      #   }else if(input$seqs_type == "Paired end"){
+      #     if(file.exists("/home/imuser/qiime_output/table-dada2_paired.qza")){
+      #       # shinyjs::enable("table_dada2_download")
+      #       shinyjs::show("taxa_results_view")
+      #     }
+      #   }else if(input$seqs_type == "Pacbio long read"){
+      #     if(file.exists("/home/imuser/qiime_output/table-dada2_Pacbio.qza")){
+      #       # shinyjs::enable("table_dada2_download")
+      #       shinyjs::show("taxa_results_view")
+      #     }
+      #   }
+      # })
       
-      observe({
-        if(input$seqs_type == "Single end"){
-          if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_single.qza")){
-            shinyjs::enable("rep_seq_dada2_download")
-          }
-        }else if(input$seqs_type == "Paired end"){
-          if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza")){
-            shinyjs::enable("rep_seq_dada2_download")
-          }
-        }
-      })
-      
-      observe({
-        if(input$seqs_type == "Single end"){
-          if(file.exists("/home/imuser/qiime_output/table-dada2_single.qza")){
-            shinyjs::enable("table_dada2_download")
-          }
-        }else if(input$seqs_type == "Paired end"){
-          if(file.exists("/home/imuser/qiime_output/table-dada2_paired.qza")){
-            shinyjs::enable("table_dada2_download")
-          }
-        }
-      })
-      
-      
-      output$taxonomy_classificatio_table <- renderDataTable({
-        req(input$input_job_id_taxa)
-        taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy.qza")[["data"]]
-        colnames(taxonomy)[1] <- "ASV"
-        return(taxonomy)
-      })
-      
-      output$taxacls_log_table <- renderTable({
-        log_table <- read.csv(paste0("/home/imuser/parameter_taxonomy_classification.csv"), header = T) %>% t() %>% as.data.frame()
-        
-        parameter_names <- rownames(log_table)
-        log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
-        return(log_table_[-1,])
-      })
+      if(input$seqs_type == "Single end"){
+        output$taxonomy_classificatio_table <- renderDataTable({
+          req(input$input_job_id_taxa)
+          taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_single.qza")[["data"]]
+          colnames(taxonomy)[1] <- "ASV"
+          return(taxonomy)
+        })
+      }else if(input$seqs_type == "Paired end"){
+        output$taxonomy_classificatio_table <- renderDataTable({
+          req(input$input_job_id_taxa)
+          taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_paired.qza")[["data"]]
+          colnames(taxonomy)[1] <- "ASV"
+          return(taxonomy)
+        })
+      }else if(input$seqs_type == "Pacbio long read"){
+        output$taxonomy_classificatio_table <- renderDataTable({
+          req(input$input_job_id_taxa)
+          taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_Pacbio.qza")[["data"]]
+          colnames(taxonomy)[1] <- "ASV"
+          return(taxonomy)
+        })
+      }
+
+
       
       shinyjs::show("taxa_results_view")
       
@@ -7743,47 +7844,149 @@ server <- function(session, input, output) {
       end_time <- Sys.time()
       spent_time <- format(round(end_time-start_time, digits = 2))
       
-      parameter_table <- data.frame(
-        # "JobID" = input$input_job_id_taxa,
-        "Step" = "Taxonomy classification",
-        "time" = Sys.time(),
-        "duration" = spent_time,
-        "sequence_type" = input$seqs_type,
-        "database" = input$select_database,
-        "forward_primer" = paste(input$primer_f, input$primer_f_manu),
-        "reverse_primer" = paste(input$primer_r, input$primer_r_manu),
-        "min_length" = input$min_length,
-        "max_length" = input$max_length,
-        "computing_setting" = input$n_jobs
-      )
-      write.csv(parameter_table,
-                paste0("/home/imuser/parameter_taxonomy_classification.csv"), 
-                quote = F, 
-                row.names = F)
+      if(input$seqs_type == "Single end"){
+        parameter_table <- data.frame(
+          # "JobID" = input$input_job_id_taxa,
+          "Step" = "Taxonomy classification",
+          "time" = Sys.time(),
+          "duration" = spent_time,
+          "sequence_type" = input$seqs_type,
+          "database" = input$select_database,
+          "forward_primer" = paste(input$primer_f, input$primer_f_manu),
+          "reverse_primer" = paste(input$primer_r, input$primer_r_manu),
+          "min_length" = input$min_length,
+          "max_length" = input$max_length,
+          "computing_setting" = input$n_jobs
+        )
+        
+        write.csv(parameter_table,
+                  paste0("/home/imuser/parameter_taxonomy_classification_single.csv"), 
+                  quote = F, 
+                  row.names = F)
+        
+        output$taxacls_log_table <- renderTable({
+          log_table <- read.csv(paste0("/home/imuser/parameter_taxonomy_classification_single.csv"), header = T) %>% t() %>% as.data.frame()
+          
+          parameter_names <- rownames(log_table)
+          log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
+          return(log_table_[-1,])
+        })
+        
+      }else if(input$seqs_type == "Paired end"){
+        parameter_table <- data.frame(
+          # "JobID" = input$input_job_id_taxa,
+          "Step" = "Taxonomy classification",
+          "time" = Sys.time(),
+          "duration" = spent_time,
+          "sequence_type" = input$seqs_type,
+          "database" = input$select_database,
+          "forward_primer" = paste(input$primer_f, input$primer_f_manu),
+          "reverse_primer" = paste(input$primer_r, input$primer_r_manu),
+          "min_length" = input$min_length,
+          "max_length" = input$max_length,
+          "computing_setting" = input$n_jobs
+        )
+        
+        write.csv(parameter_table,
+                  paste0("/home/imuser/parameter_taxonomy_classification_paired.csv"), 
+                  quote = F, 
+                  row.names = F)
+        
+        output$taxacls_log_table <- renderTable({
+          log_table <- read.csv(paste0("/home/imuser/parameter_taxonomy_classification_paired.csv"), header = T) %>% t() %>% as.data.frame()
+          
+          parameter_names <- rownames(log_table)
+          log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
+          return(log_table_[-1,])
+        })
+      }else if(input$seqs_type == "Pacbio long read"){
+        parameter_table <- data.frame(
+          # "JobID" = input$input_job_id_taxa,
+          "Step" = "Taxonomy classification",
+          "time" = Sys.time(),
+          "duration" = spent_time,
+          "sequence_type" = input$seqs_type,
+          "database" = input$select_database,
+          "forward_primer" = paste(input$primer_f_Pacbio, input$primer_f_manu_Pacbio),
+          "reverse_primer" = paste(input$primer_r_Pacbio, input$primer_r_manu_Pacbio),
+          "min_length" = input$min_length,
+          "max_length" = input$max_length,
+          "computing_setting" = input$n_jobs
+        )
+        
+        write.csv(parameter_table,
+                  paste0("/home/imuser/parameter_taxonomy_classification_Pacbio.csv"), 
+                  quote = F, 
+                  row.names = F)
+        
+        output$taxacls_log_table <- renderTable({
+          log_table <- read.csv(paste0("/home/imuser/parameter_taxonomy_classification_Pacbio.csv"), header = T) %>% t() %>% as.data.frame()
+          
+          parameter_names <- rownames(log_table)
+          log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
+          return(log_table_[-1,])
+        })
+      }
+      
       # log file
-      observe({
-        if(file.exists("/home/imuser/parameter_taxonomy_classification.csv")){
-          shinyjs::enable("log_file_taxonomy_classification") 
-        }
-      })
+      # observe({
+      #   if(file.exists("/home/imuser/parameter_taxonomy_classification.csv")){
+      #     shinyjs::enable("log_file_taxonomy_classification") 
+      #   }
+      # })
       
     
+      if(input$seqs_type == "Single end"){
+        if(file.exists("/home/imuser/qiime_output/taxonomy_single.qzv")){
+          
+          showModal(modalDialog(title = strong("Taxonomy classification has been finished!"), 
+                                HTML(
+                                  paste0(
+                                    " This analysis took ", spent_time, ". ",
+                                    "You can inspect the results!")
+                                ), 
+                                footer = NULL, easyClose = T, size = "l"))
+        }else{
+          
+          showModal(modalDialog(title = strong("Error!", style = "color: red"),
+                                "Please check your files or parameters.", 
+                                footer = NULL, easyClose = T, size = "l"))
+        }  
+      }else if(input$seqs_type == "Paired end"){
+        if(file.exists("/home/imuser/qiime_output/taxonomy_paired.qzv")){
+          
+          showModal(modalDialog(title = strong("Taxonomy classification has been finished!"), 
+                                HTML(
+                                  paste0(
+                                    " This analysis took ", spent_time, ". ",
+                                    "You can inspect the results!")
+                                ), 
+                                footer = NULL, easyClose = T, size = "l"))
+        }else{
+          
+          showModal(modalDialog(title = strong("Error!", style = "color: red"),
+                                "Please check your files or parameters.", 
+                                footer = NULL, easyClose = T, size = "l"))
+        }  
+      }else if(input$seqs_type == "Pacbio long read"){
+        if(file.exists("/home/imuser/qiime_output/taxonomy_Pacbio.qzv")){
+          
+          showModal(modalDialog(title = strong("Taxonomy classification has been finished!"), 
+                                HTML(
+                                  paste0(
+                                    " This analysis took ", spent_time, ". ",
+                                    "You can inspect the results!")
+                                ), 
+                                footer = NULL, easyClose = T, size = "l"))
+        }else{
+          
+          showModal(modalDialog(title = strong("Error!", style = "color: red"),
+                                "Please check your files or parameters.", 
+                                footer = NULL, easyClose = T, size = "l"))
+        }  
+      }
       
-      if(file.exists("/home/imuser/qiime_output/taxonomy.qzv")){
-
-        showModal(modalDialog(title = strong("Taxonomy classification has been finished!"), 
-                              HTML(
-                                paste0(
-                                  " This analysis took ", spent_time, ". ",
-                                  "You can inspect the results!")
-                              ), 
-                              footer = NULL, easyClose = T, size = "l"))
-      }else{
-
-        showModal(modalDialog(title = strong("Error!", style = "color: red"),
-                              "Please check your files or parameters.", 
-                              footer = NULL, easyClose = T, size = "l"))
-      }  
+      
     
   }
     
@@ -7796,7 +7999,14 @@ server <- function(session, input, output) {
     filename <-"taxonomic_table.qza",
     
     content = function(file){
-      file.copy("/home/imuser/qiime_output/taxatable7.qza", file)
+      if(input$seqs_type == "Single end"){
+        file.copy("/home/imuser/qiime_output/taxatable7_single.qza", file)
+      }else if(input$seqs_type == "Paired end"){
+        file.copy("/home/imuser/qiime_output/taxatable7_paired.qza", file)
+      }else if(input$seqs_type == "Pacbio long read"){
+        file.copy("/home/imuser/qiime_output/taxatable7_Pacbio.qza", file)
+      }
+      
     }
     
   )
@@ -7811,6 +8021,8 @@ server <- function(session, input, output) {
         file.copy("/home/imuser/qiime_output/table-dada2_single.qza", file)
       }else if(input$seqs_type == "Paired end"){
         file.copy("/home/imuser/qiime_output/table-dada2_paired.qza", file)
+      }else if(input$seqs_type == "Pacbio"){
+        file.copy("/home/imuser/qiime_output/table-dada2_Pacbio.qza", file)
       }
       
     }
@@ -7826,6 +8038,8 @@ server <- function(session, input, output) {
         file.copy("/home/imuser/qiime_output/rep-seqs-dada2_single.qza", file)
       }else if(input$seqs_type == "Paired end"){
         file.copy("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza", file)
+      }else if(input$seqs_type == "Pacbio long read"){
+        file.copy("/home/imuser/qiime_output/rep-seqs-dada2_Pacbio.qza", file)
       }
       
     }
@@ -7836,80 +8050,146 @@ server <- function(session, input, output) {
     
     content = function(file){
       
-      taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy.qza")[["data"]]
-      colnames(taxonomy)[1] <- "ASV"
-      write.csv(taxonomy, file)
+      if(input$seqs_type == "Single end"){
+        taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_single.qza")[["data"]]
+        colnames(taxonomy)[1] <- "ASV"
+        write.csv(taxonomy, file)
+      }else if(input$seqs_type == "Paired end"){
+        taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_paired.qza")[["data"]]
+        colnames(taxonomy)[1] <- "ASV"
+        write.csv(taxonomy, file)
+      }else if(input$seqs_type == "Pacbio long read"){
+        taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_Pacbio.qza")[["data"]]
+        colnames(taxonomy)[1] <- "ASV"
+        write.csv(taxonomy, file)
+      }
+      
       
     }
   )
   
   observe({
-    if(file.exists("/home/imuser/qiime_output/taxonomy.qzv")){
-      # shinyjs::enable("view_taxa")
-      # shinyjs::enable("zip_taxonomy_classification")
-      
-      shinyjs::show("taxa_results_view")
-      output$taxonomy_classificatio_table <- renderDataTable({
-        req(input$input_job_id_taxa)
-        taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy.qza")[["data"]]
-        colnames(taxonomy)[1] <- "ASV"
-        return(taxonomy)
-      })
-      
-      output$taxacls_log_table <- renderTable({
-        log_table <- read.csv(paste0("/home/imuser/parameter_taxonomy_classification.csv"), header = T) %>% t() %>% as.data.frame()
+    if(input$seqs_type == "Single end"){
+      if(file.exists("/home/imuser/qiime_output/taxonomy_single.qzv")){
         
-        parameter_names <- rownames(log_table)
-        log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
-        return(log_table_[-1,])
-      })
-    }
-  })
-  
-  observe({
-    if(file.exists("/home/imuser/qiime_output/taxatable7.qza")){
-      shinyjs::enable("taxatable_download")
-    }
-  })
-  
-  observe({
-    if(input$seqs_type == "Single end"){
-      if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_single.qza")){
-        shinyjs::enable("rep_seq_dada2_download")
+        shinyjs::show("taxa_results_view")
+        
+        output$taxonomy_classificatio_table <- renderDataTable({
+          req(input$input_job_id_taxa)
+          taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_single.qza")[["data"]]
+          colnames(taxonomy)[1] <- "ASV"
+          return(taxonomy)
+          
+        })
+        
+        output$taxacls_log_table <- renderTable({
+          log_table <- read.csv(paste0("/home/imuser/parameter_taxonomy_classification_single.csv"), header = T) %>% t() %>% as.data.frame()
+          
+          parameter_names <- rownames(log_table)
+          log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
+          return(log_table_[-1,])
+        })
+      }else{
+        shinyjs::hide("taxa_results_view")
+        shinyjs::hide("taxa_results_download")
       }
     }else if(input$seqs_type == "Paired end"){
-      if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza")){
-        shinyjs::enable("rep_seq_dada2_download")
+      if(file.exists("/home/imuser/qiime_output/taxonomy_paired.qzv")){
+        
+        shinyjs::show("taxa_results_view")
+        
+        output$taxonomy_classificatio_table <- renderDataTable({
+          req(input$input_job_id_taxa)
+          taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_paired.qza")[["data"]]
+          colnames(taxonomy)[1] <- "ASV"
+          return(taxonomy)
+          
+        })
+        
+        output$taxacls_log_table <- renderTable({
+          log_table <- read.csv(paste0("/home/imuser/parameter_taxonomy_classification_paired.csv"), header = T) %>% t() %>% as.data.frame()
+          
+          parameter_names <- rownames(log_table)
+          log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
+          return(log_table_[-1,])
+        })
+      }else{
+        shinyjs::hide("taxa_results_view")
+        shinyjs::hide("taxa_results_download")
+      }
+    }else if(input$seqs_type == "Pacbio long read"){
+      if(file.exists("/home/imuser/qiime_output/taxonomy_Pacbio.qzv")){
+        
+        shinyjs::show("taxa_results_view")
+        
+        output$taxonomy_classificatio_table <- renderDataTable({
+          req(input$input_job_id_taxa)
+          taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_Pacbio.qza")[["data"]]
+          colnames(taxonomy)[1] <- "ASV"
+          return(taxonomy)
+          
+        })
+        
+        output$taxacls_log_table <- renderTable({
+          log_table <- read.csv(paste0("/home/imuser/parameter_taxonomy_classification_Pacbio.csv"), header = T) %>% t() %>% as.data.frame()
+          
+          parameter_names <- rownames(log_table)
+          log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
+          return(log_table_[-1,])
+        })
+      }else{
+        shinyjs::hide("taxa_results_view")
+        shinyjs::hide("taxa_results_download")
       }
     }
+    
+    
   })
   
-  observe({
-    if(input$seqs_type == "Single end"){
-      if(file.exists("/home/imuser/qiime_output/table-dada2_single.qza")){
-        shinyjs::enable("table_dada2_download")
-      }
-    }else if(input$seqs_type == "Paired end"){
-      if(file.exists("/home/imuser/qiime_output/table-dada2_paired.qza")){
-        shinyjs::enable("table_dada2_download")
-      }
-    }
-  })
+  # observe({
+  #   if(file.exists("/home/imuser/qiime_output/taxatable7.qza")){
+  #     shinyjs::enable("taxatable_download")
+  #   }
+  # })
+  
+  # observe({
+  #   if(input$seqs_type == "Single end"){
+  #     if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_single.qza")){
+  #       shinyjs::enable("rep_seq_dada2_download")
+  #     }
+  #   }else if(input$seqs_type == "Paired end"){
+  #     if(file.exists("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza")){
+  #       shinyjs::enable("rep_seq_dada2_download")
+  #     }
+  #   }
+  # })
+  
+  # observe({
+  #   if(input$seqs_type == "Single end"){
+  #     if(file.exists("/home/imuser/qiime_output/table-dada2_single.qza")){
+  #       shinyjs::enable("table_dada2_download")
+  #     }
+  #   }else if(input$seqs_type == "Paired end"){
+  #     if(file.exists("/home/imuser/qiime_output/table-dada2_paired.qza")){
+  #       shinyjs::enable("table_dada2_download")
+  #     }
+  #   }
+  # })
   
   # log file
-  observe({
-    if(file.exists("/home/imuser/parameter_taxonomy_classification.csv")){
-      shinyjs::enable("log_file_taxonomy_classification") 
-    }
-  })
+  # observe({
+  #   if(file.exists("/home/imuser/parameter_taxonomy_classification.csv")){
+  #     shinyjs::enable("log_file_taxonomy_classification") 
+  #   }
+  # })
   
   # zip file
-  output$zip_taxonomy_classification <- downloadHandler(
-    filename = "taxonomy_classification_table.zip",
-    content = function(file){
-      file.copy("/home/imuser/taxonomy.zip", file)
-    }
-  )
+  # output$zip_taxonomy_classification <- downloadHandler(
+  #   filename = "taxonomy_classification_table.zip",
+  #   content = function(file){
+  #     file.copy("/home/imuser/taxonomy.zip", file)
+  #   }
+  # )
   
   # Taxonomic analysis -----------------------------------------------------------------------------------------
   
