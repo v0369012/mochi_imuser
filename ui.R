@@ -10,7 +10,7 @@ library(shinycssloaders)
 library(shinyjs)
 library(shinyWidgets)
 
-# my_qiime_public_ip <- ipify::get_ip()
+my_qiime_public_ip <- ipify::get_ip()
 my_qiime_local_ip <- "127.0.0.1"
 my_qiime_port <- ":8011"
 
