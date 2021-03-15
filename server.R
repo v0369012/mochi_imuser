@@ -4953,6 +4953,14 @@ server <- function(session, input, output) {
         
       })
       
+      # dada2 table
+      output$dada2_table_single <- renderDataTable({
+        dada2_table <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]] %>% as.data.frame()
+        dada2_table_rname <- rownames(dada2_table)
+        dada2_table_tibble <- as.tibble(dada2_table)
+        dada2_table_tibble <- cbind("ASV" = dada2_table_rname, dada2_table_tibble)
+      })
+      
       # removeModal()
       remove_modal_spinner()
       end_time <- Sys.time()
@@ -5175,6 +5183,15 @@ server <- function(session, input, output) {
       ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point() + geom_line()
       
     })
+    
+    # dada2 table
+    output$dada2_table_single <- renderDataTable({
+      dada2_table <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]] %>% as.data.frame()
+      dada2_table_rname <- rownames(dada2_table)
+      dada2_table_tibble <- as.tibble(dada2_table)
+      dada2_table_tibble <- cbind("ASV" = dada2_table_rname, dada2_table_tibble)
+    })
+    
     shinyjs::show("dada2_results_single")
   
 }
@@ -5183,7 +5200,7 @@ server <- function(session, input, output) {
   # dada2 R download single
   
   output$dada2_sample_table_single_dl <- downloadHandler(
-    filename = "sample_table.csv",
+    filename = "sample_summary_table.csv",
     content = function(file){
       
       sample_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/sample-frequency-detail.csv" , header = F)
@@ -5207,7 +5224,7 @@ server <- function(session, input, output) {
   )
   
   output$dada2_asv_table_single_dl <- downloadHandler(
-    filename = "asv_table.csv",
+    filename = "asv_summary_table.csv",
     content = function(file){
       
       asv_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]]
@@ -5273,6 +5290,17 @@ server <- function(session, input, output) {
     }
   )
   
+  output$dada2_table_single_dl <- downloadHandler(
+    filename = "denoised_table.csv",
+    content = function(file){
+      dada2_table <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]] %>% as.data.frame()
+      dada2_table_rname <- rownames(dada2_table)
+      dada2_table_tibble <- as.tibble(dada2_table)
+      dada2_table_tibble <- cbind("ASV" = dada2_table_rname, dada2_table_tibble)
+      write_csv(dada2_table_tibble, file)
+    }
+  )
+  
   output$dada2_log_table_single_dl <- downloadHandler(
     filename = "parameter_denoise_single.csv",
     content = function(file){
@@ -5332,34 +5360,7 @@ server <- function(session, input, output) {
                           footer = NULL, easyClose = T, size = "l"))
   })
   
-  
-  # output$summary_table_single <- downloadHandler(
-  #   filename = paste0("denosing_summary_single_", input_job_id(), ".zip"),
-  #   content = function(file){
-  #     fs::file_copy(path = paste0("/home/imuser/web_version/users_files/", input_job_id(), "/table-dada2_single.zip"), new_path = file)
-  #   }
-  # )
-  # 
-  # output$seqs_info_single <- downloadHandler(
-  #   filename = paste0("denosing_seqs_info_single_", input_job_id(), ".zip"),
-  #   content = function(file){
-  #     fs::file_copy(path = paste0("/home/imuser/web_version/users_files/", input_job_id(), "/rep-seqs-dada2_single.zip"), new_path = file)
-  #   }
-  # )
-  # 
-  # output$filter_info_single <- downloadHandler(
-  #   filename = paste0("denosing_filter_info_single_", input_job_id(), ".zip"),
-  #   content = function(file){
-  #     fs::file_copy(path = paste0("/home/imuser/web_version/users_files/", input_job_id(), "/stats-dada2_single.zip"), new_path = file)
-  #   }
-  # )
-  # 
-  # output$alpha_rarefaction_single <- downloadHandler(
-  #   filename = paste0("denosing_alpha_rarefaction_single_", input_job_id(), ".zip"),
-  #   content = function(file){
-  #     fs::file_copy(path = paste0("/home/imuser/web_version/users_files/", input_job_id(), "/rarefaction-dada2_single.zip"), new_path = file)
-  #   }
-  # ) web version
+
   
   # show results button
   observe({
@@ -5848,6 +5849,14 @@ server <- function(session, input, output) {
         
       })
       
+      # dada2 table
+      output$dada2_table_paired <- renderDataTable({
+        dada2_table <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]] %>% as.data.frame()
+        dada2_table_rname <- rownames(dada2_table)
+        dada2_table_tibble <- as.tibble(dada2_table)
+        dada2_table_tibble <- cbind("ASV" = dada2_table_rname, dada2_table_tibble)
+      })
+      
       # removeModal()
       remove_modal_spinner()
       end_time <- Sys.time()
@@ -6069,6 +6078,14 @@ server <- function(session, input, output) {
         
       })
       
+      # dada2 table
+      output$dada2_table_paired <- renderDataTable({
+        dada2_table <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]] %>% as.data.frame()
+        dada2_table_rname <- rownames(dada2_table)
+        dada2_table_tibble <- as.tibble(dada2_table)
+        dada2_table_tibble <- cbind("ASV" = dada2_table_rname, dada2_table_tibble)
+      })
+      
       shinyjs::show("dada2_results_paired")
       
     }
@@ -6108,33 +6125,6 @@ server <- function(session, input, output) {
   })
   
   
-  # output$summary_table_paired <- downloadHandler(
-  #   filename = paste0("denosing_summary_paired_", input_job_id(), ".zip"),
-  #   content = function(file){
-  #     fs::file_copy(path = paste0("/home/imuser/web_version/users_files/", input_job_id(), "/table-dada2_paired.zip"), new_path = file)
-  #   }
-  # )
-  # 
-  # output$seqs_info_paired <- downloadHandler(
-  #   filename = paste0("denosing_seqs_info_paired_", input_job_id(), ".zip"),
-  #   content = function(file){
-  #     fs::file_copy(path = paste0("/home/imuser/web_version/users_files/", input_job_id(), "/rep-seqs-dada2_paired.zip"), new_path = file)
-  #   }
-  # )
-  # 
-  # output$filter_info_paired <- downloadHandler(
-  #   filename = paste0("denosing_filter_info_paired_", input_job_id(), ".zip"),
-  #   content = function(file){
-  #     fs::file_copy(path = paste0("/home/imuser/web_version/users_files/", input_job_id(), "/stats-dada2_paired.zip"), new_path = file)
-  #   }
-  # )
-  # 
-  # output$alpha_rarefaction_paired <- downloadHandler(
-  #   filename = paste0("denosing_alpha_rarefaction_paired_", input_job_id(), ".zip"),
-  #   content = function(file){
-  #     fs::file_copy(path = paste0("/home/imuser/web_version/users_files/", input_job_id(), "/home/imuser/qiime_output/rarefaction-dada2_paired.zip"), new_path = file)
-  #   }
-  # ) # web version
   
   observe({
     if(file.exists("/home/imuser/qiime_output/table-dada2_paired.qzv")){
@@ -6202,7 +6192,7 @@ server <- function(session, input, output) {
   
   # dada2 R download paired
   output$dada2_sample_table_paired_dl <- downloadHandler(
-    filename = "sample_table.csv",
+    filename = "sample_summary_table.csv",
     content = function(file){
       
       sample_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/sample-frequency-detail.csv" , header = F)
@@ -6226,7 +6216,7 @@ server <- function(session, input, output) {
   )
   
   output$dada2_asv_table_paired_dl <- downloadHandler(
-    filename = "asv_table.csv",
+    filename = "asv_summary_table.csv",
     content = function(file){
       
       asv_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]]
@@ -6289,6 +6279,17 @@ server <- function(session, input, output) {
     filename = "rarefaction_table.csv",
     content = function(file){
       file.copy("/home/imuser/qiime_output/denoise_paired_rarefaction/new_dirname/data/observed_features.csv", file)
+    }
+  )
+  
+  output$dada2_table_paired_dl <- downloadHandler(
+    filename = "denoised_table.csv",
+    content = function(file){
+      dada2_table <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]] %>% as.data.frame()
+      dada2_table_rname <- rownames(dada2_table)
+      dada2_table_tibble <- as.tibble(dada2_table)
+      dada2_table_tibble <- cbind("ASV" = dada2_table_rname, dada2_table_tibble)
+      write_csv(dada2_table_tibble, file)
     }
   )
   
@@ -6739,6 +6740,14 @@ server <- function(session, input, output) {
         
       })
       
+      # dada2 table
+      output$dada2_table_Pacbio <- renderDataTable({
+        dada2_table <- read_qza("/home/imuser/qiime_output/table-dada2_Pacbio.qza")[["data"]] %>% as.data.frame()
+        dada2_table_rname <- rownames(dada2_table)
+        dada2_table_tibble <- as.tibble(dada2_table)
+        dada2_table_tibble <- cbind("ASV" = dada2_table_rname, dada2_table_tibble)
+      })
+      
       # removeModal()
       remove_modal_spinner()
       end_time <- Sys.time()
@@ -6961,6 +6970,17 @@ server <- function(session, input, output) {
         ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point() + geom_line()
         
       })
+      
+      
+      # dada2 table
+      output$dada2_table_Pacbio <- renderDataTable({
+        dada2_table <- read_qza("/home/imuser/qiime_output/table-dada2_Pacbio.qza")[["data"]] %>% as.data.frame()
+        dada2_table_rname <- rownames(dada2_table)
+        dada2_table_tibble <- as.tibble(dada2_table)
+        dada2_table_tibble <- cbind("ASV" = dada2_table_rname, dada2_table_tibble)
+      })
+      
+      
       shinyjs::show("dada2_results_Pacbio")
       
     }
@@ -6969,7 +6989,7 @@ server <- function(session, input, output) {
   # dada2 R download Pacbio
   
   output$dada2_sample_table_Pacbio_dl <- downloadHandler(
-    filename = "sample_table.csv",
+    filename = "sample_summary_table.csv",
     content = function(file){
       
       sample_table <- read.csv("/home/imuser/qiime_output/denoise_Pacbio_position_table/new_dirname/data/sample-frequency-detail.csv" , header = F)
@@ -6993,7 +7013,7 @@ server <- function(session, input, output) {
   )
   
   output$dada2_asv_table_Pacbio_dl <- downloadHandler(
-    filename = "asv_table.csv",
+    filename = "asv_summary_table.csv",
     content = function(file){
       
       asv_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_Pacbio.qza")[["data"]]
@@ -7056,6 +7076,17 @@ server <- function(session, input, output) {
     filename = "rarefaction_table.csv",
     content = function(file){
       file.copy("/home/imuser/qiime_output/denoise_Pacbio_rarefaction/new_dirname/data/observed_features.csv", file)
+    }
+  )
+  
+  output$dada2_table_Pacbio_dl <- downloadHandler(
+    filename = "denoised_table.csv",
+    content = function(file){
+      dada2_table <- read_qza("/home/imuser/qiime_output/table-dada2_Pacbio.qza")[["data"]] %>% as.data.frame()
+      dada2_table_rname <- rownames(dada2_table)
+      dada2_table_tibble <- as.tibble(dada2_table)
+      dada2_table_tibble <- cbind("ASV" = dada2_table_rname, dada2_table_tibble)
+      write_csv(dada2_table_tibble, file)
     }
   )
   

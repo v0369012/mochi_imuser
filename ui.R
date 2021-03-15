@@ -501,13 +501,13 @@ shinyUI(
                                              # br(),br(),
                                              h4("Sample read count summary"),
                                              tableOutput("dada2_sample_summary_single"),
-                                             h4("Sample table"),
+                                             h4("Sample summary table"),
                                              dataTableOutput("dada2_sample_table_single"),
                                              downloadButton("dada2_sample_table_single_dl"),
                                              br(),br(),
                                              h4("ASV read count summary"),
                                              tableOutput("dada2_asv_summary_table_single"),
-                                             h4("ASV table"),
+                                             h4("ASV summary table"),
                                              dataTableOutput("dada2_asv_table_single"),
                                              downloadButton("dada2_asv_table_single_dl")
                                            ),
@@ -533,6 +533,12 @@ shinyUI(
                                              plotOutput("rarefaction_plot_single"),
                                              downloadButton("rarefaction_plot_single_dl", "Download the rarefaction plot"),
                                              downloadButton("rarefaction_table_single_dl", "Download the rarefaction table")
+                                           ),
+                                           tabPanel(
+                                             title = "Table",
+                                             br(),br(),
+                                             dataTableOutput("dada2_table_single"),
+                                             downloadButton("dada2_table_single_dl")
                                            ),
                                            tabPanel(
                                              title = "Log",
@@ -576,13 +582,13 @@ shinyUI(
                                              # br(),br(),
                                              h4("Sample read count summary"),
                                              tableOutput("dada2_sample_summary_paired"),
-                                             h4("Sample table"),
+                                             h4("Sample summary table"),
                                              dataTableOutput("dada2_sample_table_paired"),
                                              downloadButton("dada2_sample_table_paired_dl"),
                                              br(),br(),
                                              h4("ASV read count summary"),
                                              tableOutput("dada2_asv_summary_table_paired"),
-                                             h4("ASV table"),
+                                             h4("ASV summary table"),
                                              dataTableOutput("dada2_asv_table_paired"),
                                              downloadButton("dada2_asv_table_paired_dl")
                                            ),
@@ -608,6 +614,12 @@ shinyUI(
                                              plotOutput("rarefaction_plot_paired"),
                                              downloadButton("rarefaction_plot_paired_dl", "Download the rarefaction plot"),
                                              downloadButton("rarefaction_table_paired_dl", "Download the rarefaction table")
+                                           ),
+                                           tabPanel(
+                                             title = "Table",
+                                             br(),br(),
+                                             dataTableOutput("dada2_table_paired"),
+                                             downloadButton("dada2_table_paired_dl")
                                            ),
                                            tabPanel(
                                              title = "Log",
@@ -648,13 +660,13 @@ shinyUI(
                                              # br(),br(),
                                              h4("Sample read count summary"),
                                              tableOutput("dada2_sample_summary_Pacbio"),
-                                             h4("Sample table"),
+                                             h4("Sample summary table"),
                                              dataTableOutput("dada2_sample_table_Pacbio"),
                                              downloadButton("dada2_sample_table_Pacbio_dl"),
                                              br(),br(),
                                              h4("ASV read count summary"),
                                              tableOutput("dada2_asv_summary_table_Pacbio"),
-                                             h4("ASV table"),
+                                             h4("ASV summary table"),
                                              dataTableOutput("dada2_asv_table_Pacbio"),
                                              downloadButton("dada2_asv_table_Pacbio_dl")
                                            ),
@@ -680,6 +692,12 @@ shinyUI(
                                              plotOutput("rarefaction_plot_Pacbio"),
                                              downloadButton("rarefaction_plot_Pacbio_dl", "Download the rarefaction plot"),
                                              downloadButton("rarefaction_table_Pacbio_dl", "Download the rarefaction table")
+                                           ),
+                                           tabPanel(
+                                             title = "Table",
+                                             br(),br(),
+                                             dataTableOutput("dada2_table_Pacbio"),
+                                             downloadButton("dada2_table_Pacbio_dl")
                                            ),
                                            tabPanel(
                                              title = "Log",
