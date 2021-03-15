@@ -5451,7 +5451,7 @@ server <- function(session, input, output) {
   })
   
   
-  demux_paired_seqs_Q_f <- reactive({
+  demux_paired_seqs_Q_r <- reactive({
     demux_paired_qp <- readLines("/home/imuser/qiime_output/demux_paired_unzip/new_dirname/data/quality-plot.html")
     nts_position <- which(str_detect(demux_paired_qp, "nts") == T)
     nts_value <- demux_paired_qp[nts_position]
