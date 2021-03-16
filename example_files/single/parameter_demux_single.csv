@@ -1,0 +1,2 @@
+Step,time,duration,sequence_type,sample_size,primer_trimmed,forward_primer,reverse_primer,computing_setting
+Sequence summary,2021-03-06 08:36:18,12.77 secs,Single end,34,TRUE,8F ,519R ,6

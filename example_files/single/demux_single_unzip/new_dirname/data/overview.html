@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>q2_demux : summarize</title>
+    <link rel="stylesheet" href="./q2templateassets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./q2templateassets/css/normalize.css"/>
+    <script src="./q2templateassets/js/jquery-3.2.0.min.js" charset="utf-8"></script>
+    <script src="./q2templateassets/js/child.js"></script>
+    
+    
+  </head>
+  <body>
+    <div class="container-fluid">
+        
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1>Demultiplexed sequence counts summary</h1>
+        <table border="0" class="dataframe table table-striped table-hover">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>forward reads</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Minimum</th>
+      <td>1853</td>
+    </tr>
+    <tr>
+      <th>Median</th>
+      <td>8645</td>
+    </tr>
+    <tr>
+      <th>Mean</th>
+      <td>7761.12</td>
+    </tr>
+    <tr>
+      <th>Maximum</th>
+      <td>18787</td>
+    </tr>
+    <tr>
+      <th>Total</th>
+      <td>263878</td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+</div>
+
+<div class="row">
+    
+        <div class="col-lg-6">
+            <h3>Forward Reads Frequency Histogram</h3>
+            <div class="text-center">
+                
+                    <a href="demultiplex-summary-forward.pdf">
+                        <img src="demultiplex-summary-forward.png">
+                        <p>Download as PDF</p>
+                    </a>
+                
+            </div>
+        </div>
+    
+        <div class="col-lg-6">
+            <h3>Reverse Reads Frequency Histogram</h3>
+            <div class="text-center">
+                
+                    <p>No reads in this direction</p>
+                
+            </div>
+        </div>
+    
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1>Per-sample sequence counts</h1>
+        <h4>
+            Total Samples:&nbsp;
+            
+                
+                    34 (forward)&nbsp;
+                
+            
+                
+            
+        </h4>
+        <table border="0" class="dataframe table table-striped table-hover">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>forward sequence count</th>
+    </tr>
+    <tr>
+      <th>sample ID</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>L4S137</th>
+      <td>18787</td>
+    </tr>
+    <tr>
+      <th>L4S63</th>
+      <td>17167</td>
+    </tr>
+    <tr>
+      <th>L4S112</th>
+      <td>16265</td>
+    </tr>
+    <tr>
+      <th>L1S8</th>
+      <td>12386</td>
+    </tr>
+    <tr>
+      <th>L2S240</th>
+      <td>11986</td>
+    </tr>
+    <tr>
+      <th>L1S57</th>
+      <td>11750</td>
+    </tr>
+    <tr>
+      <th>L1S105</th>
+      <td>11340</td>
+    </tr>
+    <tr>
+      <th>L1S208</th>
+      <td>11335</td>
+    </tr>
+    <tr>
+      <th>L6S93</th>
+      <td>11270</td>
+    </tr>
+    <tr>
+      <th>L2S175</th>
+      <td>10691</td>
+    </tr>
+    <tr>
+      <th>L1S76</th>
+      <td>10100</td>
+    </tr>
+    <tr>
+      <th>L6S20</th>
+      <td>9775</td>
+    </tr>
+    <tr>
+      <th>L1S140</th>
+      <td>9736</td>
+    </tr>
+    <tr>
+      <th>L6S68</th>
+      <td>9554</td>
+    </tr>
+    <tr>
+      <th>L2S382</th>
+      <td>9300</td>
+    </tr>
+    <tr>
+      <th>L2S155</th>
+      <td>9261</td>
+    </tr>
+    <tr>
+      <th>L1S281</th>
+      <td>8904</td>
+    </tr>
+    <tr>
+      <th>L2S222</th>
+      <td>8386</td>
+    </tr>
+    <tr>
+      <th>L1S257</th>
+      <td>8216</td>
+    </tr>
+    <tr>
+      <th>L2S204</th>
+      <td>7297</td>
+    </tr>
+    <tr>
+      <th>L2S357</th>
+      <td>6253</td>
+    </tr>
+    <tr>
+      <th>L2S309</th>
+      <td>3835</td>
+    </tr>
+    <tr>
+      <th>L5S104</th>
+      <td>3460</td>
+    </tr>
+    <tr>
+      <th>L5S222</th>
+      <td>3390</td>
+    </tr>
+    <tr>
+      <th>L5S203</th>
+      <td>3037</td>
+    </tr>
+    <tr>
+      <th>L5S174</th>
+      <td>2792</td>
+    </tr>
+    <tr>
+      <th>L5S240</th>
+      <td>2665</td>
+    </tr>
+    <tr>
+      <th>L5S155</th>
+      <td>2491</td>
+    </tr>
+    <tr>
+      <th>L3S294</th>
+      <td>2317</td>
+    </tr>
+    <tr>
+      <th>L3S378</th>
+      <td>2146</td>
+    </tr>
+    <tr>
+      <th>L3S360</th>
+      <td>2084</td>
+    </tr>
+    <tr>
+      <th>L3S242</th>
+      <td>2055</td>
+    </tr>
+    <tr>
+      <th>L3S313</th>
+      <td>1994</td>
+    </tr>
+    <tr>
+      <th>L3S341</th>
+      <td>1853</td>
+    </tr>
+  </tbody>
+</table>
+        <a href="per-sample-fastq-counts.tsv">Download as TSV</a>
+    </div>
+</div>
+
+    </div>
+    
+    
+  </body>
+</html>

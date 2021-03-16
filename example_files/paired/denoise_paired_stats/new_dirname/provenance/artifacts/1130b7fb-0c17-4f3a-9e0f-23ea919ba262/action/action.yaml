@@ -1,0 +1,469 @@
+execution:
+    uuid: ae679314-23fe-4c90-83a9-e3bba003511c
+    runtime:
+        start: 2021-03-15T09:18:37.951838+00:00
+        end: 2021-03-15T09:18:39.458937+00:00
+        duration: 1 second, and 507099 microseconds
+
+action:
+    type: import
+    format: CasavaOneEightSingleLanePerSampleDirFmt
+    manifest:
+    -   name: BAQ1370.1.2_75_L001_R1_001.fastq.gz
+        md5sum: 9ab30064995ff6e4acc34b6546a8b26a
+    -   name: BAQ1370.1.2_75_L001_R2_001.fastq.gz
+        md5sum: 354a8a60e32ba1dc1daed4c137902f8a
+    -   name: BAQ1370.1.3_62_L001_R1_001.fastq.gz
+        md5sum: de0797dd04dd7161010b4bf31cd0957f
+    -   name: BAQ1370.1.3_62_L001_R2_001.fastq.gz
+        md5sum: b8524dcc7676e578982f309724f03e22
+    -   name: BAQ1370.3_73_L001_R1_001.fastq.gz
+        md5sum: 1bf2dc2cbc8f3be97c0830962f40894a
+    -   name: BAQ1370.3_73_L001_R2_001.fastq.gz
+        md5sum: 57e53533afb198b94503aa83979c43a6
+    -   name: BAQ1552.1.1_72_L001_R1_001.fastq.gz
+        md5sum: 0f5831784a8461e8f6c76afa5712dc77
+    -   name: BAQ1552.1.1_72_L001_R2_001.fastq.gz
+        md5sum: 7e204df8533ea834c5b88b2efa2bcc6e
+    -   name: BAQ1552.2_71_L001_R1_001.fastq.gz
+        md5sum: d0000729ba004c485e18e3cf7f469d38
+    -   name: BAQ1552.2_71_L001_R2_001.fastq.gz
+        md5sum: 456a98b8176f3e2925da5c099a4190b4
+    -   name: BAQ2420.1.1_20_L001_R1_001.fastq.gz
+        md5sum: 134b0586b44837e503749377dfa8371a
+    -   name: BAQ2420.1.1_20_L001_R2_001.fastq.gz
+        md5sum: eb16091291f63128fe067f9b113ab95f
+    -   name: BAQ2420.1.2_9_L001_R1_001.fastq.gz
+        md5sum: 59f8818c9359c80566395c1a44d25cbc
+    -   name: BAQ2420.1.2_9_L001_R2_001.fastq.gz
+        md5sum: 17435dd4b6d520d50ea27e746c54c917
+    -   name: BAQ2420.1.3_36_L001_R1_001.fastq.gz
+        md5sum: 3533129b2f0288b17d23e35f3461f8a9
+    -   name: BAQ2420.1.3_36_L001_R2_001.fastq.gz
+        md5sum: 3c256df88608fddb068c752335661396
+    -   name: BAQ2420.2_2_L001_R1_001.fastq.gz
+        md5sum: 5ffd847f6b498e81ce1ff6574e8068bf
+    -   name: BAQ2420.2_2_L001_R2_001.fastq.gz
+        md5sum: aa4fd0416fcaedc4bcb6a3a17223b9ef
+    -   name: BAQ2420.3_52_L001_R1_001.fastq.gz
+        md5sum: 75a7069e5510b58fa21948362af72353
+    -   name: BAQ2420.3_52_L001_R2_001.fastq.gz
+        md5sum: 35493e01e149df6d5f96396fba45a05c
+    -   name: BAQ2462.1_27_L001_R1_001.fastq.gz
+        md5sum: ed6fdc31cfe4811d7c7e036ce8f8234e
+    -   name: BAQ2462.1_27_L001_R2_001.fastq.gz
+        md5sum: 12186f4f427c915f7263d4f02b17f54c
+    -   name: BAQ2462.2_4_L001_R1_001.fastq.gz
+        md5sum: b8fe1d3fce1480771fd5b1066616a20e
+    -   name: BAQ2462.2_4_L001_R2_001.fastq.gz
+        md5sum: 85b0849e2e6a1eeaeeae19278327aaac
+    -   name: BAQ2462.3_51_L001_R1_001.fastq.gz
+        md5sum: e429d8c068ec35b0da318f2780d4437b
+    -   name: BAQ2462.3_51_L001_R2_001.fastq.gz
+        md5sum: 8400729eb616282ba727b442198d00d4
+    -   name: BAQ2687.1_14_L001_R1_001.fastq.gz
+        md5sum: 9dc4de44cba5597668c8a831455deebb
+    -   name: BAQ2687.1_14_L001_R2_001.fastq.gz
+        md5sum: b5a490db04d55f678d4fc2f0f45b60ec
+    -   name: BAQ2687.2_41_L001_R1_001.fastq.gz
+        md5sum: 8135173968eee7a153ed9afe042e6269
+    -   name: BAQ2687.2_41_L001_R2_001.fastq.gz
+        md5sum: 4143bb02436d600be7ce156a9e3e8e8a
+    -   name: BAQ2687.3_34_L001_R1_001.fastq.gz
+        md5sum: b6bb7a3248dc50d11e4cd55a274e34e8
+    -   name: BAQ2687.3_34_L001_R2_001.fastq.gz
+        md5sum: f4a24ad74279ec8fda54e27a9f396e12
+    -   name: BAQ2838.1_24_L001_R1_001.fastq.gz
+        md5sum: 3b7d55b1d501d504ccf823405c57c39c
+    -   name: BAQ2838.1_24_L001_R2_001.fastq.gz
+        md5sum: 8d5309b89145f8d1d8fe6cd7317efd19
+    -   name: BAQ2838.2_18_L001_R1_001.fastq.gz
+        md5sum: 0a07a14d0b487405f1e00849478f813b
+    -   name: BAQ2838.2_18_L001_R2_001.fastq.gz
+        md5sum: 3b4e6d356e74820e973ebcf2e4996f48
+    -   name: BAQ2838.3_32_L001_R1_001.fastq.gz
+        md5sum: 3867d9c6e24e55554cf8aacc37650c96
+    -   name: BAQ2838.3_32_L001_R2_001.fastq.gz
+        md5sum: 5ea9feccc354463e5cb59a14b1f4ae6e
+    -   name: BAQ3473.1_23_L001_R1_001.fastq.gz
+        md5sum: 829fd9af606f4b48d00c13170aa6c053
+    -   name: BAQ3473.1_23_L001_R2_001.fastq.gz
+        md5sum: 24790cf1be5fcf8eb252736db7a7f76c
+    -   name: BAQ3473.2_6_L001_R1_001.fastq.gz
+        md5sum: 518adc71317cd9b51d3fa8cd808f5956
+    -   name: BAQ3473.2_6_L001_R2_001.fastq.gz
+        md5sum: ae208515cfb5682065f1c859430c61b0
+    -   name: BAQ3473.3_10_L001_R1_001.fastq.gz
+        md5sum: 889f37a71134de4ff573d887b7bfeba4
+    -   name: BAQ3473.3_10_L001_R2_001.fastq.gz
+        md5sum: e14f3eb1afd74a7db022d0f6b760e243
+    -   name: BAQ4166.1.1_30_L001_R1_001.fastq.gz
+        md5sum: 46ce349dc26bc6a21f9e496651b63817
+    -   name: BAQ4166.1.1_30_L001_R2_001.fastq.gz
+        md5sum: eba4cbe96dfc7059a91a058fdc245112
+    -   name: BAQ4166.1.2_28_L001_R1_001.fastq.gz
+        md5sum: 1c3dcdd4bdac447df7eab743ed2079c5
+    -   name: BAQ4166.1.2_28_L001_R2_001.fastq.gz
+        md5sum: 40b9a23812396379483d05420e381835
+    -   name: BAQ4166.1.3_26_L001_R1_001.fastq.gz
+        md5sum: c6d8868ac93cbbc92e95a6d7cb133410
+    -   name: BAQ4166.1.3_26_L001_R2_001.fastq.gz
+        md5sum: f73c039e80202630a6d3f2f29573b438
+    -   name: BAQ4166.2_1_L001_R1_001.fastq.gz
+        md5sum: 35c4c4700a5253003afe86ea06cb28f5
+    -   name: BAQ4166.2_1_L001_R2_001.fastq.gz
+        md5sum: 86a743094e2bdec21ba7a6e2dd5a32cb
+    -   name: BAQ4166.3_8_L001_R1_001.fastq.gz
+        md5sum: 58c5dd844d92934901bfb4b14a8f4c86
+    -   name: BAQ4166.3_8_L001_R2_001.fastq.gz
+        md5sum: 2f68395baceb19f86f40de87833c4e61
+    -   name: BAQ4697.1_13_L001_R1_001.fastq.gz
+        md5sum: 47629960b14a5fd0785de5ce4f525887
+    -   name: BAQ4697.1_13_L001_R2_001.fastq.gz
+        md5sum: aaf5f5685f6003c93139911f7d934813
+    -   name: BAQ4697.2_42_L001_R1_001.fastq.gz
+        md5sum: 87adfa1fb755a4b9d86bfde157565474
+    -   name: BAQ4697.2_42_L001_R2_001.fastq.gz
+        md5sum: 3ba954b33f34a0c9c822f0718417b90e
+    -   name: BAQ4697.3_17_L001_R1_001.fastq.gz
+        md5sum: c22e8ff75986ea80578b4bf8cf3053ab
+    -   name: BAQ4697.3_17_L001_R2_001.fastq.gz
+        md5sum: 613c94351ac523b0970517b6cc387596
+    -   name: BAQ895.2_54_L001_R1_001.fastq.gz
+        md5sum: d0670db946646bbb2fc9db8fba7680fc
+    -   name: BAQ895.2_54_L001_R2_001.fastq.gz
+        md5sum: 67634f4f441a163c39c72551f0857698
+    -   name: BAQ895.3_55_L001_R1_001.fastq.gz
+        md5sum: 2630ec9b44fe4df2e8ec45bc38029aa4
+    -   name: BAQ895.3_55_L001_R2_001.fastq.gz
+        md5sum: eb11730a983efcd10a6db1d43402c68f
+    -   name: YUN1005.1.1_25_L001_R1_001.fastq.gz
+        md5sum: 40fc7807fd1d20056defca6553bfcd64
+    -   name: YUN1005.1.1_25_L001_R2_001.fastq.gz
+        md5sum: e2b59b0c8149f486bec014849a2dd847
+    -   name: YUN1005.1.3_57_L001_R1_001.fastq.gz
+        md5sum: 817df13720e0cc84a08bd6cda395da27
+    -   name: YUN1005.1.3_57_L001_R2_001.fastq.gz
+        md5sum: ce22e04a7fb11cf017fd60fcd99f6c19
+    -   name: YUN1005.2_70_L001_R1_001.fastq.gz
+        md5sum: d1e4d60a3e74bd170124f239743aba77
+    -   name: YUN1005.2_70_L001_R2_001.fastq.gz
+        md5sum: 04e0bc1c4555eb638c549106d902db83
+    -   name: YUN1005.3_47_L001_R1_001.fastq.gz
+        md5sum: 2ea19d625780cce04f016f691d73628e
+    -   name: YUN1005.3_47_L001_R2_001.fastq.gz
+        md5sum: 1e511a36b897fbadce92ae01192e68df
+    -   name: YUN1242.1_31_L001_R1_001.fastq.gz
+        md5sum: e61546c564b6fd071a0507ce3c897e8f
+    -   name: YUN1242.1_31_L001_R2_001.fastq.gz
+        md5sum: 41d9f6eb90c6fe35a691ad7750db0b52
+    -   name: YUN1242.2_60_L001_R1_001.fastq.gz
+        md5sum: 8b6a872a5751a5fc1afe960e19722d6c
+    -   name: YUN1242.2_60_L001_R2_001.fastq.gz
+        md5sum: 71872af473f20c2c50563fed7f316efa
+    -   name: YUN1242.3_46_L001_R1_001.fastq.gz
+        md5sum: b5c0c6d090337af51e8235599f81ebb8
+    -   name: YUN1242.3_46_L001_R2_001.fastq.gz
+        md5sum: a8c25be90da2015ec053eb9d53e992fd
+    -   name: YUN1609.1_19_L001_R1_001.fastq.gz
+        md5sum: 7ac65f7dacb600d22b85f8c53bfabb43
+    -   name: YUN1609.1_19_L001_R2_001.fastq.gz
+        md5sum: 4a0bc58b0e61fe099457d983734ae553
+    -   name: YUN1609.3_74_L001_R1_001.fastq.gz
+        md5sum: 1745811d066488b0d8c3ade121e1798c
+    -   name: YUN1609.3_74_L001_R2_001.fastq.gz
+        md5sum: bd4d4db4be1497d4ce9cff4b70446f89
+    -   name: YUN2029.1_59_L001_R1_001.fastq.gz
+        md5sum: 27f8dfd72ff0ed39836f846de34bfe29
+    -   name: YUN2029.1_59_L001_R2_001.fastq.gz
+        md5sum: 803d84c6102ed6c3a81ef887130120d5
+    -   name: YUN2029.2_40_L001_R1_001.fastq.gz
+        md5sum: 4d2e51f0e4d5eb60b0e82f160c046925
+    -   name: YUN2029.2_40_L001_R2_001.fastq.gz
+        md5sum: 34f012e556167cda7d3a969aa8d5d133
+    -   name: YUN2029.3_65_L001_R1_001.fastq.gz
+        md5sum: f34a521ddfdd80352b47e79b01ca06df
+    -   name: YUN2029.3_65_L001_R2_001.fastq.gz
+        md5sum: 0ca294023f3567cd7061923aca3d95d7
+    -   name: YUN3008.1.1_61_L001_R1_001.fastq.gz
+        md5sum: 075ec42a472dba793dca28135f09075c
+    -   name: YUN3008.1.1_61_L001_R2_001.fastq.gz
+        md5sum: b5b12d0c5cef9beee47b57b4fcb9b365
+    -   name: YUN3008.1.2_63_L001_R1_001.fastq.gz
+        md5sum: aa761199223d4cc17c649b33ac8fa9b9
+    -   name: YUN3008.1.2_63_L001_R2_001.fastq.gz
+        md5sum: 515a547c7771d64c3e27406edac13bf3
+    -   name: YUN3008.1.3_56_L001_R1_001.fastq.gz
+        md5sum: d2b887d6228ef93740e541616cab5d78
+    -   name: YUN3008.1.3_56_L001_R2_001.fastq.gz
+        md5sum: 4fc9366e8ba67caa5627f10797a11382
+    -   name: YUN3008.2_68_L001_R1_001.fastq.gz
+        md5sum: 0d4e9c0f89868c75c3f8c3dece10721a
+    -   name: YUN3008.2_68_L001_R2_001.fastq.gz
+        md5sum: 8d12cac4b205729742ec7550a31450ac
+    -   name: YUN3008.3_66_L001_R1_001.fastq.gz
+        md5sum: 74c3c9c2706e137151dbd92971470659
+    -   name: YUN3008.3_66_L001_R2_001.fastq.gz
+        md5sum: dd3917ccc4d26fe3e495d8c8ea41a731
+    -   name: YUN3153.1_64_L001_R1_001.fastq.gz
+        md5sum: 3f4108ec66cac12ee5144cb23296994f
+    -   name: YUN3153.1_64_L001_R2_001.fastq.gz
+        md5sum: 534a83c08fa9cdf05a841d8f4366707c
+    -   name: YUN3153.2_49_L001_R1_001.fastq.gz
+        md5sum: 89096180861ac434cbc7eb26c3e739dd
+    -   name: YUN3153.2_49_L001_R2_001.fastq.gz
+        md5sum: edce5bc9bad4cb5b21ad6e7e037ff53b
+    -   name: YUN3153.3_45_L001_R1_001.fastq.gz
+        md5sum: c411d11f3d62c3cfc7661255745c68ad
+    -   name: YUN3153.3_45_L001_R2_001.fastq.gz
+        md5sum: 4ce00078fb45e82e9e6bcd9465f4c476
+    -   name: YUN3184.1_67_L001_R1_001.fastq.gz
+        md5sum: 312f13f90dda81549019511d563f97a4
+    -   name: YUN3184.1_67_L001_R2_001.fastq.gz
+        md5sum: 2cd159286b0c36dbc7b090304d756025
+    -   name: YUN3184.2_69_L001_R1_001.fastq.gz
+        md5sum: 4b72abeb2c5901f25ed9ee6a5070ec0d
+    -   name: YUN3184.2_69_L001_R2_001.fastq.gz
+        md5sum: e5f8c995114f60b6f674504b795d19f7
+    -   name: YUN3259.1.1_58_L001_R1_001.fastq.gz
+        md5sum: 0f4a684b03f45cc9fdf5a2da444d1f9c
+    -   name: YUN3259.1.1_58_L001_R2_001.fastq.gz
+        md5sum: 1995e1ac365ec825ebc7b1a8c107294f
+    -   name: YUN3259.1.2_43_L001_R1_001.fastq.gz
+        md5sum: 4cf6e86b4883517b52f63c90439196c3
+    -   name: YUN3259.1.2_43_L001_R2_001.fastq.gz
+        md5sum: e9f095d6fd3b384cc75740aa53c3be6a
+    -   name: YUN3259.1.3_48_L001_R1_001.fastq.gz
+        md5sum: 26340ea921bfa059ee764f9572a01366
+    -   name: YUN3259.1.3_48_L001_R2_001.fastq.gz
+        md5sum: 01ec010c14e8096e6618addf9eb04fd8
+    -   name: YUN3259.2_50_L001_R1_001.fastq.gz
+        md5sum: d357ba599b0aa71dc8f70b967c7068e2
+    -   name: YUN3259.2_50_L001_R2_001.fastq.gz
+        md5sum: 448852fb1b0ffd08835a7c5c8663e55f
+    -   name: YUN3259.3_5_L001_R1_001.fastq.gz
+        md5sum: cb3f5addbd3acec5f9ed1be789343b8f
+    -   name: YUN3259.3_5_L001_R2_001.fastq.gz
+        md5sum: 41605310ff31a217c42ec9fb96ed365d
+    -   name: YUN3346.1_39_L001_R1_001.fastq.gz
+        md5sum: e21b0cf8eb65c06309d9a41c982c9e0a
+    -   name: YUN3346.1_39_L001_R2_001.fastq.gz
+        md5sum: 78304ce2a94a818ae3104b8ff5b727e2
+    -   name: YUN3346.2_53_L001_R1_001.fastq.gz
+        md5sum: a647a29ee196dd6d8cc825ea27ee816e
+    -   name: YUN3346.2_53_L001_R2_001.fastq.gz
+        md5sum: 32db2b6ecff78aea0762f73d3cff9837
+    -   name: YUN3346.3_15_L001_R1_001.fastq.gz
+        md5sum: bb1203bab85e0b8996f0696c39e5f54b
+    -   name: YUN3346.3_15_L001_R2_001.fastq.gz
+        md5sum: 3a3049eda8757cc7f8f7ac059e455721
+    -   name: YUN3428.1_35_L001_R1_001.fastq.gz
+        md5sum: e31ff1a2c53a43fdc5cf30fe2140c4df
+    -   name: YUN3428.1_35_L001_R2_001.fastq.gz
+        md5sum: ff2d79b7a7a8c412e2056c294673b5c6
+    -   name: YUN3428.2_7_L001_R1_001.fastq.gz
+        md5sum: 2600b35f786abadd9ef9019516451343
+    -   name: YUN3428.2_7_L001_R2_001.fastq.gz
+        md5sum: 9405bfc0761de632957755adbabe458a
+    -   name: YUN3428.3_21_L001_R1_001.fastq.gz
+        md5sum: d17892c56eda0b91cc307f6388565edb
+    -   name: YUN3428.3_21_L001_R2_001.fastq.gz
+        md5sum: 8e014b091932626c7c3a07dca9bc5ae2
+    -   name: YUN3533.1.1_37_L001_R1_001.fastq.gz
+        md5sum: e9f72e9817609f29de60c2f11fb82c0f
+    -   name: YUN3533.1.1_37_L001_R2_001.fastq.gz
+        md5sum: 0ca573d114b18d0159b77f4918b3a4e3
+    -   name: YUN3533.1.2_33_L001_R1_001.fastq.gz
+        md5sum: a46db9741457e2af121957a87d4a391d
+    -   name: YUN3533.1.2_33_L001_R2_001.fastq.gz
+        md5sum: 8a27ce0d06d8e32fa7302093a607f416
+    -   name: YUN3533.1.3_16_L001_R1_001.fastq.gz
+        md5sum: 736326db7ee6297f7ec2288a9179c992
+    -   name: YUN3533.1.3_16_L001_R2_001.fastq.gz
+        md5sum: 2f5f66ccf3f12bec89802c10c63ec21b
+    -   name: YUN3533.2_3_L001_R1_001.fastq.gz
+        md5sum: 7da5c9b8c20f0479a88a7c0584b9ce38
+    -   name: YUN3533.2_3_L001_R2_001.fastq.gz
+        md5sum: d6670c92c404567c80ea8cb5b257a4b1
+    -   name: YUN3533.3_22_L001_R1_001.fastq.gz
+        md5sum: ddb68dd1cb52d328b4d95675c0d11690
+    -   name: YUN3533.3_22_L001_R2_001.fastq.gz
+        md5sum: c1b01b60f37763d19ec45c961a37e836
+    -   name: YUN3856.1.1_44_L001_R1_001.fastq.gz
+        md5sum: bdb0aa49904c28a6c9db140bd9d96889
+    -   name: YUN3856.1.1_44_L001_R2_001.fastq.gz
+        md5sum: c35ebe06cda6e0fc5d54e5123a3769dc
+    -   name: YUN3856.1.2_11_L001_R1_001.fastq.gz
+        md5sum: d1cc44835767be65986336dedaf5b286
+    -   name: YUN3856.1.2_11_L001_R2_001.fastq.gz
+        md5sum: 8095400aef4b5d2e1bea9d7458afab73
+    -   name: YUN3856.1.3_38_L001_R1_001.fastq.gz
+        md5sum: bda71445bbe6c9829780835f8af150d4
+    -   name: YUN3856.1.3_38_L001_R2_001.fastq.gz
+        md5sum: 2a2ad657927f1eb687018baf244c0aad
+    -   name: YUN3856.2_29_L001_R1_001.fastq.gz
+        md5sum: 2d8f39611fbcbab4c0f38d8357803741
+    -   name: YUN3856.2_29_L001_R2_001.fastq.gz
+        md5sum: 52c2e3900905fcda64b27180d2d13e2a
+    -   name: YUN3856.3_12_L001_R1_001.fastq.gz
+        md5sum: 7580d8b6cd23d0cd8e8dadeeee0bda10
+    -   name: YUN3856.3_12_L001_R2_001.fastq.gz
+        md5sum: 3bade72f36dc32eb434569bde74b6786
+
+transformers:
+    output:
+    -   from: CasavaOneEightSingleLanePerSampleDirFmt
+        to: SingleLanePerSamplePairedEndFastqDirFmt
+        plugin: !ref 'environment:plugins:types'
+
+environment:
+    platform: linux-x86_64
+    python: |-
+        3.6.10 | packaged by conda-forge | (default, Apr 24 2020, 16:44:11)
+        [GCC 7.3.0]
+    framework:
+        version: 2020.8.0
+        website: https://qiime2.org
+        citations:
+        - !cite 'framework|qiime2:2020.8.0|0'
+    plugins:
+        types:
+            version: 2020.8.0
+            website: https://github.com/qiime2/q2-types
+    python-packages:
+        zipp: 3.1.0
+        xopen: 0.9.0
+        widgetsnbextension: 3.5.1
+        wheel: 0.35.1
+        webencodings: 0.5.1
+        wcwidth: 0.2.5
+        urllib3: 1.25.10
+        unifrac: 0.10.0
+        tzlocal: '2.1'
+        typing-extensions: 3.7.4.2
+        traitlets: 4.3.3
+        tornado: 6.0.4
+        toml: 0.10.1
+        threadpoolctl: 2.1.0
+        testpath: 0.4.4
+        terminado: 0.8.3
+        statsmodels: 0.11.1
+        six: 1.15.0
+        setuptools: 49.6.0.post20201009
+        sepp: 4.3.10
+        Send2Trash: 1.5.0
+        seaborn: 0.10.1
+        scipy: 1.5.2
+        scikit-learn: 0.23.1
+        scikit-bio: 0.5.5
+        requests: 2.24.0
+        qiime2: 2020.8.0
+        q2templates: 2020.8.0
+        q2cli: 2020.8.0
+        q2-vsearch: 2020.8.0
+        q2-types: 2020.8.0
+        q2-taxa: 2020.8.0
+        q2-sample-classifier: 2020.8.0
+        q2-quality-filter: 2020.8.0
+        q2-quality-control: 2020.8.0
+        q2-phylogeny: 2020.8.0
+        q2-metadata: 2020.8.0
+        q2-longitudinal: 2020.8.0
+        q2-gneiss: 2020.8.0
+        q2-fragment-insertion: 2020.8.0
+        q2-feature-table: 2020.8.0
+        q2-feature-classifier: 2020.8.0
+        q2-emperor: 2020.8.0
+        q2-diversity: 2020.8.0
+        q2-diversity-lib: 2020.8.0
+        q2-demux: 2020.8.0
+        q2-deblur: 2020.8.0
+        q2-dada2: 2020.8.0
+        q2-cutadapt: 2020.8.0
+        q2-composition: 2020.8.0
+        q2-alignment: 2020.8.0
+        pyzmq: 19.0.2
+        PyYAML: 5.3.1
+        pytz: '2020.1'
+        python-dateutil: 2.8.1
+        pytest: 6.0.1
+        PySocks: 1.7.1
+        pyrsistent: 0.16.0
+        pyparsing: 2.4.7
+        pyOpenSSL: 19.1.0
+        Pygments: 2.6.1
+        pycparser: '2.20'
+        py: 1.9.0
+        ptyprocess: 0.6.0
+        psutil: 5.7.2
+        prompt-toolkit: 3.0.6
+        prometheus-client: 0.8.0
+        pluggy: 0.13.1
+        pip: 20.2.2
+        Pillow: 7.2.0
+        pickleshare: 0.7.5
+        pexpect: 4.8.0
+        patsy: 0.5.1
+        parso: 0.7.1
+        pandocfilters: 1.4.2
+        pandas: 0.25.3
+        packaging: '20.4'
+        olefile: '0.46'
+        numpy: 1.19.1
+        notebook: 6.1.3
+        nose: 1.3.7
+        networkx: '2.4'
+        nbformat: 5.0.7
+        nbconvert: 5.6.1
+        natsort: 7.0.1
+        msgpack: 1.0.0
+        more-itertools: 8.4.0
+        mistune: 0.8.4
+        matplotlib: 3.2.2
+        MarkupSafe: 1.1.1
+        lockfile: 0.12.2
+        kiwisolver: 1.2.0
+        jupyter-core: 4.6.3
+        jupyter-client: 6.1.6
+        jsonschema: 3.2.0
+        joblib: 0.16.0
+        Jinja2: 2.11.2
+        jedi: 0.17.2
+        ipywidgets: 7.5.1
+        ipython: 7.16.1
+        ipython-genutils: 0.2.0
+        ipykernel: 5.3.4
+        iniconfig: 1.0.1
+        importlib-metadata: 1.7.0
+        ijson: 3.1.1
+        idna: '2.10'
+        hdmedians: '0.13'
+        h5py: 2.10.0
+        gneiss: 0.4.6
+        future: 0.18.2
+        fastcluster: 1.1.26
+        entrypoints: '0.3'
+        emperor: 1.0.1
+        dnaio: 0.4.2
+        DendroPy: 4.4.0
+        defusedxml: 0.6.0
+        decorator: 4.4.2
+        deblur: 1.1.0
+        Cython: 0.29.21
+        cycler: 0.10.0
+        cutadapt: '2.10'
+        cryptography: '3.0'
+        click: 7.1.2
+        chardet: 3.0.4
+        cffi: 1.14.1
+        certifi: 2020.6.20
+        CacheControl: 0.12.6
+        brotlipy: 0.7.0
+        bokeh: 2.1.1
+        bleach: 3.1.5
+        biom-format: 2.1.8
+        bibtexparser: 1.1.0
+        backports.functools-lru-cache: 1.6.1
+        backcall: 0.2.0
+        attrs: 20.1.0
+        argon2-cffi: 20.1.0
