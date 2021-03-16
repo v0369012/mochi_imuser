@@ -4883,6 +4883,8 @@ server <- function(session, input, output) {
         
         asv_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
         
+        asv_table <- filter(asv_table, V2 != 0) # qiime version problem
+        
         asv_smr_table <- cbind(asv_table, "Number of samples observed in" = asv_found_number)
         
         colnames(asv_smr_table)[1:2] <- c("ASV", "Read count")
@@ -5236,6 +5238,8 @@ server <- function(session, input, output) {
       
       asv_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
       
+      asv_table <- filter(asv_table, V2 != 0) # qiime version problem
+      
       asv_smr_table <- cbind(asv_table, "Number of samples observed in" = asv_found_number)
       
       colnames(asv_smr_table)[1:2] <- c("ASV", "Read count")
@@ -5473,11 +5477,11 @@ server <- function(session, input, output) {
   
   
   paired_input_position_f <- reactive({
-    c(input$trim_left_f_paired, input$trunc_len_f_paired)
+    c(input$trim_left_f_paired, input$trunc_len_f_paired) %>% as.numeric()
   })
   
   paired_input_position_r <- reactive({
-    c(input$trim_left_r_paired, input$trunc_len_r_paired)
+    c(input$trim_left_r_paired, input$trunc_len_r_paired) %>% as.numeric()
   })
   
   observeEvent(input$denoising_paired, {
@@ -5490,16 +5494,17 @@ server <- function(session, input, output) {
                             "Please finish sequence summary first.", 
                             footer = NULL, easyClose = T, size = "l"))
       
+      
     }else if(sum(paired_input_position_f() > demux_paired_seqs_Q_f()[8])>0){
       
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-                            "Your position to trim can not be large than the sequence length.", 
+                            "Your position (forward) to trim can not be large than the sequence length.", 
                             footer = NULL, easyClose = T, size = "l"))
       
     }else if(sum(paired_input_position_r() > demux_paired_seqs_Q_r()[8])>0){
       
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-                            "Your position to trim can not be large than the sequence length.", 
+                            "Your position (reverse) to trim can not be large than the sequence length.", 
                             footer = NULL, easyClose = T, size = "l"))
 
     }else{
@@ -6008,6 +6013,8 @@ server <- function(session, input, output) {
         
         asv_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
         
+        asv_table <- filter(asv_table, V2 != 0) # qiime version problem
+        
         asv_smr_table <- cbind(asv_table, "Number of samples observed in" = asv_found_number)
         
         colnames(asv_smr_table)[1:2] <- c("ASV", "Read count")
@@ -6227,6 +6234,8 @@ server <- function(session, input, output) {
       }
       
       asv_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
+      
+      asv_table <- filter(asv_table, V2 != 0) # qiime version problem
       
       asv_smr_table <- cbind(asv_table, "Number of samples observed in" = asv_found_number)
       
@@ -7964,7 +7973,7 @@ server <- function(session, input, output) {
         )
         
         write.csv(parameter_table,
-                  paste0("/home/imuser/parameter_taxonomy_classification_single.csv"), 
+                  "/home/imuser/parameter_taxonomy_classification_single.csv", 
                   quote = F, 
                   row.names = F)
         
@@ -7992,7 +8001,7 @@ server <- function(session, input, output) {
         )
         
         write.csv(parameter_table,
-                  paste0("/home/imuser/parameter_taxonomy_classification_paired.csv"), 
+                  "/home/imuser/parameter_taxonomy_classification_paired.csv", 
                   quote = F, 
                   row.names = F)
         
@@ -8019,7 +8028,7 @@ server <- function(session, input, output) {
         )
         
         write.csv(parameter_table,
-                  paste0("/home/imuser/parameter_taxonomy_classification_Pacbio.csv"), 
+                  "/home/imuser/parameter_taxonomy_classification_Pacbio.csv", 
                   quote = F, 
                   row.names = F)
         
