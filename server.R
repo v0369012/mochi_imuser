@@ -2422,6 +2422,8 @@ server <- function(session, input, output) {
                                 ), 
                                 footer = NULL, easyClose = T, size = "l"))
         }else{
+          
+          shinyjs::hide("demux_results_view_single")
           showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                                 "Please check your files.", 
                                 footer = NULL, easyClose = T, size = "l"))
@@ -3188,6 +3190,8 @@ server <- function(session, input, output) {
                                   ), 
                                   footer = NULL, easyClose = T, size = "l"))
           }else{
+            
+            shinyjs::hide("demux_results_view_paired")
             showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                                   "Please check your files.", 
                                   footer = NULL, easyClose = T, size = "l"))
@@ -4171,6 +4175,9 @@ server <- function(session, input, output) {
                                 ), 
                                 footer = NULL, easyClose = T, size = "l"))
         }else{
+          
+          shinyjs::hide("demux_results_view_Pacbio")
+          
           showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                                 "Please check your files.", 
                                 footer = NULL, easyClose = T, size = "l"))
@@ -5015,6 +5022,9 @@ server <- function(session, input, output) {
                               ), 
                               footer = NULL, easyClose = T, size = "l"))
       }else{
+        
+        shinyjs::hide("dada2_results_single")
+        
         showModal(modalDialog(title = strong("Error!", style = "color: red"),
                               "Please check your files.", 
                               footer = NULL, easyClose = T, size = "l"))
@@ -5918,9 +5928,9 @@ server <- function(session, input, output) {
                               ), 
                               footer = NULL, easyClose = T, size = "l"))
       }else{
-        # output$word_denoising_paired_position <- renderText({
-        #   print('Error!')
-        # })
+        
+        shinyjs::hide("dada2_results_paired")
+        
         showModal(modalDialog(title = strong("Error!", style = "color: red"),
                               "Please check your files.", 
                               footer = NULL, easyClose = T, size = "l"))
@@ -6825,6 +6835,9 @@ server <- function(session, input, output) {
                               ), 
                               footer = NULL, easyClose = T, size = "l"))
       }else{
+        
+        shinyjs::hide("dada2_results_Pacbio")
+        
         showModal(modalDialog(title = strong("Error!", style = "color: red"),
                               "Please check your files.", 
                               footer = NULL, easyClose = T, size = "l"))
@@ -7965,9 +7978,6 @@ server <- function(session, input, output) {
 
 
       
-      shinyjs::show("taxa_results_view")
-      
-      
       
       # removeModal()
       remove_modal_spinner()
@@ -8070,6 +8080,8 @@ server <- function(session, input, output) {
       if(input$seqs_type == "Single end"){
         if(file.exists("/home/imuser/qiime_output/taxonomy_single.qzv")){
           
+          shinyjs::show("taxa_results_view")
+          
           showModal(modalDialog(title = strong("Taxonomy classification has been finished!"), 
                                 HTML(
                                   paste0(
@@ -8078,6 +8090,8 @@ server <- function(session, input, output) {
                                 ), 
                                 footer = NULL, easyClose = T, size = "l"))
         }else{
+          
+          shinyjs::hide("taxa_results_view")
           
           showModal(modalDialog(title = strong("Error!", style = "color: red"),
                                 "Please check your files or parameters.", 
@@ -8086,6 +8100,8 @@ server <- function(session, input, output) {
       }else if(input$seqs_type == "Paired end"){
         if(file.exists("/home/imuser/qiime_output/taxonomy_paired.qzv")){
           
+          shinyjs::show("taxa_results_view")
+          
           showModal(modalDialog(title = strong("Taxonomy classification has been finished!"), 
                                 HTML(
                                   paste0(
@@ -8094,6 +8110,8 @@ server <- function(session, input, output) {
                                 ), 
                                 footer = NULL, easyClose = T, size = "l"))
         }else{
+          
+          shinyjs::hide("taxa_results_view")
           
           showModal(modalDialog(title = strong("Error!", style = "color: red"),
                                 "Please check your files or parameters.", 
@@ -8102,6 +8120,8 @@ server <- function(session, input, output) {
       }else if(input$seqs_type == "Pacbio long read"){
         if(file.exists("/home/imuser/qiime_output/taxonomy_Pacbio.qzv")){
           
+          shinyjs::show("taxa_results_view")
+          
           showModal(modalDialog(title = strong("Taxonomy classification has been finished!"), 
                                 HTML(
                                   paste0(
@@ -8110,6 +8130,8 @@ server <- function(session, input, output) {
                                 ), 
                                 footer = NULL, easyClose = T, size = "l"))
         }else{
+          
+          shinyjs::hide("taxa_results_view")
           
           showModal(modalDialog(title = strong("Error!", style = "color: red"),
                                 "Please check your files or parameters.", 
