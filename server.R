@@ -4815,6 +4815,8 @@ server <- function(session, input, output) {
         req(input$input_job_id_denoise)
         sample_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
         
+        sample_table <- filter(sample_table, V2 != 0) # qiime version problem
+        
         sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]]
         sample_found_number <- c()
         for (i in 1:ncol(sample_qiime2)) {
@@ -4841,6 +4843,8 @@ server <- function(session, input, output) {
       output$dada2_sample_table_single <- renderDataTable({
         req(input$input_job_id_denoise)
         sample_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
+        
+        sample_table <- filter(sample_table, V2 != 0) # qiime version problem
         
         sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]]
         sample_found_number <- c()
@@ -5206,6 +5210,8 @@ server <- function(session, input, output) {
     content = function(file){
       
       sample_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/sample-frequency-detail.csv" , header = F)
+      
+      sample_table <- filter(sample_table, V2 != 0) # qiime version problem
       
       sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]]
       sample_found_number <- c()
@@ -5945,6 +5951,8 @@ server <- function(session, input, output) {
         
         sample_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
         
+        sample_table <- filter(sample_table, V2 != 0) # qiime version problem
+        
         sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]]
         sample_found_number <- c()
         for (i in 1:ncol(sample_qiime2)) {
@@ -5971,6 +5979,8 @@ server <- function(session, input, output) {
       output$dada2_sample_table_paired <- renderDataTable({
         
         sample_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
+        
+        sample_table <- filter(sample_table, V2 != 0) # qiime version problem
         
         sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]]
         sample_found_number <- c()
@@ -6203,6 +6213,8 @@ server <- function(session, input, output) {
     content = function(file){
       
       sample_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/sample-frequency-detail.csv" , header = F)
+      
+      sample_table <- filter(sample_table, V2 != 0) # qiime version problem
       
       sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]]
       sample_found_number <- c()
@@ -6611,6 +6623,8 @@ server <- function(session, input, output) {
         req(input$input_job_id_denoise)
         sample_table <- read.csv("/home/imuser/qiime_output/denoise_Pacbio_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
         
+        sample_table <- filter(sample_table, V2 != 0) # qiime version problem
+        
         sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_Pacbio.qza")[["data"]]
         sample_found_number <- c()
         for (i in 1:ncol(sample_qiime2)) {
@@ -6637,6 +6651,8 @@ server <- function(session, input, output) {
       output$dada2_sample_table_Pacbio <- renderDataTable({
         req(input$input_job_id_denoise)
         sample_table <- read.csv("/home/imuser/qiime_output/denoise_Pacbio_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
+        
+        sample_table <- filter(sample_table, V2 != 0) # qiime version problem
         
         sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_Pacbio.qza")[["data"]]
         sample_found_number <- c()
@@ -7002,6 +7018,8 @@ server <- function(session, input, output) {
     content = function(file){
       
       sample_table <- read.csv("/home/imuser/qiime_output/denoise_Pacbio_position_table/new_dirname/data/sample-frequency-detail.csv" , header = F)
+      
+      sample_table <- filter(sample_table, V2 != 0) # qiime version problem
       
       sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_Pacbio.qza")[["data"]]
       sample_found_number <- c()
