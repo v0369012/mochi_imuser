@@ -8096,6 +8096,7 @@ server <- function(session, input, output) {
         if(file.exists("/home/imuser/qiime_output/taxonomy_single.qzv")){
           
           shinyjs::show("taxa_results_view")
+          shinyjs::show("taxa_results_download")
           
           showModal(modalDialog(title = strong("Taxonomy classification has been finished!"), 
                                 HTML(
@@ -8107,6 +8108,7 @@ server <- function(session, input, output) {
         }else{
           
           shinyjs::hide("taxa_results_view")
+          shinyjs::hide("taxa_results_download")
           
           showModal(modalDialog(title = strong("Error!", style = "color: red"),
                                 "Please check your files or parameters.", 
@@ -8116,6 +8118,7 @@ server <- function(session, input, output) {
         if(file.exists("/home/imuser/qiime_output/taxonomy_paired.qzv")){
           
           shinyjs::show("taxa_results_view")
+          shinyjs::show("taxa_results_download")
           
           showModal(modalDialog(title = strong("Taxonomy classification has been finished!"), 
                                 HTML(
@@ -8127,6 +8130,7 @@ server <- function(session, input, output) {
         }else{
           
           shinyjs::hide("taxa_results_view")
+          shinyjs::hide("taxa_results_download")
           
           showModal(modalDialog(title = strong("Error!", style = "color: red"),
                                 "Please check your files or parameters.", 
@@ -8136,6 +8140,7 @@ server <- function(session, input, output) {
         if(file.exists("/home/imuser/qiime_output/taxonomy_Pacbio.qzv")){
           
           shinyjs::show("taxa_results_view")
+          shinyjs::show("taxa_results_download")
           
           showModal(modalDialog(title = strong("Taxonomy classification has been finished!"), 
                                 HTML(
@@ -8147,6 +8152,7 @@ server <- function(session, input, output) {
         }else{
           
           shinyjs::hide("taxa_results_view")
+          shinyjs::hide("taxa_results_download")
           
           showModal(modalDialog(title = strong("Error!", style = "color: red"),
                                 "Please check your files or parameters.", 
@@ -8241,6 +8247,7 @@ server <- function(session, input, output) {
       if(file.exists("/home/imuser/qiime_output/taxonomy_single.qzv")){
         
         shinyjs::show("taxa_results_view")
+        shinyjs::show("taxa_results_download")
         
         output$taxonomy_classificatio_table <- renderDataTable({
           req(input$input_job_id_taxa)
@@ -8265,6 +8272,7 @@ server <- function(session, input, output) {
       if(file.exists("/home/imuser/qiime_output/taxonomy_paired.qzv")){
         
         shinyjs::show("taxa_results_view")
+        shinyjs::show("taxa_results_download")
         
         output$taxonomy_classificatio_table <- renderDataTable({
           req(input$input_job_id_taxa)
@@ -8289,6 +8297,7 @@ server <- function(session, input, output) {
       if(file.exists("/home/imuser/qiime_output/taxonomy_Pacbio.qzv")){
         
         shinyjs::show("taxa_results_view")
+        shinyjs::show("taxa_results_download")
         
         output$taxonomy_classificatio_table <- renderDataTable({
           req(input$input_job_id_taxa)
