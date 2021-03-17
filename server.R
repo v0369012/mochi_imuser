@@ -4880,15 +4880,17 @@ server <- function(session, input, output) {
       })
       
       output$dada2_asv_summary_table_single <- renderTable({
-        req(input$input_job_id_denoise)
-        asv_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
+        # req(input$input_job_id_denoise)
+        # asv_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
+        asv_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]]
+        asv_read_count <- rowSums(asv_qiime2)
         asv_summary <- data.frame(
-          Min = min(asv_table[,2]),
-          Mean = mean(asv_table[,2]),
-          Median = median(asv_table[,2]),
-          Max = max(asv_table[,2]),
-          Total = sum(asv_table[,2]),
-          "Number of ASVs" = nrow(asv_table)
+          Min = min(asv_read_count),
+          Mean = mean(asv_read_count),
+          Median = median(asv_read_count),
+          Max = max(asv_read_count),
+          Total = sum(asv_read_count),
+          "Number of ASVs" = length(asv_read_count)
         )
       })
       
@@ -5114,7 +5116,7 @@ server <- function(session, input, output) {
     })
     
     output$dada2_asv_summary_table_single <- renderTable({
-      req(input$input_job_id_denoise)
+      # req(input$input_job_id_denoise)
       # asv_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
       asv_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]]
       asv_read_count <- rowSums(asv_qiime2)
@@ -6020,14 +6022,16 @@ server <- function(session, input, output) {
       
       output$dada2_asv_summary_table_paired <- renderTable({
         
-        asv_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
+        # asv_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
+        asv_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]]
+        asv_read_count <- rowSums(asv_qiime2)
         asv_summary <- data.frame(
-          Min = min(asv_table[,2]),
-          Mean = mean(asv_table[,2]),
-          Median = median(asv_table[,2]),
-          Max = max(asv_table[,2]),
-          Total = sum(asv_table[,2]),
-          "Number of ASVs" = nrow(asv_table)
+          Min = min(asv_read_count),
+          Mean = mean(asv_read_count),
+          Median = median(asv_read_count),
+          Max = max(asv_read_count),
+          Total = sum(asv_read_count),
+          "Number of ASVs" = length(asv_read_count)
         )
       })
       
@@ -6691,15 +6695,17 @@ server <- function(session, input, output) {
       })
       
       output$dada2_asv_summary_table_Pacbio <- renderTable({
-        req(input$input_job_id_denoise)
-        asv_table <- read.csv("/home/imuser/qiime_output/denoise_Pacbio_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
+        # req(input$input_job_id_denoise)
+        # asv_table <- read.csv("/home/imuser/qiime_output/denoise_Pacbio_position_table/new_dirname/data/feature-frequency-detail.csv", header = F)
+        asv_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_Pacbio.qza")[["data"]]
+        asv_read_count <- rowSums(asv_qiime2)
         asv_summary <- data.frame(
-          Min = min(asv_table[,2]),
-          Mean = mean(asv_table[,2]),
-          Median = median(asv_table[,2]),
-          Max = max(asv_table[,2]),
-          Total = sum(asv_table[,2]),
-          "Number of ASVs" = nrow(asv_table)
+          Min = min(asv_read_count),
+          Mean = mean(asv_read_count),
+          Median = median(asv_read_count),
+          Max = max(asv_read_count),
+          Total = sum(asv_read_count),
+          "Number of ASVs" = length(asv_read_count)
         )
       })
       
