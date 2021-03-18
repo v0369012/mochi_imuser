@@ -4829,10 +4829,10 @@ server <- function(session, input, output) {
       
       # summary table
       output$dada2_sample_summary_single <- renderTable({
-        req(input$input_job_id_denoise)
-        sample_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
+        # req(input$input_job_id_denoise)
+        # sample_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
         
-        sample_table <- filter(sample_table, V2 != 0) # qiime version problem
+        # sample_table <- filter(sample_table, V2 != 0) # qiime version problem
         
         sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]]
         sample_found_number <- c()
@@ -4843,7 +4843,7 @@ server <- function(session, input, output) {
         
         sample_summary_table <- data.frame(
           SampleID = colnames(sample_qiime2),
-          "Read count" = sample_table[,2],
+          "Read count" = colSums(sample_qiime2),
           "Number of ASVs observed in" = sample_found_number
         )
         
@@ -6730,10 +6730,10 @@ server <- function(session, input, output) {
       
       # summary table
       output$dada2_sample_summary_Pacbio <- renderTable({
-        req(input$input_job_id_denoise)
-        sample_table <- read.csv("/home/imuser/qiime_output/denoise_Pacbio_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
-        
-        sample_table <- filter(sample_table, V2 != 0) # qiime version problem
+        # req(input$input_job_id_denoise)
+        # sample_table <- read.csv("/home/imuser/qiime_output/denoise_Pacbio_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
+        # 
+        # sample_table <- filter(sample_table, V2 != 0) # qiime version problem
         
         sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_Pacbio.qza")[["data"]]
         sample_found_number <- c()
@@ -6744,7 +6744,7 @@ server <- function(session, input, output) {
         
         sample_summary_table <- data.frame(
           SampleID = colnames(sample_qiime2),
-          "Read count" = sample_table[,2],
+          "Read count" = colSums(sample_qiime2),
           "Number of ASVs observed in" = sample_found_number
         )
         
