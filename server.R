@@ -4917,7 +4917,21 @@ server <- function(session, input, output) {
       
       # filter info 
       output$dada2_filter_table_single <- renderDataTable({
-        read.table("/home/imuser/qiime_output/denoise_single_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+        filter_table <- read.table("/home/imuser/qiime_output/denoise_single_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+        
+        filter_table_new <- data.frame(
+          "SampleID" = filter_table[,1],
+          "Input read" = filter_table[,2],
+          "Filtered read" = filter_table[,3],
+          "Filtered read (%)" = filter_table[,4],
+          "Denoised read" = filter_table[, 5],
+          "Denoised read (%)" = round(as.numeric(as.character(filter_table[, 5]))/as.numeric(as.character(filter_table[,2])), 4)*100,
+          "Non-chimeric read" = filter_table[,6],
+          "Non-chimeric read (%)" = filter_table[,7] 
+        )
+        
+        colnames(filter_table_new) <- c("SampleID", "Input read", "Filtered read", "Filtered read (%)", "Denoised read", "Denoised read (%)", "Non-chimeric read", "Non-chimeric read (%)")
+        return(filter_table_new)
         
       })
       
@@ -5151,8 +5165,21 @@ server <- function(session, input, output) {
     
     # filter info 
     output$dada2_filter_table_single <- renderDataTable({
-      read.table("/home/imuser/qiime_output/denoise_single_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+      filter_table <- read.table("/home/imuser/qiime_output/denoise_single_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
       
+      filter_table_new <- data.frame(
+        "SampleID" = filter_table[,1],
+        "Input read" = filter_table[,2],
+        "Filtered read" = filter_table[,3],
+        "Filtered read (%)" = filter_table[,4],
+        "Denoised read" = filter_table[, 5],
+        "Denoised read (%)" = round(as.numeric(as.character(filter_table[, 5]))/as.numeric(as.character(filter_table[,2])), 4)*100,
+        "Non-chimeric read" = filter_table[,6],
+        "Non-chimeric read (%)" = filter_table[,7] 
+      )
+      
+      colnames(filter_table_new) <- c("SampleID", "Input read", "Filtered read", "Filtered read (%)", "Denoised read", "Denoised read (%)", "Non-chimeric read", "Non-chimeric read (%)")
+      return(filter_table_new)
     })
     
     # seqs info 
@@ -5276,9 +5303,24 @@ server <- function(session, input, output) {
   )
   
   output$dada2_filter_table_single_dl <- downloadHandler(
-    filename = "filter_info_table.tsv",
+    filename = "filter_info_table.csv",
     content = function(file){
-      file.copy("/home/imuser/qiime_output/denoise_single_stats/new_dirname/data/metadata.tsv", file)
+      filter_table <- read.table("/home/imuser/qiime_output/denoise_single_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+      
+      filter_table_new <- data.frame(
+        "SampleID" = filter_table[,1],
+        "Input read" = filter_table[,2],
+        "Filtered read" = filter_table[,3],
+        "Filtered read (%)" = filter_table[,4],
+        "Denoised read" = filter_table[, 5],
+        "Denoised read (%)" = round(as.numeric(as.character(filter_table[, 5]))/as.numeric(as.character(filter_table[,2])), 4)*100,
+        "Non-chimeric read" = filter_table[,6],
+        "Non-chimeric read (%)" = filter_table[,7] 
+      )
+      
+      colnames(filter_table_new) <- c("SampleID", "Input read", "Filtered read", "Filtered read (%)", "Denoised read", "Denoised read (%)", "Non-chimeric read", "Non-chimeric read (%)")
+
+      write.csv(filter_table_new, file, quote = F, row.names = F)
     }
   )
   
@@ -5821,8 +5863,22 @@ server <- function(session, input, output) {
       
       # filter info 
       output$dada2_filter_table_paired <- renderDataTable({
-        read.table("/home/imuser/qiime_output/denoise_paired_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+        filter_table <- read.table("/home/imuser/qiime_output/denoise_paired_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+        filter_table_new <- data.frame(
+          "SampleID" = filter_table[,1],
+          "Input read" = filter_table[,2],
+          "Filtered read" = filter_table[,3],
+          "Filtered read (%)" = filter_table[,4],
+          "Denoised read" = filter_table[, 5],
+          "Denoised read (%)" = round(as.numeric(as.character(filter_table[, 5]))/as.numeric(as.character(filter_table[,2])), 4)*100,
+          "Merged read" = filter_table[,6],
+          "Merged read (%)" = filter_table[,7],
+          "Non-chimeric read" = filter_table[,8],
+          "Non-chimeric read (%)" = filter_table[,9] 
+        )
         
+        colnames(filter_table_new) <- c("SampleID", "Input read", "Filter read", "Filter read (%)", "Denoised read", "Denoised read (%)", "Merged read", "Merged read (%)", "Non-chimeric read", "Non-chimeric read (%)")
+        return(filter_table_new)
       })
       
       # seqs info 
@@ -6058,7 +6114,22 @@ server <- function(session, input, output) {
       
       # filter info 
       output$dada2_filter_table_paired <- renderDataTable({
-        read.table("/home/imuser/qiime_output/denoise_paired_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+        filter_table <- read.table("/home/imuser/qiime_output/denoise_paired_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+        filter_table_new <- data.frame(
+          "SampleID" = filter_table[,1],
+          "Input read" = filter_table[,2],
+          "Filtered read" = filter_table[,3],
+          "Filtered read (%)" = filter_table[,4],
+          "Denoised read" = filter_table[, 5],
+          "Denoised read (%)" = round(as.numeric(as.character(filter_table[, 5]))/as.numeric(as.character(filter_table[,2])), 4)*100,
+          "Merged read" = filter_table[,6],
+          "Merged read (%)" = filter_table[,7],
+          "Non-chimeric read" = filter_table[,8],
+          "Non-chimeric read (%)" = filter_table[,9] 
+        )
+        
+        colnames(filter_table_new) <- c("SampleID", "Input read", "Filter read", "Filter read (%)", "Denoised read", "Denoised read (%)", "Merged read", "Merged read (%)", "Non-chimeric read", "Non-chimeric read (%)")
+        return(filter_table_new)
         
       })
       
@@ -6281,9 +6352,24 @@ server <- function(session, input, output) {
   )
   
   output$dada2_filter_table_paired_dl <- downloadHandler(
-    filename = "filter_info_table.tsv",
+    filename = "filter_info_table.csv",
     content = function(file){
-      file.copy("/home/imuser/qiime_output/denoise_paired_stats/new_dirname/data/metadata.tsv", file)
+      filter_table <- read.table("/home/imuser/qiime_output/denoise_paired_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+      filter_table_new <- data.frame(
+        "SampleID" = filter_table[,1],
+        "Input read" = filter_table[,2],
+        "Filtered read" = filter_table[,3],
+        "Filtered read (%)" = filter_table[,4],
+        "Denoised read" = filter_table[, 5],
+        "Denoised read (%)" = round(as.numeric(as.character(filter_table[, 5]))/as.numeric(as.character(filter_table[,2])), 4)*100,
+        "Merged read" = filter_table[,6],
+        "Merged read (%)" = filter_table[,7],
+        "Non-chimeric read" = filter_table[,8],
+        "Non-chimeric read (%)" = filter_table[,9] 
+      )
+      
+      colnames(filter_table_new) <- c("SampleID", "Input read", "Filter read", "Filter read (%)", "Denoised read", "Denoised read (%)", "Merged read", "Merged read (%)", "Non-chimeric read", "Non-chimeric read (%)")
+      write.csv(filter_table_new, file, quote = F, row.names = F)
     }
   )
   
@@ -6730,7 +6816,23 @@ server <- function(session, input, output) {
       
       # filter info 
       output$dada2_filter_table_Pacbio <- renderDataTable({
-        read.table("/home/imuser/qiime_output/denoise_Pacbio_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+        filter_table <- read.table("/home/imuser/qiime_output/denoise_Pacbio_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+        
+        filter_table_new <- data.frame(
+          "SampleID" = filter_table[,1],
+          "Input read" = filter_table[,2],
+          "Primer-removed read" = filter_table[,3],
+          "Primer-removed read (%)" = filter_table[,4],
+          "Filtered read" = filter_table[,5],
+          "Filtered read (%)" = filter_table[,6],
+          "Denoised read" = filter_table[, 7],
+          "Denoised read (%)" = round(as.numeric(as.character(filter_table[, 7]))/as.numeric(as.character(filter_table[,2])), 4)*100,
+          "Non-chimeric read" = filter_table[,8],
+          "Non-chimeric read (%)" = filter_table[,9] 
+        )
+        
+        colnames(filter_table_new) <- c("SampleID", "Input read", "Primer-removed read", "Primer-removed read (%)", "Filtered read", "Filtered read (%)", "Denoised read", "Denoised read (%)", "Non-chimeric read", "Non-chimeric read (%)")
+        return(filter_table_new)
         
       })
       
@@ -6964,7 +7066,23 @@ server <- function(session, input, output) {
       
       # filter info 
       output$dada2_filter_table_Pacbio <- renderDataTable({
-        read.table("/home/imuser/qiime_output/denoise_Pacbio_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+        filter_table <- read.table("/home/imuser/qiime_output/denoise_Pacbio_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+        
+        filter_table_new <- data.frame(
+          "SampleID" = filter_table[,1],
+          "Input read" = filter_table[,2],
+          "Primer-removed read" = filter_table[,3],
+          "Primer-removed read (%)" = filter_table[,4],
+          "Filtered read" = filter_table[,5],
+          "Filtered read (%)" = filter_table[,6],
+          "Denoised read" = filter_table[, 7],
+          "Denoised read (%)" = round(as.numeric(as.character(filter_table[, 7]))/as.numeric(as.character(filter_table[,2])), 4)*100,
+          "Non-chimeric read" = filter_table[,8],
+          "Non-chimeric read (%)" = filter_table[,9] 
+        )
+        
+        colnames(filter_table_new) <- c("SampleID", "Input read", "Primer-removed read", "Primer-removed read (%)", "Filtered read", "Filtered read (%)", "Denoised read", "Denoised read (%)", "Non-chimeric read", "Non-chimeric read (%)")
+        return(filter_table_new)
         
       })
       
@@ -7089,9 +7207,26 @@ server <- function(session, input, output) {
   )
   
   output$dada2_filter_table_Pacbio_dl <- downloadHandler(
-    filename = "filter_info_table.tsv",
+    filename = "filter_info_table.csv",
     content = function(file){
-      file.copy("/home/imuser/qiime_output/denoise_Pacbio_stats/new_dirname/data/metadata.tsv", file)
+      filter_table <- read.table("/home/imuser/qiime_output/denoise_Pacbio_stats/new_dirname/data/metadata.tsv", header = T, sep = "\t")
+      
+      filter_table_new <- data.frame(
+        "SampleID" = filter_table[,1],
+        "Input read" = filter_table[,2],
+        "Primer-removed read" = filter_table[,3],
+        "Primer-removed read (%)" = filter_table[,4],
+        "Filtered read" = filter_table[,5],
+        "Filtered read (%)" = filter_table[,6],
+        "Denoised read" = filter_table[, 7],
+        "Denoised read (%)" = round(as.numeric(as.character(filter_table[, 7]))/as.numeric(as.character(filter_table[,2])), 4)*100,
+        "Non-chimeric read" = filter_table[,8],
+        "Non-chimeric read (%)" = filter_table[,9] 
+      )
+      
+      colnames(filter_table_new) <- c("SampleID", "Input read", "Primer-removed read", "Primer-removed read (%)", "Filtered read", "Filtered read (%)", "Denoised read", "Denoised read (%)", "Non-chimeric read", "Non-chimeric read (%)")
+
+      write.csv(filter_table_new, file, quote = F, row.names = F)
     }
   )
   
