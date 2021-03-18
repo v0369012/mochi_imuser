@@ -517,7 +517,7 @@ server <- function(session, input, output) {
                        "learn more",
                        icon = icon("question-circle")) %>% div(),
           actionButton(inputId = "load_parameter_denoise_single",
-                       label = strong("Demo", style = "margin: 5px;font-size: 18px"),
+                       label = strong("Example", style = "margin: 5px;font-size: 18px"),
                        icon = icon("chalkboard-teacher"),
                        style = "color:#317EAC;background-color:white;margin-top:10px"),
           # p("Reads that are shorter than the ending position will be discarded.",
@@ -1940,23 +1940,23 @@ server <- function(session, input, output) {
   
   observe({
     req(input$seqs_type)
-    if(input$seqs_type == "Single end"){
-      output$seqs_demo_download <- downloadHandler(
-        filename = "single_seqs_demo.zip",
+    # if(input$seqs_type == "Single end"){
+      output$seqs_example_download <- downloadHandler(
+        filename = "single_seqs_example.zip",
         content = function(file){
           file.copy(from = "/home/imuser/seqs_demo/single_seqs_demo.zip", 
                     to = file)
         }
       )
-    }else{
-      output$seqs_demo_download <- downloadHandler(
-        filename = "paired_seqs_demo.zip",
-        content = function(file){
-          file.copy(from = "/home/imuser/seqs_demo/paired_seqs_demo.zip", 
-                    to = file)
-        }
-      )
-    }
+    # }else{
+    #   output$seqs_demo_download <- downloadHandler(
+    #     filename = "paired_seqs_demo.zip",
+    #     content = function(file){
+    #       file.copy(from = "/home/imuser/seqs_demo/paired_seqs_demo.zip", 
+    #                 to = file)
+    #     }
+    #   )
+    # }
   })
   
   
@@ -1998,13 +1998,13 @@ server <- function(session, input, output) {
   
   observeEvent(input$load_parameter_demux, {
     showModal(modalDialog(title = strong("Message"),
-                          HTML("<p>1. Demo parameters have been loaded. Click the button <b>Demo seqs</b> to download the demo sequences.</p>",
+                          HTML("<p>1. The parameters for the example have been loaded. Click the button <b>Example sequences</b> to download the example sequences.</p>",
                                "<p>2. Open <b>seqs_folder</b> where MOCHI installed and create a folder to put the demo sequences.</p>",
                                "<p>3. Click the button <b>Select the directory</b> to choose the folder containing the demo sequences.</p>",
                                "<p>4. Click the button <b>Start!</b> to begin sequence summary.</p>"), 
                           footer = tagList(
-                            downloadButton(outputId = "seqs_demo_download",
-                                           label = span("Demo seqs", style ="font-weight: 800"),
+                            downloadButton(outputId = "seqs_example_download",
+                                           label = span("Example sequences", style ="font-weight: 800"),
                                            style = "color:#317EAC;background-color:white;"
                             )
                           ), 
@@ -2021,13 +2021,14 @@ server <- function(session, input, output) {
   
   observeEvent(input$load_parameter_denoise_single, {
     showModal(modalDialog(title = strong("Message"),
-                          HTML("<p>1. Demo parameters have been loaded. Click the button <b>Start!</b> to begin sequence denoising.</p>",
+                          HTML("<p>1. The parameters for the example have been loaded. Click the button <b>Start!</b> to begin sequence denoising.</p>",
                                "<p>2. You must finish sequence summary first.</p>"), 
-                          footer = tagList(
-                            downloadButton("metadata_demo_download_single",
-                                           label = "Demo metadata (optional)",
-                                           style = "position:relative;left:5px;color:#317EAC")
-                          ),
+                          # footer = tagList(
+                          #   downloadButton("metadata_demo_download_single",
+                          #                  label = "Demo metadata (optional)",
+                          #                  style = "position:relative;left:5px;color:#317EAC")
+                          # ),
+                          footer = NULL,
                           easyClose = T, 
                           size = "l"))
     
@@ -2044,7 +2045,7 @@ server <- function(session, input, output) {
   
   observeEvent(input$load_parameter_taxa, {
     showModal(modalDialog(title = strong("Message"),
-                          HTML("<p>1. Demo parameters have been loaded. Click the button <b>Start!</b> to begin taxonomy classification.</p>",
+                          HTML("<p>1. The parameters for the example have been loaded. Click the button <b>Start!</b> to begin taxonomy classification.</p>",
                                "<p>2. You must finish sequence denoising first.</p>"),
                           footer = NULL,
                           easyClose = T, 
@@ -2059,12 +2060,12 @@ server <- function(session, input, output) {
   })
   
   
-  observeEvent(input$TA_demo, {
+  observeEvent(input$TA_example, {
     showModal(
       modalDialog(
         title = "Message",
         HTML("<p>1. Click the download buttons to download the example files.</p>",
-             "<p>2. Upload the example files to inspect the demo results."),
+             "<p>2. Upload the example files to inspect the example results."),
         footer = tagList(
           # p('Example files', style = "font-weight:700"),
           downloadButton(outputId = "downloadMetaData", 
@@ -2082,7 +2083,7 @@ server <- function(session, input, output) {
     )
   })
   
-  observeEvent(input$FA_demo, {
+  observeEvent(input$FA_example, {
     showModal(
       modalDialog(
         title = "Message",
@@ -2104,14 +2105,14 @@ server <- function(session, input, output) {
   })
   
   
-  observeEvent(input$phylo_demo, {
+  observeEvent(input$phylo_example, {
     
     updateTextInput(session, "sampling_depth", value = colSums(TaxaTable()) %>% min())
     updateTextInput(session, "threads_phylogenetic", value = suggested_cores)
     
     showModal(modalDialog(
       title = "Message",
-      HTML("<p>1. Demo parameters have been loaded. Click the download button to download the examlpe file.</p>",
+      HTML("<p>1. The parameters for the example have been loaded. Click the download button to download the examlpe file.</p>",
            "<p>2. Upload the example file and click the button <b>Start!</b> to begin phylogenetic diversity analysis."),
       footer = tagList(
         downloadButton(outputId = "example_rep_seqs",
@@ -9145,7 +9146,7 @@ server <- function(session, input, output) {
     filename <-"Taxonomic_table_example.qza",
     
     content = function(file){
-      file.copy("/home/imuser/example_files/taxtable.qza", file)
+      file.copy("/home/imuser/example_files/single/taxatable.qza", file)
     },
     
     contentType = "application/qza"
@@ -9157,7 +9158,7 @@ server <- function(session, input, output) {
     filename <-"Taxonomic_table_example.qza",
     
     content = function(file){
-      file.copy("/home/imuser/example_files/taxtable.qza", file)
+      file.copy("/home/imuser/example_files/single/taxatable.qza", file)
     },
     
     contentType = "application/qza"
@@ -9171,7 +9172,7 @@ server <- function(session, input, output) {
     filename <-"Metadata_example.tsv",
     
     content = function(file){
-      file.copy("/home/imuser/example_files/sample-metadata.tsv", file)
+      file.copy("/home/imuser/example_files/single/sample-metadata.tsv", file)
     },
     
     contentType = "application/tsv"
@@ -9183,7 +9184,7 @@ server <- function(session, input, output) {
     filename <-"Metadata_example.tsv",
     
     content = function(file){
-      file.copy("/home/imuser/example_files/sample-metadata.tsv", file)
+      file.copy("/home/imuser/example_files/single/sample-metadata.tsv", file)
     },
     
     contentType = "application/tsv"
@@ -12082,7 +12083,7 @@ server <- function(session, input, output) {
     filename = "Seqs_forPhylo_example.qza",
     
     content = function(file){
-      file.copy(from = "/home/imuser/example_files/rep-seqs.qza", to = file)
+      file.copy(from = "/home/imuser/example_files/single/rep-seqs-dada2.qza", to = file)
     },
     contentType = "application/qza"
   )
@@ -12092,7 +12093,7 @@ server <- function(session, input, output) {
     filename = "ASVs_table_example.qza",
     
     content = function(file){
-      file.copy(from = "/home/imuser/example_files/table.qza", to = file)
+      file.copy(from = "/home/imuser/example_files/single/table-dada2.qza", to = file)
     },
     contentType = "application/qza"
   )
