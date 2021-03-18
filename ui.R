@@ -198,7 +198,7 @@ shinyUI(
                               pickerInput(inputId = "seqs_type",
                                           label = span("Choose the sequence type", 
                                                        style= "font-size: 20px; font-weight: 300; color: white; margin: 0px;"),
-                                          choices = c("Single end", "Paired end", "Pacbio long read"),
+                                          choices = c("Single end", "Paired end", "Long read"),
                                           width = "300px"
                               ),
                               
@@ -388,9 +388,9 @@ shinyUI(
                               ),
                               
                               conditionalPanel(
-                                condition = "input.seqs_type == 'Pacbio long read'",
+                                condition = "input.seqs_type == 'Long read'",
                                 column(width = 12,
-                                       h1("1. Sequence summary (for Pacbio long read)"),
+                                       h1("1. Sequence summary (for Long read)"),
                                        h4("(1) Summarize the long reads.",style = "color: #317EAC;"),
                                        actionButton(inputId = "demultiplexed_Pacbio_ends", 
                                                     label = strong("Start!"), 
@@ -636,11 +636,11 @@ shinyUI(
                               
                               conditionalPanel(
                                 
-                                condition = "input.seqs_type == 'Pacbio long read'",
+                                condition = "input.seqs_type == 'Long read'",
                                 
                                 column(width = 12,
                                        
-                                       h1('2. Sequence denoising (DADA2) for Pacbio long read'),
+                                       h1('2. Sequence denoising (DADA2) for Long read'),
                                        
                                        h4("(1) Start to denoise."),
                                        actionButton(inputId = "denoising_Pacbio", 
