@@ -2165,8 +2165,9 @@ server <- function(session, input, output) {
                             footer = NULL, easyClose = T, size = "l"))
       file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
       
-    }else if(sum(str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\."))==0){
-      if(sum(str_detect(seqs_name, ".+_R{0,1}[12]\\."))==0){
+    }else if(sum(str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.")) == 0 | sum(str_count(seqs_name, "_")) != 4*length(seqs_name)){
+      
+      if(sum(str_detect(seqs_name, ".+_R{0,1}[12]\\.")) == 0 | sum(str_count(seqs_name, "_")) != 1*length(seqs_name)){
         showModal(modalDialog(title = strong("Error!", style = "color: red"),
                               "File names must be {sample ID}_{barcode identifier}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
                               footer = NULL, easyClose = T, size = "l"))
@@ -2964,8 +2965,9 @@ server <- function(session, input, output) {
                               footer = NULL, easyClose = T, size = "l"))
         file.rename(from = list.files(raw_data_path, full.names = T), to = paste0(raw_data_path, "/",seqs_name_original))
         
-      }else if(sum(str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\."))==0){
-        if(sum(str_detect(seqs_name, ".+_R{0,1}[12]\\."))==0){
+      }else if(sum(str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.")) == 0 | sum(str_count(seqs_name, "_")) != 4*length(seqs_name)){
+        
+        if(sum(str_detect(seqs_name, ".+_R{0,1}[12]\\.")) == 0 | sum(str_count(seqs_name, "_")) != 1*length(seqs_name)){
           showModal(modalDialog(title = strong("Error!", style = "color: red"),
                                 "File names must be {sample ID}_{barcode identifier}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
                                 footer = NULL, easyClose = T, size = "l"))
@@ -4006,12 +4008,15 @@ server <- function(session, input, output) {
                             footer = NULL, easyClose = T, size = "l"))
       file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
       
-    }else if(sum(str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\."))==0){
-      if(sum(str_detect(seqs_name, ".+_R{0,1}[12]\\."))==0){
+    }else if(sum(str_detect(seqs_name, ".+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.")) == 0 | sum(str_count(seqs_name, "_")) != 4*length(seqs_name)){
+      
+      if(sum(str_detect(seqs_name, ".+_R{0,1}[12]\\.")) == 0 | sum(str_count(seqs_name, "_")) != 1*length(seqs_name)){
+        
         showModal(modalDialog(title = strong("Error!", style = "color: red"),
                               "File names must be {sample ID}_{barcode identifier}_{lane number}_{direction of read_set number} (e.g. L2S357_15_L001_R1_001) or {Sample ID}_{direction of read} (e.g. L2S357_R1 or L2S357_1).",
                               footer = NULL, easyClose = T, size = "l"))
         file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
+        
       }else{
         
         file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name_original))
