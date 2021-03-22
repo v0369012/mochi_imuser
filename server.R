@@ -9279,6 +9279,8 @@ server <- function(session, input, output) {
     }
     
   })
+  
+  
   # Taxatable examples for download (From QIIME2)------------------------------------------------------------------
   
   output$downloadData <- downloadHandler(
@@ -9974,7 +9976,7 @@ server <- function(session, input, output) {
       
       number_nameslist <- Metadata_stats()[, 1] %>% length()
       
-      append_taxtable_list_all$read_percentage <- append_taxtable_list_all$read_percentage*100
+      append_taxtable_list_all$read_percentage <- append_taxtable_list_all$read_percentage*100 %>% round(2)
       
       # plot
       library(viridis)
@@ -10129,6 +10131,8 @@ server <- function(session, input, output) {
       }else{
         Samples_ID <- paste0( y_name, "__", barplot_taxa_table_data_percent_Level_noUnassigned_percentage$Sample_ID)
       }
+      
+      barplot_taxa_table_data_percent_Level_noUnassigned_percentage$read_percentage <- barplot_taxa_table_data_percent_Level_noUnassigned_percentage$read_percentage %>% round(2)
       
       # plot
       library(viridis)
@@ -10329,7 +10333,7 @@ server <- function(session, input, output) {
         
         number_nameslist <- length(names_list[[features]][[features_sub]]) %>% as.character()
         
-        barplot_taxa_table_data_percent_Level_sub$read_percentage <- barplot_taxa_table_data_percent_Level_sub$read_percentage*100
+        barplot_taxa_table_data_percent_Level_sub$read_percentage <- barplot_taxa_table_data_percent_Level_sub$read_percentage*100 %>% round(2)
         
         library(viridis)
         
@@ -10512,6 +10516,7 @@ server <- function(session, input, output) {
         
         barplot_taxa_table_data_percent_Level_sub <- barplot_taxa_table_data_percent_Level_sub %>% group_by(Levels)
         
+        barplot_taxa_table_data_percent_Level_sub$read_percentage <- barplot_taxa_table_data_percent_Level_sub$read_percentage %>% round(2)
         
         library(viridis)
         
@@ -10565,27 +10570,7 @@ server <- function(session, input, output) {
       
     }
     
-    # if (input$metadata_barplot=="SampleID" | input$metadata_barplot=="barcode.sequence"){
-    #   if (input$without_unassigned == F){
-    #     taxtable <- read_qza(input$taxonomic_table$datapath)[["data"]]
-    #     return(plot_LeveltoSamples(taxtable, input$select_level_bar, input$integer))
-    #   }else{
-    #     taxtable <- read_qza(input$taxonomic_table$datapath)[["data"]]
-    #     return(plot_LeveltoSamples_noUnassigned(taxtable, input$select_level_bar, input$integer))
-    #   }
-    #     
-    # }else{
-    #   
-    #   if(input$without_unassigned == F){
-    #     taxtable <- read_qza(input$taxonomic_table$datapath)[["data"]]
-    #     return(plot_LeveltoSamples_sub(taxtable, Metadata_stats(),input$metadata_barplot, input$select_level_bar, input$integer))
-    #   }else{
-    #     taxtable <- read_qza(input$taxonomic_table$datapath)[["data"]]
-    #     return(plot_LeveltoSamples_sub_noUnassigned(taxtable, Metadata_stats(),input$metadata_barplot, input$select_level_bar, input$integer))
-    #   }
-    #     
-    # }
-    
+
     if (input$metadata_barplot=="SampleID"){
       
       # taxtable <- read_qza(input$taxonomic_table$datapath)[["data"]]
@@ -10775,7 +10760,7 @@ server <- function(session, input, output) {
       
       number_nameslist <- Metadata_stats()[, 1] %>% length()
       
-      append_taxtable_list_all$read_percentage <- append_taxtable_list_all$read_percentage*100
+      append_taxtable_list_all$read_percentage <- append_taxtable_list_all$read_percentage*100 %>% round(2)
       
       # plot
       library(viridis)
@@ -10927,6 +10912,7 @@ server <- function(session, input, output) {
         Samples_ID <- paste0( y_name, "__", barplot_taxa_table_data_percent_Level_noUnassigned_percentage$Sample_ID)
       }
       
+      barplot_taxa_table_data_percent_Level_noUnassigned_percentage$read_percentage <- barplot_taxa_table_data_percent_Level_noUnassigned_percentage$read_percentage %>% round(2)
       
       # plot
       library(viridis)
@@ -11131,7 +11117,7 @@ server <- function(session, input, output) {
         
         number_nameslist <- length(names_list[[features]][[features_sub]]) %>% as.character()
         
-        barplot_taxa_table_data_percent_Level_sub$read_percentage <- barplot_taxa_table_data_percent_Level_sub$read_percentage*100
+        barplot_taxa_table_data_percent_Level_sub$read_percentage <- barplot_taxa_table_data_percent_Level_sub$read_percentage*100 %>% round(2)
         
         library(viridis)
         
@@ -11308,6 +11294,7 @@ server <- function(session, input, output) {
         
         barplot_taxa_table_data_percent_Level_sub <- barplot_taxa_table_data_percent_Level_sub %>% group_by(Levels)
         
+        barplot_taxa_table_data_percent_Level_sub$read_percentage <- barplot_taxa_table_data_percent_Level_sub$read_percentage %>% round(2)
         
         library(viridis)
         
@@ -11385,26 +11372,15 @@ server <- function(session, input, output) {
       
       
       if (input$metadata_barplot=="SampleID"){
-        # if (input$without_unassigned == F){
+        
         ggsave(file, 
                plot = barplot_download() + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
                , width = 80, height = 40, units = "cm")
-        # }else{
-        #   ggsave(file, plot = barplot_noUnassigned_download(), width = 80, height = 40, units = "cm")
-        # }
+
         
       }else{
         
-        # if(input$without_unassigned == F){
-        
-        
         ggsave(file, plot = barplot_sub_download(), width = 80, height = 40, units = "cm")
-        
-        
-        # }else{
-        #     ggsave(file, plot = barplot_noUnassigned_sub_download(), width = 80, height = 40, units = "cm")
-        # }
-        
         
       }
     }
@@ -12208,7 +12184,7 @@ server <- function(session, input, output) {
     
     content = function(file){
       system("zip -rj Krona.zip /home/imuser/Krona_files/Krona_rawdata.html")
-      file.copy("/home/imuser/Krona_files//Krona.zip", file)
+      file.copy("/home/imuser/Krona_files/Krona.zip", file)
       # file.copy("/srv/shiny-server/www/Krona_rawdata.html", file, overwrite = T)
       # file.copy("/home/imuser/selected_sampleID.tsv", file)
     }
@@ -12609,27 +12585,7 @@ server <- function(session, input, output) {
     
     
     output$unif_dm_hm <- renderPlotly({
-      
-      # if(input$UnW_or_W=="Unweighted"){
-      #   unW_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-      #                                     job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix()
-      #   plot_ly(x=colnames(unW_unifrac_dm),
-      #           y=rownames(unW_unifrac_dm),
-      #           z=unW_unifrac_dm,
-      #           # colors = palette(50),
-      #           colors = colorRamp(c("green", "red")),
-      #           type = "heatmap") %>% layout(title="Unweighted unifrac distance matrix heatmap", xaxis=list(tickangle=45))
-      # }else{
-      #   W_unifrac_dm <- read_qza(paste0("/home/imuser/web_version/users_files/",
-      #                                   job_id(),"_DA_phylo","/core-metrics-results/weighted_unifrac_distance_matrix.qza"))[["data"]] %>% as.matrix()
-      #   plot_ly(x=colnames(W_unifrac_dm),
-      #           y=rownames(W_unifrac_dm),
-      #           z=W_unifrac_dm,
-      #           # colors = palette(50),
-      #           colors = colorRamp(c("green", "red")),
-      #           type = "heatmap") %>% layout(title="Weighted unifrac distance matrix heatmap", xaxis=list(tickangle=45)) 
-      # } # web version
-      
+
       if(input$UnW_or_W=="Unweighted"){
         unW_unifrac_dm <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]] %>% as.matrix()
         plot_ly(x=colnames(unW_unifrac_dm),
@@ -12652,12 +12608,13 @@ server <- function(session, input, output) {
     
     output$download_unif_dm<-downloadHandler(
       
-
       filename = "unifrac_distance_matrix.csv",
       content = function(file) {
-        
-        write.csv(as.matrix(read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]), file, row.names = T)
-        
+        if(input$UnW_or_W=="Unweighted"){
+        write.csv(as.matrix(read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]), file, row.names = T)
+        }else if(input$UnW_or_W=="Unweighted"){
+          write.csv(as.matrix(read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]), file, row.names = T)
+        }
       }
     )
     
@@ -13133,7 +13090,6 @@ server <- function(session, input, output) {
         return("PERMANOVA")
       }
       
-      
     })
     
     # Show permanova table
@@ -13351,8 +13307,7 @@ server <- function(session, input, output) {
       }else{
         return("Pairwise PERMANOVA")
       }
-      
-      
+    
     })
     
     # Show permanova pair table
@@ -13608,7 +13563,6 @@ server <- function(session, input, output) {
       }else{
         return("ANOSIM")
       }
-      
       
     })
     
@@ -14211,14 +14165,6 @@ server <- function(session, input, output) {
     
     output$ancom_plotly <- renderPlotly({
       
-      # ancom_data <- read.table(paste0("/home/imuser/web_version/users_files/",
-      #                                 job_id(), "_DA_ancom",
-      #                                 "/ancom_comparison_unzip/new_dirname/data/data.tsv"), 
-      #                          sep = "\t", header = T)
-      # ancom_sig <- read.table(paste0("/home/imuser/web_version/users_files/",
-      #                                job_id(), "_DA_ancom",
-      #                                "/ancom_comparison_unzip/new_dirname/data/ancom.tsv"), 
-      #                         sep = "\t", header = T) # web version
       ancom_data <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
       ancom_sig <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
       names(ancom_sig)[1] <- "id" 
@@ -14339,14 +14285,6 @@ server <- function(session, input, output) {
     filename = "ANCOM_table.csv",
     content = function(file){
       
-      # ancom_data <- read.table(paste0("/home/imuser/web_version/users_files/",
-      #                                 job_id(), "_DA_ancom",
-      #                                 "/ancom_comparison_unzip/new_dirname/data/data.tsv")
-      #                          , sep = "\t", header = T)
-      # ancom_sig <- read.table(paste0("/home/imuser/web_version/users_files/",
-      #                                job_id(), "_DA_ancom",
-      #                                "/ancom_comparison_unzip/new_dirname/data/ancom.tsv")
-      #                         , sep = "\t", header = T) # web version
       ancom_data <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
       ancom_sig <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
       names(ancom_sig)[1] <- "id"
@@ -14484,9 +14422,7 @@ server <- function(session, input, output) {
       
       req(input$sample_data_FA, input$taxonomic_table_FA, input$function_analysis)
       
-      # func_table_BY_sampleid <- read_qza(paste0("/home/imuser/web_version/users_files/",
-      #                                           job_id(), "_FA",
-      #                                           "/func-table7.qza"))[["data"]] # web version
+
       func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
@@ -14501,9 +14437,7 @@ server <- function(session, input, output) {
     
     output$Function_barplot <- renderPlotly({
       
-      # func_table_BY_sampleid <- read_qza(paste0("/home/imuser/web_version/users_files/",
-      #                                           job_id(), "_FA",
-      #                                           "/func-table7.qza"))[["data"]] # web server
+      
       func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       taxa_table <- read_qza(input$taxonomic_table_FA$datapath)$data
       reads_persample <- colSums(taxa_table)
@@ -14571,9 +14505,6 @@ server <- function(session, input, output) {
     
     output$function_report <- renderUI({
       
-      # a <- read_table(paste0("/home/imuser/web_version/users_files/",
-      #                        job_id(), "_FA",
-      #                        "/FAPROTAX_output/report7-record.txt")) %>% as.data.frame() # web version
       a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
       a_report <- a[104:106,2]
       a_report[1] <- str_replace_all(a_report[1], pattern = "records", replacement = "taxa")
@@ -14665,9 +14596,6 @@ server <- function(session, input, output) {
     filename = "function_table.csv",
     content = function(file) {
       
-      # func_table_BY_sampleid <- read_qza(paste0("/home/imuser/web_version/users_files/",
-      #                                           job_id(), "_FA",
-      #                                           "/func-table7.qza"))[["data"]] # web version
       func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
@@ -14715,28 +14643,7 @@ server <- function(session, input, output) {
     
     content = function(file){
       
-      # func_table_BY_sampleid <- read_qza(paste0("/home/imuser/web_version/users_files/",
-      #                                           job_id(), "_FA",
-      #                                           "/func-table7.qza"))[["data"]] # web version
-      # func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
-      # 
-      # TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
-      # 
-      # func_table_BY_sampleid_filtered <- func_table_BY_sampleid[TF_all0,]
-      # 
-      # func_table_BY_sampleid_filtered_tibble <- cbind("Type"=rownames(func_table_BY_sampleid_filtered), func_table_BY_sampleid_filtered) %>% as_tibble()
-      # 
-      # func_table_BY_sampleid_filtered_tibble[,-1] <- apply(func_table_BY_sampleid_filtered_tibble[,-1], MARGIN = 2, FUN = as.numeric)
-      # 
-      # df_barplot <- gather(func_table_BY_sampleid_filtered_tibble, Sample_ID, reads, -Type)
-      # 
-      # df_barplot$feature <- mapvalues(df_barplot$Sample_ID,
-      #                                 from = Metadata_FA()[,1],
-      #                                 to = as.character(Metadata_FA()[, input$metadata_FA]))
-      # 
-      # FA_plot <- ggplot(df_barplot,
-      #                   aes(y = reads, fill = feature, x = Type)) + geom_bar(stat = "identity", position = "dodge", alpha = 1, width = .8) + coord_flip() + theme_bw() + guides(fill=guide_legend(title=input$metadata_FA))
-      
+
       func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
       taxa_table <- read_qza(input$taxonomic_table_FA$datapath)$data
       reads_persample <- colSums(taxa_table)
@@ -14756,12 +14663,6 @@ server <- function(session, input, output) {
       
       func_table_BY_sampleid_filtered_tibble[,-1] <- apply(func_table_BY_sampleid_filtered_tibble[,-1], MARGIN = 2, FUN = as.numeric)
       
-      # df_barplot <- data.frame(
-      #   Type = func_table_BY_sampleid_filtered_tibble[,1],
-      #   reads = rowSums(func_table_BY_sampleid_filtered_tibble[,-1]),
-      #   treatment = rep(c("low", "hight"), length(func_table_BY_sampleid_filtered_tibble[,1])),
-      #   stringsAsFactors = F
-      # )
       
       df_barplot <- gather(func_table_BY_sampleid_filtered_tibble, Sample_ID, read_percent, -Type)
       
