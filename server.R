@@ -1794,8 +1794,15 @@ server <- function(session, input, output) {
       if(file.exists("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv")){
         min_length <- read.table("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
         max_length <- read.table("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
-        updateTextInput(session, inputId = "min_length", value = min_length)
-        updateTextInput(session, inputId = "max_length", value = max_length)
+        
+        if(min_length == max_length){
+          updateTextInput(session, inputId = "min_length", value = min_length)
+          updateTextInput(session, inputId = "max_length", value = max_length+1)
+        }else{
+          updateTextInput(session, inputId = "min_length", value = min_length)
+          updateTextInput(session, inputId = "max_length", value = max_length)
+        }
+        
       }else{
         updateTextInput(session, inputId = "min_length", value = 0)
         updateTextInput(session, inputId = "max_length", value = 0)
@@ -1804,8 +1811,15 @@ server <- function(session, input, output) {
       if(file.exists("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv")){
         min_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
         max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
-        updateTextInput(session, inputId = "min_length", value = min_length)
-        updateTextInput(session, inputId = "max_length", value = max_length)
+        
+        if(min_length == max_length){
+          updateTextInput(session, inputId = "min_length", value = min_length)
+          updateTextInput(session, inputId = "max_length", value = max_length+1)
+        }else{
+          updateTextInput(session, inputId = "min_length", value = min_length)
+          updateTextInput(session, inputId = "max_length", value = max_length)
+        }
+
       }else{
         updateTextInput(session, inputId = "min_length", value = 0)
         updateTextInput(session, inputId = "max_length", value = 0)
@@ -1814,8 +1828,15 @@ server <- function(session, input, output) {
       if(file.exists("/home/imuser/qiime_output/denoise_Pacbio_seqs/new_dirname/data/descriptive_stats.tsv")){
         min_length <- read.table("/home/imuser/qiime_output/denoise_Pacbio_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
         max_length <- read.table("/home/imuser/qiime_output/denoise_Pacbio_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
-        updateTextInput(session, inputId = "min_length", value = min_length)
-        updateTextInput(session, inputId = "max_length", value = max_length)
+        
+        if(min_length == max_length){
+          updateTextInput(session, inputId = "min_length", value = min_length)
+          updateTextInput(session, inputId = "max_length", value = max_length+1)
+        }else{
+          updateTextInput(session, inputId = "min_length", value = min_length)
+          updateTextInput(session, inputId = "max_length", value = max_length)
+        }
+
       }else{
         updateTextInput(session, inputId = "min_length", value = 0)
         updateTextInput(session, inputId = "max_length", value = 0)
