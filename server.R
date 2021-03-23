@@ -4850,7 +4850,7 @@ server <- function(session, input, output) {
         
         parameter_names <- rownames(log_table)
         log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
-        return(log_table_[-c(1,2),])
+        return(log_table_[-1,])
       })
       
       # summary table
@@ -6047,7 +6047,7 @@ server <- function(session, input, output) {
         
         parameter_names <- rownames(log_table)
         log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
-        return(log_table_[-c(1,2),])
+        return(log_table_[-1,])
       })
       
       # summary table
@@ -6751,7 +6751,7 @@ server <- function(session, input, output) {
         
         parameter_names <- rownames(log_table)
         log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
-        return(log_table_[-(1:2),])
+        return(log_table_[-1,])
       })
       
       # summary table
@@ -7005,7 +7005,7 @@ server <- function(session, input, output) {
         
         parameter_names <- rownames(log_table)
         log_table_ <- cbind(Record = parameter_names, "Value" = as.character(log_table[,1]))
-        return(log_table_[-(1:2),])
+        return(log_table_[-1,])
       })
       
       # summary table
