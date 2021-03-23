@@ -1797,7 +1797,7 @@ server <- function(session, input, output) {
         
         if(min_length == max_length){
           updateTextInput(session, inputId = "min_length", value = min_length)
-          updateTextInput(session, inputId = "max_length", value = max_length+1)
+          updateTextInput(session, inputId = "max_length", value = as.numeric(max_length)+1)
         }else{
           updateTextInput(session, inputId = "min_length", value = min_length)
           updateTextInput(session, inputId = "max_length", value = max_length)
@@ -1814,7 +1814,7 @@ server <- function(session, input, output) {
         
         if(min_length == max_length){
           updateTextInput(session, inputId = "min_length", value = min_length)
-          updateTextInput(session, inputId = "max_length", value = max_length+1)
+          updateTextInput(session, inputId = "max_length", value = as.numeric(max_length)+1)
         }else{
           updateTextInput(session, inputId = "min_length", value = min_length)
           updateTextInput(session, inputId = "max_length", value = max_length)
@@ -1831,7 +1831,7 @@ server <- function(session, input, output) {
         
         if(min_length == max_length){
           updateTextInput(session, inputId = "min_length", value = min_length)
-          updateTextInput(session, inputId = "max_length", value = max_length+1)
+          updateTextInput(session, inputId = "max_length", value = as.numeric(max_length)+1)
         }else{
           updateTextInput(session, inputId = "min_length", value = min_length)
           updateTextInput(session, inputId = "max_length", value = max_length)
