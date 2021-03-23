@@ -6053,9 +6053,9 @@ server <- function(session, input, output) {
       # summary table
       output$dada2_sample_summary_paired <- renderTable({
         
-        sample_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
-        
-        sample_table <- filter(sample_table, V2 != 0) # qiime version problem
+        # sample_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
+        # 
+        # sample_table <- filter(sample_table, V2 != 0) # qiime version problem
         
         sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]]
         sample_found_number <- c()
@@ -6066,7 +6066,7 @@ server <- function(session, input, output) {
         
         sample_summary_table <- data.frame(
           SampleID = colnames(sample_qiime2),
-          "Read count" = sample_table[,2],
+          "Read count" = colSums(sample_qiime2),
           "Number of ASVs observed in" = sample_found_number
         )
         
@@ -6082,9 +6082,9 @@ server <- function(session, input, output) {
       
       output$dada2_sample_table_paired <- renderDataTable({
         
-        sample_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
-        
-        sample_table <- filter(sample_table, V2 != 0) # qiime version problem
+        # sample_table <- read.csv("/home/imuser/qiime_output/denoise_paired_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
+        # 
+        # sample_table <- filter(sample_table, V2 != 0) # qiime version problem
         
         sample_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_paired.qza")[["data"]]
         sample_found_number <- c()
@@ -6095,9 +6095,9 @@ server <- function(session, input, output) {
         
         sample_summary_table <- data.frame(
           SampleID = colnames(sample_qiime2),
-          "Read count" = sample_table[,2],
+          "Read count" = colSums(sample_qiime2),
           "Number of ASVs observed in" = sample_found_number
-        )
+        ) %>% as_tibble()
         
         colnames(sample_summary_table) <- c("SampleID", "Read count", "Number of ASVs observed in")
         return(sample_summary_table)
