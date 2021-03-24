@@ -9779,7 +9779,7 @@ server <- function(session, input, output) {
             
             plot_ly(x= colnames(heatmap_list[[feature]][[i]]),
                     y= rownames(heatmap_list[[feature]][[i]]),
-                    z = heatmap_list[[feature]][[i]],
+                    z = heatmap_list[[feature]][[i]] %>% as.matrix(),
                     zmin = min(unlist(heatmap_list[[feature]])),
                     zmax = max(unlist(heatmap_list[[feature]])),
                     type = "heatmap",
@@ -9791,7 +9791,7 @@ server <- function(session, input, output) {
             
             plot_ly(x= colnames(heatmap_list[[feature]][[i]]),
                     y= rownames(heatmap_list[[feature]][[i]]),
-                    z = heatmap_list[[feature]][[i]],
+                    z = heatmap_list[[feature]][[i]] %>% as.matrix(),
                     type = "heatmap",
                     colors = colorRamp(c("green", "red")),
                     showscale = F,
