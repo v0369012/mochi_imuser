@@ -1,2 +1,2 @@
 Step,time,duration,sequence_type,database,forward_primer,reverse_primer,min_length,max_length,computing_setting
-Taxonomy classification,2021-03-09 05:46:28,1.22 mins,Single end,Greengenes_16S_88,515F ,806R ,100,400,6
+Taxonomy classification,2021-03-18 05:53:21,1.39 mins,Single end,Greengenes_16S_88,515F ,806R ,100,400,6

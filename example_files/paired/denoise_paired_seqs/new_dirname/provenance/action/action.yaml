@@ -1,16 +1,16 @@
 execution:
-    uuid: 8cc46550-0f6e-42ea-85b6-15cbbe8e8c2f
+    uuid: ffc10177-6293-4215-a8ae-dffaf701d898
     runtime:
-        start: 2021-03-18T08:24:54.065257+00:00
-        end: 2021-03-18T08:24:54.839078+00:00
-        duration: 773821 microseconds
+        start: 2021-03-23T07:06:16.993303+00:00
+        end: 2021-03-23T07:06:17.531530+00:00
+        duration: 538227 microseconds
 
 action:
     type: visualizer
     plugin: !ref 'environment:plugins:feature-table'
     action: tabulate_seqs
     inputs:
-    -   data: fa1bb69f-87b9-44c4-a9f4-792405393122
+    -   data: 878bfa24-9d43-4501-bee6-65605ee5e839
     parameters: []
     output-name: visualization
     citations:
