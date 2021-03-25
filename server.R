@@ -9120,7 +9120,7 @@ server <- function(session, input, output) {
       geom_hline(yintercept = 0, linetype="dotted")+
       theme_bw()+
       ggtitle("PCA plot")+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 15)) 
+      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 20)) 
     
     pca_Bray_df_data_plot_gg_noID <- ggplot(data = pca_Bray_df_data_plot, aes(x=PC1, y=PC2, color=sample))+
       geom_point(size=1.5)+
@@ -9131,7 +9131,7 @@ server <- function(session, input, output) {
       geom_hline(yintercept = 0, linetype="dotted")+
       theme_bw()+
       ggtitle("PCA plot")+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 15)) 
+      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 20)) 
     
     
     # PCoA
@@ -9191,7 +9191,7 @@ server <- function(session, input, output) {
       geom_hline(yintercept = 0, linetype="dotted")+
       theme_bw()+
       ggtitle("PCoA plot")+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 15)) 
+      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 20)) 
     
     pcoa_Bray_df_data_plot_gg_noID <- ggplot(data = pcoa_Bray_df_data_plot, aes(x=PC1, y=PC2, color=sample))+
       geom_point(size=1.5)+
@@ -9202,7 +9202,7 @@ server <- function(session, input, output) {
       geom_hline(yintercept = 0, linetype="dotted")+
       theme_bw()+
       ggtitle("PCoA plot")+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 15)) 
+      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 20)) 
     
     # NMDS
     comm_bray <- vegdist(t(taxatable_beta))
@@ -9221,7 +9221,7 @@ server <- function(session, input, output) {
       theme_bw()+
       labs(title="NMDS plot", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
       #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 15)) 
+      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 20)) 
     
     NMDS_beta_df_data_plot_gg_noID <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, color=sample))+
       geom_point(size=1.5)+
@@ -9232,7 +9232,7 @@ server <- function(session, input, output) {
       geom_hline(yintercept = 0, linetype="dotted")+
       theme_bw()+
       labs(title="NMDS plot", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 15)) 
+      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 20)) 
     
     
     if(input$sep == "PCoA" & input$beta_cluster == F) {
@@ -12765,7 +12765,7 @@ server <- function(session, input, output) {
         theme_bw()+
         labs(title="Unweighted unifrac NMDS plot", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
-        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 15)) 
+        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 20)) 
       
       NMDS_beta_df_data_plot_gg_noID <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, color=sample))+
         geom_point(size=1.5)+
@@ -12777,7 +12777,7 @@ server <- function(session, input, output) {
         theme_bw()+
         labs(title="Unweighted unifrac NMDS plot", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
-        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 15)) 
+        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 20)) 
       
       if(input$phylo_showID){
         return(NMDS_beta_df_data_plot_gg)
@@ -12913,7 +12913,7 @@ server <- function(session, input, output) {
         theme_bw()+
         labs(title="Weighted unifrac NMDS plot", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
-        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 15))
+        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 20))
       
       NMDS_beta_df_data_plot_gg_noID <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, color=sample))+
         geom_point(size=1.5)+
@@ -12925,7 +12925,7 @@ server <- function(session, input, output) {
         theme_bw()+
         labs(title="Weighted unifrac NMDS plot", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
-        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 15))
+        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 20))
       
       if(input$phylo_showID){
         return(NMDS_beta_df_data_plot_gg)
