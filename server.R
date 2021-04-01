@@ -998,12 +998,40 @@ server <- function(session, input, output) {
     if (is.null(infile1))
       return(NULL)
     
-    validate(
-      need(infile1 != "", message = F),
-      need(read_qza(infile1$datapath)$type == "FeatureTable[Frequency]", message = "")
-    )
-    
-    read_qza(input$taxonomic_table$datapath)$data
+    # if(str_detect(infile1$datapath, ".qza")){
+      validate(
+        need(infile1 != "", message = F),
+        need(read_qza(infile1$datapath)$type == "FeatureTable[Frequency]", message = "")
+      )
+      
+      read_qza(input$taxonomic_table$datapath)$data
+      
+    # }else if(str_detect(infile1$datapath, ".tsv")){
+    # 
+    #   validate(
+    #     need(infile1 != "", message = F)
+    #   )
+    # 
+    #   a <- read.table(input$taxonomic_table$datapath, header = T, sep = "\t")
+    #   a_rownames <- a[,1]
+    #   a <- data.matrix(a)
+    #   rownames(a) <- a_rownames
+    #   a <- a[,-1]
+    #   return(a)
+    # 
+    # }else if(str_detect(infile1$datapath, ".csv")){
+    # 
+    #   validate(
+    #     need(infile1 != "", message = F)
+    #   )
+    # 
+    #   a <- read.csv(input$taxonomic_table$datapath, header = T)
+    #   a_rownames <- a[,1]
+    #   a <- data.matrix(a)
+    #   rownames(a) <- a_rownames
+    #   a <- a[,-1]
+    #   return(a)
+    # }
     
   }) # read the input file (.qza)
   
@@ -1462,18 +1490,22 @@ server <- function(session, input, output) {
     library(shinyBS)
     
     # if(!is.matrix(read_qza(input$taxonomic_table$datapath)$data)) {
-    if(read_qza(input$taxonomic_table$datapath)$type != "FeatureTable[Frequency]") {
-      createAlert(session, 
-                  anchorId = "taxatable_alert", 
-                  alertId = "taxaAlert", 
-                  title = "Oops!",
-                  content = "Please check your input taxonomic table file.", 
-                  append = T,
-                  style = "danger")
-    } else {
-      closeAlert(session, "taxaAlert")
-      
-    }
+    # if(str_detect(input$taxonomic_table$datapath, ".qza")){
+      if(read_qza(input$taxonomic_table$datapath)$type != "FeatureTable[Frequency]") {
+        createAlert(session, 
+                    anchorId = "taxatable_alert", 
+                    alertId = "taxaAlert", 
+                    title = "Oops!",
+                    content = "Please check your input taxonomic table file.", 
+                    append = T,
+                    style = "danger")
+      } else {
+        closeAlert(session, "taxaAlert")
+        
+      }
+    # }
+    
+    
   })
   
   # Check the ASVs table input 
@@ -14101,7 +14133,8 @@ server <- function(session, input, output) {
     taxa_table__ag <- aggregate(taxa_table_, by=list(rownames(taxa_table_)), FUN=sum)
     colnames(taxa_table__ag)[1] <- "taxonomy"
     write.table(x=taxa_table__ag,"/home/imuser/taxatable_.txt", quote = F, col.names = T, row.names = F, sep = "\t")
-    system("/home/imuser/miniconda3/envs/qiime2-2019.10/bin/biom convert -i /home/imuser/taxatable_.txt -o /home/imuser/taxatable_.biom --table-type='OTU table' --to-hdf5")
+    biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2020.8/bin/biom"
+    system(biom_cmd, " convert -i /home/imuser/taxatable_.txt -o /home/imuser/taxatable_.biom --table-type='OTU table' --to-hdf5")
     system(paste0(qiime_cmd, " tools import --input-path /home/imuser/taxatable_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/upload_taxatable_.qza"))
     
     taxa_table_7 <- read_qza("/home/imuser/upload_taxatable_.qza")$data
