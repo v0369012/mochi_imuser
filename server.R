@@ -6764,7 +6764,7 @@ server <- function(session, input, output) {
           updateTextInput(session, inputId = "min_length", value = 0)
           updateTextInput(session, inputId = "max_length", value = 0)
         }
-      }else if(input$seqs_type == "Pacbio"){
+      }else if(input$seqs_type == "Long read"){
         if(file.exists("/home/imuser/qiime_output/denoise_Pacbio_seqs/new_dirname/data/descriptive_stats.tsv")){
           min_length <- read.table("/home/imuser/qiime_output/denoise_Pacbio_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
           max_length <- read.table("/home/imuser/qiime_output/denoise_Pacbio_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
@@ -6980,6 +6980,8 @@ server <- function(session, input, output) {
         # "chimeric_reads_min_fold_change" = input$chimera_Pacbio,
         # "reads_error_model" = input$n_reads_Pacbio,
         # "metadata_upload" = is.null(input$sample_data_Pacbio),
+        "forward_primer" = paste(input$primer_f_Pacbio, input$primer_f_manu_Pacbio),
+        "reverse_primer" = paste(input$primer_r_Pacbio, input$primer_r_manu_Pacbio),
         "computing_setting" = input$threads_Pacbio
       )
       
@@ -8389,7 +8391,7 @@ server <- function(session, input, output) {
         file.copy("/home/imuser/qiime_output/table-dada2_single.qza", file)
       }else if(input$seqs_type == "Paired end"){
         file.copy("/home/imuser/qiime_output/table-dada2_paired.qza", file)
-      }else if(input$seqs_type == "Pacbio"){
+      }else if(input$seqs_type == "Long read"){
         file.copy("/home/imuser/qiime_output/table-dada2_Pacbio.qza", file)
       }
       
@@ -14134,7 +14136,7 @@ server <- function(session, input, output) {
     colnames(taxa_table__ag)[1] <- "taxonomy"
     write.table(x=taxa_table__ag,"/home/imuser/taxatable_.txt", quote = F, col.names = T, row.names = F, sep = "\t")
     biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2020.8/bin/biom"
-    system(biom_cmd, " convert -i /home/imuser/taxatable_.txt -o /home/imuser/taxatable_.biom --table-type='OTU table' --to-hdf5")
+    system(paste0(biom_cmd, " convert -i /home/imuser/taxatable_.txt -o /home/imuser/taxatable_.biom --table-type='OTU table' --to-hdf5"))
     system(paste0(qiime_cmd, " tools import --input-path /home/imuser/taxatable_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/upload_taxatable_.qza"))
     
     taxa_table_7 <- read_qza("/home/imuser/upload_taxatable_.qza")$data
