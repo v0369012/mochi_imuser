@@ -1,10 +1,10 @@
 # Report for collapsed table: /home/imuser/FAPROTAX_output/func-table7.biom
-# Collapsed table generated on: 2021.03.31 06:15:09
+# Collapsed table generated on: 2021.04.05 02:22:51
 # Original table: /home/imuser/qiime_output/exported-feature-table7/feature-table.biom
 # Details:
-#  Original BIOM table contained 17 rows & 10 columns
-#  After filtering rows & columns based on names and metadata, obtained a table comprising 17 rows & 10 columns
-#  After (potentially) filtering out records based on name, obtained a table comprising 17 records & 10 data entries per record
+#  Original BIOM table contained 40 rows & 10 columns
+#  After filtering rows & columns based on names and metadata, obtained a table comprising 40 rows & 10 columns
+#  After (potentially) filtering out records based on name, obtained a table comprising 40 records & 10 data entries per record
 # Used command:
 #   /home/imuser/FAPROTAX_1.2.1/collapse_table.py --force -i /home/imuser/qiime_output/exported-feature-table7/feature-table.biom -o /home/imuser/FAPROTAX_output/func-table7.biom -g /home/imuser/FAPROTAX_1.2.1/FAPROTAX.txt -r /home/imuser/FAPROTAX_output/report7-record.txt --out_groups2records_table /home/imuser/FAPROTAX_output/groups2record.biom
 #
@@ -38,14 +38,14 @@
 #   nitrate_denitrification: 0 records
 #   nitrite_denitrification: 0 records
 #   nitrous_oxide_denitrification: 0 records
-#   denitrification: 0 records
-#   chitinolysis: 0 records
+#   denitrification: 1 records
+#   chitinolysis: 1 records
 #   knallgas_bacteria: 0 records
 #   dark_hydrogen_oxidation: 0 records
 #   nitrogen_fixation: 0 records
 #   nitrate_ammonification: 0 records
-#   nitrite_ammonification: 0 records
-#   nitrite_respiration: 0 records
+#   nitrite_ammonification: 1 records
+#   nitrite_respiration: 1 records
 #   cellulolysis: 0 records
 #   xylanolysis: 0 records
 #   dark_sulfide_oxidation: 0 records
@@ -55,8 +55,8 @@
 #   manganese_oxidation: 0 records
 #   manganese_respiration: 0 records
 #   ligninolysis: 0 records
-#   fermentation: 2 records
-#   aerobic_chemoheterotrophy: 3 records
+#   fermentation: 6 records
+#   aerobic_chemoheterotrophy: 23 records
 #   invertebrate_parasites: 0 records
 #   human_pathogens_septicemia: 0 records
 #   human_pathogens_pneumonia: 0 records
@@ -66,20 +66,20 @@
 #   human_pathogens_diarrhea: 0 records
 #   human_pathogens_all: 0 records
 #   fish_parasites: 0 records
-#   human_gut: 0 records
-#   mammal_gut: 0 records
-#   animal_parasites_or_symbionts: 0 records
+#   human_gut: 1 records
+#   mammal_gut: 1 records
+#   animal_parasites_or_symbionts: 1 records
 #   plant_pathogen: 0 records
-#   oil_bioremediation: 0 records
+#   oil_bioremediation: 1 records
 #   aromatic_hydrocarbon_degradation: 0 records
 #   aromatic_compound_degradation: 0 records
 #   aliphatic_non_methane_hydrocarbon_degradation: 0 records
-#   hydrocarbon_degradation: 1 records
+#   hydrocarbon_degradation: 4 records
 #   dark_iron_oxidation: 0 records
 #   iron_respiration: 0 records
 #   nitrate_respiration: 0 records
-#   nitrate_reduction: 0 records
-#   nitrogen_respiration: 0 records
+#   nitrate_reduction: 4 records
+#   nitrogen_respiration: 2 records
 #   fumarate_respiration: 0 records
 #   intracellular_parasites: 0 records
 #   chlorate_reducers: 0 records
@@ -96,15 +96,15 @@
 #   photoheterotrophy: 0 records
 #   phototrophy: 0 records
 #   plastic_degradation: 0 records
-#   ureolysis: 0 records
+#   ureolysis: 2 records
 #   reductive_acetogenesis: 0 records
-#   chemoheterotrophy: 5 records
+#   chemoheterotrophy: 27 records
 #
 # Loaded 90 groups comprising 8236 members (4983 unique members)
-# Established 11 assignments of records to groups
-# 5 out of 17 records (29.4118 %) were assigned to at least one group
-# 12 out of 17 records (70.5882 %) could not be assigned to any group (leftovers)
-# 4 groups were represented (i.e. associated with at least one record)
+# Established 76 assignments of records to groups
+# 29 out of 40 records (72.5 %) were assigned to at least one group
+# 11 out of 40 records (27.5 %) could not be assigned to any group (leftovers)
+# 15 groups were represented (i.e. associated with at least one record)
 # Detailed group assignments are listed below
 
 # methanotrophy (0 records):
@@ -194,10 +194,12 @@
 # nitrous_oxide_denitrification (0 records):
 
 
-# denitrification (0 records):
+# denitrification (1 records):
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Alteromonadales;D_4__Marinobacteraceae;D_5__Marinobacter;D_6__Marinobacter maritimus
 
 
-# chitinolysis (0 records):
+# chitinolysis (1 records):
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Brevibacteriaceae;D_5__Brevibacterium;D_6__Brevibacterium linens BL2
 
 
 # knallgas_bacteria (0 records):
@@ -212,10 +214,12 @@
 # nitrate_ammonification (0 records):
 
 
-# nitrite_ammonification (0 records):
+# nitrite_ammonification (1 records):
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Lactobacillaceae;D_5__Lactobacillus;D_6__Lactobacillus delbrueckii subsp. lactis
 
 
-# nitrite_respiration (0 records):
+# nitrite_respiration (1 records):
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Lactobacillaceae;D_5__Lactobacillus;D_6__Lactobacillus delbrueckii subsp. lactis
 
 
 # cellulolysis (0 records):
@@ -245,15 +249,39 @@
 # ligninolysis (0 records):
 
 
-# fermentation (2 records):
-    k__Bacteria;p__Firmicutes;c__Bacilli;o__Lactobacillales;f__Lactobacillaceae;g__Lactobacillus;s__
-    k__Bacteria;p__Firmicutes;c__Bacilli;o__Lactobacillales;f__Streptococcaceae;g__Streptococcus;s__
+# fermentation (6 records):
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Brevibacteriaceae;D_5__Brevibacterium;D_6__Brevibacterium linens BL2
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Carnobacteriaceae;D_5__Atopostipes;D_6__uncultured bacterium
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Lactobacillaceae;D_5__Lactobacillus;__
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Lactobacillaceae;D_5__Lactobacillus;D_6__Lactobacillus delbrueckii subsp. lactis
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Streptococcaceae;D_5__Streptococcus;D_6__Streptococcus salivarius subsp. thermophilus
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Vibrionales;D_4__Vibrionaceae;D_5__Salinivibrio;D_6__uncultured Salinivibrio sp.
 
 
-# aerobic_chemoheterotrophy (3 records):
-    k__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Actinomycetales;f__Microbacteriaceae;g__Microbacterium;s__
-    k__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Alteromonadales;f__Alteromonadaceae;g__Marinobacter;s__
-    k__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Oceanospirillales;f__Halomonadaceae;g__;s__
+# aerobic_chemoheterotrophy (23 records):
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Brevibacteriaceae;D_5__Brevibacterium;__
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Brevibacteriaceae;D_5__Brevibacterium;D_6__Brevibacterium linens BL2
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Brevibacteriaceae;D_5__Brevibacterium;D_6__Brevibacterium senegalense
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Brevibacteriaceae;D_5__Brevibacterium;D_6__Brevibacterium sp. MT25
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Brevibacteriaceae;D_5__Brevibacterium;D_6__uncultured bacterium
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Dermabacteraceae;D_5__Brachybacterium;D_6__uncultured bacterium
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Intrasporangiaceae;D_5__Janibacter;__
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Microbacteriaceae;D_5__Agrococcus;D_6__Agrococcus casei
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Microbacteriaceae;D_5__Leucobacter;D_6__uncultured bacterium
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Microbacteriaceae;D_5__Microbacterium;__
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Microbacteriaceae;D_5__Microbacterium;D_6__Microbacterium faecale
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Microbacteriaceae;D_5__Microbacterium;D_6__Microbacterium gubbeenense DSM 15944
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Micrococcaceae;D_5__Yaniella;D_6__Yaniella halotolerans DSM 15476
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Ruaniaceae;D_5__Ruania;D_6__Ruania albidiflava DSM 18029
+    D_0__Bacteria;D_1__Bacteroidetes;D_2__Bacteroidia;D_3__Flavobacteriales;D_4__Flavobacteriaceae;D_5__Psychroflexus;D_6__Psychroflexus halocasei
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Alteromonadales;D_4__Marinobacteraceae;D_5__Marinobacter;D_6__Marinobacter maritimus
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Oceanospirillales;D_4__Halomonadaceae;D_5__Chromohalobacter;__
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Oceanospirillales;D_4__Halomonadaceae;D_5__Cobetia;D_6__Cobetia pacifica
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Oceanospirillales;D_4__Halomonadaceae;D_5__Halomonas;__
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Oceanospirillales;D_4__Halomonadaceae;D_5__Halomonas;D_6__Halomonas subglaciescola
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Oceanospirillales;D_4__Halomonadaceae;D_5__Halomonas;D_6__uncultured Halomonas sp.
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Pseudomonadales;D_4__Moraxellaceae;D_5__Psychrobacter;__
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Vibrionales;D_4__Vibrionaceae;D_5__Salinivibrio;D_6__uncultured Salinivibrio sp.
 
 
 # invertebrate_parasites (0 records):
@@ -283,19 +311,23 @@
 # fish_parasites (0 records):
 
 
-# human_gut (0 records):
+# human_gut (1 records):
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Streptococcaceae;D_5__Streptococcus;D_6__Streptococcus salivarius subsp. thermophilus
 
 
-# mammal_gut (0 records):
+# mammal_gut (1 records):
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Streptococcaceae;D_5__Streptococcus;D_6__Streptococcus salivarius subsp. thermophilus
 
 
-# animal_parasites_or_symbionts (0 records):
+# animal_parasites_or_symbionts (1 records):
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Streptococcaceae;D_5__Streptococcus;D_6__Streptococcus salivarius subsp. thermophilus
 
 
 # plant_pathogen (0 records):
 
 
-# oil_bioremediation (0 records):
+# oil_bioremediation (1 records):
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Alteromonadales;D_4__Marinobacteraceae;D_5__Marinobacter;D_6__Marinobacter maritimus
 
 
 # aromatic_hydrocarbon_degradation (0 records):
@@ -307,8 +339,11 @@
 # aliphatic_non_methane_hydrocarbon_degradation (0 records):
 
 
-# hydrocarbon_degradation (1 records):
-    k__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Alteromonadales;f__Alteromonadaceae;g__Marinobacter;s__
+# hydrocarbon_degradation (4 records):
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Alteromonadales;D_4__Marinobacteraceae;D_5__Marinobacter;D_6__Marinobacter maritimus
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Oceanospirillales;D_4__Halomonadaceae;D_5__Halomonas;__
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Oceanospirillales;D_4__Halomonadaceae;D_5__Halomonas;D_6__Halomonas subglaciescola
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Oceanospirillales;D_4__Halomonadaceae;D_5__Halomonas;D_6__uncultured Halomonas sp.
 
 
 # dark_iron_oxidation (0 records):
@@ -320,10 +355,16 @@
 # nitrate_respiration (0 records):
 
 
-# nitrate_reduction (0 records):
+# nitrate_reduction (4 records):
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Corynebacteriales;D_4__Corynebacteriaceae;D_5__Corynebacterium 1;D_6__Corynebacterium casei LMG S-19264
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Microbacteriaceae;D_5__Microbacterium;D_6__Microbacterium gubbeenense DSM 15944
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Ruaniaceae;D_5__Ruania;D_6__Ruania albidiflava DSM 18029
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Bacillales;D_4__Staphylococcaceae;D_5__Staphylococcus;D_6__Staphylococcus equorum
 
 
-# nitrogen_respiration (0 records):
+# nitrogen_respiration (2 records):
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Lactobacillaceae;D_5__Lactobacillus;D_6__Lactobacillus delbrueckii subsp. lactis
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Alteromonadales;D_4__Marinobacteraceae;D_5__Marinobacter;D_6__Marinobacter maritimus
 
 
 # fumarate_respiration (0 records):
@@ -374,17 +415,41 @@
 # plastic_degradation (0 records):
 
 
-# ureolysis (0 records):
+# ureolysis (2 records):
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Micrococcaceae;D_5__Yaniella;D_6__Yaniella halotolerans DSM 15476
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Bacillales;D_4__Staphylococcaceae;D_5__Staphylococcus;D_6__Staphylococcus equorum
 
 
 # reductive_acetogenesis (0 records):
 
 
-# chemoheterotrophy (5 records):
-    k__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Actinomycetales;f__Microbacteriaceae;g__Microbacterium;s__
-    k__Bacteria;p__Firmicutes;c__Bacilli;o__Lactobacillales;f__Lactobacillaceae;g__Lactobacillus;s__
-    k__Bacteria;p__Firmicutes;c__Bacilli;o__Lactobacillales;f__Streptococcaceae;g__Streptococcus;s__
-    k__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Alteromonadales;f__Alteromonadaceae;g__Marinobacter;s__
-    k__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Oceanospirillales;f__Halomonadaceae;g__;s__
+# chemoheterotrophy (27 records):
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Brevibacteriaceae;D_5__Brevibacterium;__
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Brevibacteriaceae;D_5__Brevibacterium;D_6__Brevibacterium linens BL2
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Brevibacteriaceae;D_5__Brevibacterium;D_6__Brevibacterium senegalense
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Brevibacteriaceae;D_5__Brevibacterium;D_6__Brevibacterium sp. MT25
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Brevibacteriaceae;D_5__Brevibacterium;D_6__uncultured bacterium
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Dermabacteraceae;D_5__Brachybacterium;D_6__uncultured bacterium
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Intrasporangiaceae;D_5__Janibacter;__
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Microbacteriaceae;D_5__Agrococcus;D_6__Agrococcus casei
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Microbacteriaceae;D_5__Leucobacter;D_6__uncultured bacterium
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Microbacteriaceae;D_5__Microbacterium;__
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Microbacteriaceae;D_5__Microbacterium;D_6__Microbacterium faecale
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Microbacteriaceae;D_5__Microbacterium;D_6__Microbacterium gubbeenense DSM 15944
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Micrococcaceae;D_5__Yaniella;D_6__Yaniella halotolerans DSM 15476
+    D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Micrococcales;D_4__Ruaniaceae;D_5__Ruania;D_6__Ruania albidiflava DSM 18029
+    D_0__Bacteria;D_1__Bacteroidetes;D_2__Bacteroidia;D_3__Flavobacteriales;D_4__Flavobacteriaceae;D_5__Psychroflexus;D_6__Psychroflexus halocasei
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Carnobacteriaceae;D_5__Atopostipes;D_6__uncultured bacterium
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Lactobacillaceae;D_5__Lactobacillus;__
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Lactobacillaceae;D_5__Lactobacillus;D_6__Lactobacillus delbrueckii subsp. lactis
+    D_0__Bacteria;D_1__Firmicutes;D_2__Bacilli;D_3__Lactobacillales;D_4__Streptococcaceae;D_5__Streptococcus;D_6__Streptococcus salivarius subsp. thermophilus
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Alteromonadales;D_4__Marinobacteraceae;D_5__Marinobacter;D_6__Marinobacter maritimus
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Oceanospirillales;D_4__Halomonadaceae;D_5__Chromohalobacter;__
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Oceanospirillales;D_4__Halomonadaceae;D_5__Cobetia;D_6__Cobetia pacifica
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Oceanospirillales;D_4__Halomonadaceae;D_5__Halomonas;__
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Oceanospirillales;D_4__Halomonadaceae;D_5__Halomonas;D_6__Halomonas subglaciescola
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Oceanospirillales;D_4__Halomonadaceae;D_5__Halomonas;D_6__uncultured Halomonas sp.
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Pseudomonadales;D_4__Moraxellaceae;D_5__Psychrobacter;__
+    D_0__Bacteria;D_1__Proteobacteria;D_2__Gammaproteobacteria;D_3__Vibrionales;D_4__Vibrionaceae;D_5__Salinivibrio;D_6__uncultured Salinivibrio sp.
 
 

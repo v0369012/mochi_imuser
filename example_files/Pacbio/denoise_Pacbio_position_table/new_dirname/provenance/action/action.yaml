@@ -1,16 +1,16 @@
 execution:
-    uuid: 38f3445c-1c0b-49c3-972b-20a14129f40d
+    uuid: 6fd59050-042f-4a3b-aa53-5b31a301a784
     runtime:
-        start: 2021-03-08T09:58:50.789299+00:00
-        end: 2021-03-08T09:58:51.985676+00:00
-        duration: 1 second, and 196377 microseconds
+        start: 2021-04-04T08:44:29.901437+00:00
+        end: 2021-04-04T08:44:31.255975+00:00
+        duration: 1 second, and 354538 microseconds
 
 action:
     type: visualizer
     plugin: !ref 'environment:plugins:feature-table'
     action: summarize
     inputs:
-    -   table: c96daf08-e16f-468b-90a1-3c03e898c844
+    -   table: 3671497e-2fa8-4aff-af98-4f84c8fb65a3
     parameters:
     -   sample_metadata: null
     output-name: visualization
