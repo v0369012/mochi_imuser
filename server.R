@@ -1137,7 +1137,7 @@ server <- function(session, input, output) {
         
         position_non1 <- which(col_vector!=1)
         
-        metadata <- metadata[,position_non1]
+        metadata <- metadata[, c(1, position_non1+1)] %>% as.data.frame()
         
       }
       
@@ -1184,7 +1184,7 @@ server <- function(session, input, output) {
         
         position_non1 <- which(col_vector!=1)
         
-        metadata <- metadata[,position_non1]
+        metadata <- metadata[, c(1, position_non1+1)] %>% as.data.frame()
         
       }
       
@@ -1240,7 +1240,7 @@ server <- function(session, input, output) {
         
         position_non1 <- which(col_vector!=1)
         
-        metadata <- metadata[,position_non1]
+        metadata <- metadata[,c(1, position_non1+1)] %>% as.data.frame()
         
       }
       
