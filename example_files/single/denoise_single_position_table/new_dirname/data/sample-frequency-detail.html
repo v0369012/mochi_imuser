@@ -62,7 +62,7 @@
     <div class="row">
       <div class="col-lg-12" id="sampling-depth-slider">
         <label> Sampling Depth &nbsp; </label> <br>
-        <input id="range-slider" type="range" min="0" max="4481.0" value="0" class="slider" oninput="sliderHelperFunction(this.value);"> <br>
+        <input id="range-slider" type="range" min="0" max="9820.0" value="0" class="slider" oninput="sliderHelperFunction(this.value);"> <br>
         <input id="text-box" class="form-control" type="number" value="0" min="0" oninput="textBoxHelperFunction(this.value);"/>
         <br>
         (zero implies no even sampling)
@@ -91,11 +91,11 @@
 </div>
 
 <script id="table-data" type="application/json">
-{"L1S57":4481.0,"L4S137":4433.0,"L1S76":4338.0,"L6S20":4253.0,"L1S208":4251.0,"L4S63":4231.0,"L1S105":4111.0,"L6S93":3977.0,"L1S140":3946.0,"L1S8":3665.0,"L6S68":3474.0,"L1S281":3340.0,"L1S257":3331.0,"L4S112":3218.0,"L2S240":1682.0,"L5S222":1521.0,"L2S382":1318.0,"L2S175":1244.0,"L5S203":1186.0,"L2S155":1107.0,"L2S204":1065.0,"L5S240":1061.0,"L5S104":1051.0,"L2S222":1043.0,"L5S174":1038.0,"L5S155":1030.0,"L3S378":665.0,"L2S357":600.0,"L3S294":535.0,"L3S242":465.0,"L3S313":462.0,"L3S360":407.0,"L3S341":400.0,"L2S309":343.0}
+{"L4S137":9820.0,"L4S63":9743.0,"L1S57":8715.0,"L4S112":8339.0,"L1S208":8156.0,"L1S76":7870.0,"L1S105":7788.0,"L1S140":7162.0,"L1S8":7036.0,"L6S93":6953.0,"L6S20":6854.0,"L1S281":6629.0,"L1S257":6405.0,"L6S68":5982.0,"L2S240":5061.0,"L2S175":4385.0,"L2S382":4089.0,"L2S155":3932.0,"L2S222":3187.0,"L2S204":3160.0,"L5S222":2524.0,"L2S357":2373.0,"L5S104":2227.0,"L5S203":2112.0,"L5S174":1953.0,"L5S155":1799.0,"L5S240":1792.0,"L2S309":1419.0,"L3S378":1248.0,"L3S294":1225.0,"L3S313":1103.0,"L3S360":968.0,"L3S341":953.0,"L3S242":898.0}
 </script>
 
 <script type="text/javascript">
-  var totalFrequencies = 73272;
+  var totalFrequencies = 153860;
   var sampleCount = 34;
   var defaultDescription = "Retained " + (totalFrequencies.toLocaleString('en'))
                                        + " (100.00%) features in "
@@ -190,9 +190,9 @@
     }
 
     // make sure the value in the textbox cannot exceed the max count
-    if (val > 4481.0){
+    if (val > 9820.0){
       var num = document.getElementById("text-box");
-      num.value = 4481.0;
+      num.value = 9820.0;
     }
     updateSliderVal(val);
   }
