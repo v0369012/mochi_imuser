@@ -776,7 +776,7 @@ shinyUI(
                                                placeholder = "Input number",
                                                value = 0,
                                                width = "400px"),
-                                     # tippy::tippy_this(elementId = "info_min", tooltip = "The default value is minimun length of denoised-sequences", placement = "right"),
+                                     # tippy::tippy_this(elementId = "min_length", tooltip = "Set to zero to disable min length filtering.", placement = "right"),
                                      # p("Shorter sequenceses are discarded. Set to zero to disable min length filtering.", 
                                      #   style = "font-size: 16px;margin-top:-3px"),
                                      
@@ -788,7 +788,7 @@ shinyUI(
                                                placeholder = "Input number",
                                                value = 0,
                                                width = "400px"),
-                                     # tippy::tippy_this(elementId = "info_max", tooltip = "The default value is maximum length of denoised-sequences", placement = "right"),
+                                     # tippy::tippy_this(elementId = "max_length", tooltip = "Set to zero to disable max length filtering.", placement = "right"),
                                      # p("Longer sequenceses are discarded. Set to zero to disable max length filtering.",
                                      #   style = "font-size: 14px;margin-top:-3px"),
                                      actionButton("filter_ref_info",
