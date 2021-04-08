@@ -4910,7 +4910,7 @@ server <- function(session, input, output) {
           Mean = mean(sample_summary_table[,2]),
           Median = median(sample_summary_table[,2]),
           Max = max(sample_summary_table[,2]),
-          Toatal = sum(sample_summary_table[,2]),
+          Total = sum(sample_summary_table[,2]),
           "Sample size" = nrow(sample_summary_table)
         )
       })
@@ -5162,7 +5162,7 @@ server <- function(session, input, output) {
         Mean = mean(sample_summary_table[,2]),
         Median = median(sample_summary_table[,2]),
         Max = max(sample_summary_table[,2]),
-        Toatal = sum(sample_summary_table[,2]),
+        Total = sum(sample_summary_table[,2]),
         "Sample size" = nrow(sample_summary_table)
       )
     })
@@ -5860,7 +5860,7 @@ server <- function(session, input, output) {
           Mean = mean(sample_summary_table[,2]),
           Median = median(sample_summary_table[,2]),
           Max = max(sample_summary_table[,2]),
-          Toatal = sum(sample_summary_table[,2]),
+          Total = sum(sample_summary_table[,2]),
           "Sample size" = nrow(sample_summary_table)
         )
       })
@@ -6107,7 +6107,7 @@ server <- function(session, input, output) {
           Mean = mean(sample_summary_table[,2]),
           Median = median(sample_summary_table[,2]),
           Max = max(sample_summary_table[,2]),
-          Toatal = sum(sample_summary_table[,2]),
+          Total = sum(sample_summary_table[,2]),
           "Sample size" = nrow(sample_summary_table)
         )
       })
@@ -6811,7 +6811,7 @@ server <- function(session, input, output) {
           Mean = mean(sample_summary_table[,2]),
           Median = median(sample_summary_table[,2]),
           Max = max(sample_summary_table[,2]),
-          Toatal = sum(sample_summary_table[,2]),
+          Total = sum(sample_summary_table[,2]),
           "Sample size" = nrow(sample_summary_table)
         )
       })
@@ -7065,7 +7065,7 @@ server <- function(session, input, output) {
           Mean = mean(sample_summary_table[,2]),
           Median = median(sample_summary_table[,2]),
           Max = max(sample_summary_table[,2]),
-          Toatal = sum(sample_summary_table[,2]),
+          Total = sum(sample_summary_table[,2]),
           "Sample size" = nrow(sample_summary_table)
         )
       })
