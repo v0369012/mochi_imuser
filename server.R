@@ -9146,7 +9146,7 @@ server <- function(session, input, output) {
     
     library(ggrepel)
     pca_Bray_df_data_plot_gg <- ggplot(data = pca_Bray_df_data_plot, aes(x=PC1, y=PC2, label=sample_original_names, color=sample))+
-      geom_point(size=1.5)+
+      geom_point(size=2.5)+
       ggrepel::geom_text_repel(show.legend = FALSE)+
       xlab(paste("PC1 (", round(pc_prop[1], 2)*100, "%", ")", sep = ""))+
       ylab(paste("PC2 (", round(pc_prop[2], 2)*100, "%", ")", sep = ""))+
@@ -9157,7 +9157,7 @@ server <- function(session, input, output) {
       scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 20)) 
     
     pca_Bray_df_data_plot_gg_noID <- ggplot(data = pca_Bray_df_data_plot, aes(x=PC1, y=PC2, color=sample))+
-      geom_point(size=1.5)+
+      geom_point(size=2.5)+
       # ggrepel::geom_text_repel(show.legend = FALSE)+
       xlab(paste("PC1 (", round(pc_prop[1], 2)*100, "%", ")", sep = ""))+
       ylab(paste("PC2 (", round(pc_prop[2], 2)*100, "%", ")", sep = ""))+
@@ -9217,7 +9217,7 @@ server <- function(session, input, output) {
     
     library(ggrepel)
     pcoa_Bray_df_data_plot_gg<-ggplot(data = pcoa_Bray_df_data_plot, aes(x=PC1, y=PC2, label=sample_original_names, color=sample))+
-      geom_point(size=1.5)+
+      geom_point(size=2.5)+
       ggrepel::geom_text_repel(show.legend = FALSE)+
       xlab(paste("PC1 (", round(pcoa_Bray_df_data$values[1,2],2)*100, "%", ")", sep = ""))+
       ylab(paste("PC2 (", round(pcoa_Bray_df_data$values[2,2],2)*100, "%", ")", sep = ""))+
@@ -9228,7 +9228,7 @@ server <- function(session, input, output) {
       scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 20)) 
     
     pcoa_Bray_df_data_plot_gg_noID <- ggplot(data = pcoa_Bray_df_data_plot, aes(x=PC1, y=PC2, color=sample))+
-      geom_point(size=1.5)+
+      geom_point(size=2.5)+
       # ggrepel::geom_text_repel(show.legend = FALSE)+
       xlab(paste("PC1 (", round(pcoa_Bray_df_data$values[1,2],2)*100, "%", ")", sep = ""))+
       ylab(paste("PC2 (", round(pcoa_Bray_df_data$values[2,2],2)*100, "%", ")", sep = ""))+
@@ -9246,7 +9246,7 @@ server <- function(session, input, output) {
     NMDS_beta_df_data_plot<-data.frame(NMDS_beta_df_data, sample=NMDS_rowname)
     
     NMDS_beta_df_data_plot_gg<-ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, label=sample_original_names,color=sample))+
-      geom_point(size=1.5)+
+      geom_point(size=2.5)+
       ggrepel::geom_text_repel(show.legend = FALSE)+
       xlab("NMDS1")+
       ylab("NMDS2")+
@@ -9258,7 +9258,7 @@ server <- function(session, input, output) {
       scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 20)) 
     
     NMDS_beta_df_data_plot_gg_noID <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, color=sample))+
-      geom_point(size=1.5)+
+      geom_point(size=2.5)+
       # ggrepel::geom_text_repel(show.legend = FALSE)+
       xlab("NMDS1")+
       ylab("NMDS2")+
@@ -12699,7 +12699,7 @@ server <- function(session, input, output) {
         
         ggplot(data = unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], 
                aes(x=PC1, y=PC2, label=SampleID, color=feature))+
-          geom_point(size=1.5)+
+          geom_point(size=2.5)+
           ggrepel::geom_text_repel(show.legend = F)+
           xlab(paste0("PC1 (", round(unW_unifrac_dm_pcoa_qiime$ProportionExplained[1],2)*100, "%)"))+
           ylab(paste0("PC2 (", round(unW_unifrac_dm_pcoa_qiime$ProportionExplained[2],2)*100, "%)"))+
@@ -12717,7 +12717,7 @@ server <- function(session, input, output) {
         
         ggplot(data = unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], 
                aes(x=PC1, y=PC2, color=feature))+
-          geom_point(size=1.5)+
+          geom_point(size=2.5)+
           # ggrepel::geom_text_repel(show.legend = F)+
           xlab(paste0("PC1 (", round(unW_unifrac_dm_pcoa_qiime$ProportionExplained[1],2)*100, "%)"))+
           ylab(paste0("PC2 (", round(unW_unifrac_dm_pcoa_qiime$ProportionExplained[2],2)*100, "%)"))+
@@ -12790,7 +12790,7 @@ server <- function(session, input, output) {
       NMDS_beta_df_data_plot <- data.frame(NMDS_beta_df_data, sample=NMDS_rowname)
       
       NMDS_beta_df_data_plot_gg <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, label=sample_original_names, color=sample))+
-        geom_point(size=1.5)+
+        geom_point(size=2.5)+
         ggrepel::geom_text_repel(show.legend = FALSE)+
         xlab("NMDS1")+
         ylab("NMDS2")+
@@ -12802,7 +12802,7 @@ server <- function(session, input, output) {
         scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 20)) 
       
       NMDS_beta_df_data_plot_gg_noID <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, color=sample))+
-        geom_point(size=1.5)+
+        geom_point(size=2.5)+
         # ggrepel::geom_text_repel(show.legend = FALSE)+
         xlab("NMDS1")+
         ylab("NMDS2")+
@@ -12847,7 +12847,7 @@ server <- function(session, input, output) {
         
         ggplot(data = W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], 
                aes(x=PC1, y=PC2, label=SampleID, color=feature))+
-          geom_point(size=1.5)+
+          geom_point(size=2.5)+
           ggrepel::geom_text_repel(show.legend = F)+
           xlab(paste0("PC1 (", round(W_unifrac_dm_pcoa_qiime$ProportionExplained[1],2)*100, "%)"))+
           ylab(paste0("PC2 (", round(W_unifrac_dm_pcoa_qiime$ProportionExplained[2],2)*100, "%)"))+
@@ -12864,7 +12864,7 @@ server <- function(session, input, output) {
         
         ggplot(data = W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], 
                aes(x=PC1, y=PC2, color=feature))+
-          geom_point(size=1.5)+
+          geom_point(size=2.5)+
           # ggrepel::geom_text_repel(show.legend = F)+
           xlab(paste0("PC1 (", round(W_unifrac_dm_pcoa_qiime$ProportionExplained[1],2)*100, "%)"))+
           ylab(paste0("PC2 (", round(W_unifrac_dm_pcoa_qiime$ProportionExplained[2],2)*100, "%)"))+
@@ -12938,7 +12938,7 @@ server <- function(session, input, output) {
       NMDS_beta_df_data_plot <- data.frame(NMDS_beta_df_data, sample=NMDS_rowname)
       
       NMDS_beta_df_data_plot_gg <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, label=sample_original_names,color=sample))+
-        geom_point(size=1.5)+
+        geom_point(size=2.5)+
         ggrepel::geom_text_repel(show.legend = FALSE)+
         xlab("NMDS1")+
         ylab("NMDS2")+
@@ -12950,7 +12950,7 @@ server <- function(session, input, output) {
         scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 20))
       
       NMDS_beta_df_data_plot_gg_noID <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, color=sample))+
-        geom_point(size=1.5)+
+        geom_point(size=2.5)+
         # ggrepel::geom_text_repel(show.legend = FALSE)+
         xlab("NMDS1")+
         ylab("NMDS2")+
