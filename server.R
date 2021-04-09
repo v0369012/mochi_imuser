@@ -14262,7 +14262,7 @@ server <- function(session, input, output) {
     
     output$word_ancom_plotly <- renderUI({
       
-      h3("ANCOM Volcano Plot", 
+      h3("ANCOM Volcano Plot (", input$ANCOM_level, ")",
          style = "color: black;top: 10px;")
     })
     
