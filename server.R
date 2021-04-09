@@ -11489,10 +11489,34 @@ server <- function(session, input, output) {
   
   output$post_test <- renderTable({
     
-    if(input$select_stat=="ANOVA"){
-      return(alpha_anova_tukey())
-    }else{
-      return(alpha_KW_Dunn())
+      if(input$select_stat=="ANOVA"){
+        return(alpha_anova_tukey())
+      }else{
+        return(alpha_KW_Dunn())
+      }
+
+  })
+  
+  
+  observe({
+    
+    req(input$sample_data, input$taxonomic_table, input$table_dada2_upload)
+    
+    selection_position <- which(colnames(Metadata_stats())==input$metadata_alpha)
+    nonNA_position <- which(Metadata_stats()[,selection_position] != "NA")
+    nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
+    
+    
+    nonNA_metadata <- Metadata_stats()[nonNA_position, ]
+    
+    group_names <- unique(nonNA_metadata[,selection_position])
+    
+    if(length(group_names)>2){
+      
+      shinyjs::show("post_hoc_ui")
+      
+    }else if(length(group_names)<=2){
+      shinyjs::hide("post_hoc_ui")
     }
     
   })
@@ -12616,6 +12640,29 @@ server <- function(session, input, output) {
       }else{
         return(faith_PD_post_test_Dunn())
       }
+    })
+    
+    observe({
+      
+      req(input$sample_data, input$taxonomic_table, input$table_dada2_upload, input$rep_seq_dada2_upload)
+      
+      selection_position <- which(colnames(Metadata_stats())==input$metadata_phylo_alpha)
+      nonNA_position <- which(Metadata_stats()[,selection_position] != "NA")
+      nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
+      
+      
+      nonNA_metadata <- Metadata_stats()[nonNA_position, ]
+      
+      group_names <- unique(nonNA_metadata[,selection_position])
+      
+      if(length(group_names)>2){
+        
+        shinyjs::show("post_hoc_ui_phylo")
+        
+      }else if(length(group_names)<=2){
+        shinyjs::hide("post_hoc_ui_phylo")
+      }
+      
     })
     
     output$download_faithPD_posttest <- downloadHandler(

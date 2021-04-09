@@ -1126,22 +1126,28 @@ shinyUI(
                                           textOutput(outputId="word_metadata_NA_3"),
                                           downloadButton(outputId = "downloadAlphaBoxPlot", 
                                                          label = "Download Alpha Diversity Boxplot"),
-                                          hr(),
-                                          h3("Post hoc analysis"),
-                                          textOutput(outputId = "post_test_type"),
-                                          tags$head(
-                                            tags$style("#post_test_type{color: black;
+                                          div(
+                                            id = "post_hoc_ui",
+                                            hr(),
+                                            h3("Post hoc analysis"),
+                                            textOutput(outputId = "post_test_type"),
+                                            tags$head(
+                                              tags$style("#post_test_type{color: black;
                                                                font-size: 20px;
                                                                        }"
-                                            )
+                                              )
+                                            ),
+                                            withSpinner(
+                                              tableOutput(outputId = "post_test"), 
+                                              type = spinner_type, 
+                                              color.background = spinner_bg_color),
+                                            downloadButton(outputId = "Alpha_posttest_DL", 
+                                                           label = "Download Alpha Diversity statistical result")
+                                            
                                           ),
-                                          withSpinner(
-                                            tableOutput(outputId = "post_test"), 
-                                            type = spinner_type, 
-                                            color.background = spinner_bg_color),
-                                          downloadButton(outputId = "Alpha_posttest_DL", 
-                                                         label = "Download Alpha Diversity statistical result"),
+                                          
                                           br(),br()
+                                          
                                           
                                         ) %>% shinyjs::hidden(),
                                         
@@ -1356,7 +1362,9 @@ shinyUI(
                                                        inline = T),
                                           downloadButton(outputId = "download_faithPD_boxplot", 
                                                          label = "Download Faith PD boxplot"),
-                                          hr(),
+                                          div(
+                                            id = "post_hoc_ui_phylo",
+                                            hr(),
                                           h3("Post hoc analysis"),
                                           textOutput(outputId = "post_test_type_phylo"),
                                           tags$head(tags$style("#post_test_type_phylo{color: black;
@@ -1372,7 +1380,9 @@ shinyUI(
                                           ),
                                           
                                           downloadButton(outputId = "download_faithPD_posttest", 
-                                                         label = "Download Faith PD post hoc result"),
+                                                         label = "Download Faith PD post hoc result")
+                                          )
+                                          ,
                                           hr(),
                                           
                                           h3("Heatmap of UniFrac distance"),
@@ -1772,7 +1782,7 @@ shinyUI(
     tags$footer(
       tags$span(
         tags$a("Molecular Bioinformatics Lab,", href = "https://fullofbeans.nctu.edu.tw/?page_id=333&lang=en", style = "color: white", target = "_blank"), 
-        " National Yang Ming Chiao Tung University, Taiwan 300, R.O.C.,", " last updated on 04/08/2021"),
+        " National Yang Ming Chiao Tung University, Taiwan 300, R.O.C.,", " last updated on 04/09/2021"),
       # tags$a(href="https://ibs.nctu.edu.tw/faculty/%E9%99%B3%E4%BA%AD%E5%A6%8F/", tags$span("Contact us!"), 
       #        target = "_blank",
       #        class="externallink", 
