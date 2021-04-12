@@ -2202,8 +2202,8 @@ server <- function(session, input, output) {
     
     
     seqs_name_original <- list.files(raw_data_path_list[[1]])
-    seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
-    file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name))
+    # seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
+    # file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name))
     seqs_name <- list.files(raw_data_path_list[[1]])
       
     if(is.null(input$dirs)){
@@ -2257,8 +2257,8 @@ server <- function(session, input, output) {
         # rename seqs file name
         # setwd(raw_data_path_list[[1]])
         seqs_name_original <- list.files(raw_data_path_list[[1]])
-        seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
-        file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name))
+        # seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
+        # file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name))
         seqs_name <- list.files(raw_data_path_list[[1]])
         
         
@@ -2283,9 +2283,11 @@ server <- function(session, input, output) {
               "_",
               set_number,
               ".",
-              str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+              # str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+              "fastq",
               ".",
-              str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+              # str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+              "gz"
               
             )
             
@@ -3002,8 +3004,8 @@ server <- function(session, input, output) {
     # setwd(raw_data_path)
     # seqs_name <- list.files("/home/imuser/seqs_upload")
     seqs_name_original <- list.files(raw_data_path)
-    seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
-    file.rename(from = list.files(raw_data_path, full.names = T), to = paste0(raw_data_path, "/",seqs_name))
+    # seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
+    # file.rename(from = list.files(raw_data_path, full.names = T), to = paste0(raw_data_path, "/", seqs_name))
     seqs_name <- list.files(raw_data_path)
     
       if(is.null(input$dirs)){
@@ -3061,9 +3063,11 @@ server <- function(session, input, output) {
                 "_",
                 set_number,
                 ".",
-                str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+                # str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+                "fastq",
                 ".",
-                str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+                # str_split(seqs_name_split[[x]][2], "\\.")[[1]][3],
+                "gz"
                 
               )
               
@@ -4045,8 +4049,8 @@ server <- function(session, input, output) {
     
     
     seqs_name_original <- list.files(raw_data_path_list[[1]])
-    seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
-    file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name))
+    # seqs_name <- str_replace_all(seqs_name_original, pattern = ".fq.gz", replacement = ".fastq.gz")
+    # file.rename(from = list.files(raw_data_path_list[[1]], full.names = T), to = paste0(raw_data_path_list[[1]], "/",seqs_name))
     seqs_name <- list.files(raw_data_path_list[[1]])
     
     if(is.null(input$dirs)){
@@ -4119,9 +4123,11 @@ server <- function(session, input, output) {
             "_",
             set_number,
             ".",
-            str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+            # str_split(seqs_name_split[[x]][2], "\\.")[[1]][2],
+            "fastq",
             ".",
-            str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+            # str_split(seqs_name_split[[x]][2], "\\.")[[1]][3]
+            "gz"
             
           )
           
