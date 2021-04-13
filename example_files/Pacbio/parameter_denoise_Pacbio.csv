@@ -1,2 +1,2 @@
-JobID,Step,time,duration,sequence_type,min_length,max_length,forward_primer,reverse_primer,computing_setting
-local_user,Denoising,2021-04-04 08:45:18,45.1 mins,Long read,1000,1600,other AGRGTTYGATYMTGGCTCAG,other RGYTACCTTGTTACGACTT,6
+Step,time,duration,sequence_type,min_length,max_length,forward_primer,reverse_primer,computing_setting
+Denoising,2021-04-04 08:45:18,45.1 mins,Long read,1000,1600,other AGRGTTYGATYMTGGCTCAG,other RGYTACCTTGTTACGACTT,6
