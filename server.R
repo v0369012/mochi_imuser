@@ -8939,7 +8939,7 @@ server <- function(session, input, output) {
       labs(caption = paste0("p value of ANOVA = ", round(anova_summary[[1]][[5]][1], 4))) + theme(text = element_text(size = 15)) + stat_summary(fun.data = stat_box_data,
                                                                                                                                                  geom = "text", 
                                                                                                                                                  hjust = 0.5,
-                                                                                                                                                 vjust = 0.9)
+                                                                                                                                                 vjust = 0.9) + theme(text = element_text(size = 20))
   })
   
   alpha_anova_tukey <- reactive({
@@ -9042,7 +9042,7 @@ server <- function(session, input, output) {
       labs(caption=paste0("p value of KW-test = ", round(KW_result$p.value, 4))) + theme(text = element_text(size = 15)) + stat_summary(fun.data = stat_box_data,
                                                                                                                                         geom = "text", 
                                                                                                                                         hjust = 0.5,
-                                                                                                                                        vjust = 0.9)
+                                                                                                                                        vjust = 0.9) + theme(text = element_text(size = 20))
   })
   
   alpha_KW_Dunn <- reactive({
@@ -12467,7 +12467,7 @@ server <- function(session, input, output) {
           labs(caption=paste0("p value of ANOVA = ", round(anova_summary[[1]][[5]][1], 4))) + theme(text = element_text(size = 15)) + stat_summary(fun.data = stat_box_data,
                                                                                                                                                    geom = "text", 
                                                                                                                                                    hjust = 0.5,
-                                                                                                                                                   vjust = 0.9)
+                                                                                                                                                   vjust = 0.9) + theme(text = element_text(size = 20))
         
       }
       
@@ -12538,7 +12538,7 @@ server <- function(session, input, output) {
           labs(caption=paste0("p value of KW-test = ", round(KW_result$p.value, 4))) + theme(text = element_text(size = 15)) + stat_summary(fun.data = stat_box_data,
                                                                                                                                             geom = "text", 
                                                                                                                                             hjust = 0.5,
-                                                                                                                                            vjust = 0.9) 
+                                                                                                                                            vjust = 0.9) + theme(text = element_text(size = 20))
         
       }
       
