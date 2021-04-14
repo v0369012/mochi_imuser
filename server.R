@@ -8908,6 +8908,11 @@ server <- function(session, input, output) {
     index <- input$select_diversity
     A_diversity_metadata_list_melt_forplot <- subset(A_diversity_metadata_list_melt,
                                                      variable==index)
+    
+    A_diversity_metadata_list_melt_forplot$feature_name <- factor(A_diversity_metadata_list_melt_forplot$feature_name, 
+                                                                  levels = stringr::str_sort(unique(A_diversity_metadata_list_melt_forplot$feature_name), numeric = T))
+    A_diversity_metadata_list_melt_forplot <- arrange(A_diversity_metadata_list_melt_forplot, feature_name)
+    
     anova_result <- aov(value ~ feature_name, A_diversity_metadata_list_melt_forplot)
     anova_summary <- summary(anova_result)
     # tukey_result <- agricolae::HSD.test(anova_result, "feature_name", group = T)
@@ -9009,6 +9014,11 @@ server <- function(session, input, output) {
     index <- input$select_diversity
     A_diversity_metadata_list_melt_forplot <- subset(A_diversity_metadata_list_melt,
                                                      variable==index)
+    
+    A_diversity_metadata_list_melt_forplot$feature_name <- factor(A_diversity_metadata_list_melt_forplot$feature_name, 
+                                                                  levels = stringr::str_sort(unique(A_diversity_metadata_list_melt_forplot$feature_name), numeric = T))
+    A_diversity_metadata_list_melt_forplot <- arrange(A_diversity_metadata_list_melt_forplot, feature_name)
+    
     KW_result <- kruskal.test(value ~ feature_name, A_diversity_metadata_list_melt_forplot)
     
     stat_box_data <- function(y, upper_limit = max(A_diversity_metadata_list_melt_forplot$value) * 1.15) {
@@ -12414,6 +12424,10 @@ server <- function(session, input, output) {
         
         A_diversity_metadata_list[[feature]] <- filter(A_diversity_metadata_list[[feature]], feature_name != "NA")
         
+        A_diversity_metadata_list[[feature]]$feature_name <- factor(A_diversity_metadata_list[[feature]]$feature_name,
+                                                                    levels = str_sort(unique(A_diversity_metadata_list[[feature]]$feature_name), numeric = T))
+        A_diversity_metadata_list[[feature]] <- arrange(A_diversity_metadata_list[[feature]], feature_name)
+        
         anova_result <- aov(faith_pd ~ feature_name, A_diversity_metadata_list[[feature]])
         anova_summary <- summary(anova_result)
         # tukey_result <- agricolae::HSD.test(anova_result, "feature_name", group = T)
@@ -12481,6 +12495,10 @@ server <- function(session, input, output) {
         }
         
         A_diversity_metadata_list[[feature]] <- filter(A_diversity_metadata_list[[feature]], feature_name!="NA")
+        
+        A_diversity_metadata_list[[feature]]$feature_name <- factor(A_diversity_metadata_list[[feature]]$feature_name,
+                                                                    levels = str_sort(unique(A_diversity_metadata_list[[feature]]$feature_name), numeric = T))
+        A_diversity_metadata_list[[feature]] <- arrange(A_diversity_metadata_list[[feature]], feature_name)
         
         KW_result <- kruskal.test(faith_pd ~ feature_name, A_diversity_metadata_list[[feature]])
         # tukey_result <- agricolae::HSD.test(anova_result, "feature_name", group = T)
