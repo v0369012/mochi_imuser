@@ -14327,6 +14327,7 @@ server <- function(session, input, output) {
       ancom_merge$id <- gsub("k__|p__|c__|o__|f__|g__|s__", "", ancom_merge$id)
       ancom_merge$id <- gsub("__", "", ancom_merge$id)
       
+     
       plot_ly(data = ancom_merge,
               x = ~ clr,
               y = ~ W,
@@ -14337,7 +14338,7 @@ server <- function(session, input, output) {
               hovertext = paste("Species:", ancom_merge$id,
                                 "<br> clr:", round(ancom_merge$clr, digits = 4),
                                 "<br> W:", ancom_merge$W) 
-      ) %>% layout(showlegend = T)
+      ) %>% layout(showlegend = T) %>% layout(xaxis = list(titlefont = list(size = 20), title = "CLR"), yaxis = list(titlefont = list(size = 20), title = "W"))
       
     })
     
@@ -14655,7 +14656,8 @@ server <- function(session, input, output) {
       #   theme(axis.title.y = element_text(color="black", size=16)) 
       
       y <- list(
-        title = list(text="Function types",standoff=20)
+        title = list(text="Function types",standoff=20),
+        tickfont = list(size = 20)
       )
       
       ggplotly(FA_ggplot) %>% layout(yaxis=y)
@@ -14844,7 +14846,8 @@ server <- function(session, input, output) {
                       position=position_dodge(.9)) + coord_flip() + theme_bw() + guides(fill=guide_legend(title=input$metadata_FA))+
         labs(x="Function types", y="Relative abundance")+
         theme(axis.title.x = element_text(color="black", size=16))+
-        theme(axis.title.y = element_text(color="black", size=16))
+        theme(axis.title.y = element_text(color="black", size=16))+
+        theme(text = element_text(size = 25))
       
       ggsave(file, plot = FA_ggplot, width = 80, height = 40, units = "cm")
     }
