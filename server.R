@@ -11587,9 +11587,9 @@ server <- function(session, input, output) {
     content = function(file){
       
       if(input$select_stat=="ANOVA"){
-        ggsave(file, plot = alpha_anova_boxplot())
+        ggsave(file, plot = alpha_anova_boxplot(), dpi = 300)
       }else{
-        ggsave(file, plot = alpha_KW_boxplot())
+        ggsave(file, plot = alpha_KW_boxplot(), dpi = 300)
       }
       
     }
