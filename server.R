@@ -1380,7 +1380,7 @@ server <- function(session, input, output) {
                     anchorId = "sample_data_alert", 
                     alertId = "sampleAlert", 
                     title = "Oops!",
-                    content = "Please check your sample data. Your first column names should be 'SampleID'.", 
+                    content = "Please check your sample data. Your first column name should be 'SampleID'.", 
                     append = T,
                     style = "danger")
       } else {
@@ -1412,9 +1412,16 @@ server <- function(session, input, output) {
       metadata <- read.table(input$sample_data$datapath, header = T, na.strings = "", sep = "\t" )
       
       if(colnames(metadata)[1]!="SampleID"){
+        
         showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                               "Please check the file!", 
                               footer = NULL, easyClose = T, size = "l"))
+      }else if(ncol(metadata)==1){
+        
+        showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                              "Metadata cannot only contain sample ID column.", 
+                              footer = NULL, easyClose = T, size = "l"))
+        
       }else{
         colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "-", ".")
         
@@ -1687,7 +1694,7 @@ server <- function(session, input, output) {
                     alertId = "sampleAlert_FA", 
                     title = "Oops!",
                     # content = "Please check your sample data. Your first column names should be 'sample.id' or 'sample-id'.", 
-                    content = "Please check your sample data. Your first column names should be 'SampleID'.", 
+                    content = "Please check your sample data. Your first column name should be 'SampleID'.", 
                     append = T,
                     style = "danger")
       } else {
@@ -1722,6 +1729,13 @@ server <- function(session, input, output) {
         showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                               "Please check the file!", 
                               footer = NULL, easyClose = T, size = "l"))
+        
+      }else if(ncol(metadata)==1){
+        
+        showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                              "Metadata cannot only contain sample ID column.", 
+                              footer = NULL, easyClose = T, size = "l"))
+        
       }else{
         colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "-", ".")
         
