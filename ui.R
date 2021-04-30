@@ -1159,7 +1159,7 @@ shinyUI(
                                         icon = icon("info"),
                                         div(
                                           id = "beta_ui",
-                                          h3("Beta diversity table (Bray-Curtis)"),
+                                          h3("Beta diversity heatmap (Bray-Curtis)"),
                                           withSpinner(
                                             plotlyOutput(outputId = "beta_dsmx_hm", 
                                                          height = "600px"), 
