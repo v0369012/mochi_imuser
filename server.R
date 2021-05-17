@@ -3207,7 +3207,7 @@ server <- function(session, input, output) {
             "time" = Sys.time(),
             "duration" = spent_time,
             "sequence_type" = input$seqs_type,
-            "sample_size" = length(seqs_name),
+            "sample_size" = length(seqs_name)/2,
             "primer_trimmed" = input$checkbox_primer,
             "forward_primer" = paste(input$primer_f, input$primer_f_manu),
             "reverse_primer" = paste(input$primer_r, input$primer_r_manu),
@@ -3430,7 +3430,7 @@ server <- function(session, input, output) {
         "time" = Sys.time(),
         "duration" = spent_time,
         "sequence_type" = input$seqs_type,
-        "sample_size" = length(seqs_name),
+        "sample_size" = length(seqs_name)/2,
         "primer_trimmed" = input$checkbox_primer,
         "forward_primer" = paste(input$primer_f, input$primer_f_manu),
         "reverse_primer" = paste(input$primer_r, input$primer_r_manu),
@@ -5070,7 +5070,7 @@ server <- function(session, input, output) {
         rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
         colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
         rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="bottom",text = element_text(size = 30))
+        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
         
       })
       
@@ -5317,7 +5317,7 @@ server <- function(session, input, output) {
       rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
       colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
       rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-      ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="bottom",text = element_text(size = 30))
+      ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
       
     })
     
@@ -5431,7 +5431,7 @@ server <- function(session, input, output) {
       rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
       colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
       rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-      g <- ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="bottom",text = element_text(size = 30))
+      g <- ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
       ggsave(file, 
              plot = g + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
              , width = 80, height = 40, units = "cm")
@@ -6047,7 +6047,7 @@ server <- function(session, input, output) {
         rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
         colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
         rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="bottom",text = element_text(size = 30))
+        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
         
       })
       
@@ -6299,7 +6299,7 @@ server <- function(session, input, output) {
         rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
         colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
         rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="bottom",text = element_text(size = 30))
+        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
         
       })
       
@@ -6511,7 +6511,7 @@ server <- function(session, input, output) {
       rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
       colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
       rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-      g <- ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="bottom",text = element_text(size = 30))
+      g <- ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
       ggsave(file, 
              plot = g + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
              , width = 80, height = 40, units = "cm")
@@ -7023,7 +7023,7 @@ server <- function(session, input, output) {
         rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
         colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
         rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="bottom",text = element_text(size = 30))
+        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
         
       })
       
@@ -7275,7 +7275,7 @@ server <- function(session, input, output) {
         rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
         colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
         rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="bottom",text = element_text(size = 30))
+        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
         
       })
       
@@ -7391,7 +7391,7 @@ server <- function(session, input, output) {
       rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
       colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
       rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-      g <- ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="bottom",text = element_text(size = 30))
+      g <- ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
       ggsave(file, 
              plot = g + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
              , width = 80, height = 40, units = "cm")
