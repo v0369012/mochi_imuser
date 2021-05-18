@@ -9241,8 +9241,9 @@ server <- function(session, input, output) {
     
     library(ggplot2)
     pca_Bray_df_data_plot <- data.frame(sample=PCA_rowname_arrange, 
-                                        PC1=pca_Bray_df_data$x[,1],
-                                        PC2=pca_Bray_df_data$x[,2])
+                                        sample_org=metadata_beta_arrange$SampleID,
+                                        PC1=pca_Bray_df_data$x[,1][metadata_beta_arrange$SampleID],
+                                        PC2=pca_Bray_df_data$x[,2][metadata_beta_arrange$SampleID])
     pc_prop <- pca_Bray_df_data$sdev^2/sum(pca_Bray_df_data$sdev^2)
     
     pca_Bray_df_data_plot$sample <- factor(pca_Bray_df_data_plot$sample, 
@@ -9250,7 +9251,7 @@ server <- function(session, input, output) {
     pca_Bray_df_data_plot <- arrange(pca_Bray_df_data_plot, sample)
     
     library(ggrepel)
-    pca_Bray_df_data_plot_gg <- ggplot(data = pca_Bray_df_data_plot, aes(x=PC1, y=PC2, label=sample_original_names, color=sample))+
+    pca_Bray_df_data_plot_gg <- ggplot(data = pca_Bray_df_data_plot, aes(x=PC1, y=PC2, label=sample_org, color=sample))+
       geom_point(size=2.5)+
       ggrepel::geom_text_repel(show.legend = FALSE)+
       xlab(paste("PC1 (", round(pc_prop[1], 2)*100, "%", ")", sep = ""))+
@@ -9317,15 +9318,16 @@ server <- function(session, input, output) {
     
     library(ggplot2)
     pcoa_Bray_df_data_plot <- data.frame(sample=PCoA_rowname_arrange, 
-                                         PC1=pcoa_Bray_df_data$vectors[,1],
-                                         PC2=pcoa_Bray_df_data$vectors[,2])
+                                         sample_org = metadata_beta_arrange$SampleID,
+                                         PC1=pcoa_Bray_df_data$vectors[,1][metadata_beta_arrange$SampleID],
+                                         PC2=pcoa_Bray_df_data$vectors[,2][metadata_beta_arrange$SampleID])
     
     pcoa_Bray_df_data_plot$sample <- factor(pcoa_Bray_df_data_plot$sample, 
                                             levels = str_sort(unique(pcoa_Bray_df_data_plot$sample), numeric = T))
     pcoa_Bray_df_data_plot <- arrange(pcoa_Bray_df_data_plot, sample)
     
     library(ggrepel)
-    pcoa_Bray_df_data_plot_gg<-ggplot(data = pcoa_Bray_df_data_plot, aes(x=PC1, y=PC2, label=sample_original_names, color=sample))+
+    pcoa_Bray_df_data_plot_gg<-ggplot(data = pcoa_Bray_df_data_plot, aes(x=PC1, y=PC2, label=sample_org, color=sample))+
       geom_point(size=2.5)+
       ggrepel::geom_text_repel(show.legend = FALSE)+
       xlab(paste("PC1 (", round(pcoa_Bray_df_data$values[1,2],2)*100, "%", ")", sep = ""))+
@@ -9350,15 +9352,18 @@ server <- function(session, input, output) {
     # NMDS
     comm_bray <- vegdist(t(taxatable_beta))
     metaMDS_beta_df_data<-metaMDS(comm_bray, distance = "bray")
-    NMDS_beta_df_data<-data.frame(NMDS1=metaMDS_beta_df_data$points[,1], NMDS2=metaMDS_beta_df_data$points[,2])
+    NMDS_beta_df_data<-data.frame(NMDS1=metaMDS_beta_df_data$points[,1][metadata_beta_arrange$SampleID], 
+                                  NMDS2=metaMDS_beta_df_data$points[,2][metadata_beta_arrange$SampleID])
     NMDS_rowname <- PCoA_rowname_arrange
-    NMDS_beta_df_data_plot<-data.frame(NMDS_beta_df_data, sample=NMDS_rowname)
+    NMDS_beta_df_data_plot<-data.frame(NMDS_beta_df_data, 
+                                       sample=NMDS_rowname,
+                                       sample_org = metadata_beta_arrange$SampleID)
     
     NMDS_beta_df_data_plot$sample <- factor(NMDS_beta_df_data_plot$sample,
                                             levels = str_sort(unique(NMDS_beta_df_data_plot$sample), numeric = T))
     NMDS_beta_df_data_plot <- arrange(NMDS_beta_df_data_plot, sample)
     
-    NMDS_beta_df_data_plot_gg<-ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, label=sample_original_names,color=sample))+
+    NMDS_beta_df_data_plot_gg<-ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, label=sample_org,color=sample))+
       geom_point(size=2.5)+
       ggrepel::geom_text_repel(show.legend = FALSE)+
       xlab("NMDS1")+
