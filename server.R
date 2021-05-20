@@ -35,8 +35,8 @@ server <- function(session, input, output) {
   output$home_page <- renderUI({
     source("/srv/shiny-server/ui.R")
     # return(parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs))
-    Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
-    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+    Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin')
+    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
     Sys.setenv(LANG="C.UTF-8")
     # raw_data_path <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
     tagList(
@@ -2229,7 +2229,7 @@ server <- function(session, input, output) {
         
         
         
-        qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+        qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
         # raw_data_path_list <- list()
         # raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
         # raw_data_path_list[[1]] <- input$seqs_data_upload$datapath # web version
@@ -2293,7 +2293,7 @@ server <- function(session, input, output) {
         
         
         # demuxed transform
-        Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
+        Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin')
         file.remove("/home/imuser/qiime_output/demux_single_trimmed.qza", "/home/imuser/qiime_output/demux_single_end.qzv", "/home/imuser/qiime_output/demux_single_end.qza")
         
         
@@ -2366,7 +2366,7 @@ server <- function(session, input, output) {
                       # input$input_job_id_demux, # web version
                       ' /home/imuser/qiime_output',
                       '/demux_single_end.qzv'))
-        # viewer_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime_2_ll_quick_viewer'
+        # viewer_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime_2_ll_quick_viewer'
         # system('kill -9 $(lsof -t -i:8080 -sTCP:LISTEN)')
         # system(paste(viewer_cmd, '--filename /home/imuser/qiime_output/demux_single_end.qzv &'))
         
@@ -2488,7 +2488,7 @@ server <- function(session, input, output) {
       
       
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
       # raw_data_path_list <- list()
       # raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
       # raw_data_path_list[[1]] <- input$seqs_data_upload$datapath # web version
@@ -2506,7 +2506,7 @@ server <- function(session, input, output) {
       
       
       # demuxed transform
-      Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
+      Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin')
       file.remove("/home/imuser/qiime_output/demux_single_trimmed.qza", "/home/imuser/qiime_output/demux_single_end.qzv", "/home/imuser/qiime_output/demux_single_end.qza")
       
       
@@ -3028,7 +3028,7 @@ server <- function(session, input, output) {
           show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
           
           
-          qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+          qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
           
           # if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))<length(seqs_name)){
             
@@ -3072,7 +3072,7 @@ server <- function(session, input, output) {
           # }
           
           # demux
-          Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
+          Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin')
           file.remove("/home/imuser/qiime_output/demux_paired_trimmed.qza", "/home/imuser/qiime_output/demux_paired_end.qzv","/home/imuser/qiime_output/demux_paired_end.qza")
           
           if(input$checkbox_primer==T){
@@ -3259,7 +3259,7 @@ server <- function(session, input, output) {
       show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
       
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
       
       # if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))<length(seqs_name)){
       #   
@@ -3301,7 +3301,7 @@ server <- function(session, input, output) {
       # }
       
       # demux
-      Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
+      Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin')
       file.remove("/home/imuser/qiime_output/demux_paired_trimmed.qza", "/home/imuser/qiime_output/demux_paired_end.qzv","/home/imuser/qiime_output/demux_paired_end.qza")
       
       if(input$checkbox_primer==T){
@@ -4076,7 +4076,7 @@ server <- function(session, input, output) {
         
         
         
-        qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+        qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
         
         
         raw_data_path_list <- list()
@@ -4133,7 +4133,7 @@ server <- function(session, input, output) {
         
         
         # demuxed transform
-        Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
+        Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin')
         file.remove("/home/imuser/qiime_output/demux_Pacbio_trimmed.qza", "/home/imuser/qiime_output/demux_Pacbio_end.qzv", "/home/imuser/qiime_output/demux_Pacbio_end.qza")
         
         
@@ -4256,7 +4256,7 @@ server <- function(session, input, output) {
       
       
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
       
       raw_data_path_list <- list()
       raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
@@ -4271,7 +4271,7 @@ server <- function(session, input, output) {
       
       
       # demuxed transform
-      Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2020.8/bin')
+      Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin')
       file.remove("/home/imuser/qiime_output/demux_Pacbio_trimmed.qza", "/home/imuser/qiime_output/demux_Pacbio_end.qzv", "/home/imuser/qiime_output/demux_Pacbio_end.qza")
       
       
@@ -4681,7 +4681,7 @@ server <- function(session, input, output) {
       # showModal(modalDialog(title = "Running denoising for single end ...", "Waiting for a moment", footer = NULL))
       show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
       
       file.remove("/home/imuser/qiime_output/rep-seqs-dada2_single.qza",
                   "/home/imuser/qiime_output/table-dada2_single.qza",
@@ -5664,7 +5664,7 @@ server <- function(session, input, output) {
       # showModal(modalDialog(title = "Running denoising for paired end ...", "Waiting for a moment",footer = NULL))
       show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
       
       file.remove("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza",
                   "/home/imuser/qiime_output/table-dada2_paired.qza",
@@ -6574,7 +6574,7 @@ server <- function(session, input, output) {
       # showModal(modalDialog(title = "Running denoising for Pacbio end ...", "Waiting for a moment", footer = NULL))
       show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
       
       file.remove("/home/imuser/qiime_output/rep-seqs-dada2_Pacbio.qza",
                   "/home/imuser/qiime_output/table-dada2_Pacbio.qza",
@@ -6584,7 +6584,7 @@ server <- function(session, input, output) {
                   "/home/imuser/qiime_output/stats-dada2_Pacbio.qzv")
       
 
-      system("/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime dev refresh-cache")
+      system("/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime dev refresh-cache")
       
       primer_list <- list("8F"="AGAGTTTGATCCTGGCTCAG",
                           "27F"="AGAGTTTGATCMTGGCTCAG",
@@ -7436,7 +7436,7 @@ server <- function(session, input, output) {
       showModal(modalDialog(title = "Running Sequence denoising for single end ...", "Waiting for a moment",footer = NULL))
       
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
       
       if(input$seqs_type == "Single end"){
         
@@ -7490,7 +7490,7 @@ server <- function(session, input, output) {
   #     
   #     showModal(modalDialog(title = "Running OTU picking ...", "Waiting for a moment", footer = NULL))
   #         
-  #         qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+  #         qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
   #         system(paste(qiime_cmd, 'vsearch cluster-features-de-novo --i-table /home/imuser/qiime_output/table-dada2.qza --i-sequences /home/imuser/qiime_output/rep-seqs-dada2.qza --p-perc-identity', 
   #                      input$OTU_identity,
   #                      '--o-clustered-table /home/imuser/qiime_output/table-dada2-dn.qza --o-clustered-sequences /home/imuser/qiime_output/rep-seqs-dada2-dn.qza'))
@@ -7838,7 +7838,7 @@ server <- function(session, input, output) {
       # showModal(modalDialog(title = "Running taxonomic analysis ...", "Waiting for a moment", footer = NULL))
       show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
       
       
       
@@ -12416,7 +12416,7 @@ server <- function(session, input, output) {
     # showModal(modalDialog(title = "Running making tree ...", "Waiting for a moment",footer = NULL))
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
     
-    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
     
     # system(paste0("mkdir", " /home/imuser/web_version/users_files/", job_id(), "_DA_phylo"))
     # system(paste0(qiime_cmd, 
@@ -14244,7 +14244,7 @@ server <- function(session, input, output) {
     # selected_metadata <- Metadata_stats() %>% filter(Metadata_stats()[,input$metadata8] == input$metadata8_factor) %>% as_tibble()
     # colnames(selected_metadata)[1] <- "SampleID"
     # write.table(selected_metadata[,1], file='/home/imuser/selected_sampleID.tsv', quote=FALSE, sep='\t', row.names = F)
-    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
     
     nonNA_position <- which(Metadata_stats()[, input$metadata_ANCOM]!="NA")
     nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
@@ -14322,7 +14322,7 @@ server <- function(session, input, output) {
     taxa_table__ag <- aggregate(taxa_table_, by=list(rownames(taxa_table_)), FUN=sum)
     colnames(taxa_table__ag)[1] <- "taxonomy"
     write.table(x=taxa_table__ag,"/home/imuser/taxatable_.txt", quote = F, col.names = T, row.names = F, sep = "\t")
-    biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2020.8/bin/biom"
+    biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/biom"
     system(paste0(biom_cmd, " convert -i /home/imuser/taxatable_.txt -o /home/imuser/taxatable_.biom --table-type='OTU table' --to-hdf5"))
     system(paste0(qiime_cmd, " tools import --input-path /home/imuser/taxatable_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/upload_taxatable_.qza"))
     
@@ -14611,7 +14611,7 @@ server <- function(session, input, output) {
     # showModal(modalDialog(title = "Running FAPROTAX ...", "Waiting for a moment", footer = NULL))
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
     
-    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2020.8/bin/qiime'
+    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.2-Pacbio/bin/qiime'
     
     # system(paste0(qiime_cmd, 
     #               " tools export --input-path ", 
