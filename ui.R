@@ -482,7 +482,7 @@ shinyUI(
                                 
                                 column(width = 12,
                                        
-                                       h1('2. Sequence denoising (DADA2) for Single end'),
+                                       h1('2. Sequence denoising (DADA2 1.18.0) for Single end'),
                                        
                                        h4("(1) Start to denoise."),
                                        actionButton(inputId = "denoising_single", 
