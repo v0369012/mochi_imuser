@@ -562,7 +562,7 @@ shinyUI(
                                 column(width = 12,
                                        
                                        # uiOutput(outputId = "show_job_id_denoise_paired"), # web version
-                                       h1('2. Sequence denoising (DADA2) for Paired end'),
+                                       h1('2. Sequence denoising (DADA2 1.18.0) for Paired end'),
                                        
                                        
                                        h4("(1) Start to denoise."),
@@ -640,7 +640,7 @@ shinyUI(
                                 
                                 column(width = 12,
                                        
-                                       h1('2. Sequence denoising (DADA2) for Long read'),
+                                       h1('2. Sequence denoising (DADA2 1.18.0) for Long read'),
                                        
                                        h4("(1) Start to denoise."),
                                        actionButton(inputId = "denoising_Pacbio", 
