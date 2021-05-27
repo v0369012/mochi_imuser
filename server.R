@@ -2339,19 +2339,36 @@ server <- function(session, input, output) {
                               "1492R (s)"="ACCTTGTTACGACTT" 
           )
           
-          system(paste0(qiime_cmd, " cutadapt trim-single --i-demultiplexed-sequences", 
-                        # " /home/imuser/home/imuser/web_version/users_files/",
-                        # job_id(), # web version
-                        " /home/imuser/qiime_output",
-                        "/demux_single_end.qza", 
-                        " --p-front ", primer_list[[input$primer_f]],
-                        " --p-cores ", input$n_jobs_demux,
-                        " --o-trimmed-sequences",
-                        # " /home/imuser/web_version/users_files/",
-                        # input$input_job_id_demux, # web version
-                        " /home/imuser/qiime_output",
-                        "/demux_single_trimmed.qza"
-          ))
+          if(input$primer_f == "other"){
+            system(paste0(qiime_cmd, " cutadapt trim-single --i-demultiplexed-sequences", 
+                          # " /home/imuser/home/imuser/web_version/users_files/",
+                          # job_id(), # web version
+                          " /home/imuser/qiime_output",
+                          "/demux_single_end.qza", 
+                          " --p-front ", input$primer_f_manu,
+                          " --p-cores ", input$n_jobs_demux,
+                          " --o-trimmed-sequences",
+                          # " /home/imuser/web_version/users_files/",
+                          # input$input_job_id_demux, # web version
+                          " /home/imuser/qiime_output",
+                          "/demux_single_trimmed.qza"
+            ))
+          }else if(input$primer_f != "other"){
+            system(paste0(qiime_cmd, " cutadapt trim-single --i-demultiplexed-sequences", 
+                          # " /home/imuser/home/imuser/web_version/users_files/",
+                          # job_id(), # web version
+                          " /home/imuser/qiime_output",
+                          "/demux_single_end.qza", 
+                          " --p-front ", primer_list[[input$primer_f]],
+                          " --p-cores ", input$n_jobs_demux,
+                          " --o-trimmed-sequences",
+                          # " /home/imuser/web_version/users_files/",
+                          # input$input_job_id_demux, # web version
+                          " /home/imuser/qiime_output",
+                          "/demux_single_trimmed.qza"
+            ))
+          }
+          
           
         }
         
@@ -2552,19 +2569,35 @@ server <- function(session, input, output) {
                             "1492R (s)"="ACCTTGTTACGACTT" 
         )
         
-        system(paste0(qiime_cmd, " cutadapt trim-single --i-demultiplexed-sequences", 
-                      # " /home/imuser/home/imuser/web_version/users_files/",
-                      # job_id(), # web version
-                      " /home/imuser/qiime_output",
-                      "/demux_single_end.qza", 
-                      " --p-front ", primer_list[[input$primer_f]],
-                      " --p-cores ", input$n_jobs_demux,
-                      " --o-trimmed-sequences",
-                      # " /home/imuser/web_version/users_files/",
-                      # input$input_job_id_demux, # web version
-                      " /home/imuser/qiime_output",
-                      "/demux_single_trimmed.qza"
-        ))
+        if(input$primer_f == "other"){
+          system(paste0(qiime_cmd, " cutadapt trim-single --i-demultiplexed-sequences", 
+                        # " /home/imuser/home/imuser/web_version/users_files/",
+                        # job_id(), # web version
+                        " /home/imuser/qiime_output",
+                        "/demux_single_end.qza", 
+                        " --p-front ", input$primer_f_manu,
+                        " --p-cores ", input$n_jobs_demux,
+                        " --o-trimmed-sequences",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_demux, # web version
+                        " /home/imuser/qiime_output",
+                        "/demux_single_trimmed.qza"
+          ))
+        }else if(input$primer_f != "other"){
+          system(paste0(qiime_cmd, " cutadapt trim-single --i-demultiplexed-sequences", 
+                        # " /home/imuser/home/imuser/web_version/users_files/",
+                        # job_id(), # web version
+                        " /home/imuser/qiime_output",
+                        "/demux_single_end.qza", 
+                        " --p-front ", primer_list[[input$primer_f]],
+                        " --p-cores ", input$n_jobs_demux,
+                        " --o-trimmed-sequences",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_demux, # web version
+                        " /home/imuser/qiime_output",
+                        "/demux_single_trimmed.qza"
+          ))
+        }
         
       }
       
@@ -3112,38 +3145,47 @@ server <- function(session, input, output) {
                                 "1100R"="AGGGTTGCGCTCGTTG",
                                 "1391R"="GACGGGCGGTGTGTRCA",
                                 "1492R (l)"="GGTTACCTTGTTACGACTT",
-                                "1492R (s)"="ACCTTGTTACGACTT" 
+                                "1492R (s)"="ACCTTGTTACGACTT"
             )
             
-            # system(paste0(qiime_cmd, " cutadapt trim-paired --i-demultiplexed-sequences", 
-            #               " /home/imuser/home/imuser/web_version/users_files/",
-            #               input$input_job_id_demux,
-            #               "/demux_paired_end.qza", 
-            #               " --p-front ", primer_list[[input$primer_f]],
-            #               " --p-cores ", input$n_jobs_demux,
-            #               " --o-trimmed-sequences",
-            #               " /home/imuser/web_version/users_files/",
-            #               input$input_job_id_demux,
-            #               "/demux_paired_trimmed.qza"
-            # )) # web version
-            system(paste(qiime_cmd, "cutadapt trim-paired --i-demultiplexed-sequences", 
-                         "/home/imuser/qiime_output/demux_paired_end.qza", 
-                         "--p-front-f", primer_list[[input$primer_f]],
-                         "--p-front-r", primer_list[[input$primer_r]],
-                         "--p-cores", input$n_jobs_demux,
-                         "--o-trimmed-sequences /home/imuser/qiime_output/demux_paired_trimmed.qza"))
+            if(input$primer_f == "other" & input$primer_r == "other"){
+              
+              system(paste(qiime_cmd, "cutadapt trim-paired --i-demultiplexed-sequences", 
+                           "/home/imuser/qiime_output/demux_paired_end.qza", 
+                           "--p-front-f", input$primer_f_manu,
+                           "--p-front-r", input$primer_r_manu,
+                           "--p-cores", input$n_jobs_demux,
+                           "--o-trimmed-sequences /home/imuser/qiime_output/demux_paired_trimmed.qza"))
+            }else if(input$primer_f == "other" & input$primer_r != "other"){
+              
+              system(paste(qiime_cmd, "cutadapt trim-paired --i-demultiplexed-sequences", 
+                           "/home/imuser/qiime_output/demux_paired_end.qza", 
+                           "--p-front-f", input$primer_f_manu,
+                           "--p-front-r", primer_list[[input$primer_r]],
+                           "--p-cores", input$n_jobs_demux,
+                           "--o-trimmed-sequences /home/imuser/qiime_output/demux_paired_trimmed.qza"))
+            }else if(input$primer_f != "other" & input$primer_r == "other"){
+              
+              system(paste(qiime_cmd, "cutadapt trim-paired --i-demultiplexed-sequences", 
+                           "/home/imuser/qiime_output/demux_paired_end.qza", 
+                           "--p-front-f", primer_list[[input$primer_f]],
+                           "--p-front-r", input$primer_r_manu,
+                           "--p-cores", input$n_jobs_demux,
+                           "--o-trimmed-sequences /home/imuser/qiime_output/demux_paired_trimmed.qza"))
+            }else if(input$primer_f != "other" & input$primer_r != "other"){
+              
+              system(paste(qiime_cmd, "cutadapt trim-paired --i-demultiplexed-sequences", 
+                           "/home/imuser/qiime_output/demux_paired_end.qza", 
+                           "--p-front-f", primer_list[[input$primer_f]],
+                           "--p-front-r", primer_list[[input$primer_r]],
+                           "--p-cores", input$n_jobs_demux,
+                           "--o-trimmed-sequences /home/imuser/qiime_output/demux_paired_trimmed.qza"))
+            }
+            
             
           }
           
-          # system(paste0(qiime_cmd, 
-          #               ' demux summarize --i-data',
-          #               ' /home/imuser/web_version/users_files/',
-          #               input$input_job_id_demux,
-          #               '/demux_paired_trimmed.qza',
-          #               ' --o-visualization',
-          #               ' /home/imuser/web_version/users_files/',
-          #               input$input_job_id_demux,
-          #               '/demux_paired_end.qzv')) # web version
+
           
           system(paste(qiime_cmd, 'demux summarize --i-data /home/imuser/qiime_output/demux_paired_trimmed.qza --o-visualization /home/imuser/qiime_output/demux_paired_end.qzv'))
           
@@ -3344,23 +3386,40 @@ server <- function(session, input, output) {
                             "1492R (s)"="ACCTTGTTACGACTT" 
         )
         
-        # system(paste0(qiime_cmd, " cutadapt trim-paired --i-demultiplexed-sequences", 
-        #               " /home/imuser/home/imuser/web_version/users_files/",
-        #               input$input_job_id_demux,
-        #               "/demux_paired_end.qza", 
-        #               " --p-front ", primer_list[[input$primer_f]],
-        #               " --p-cores ", input$n_jobs_demux,
-        #               " --o-trimmed-sequences",
-        #               " /home/imuser/web_version/users_files/",
-        #               input$input_job_id_demux,
-        #               "/demux_paired_trimmed.qza"
-        # )) # web version
-        system(paste(qiime_cmd, "cutadapt trim-paired --i-demultiplexed-sequences", 
-                     "/home/imuser/qiime_output/demux_paired_end.qza", 
-                     "--p-front-f", primer_list[[input$primer_f]],
-                     "--p-front-r", primer_list[[input$primer_r]],
-                     "--p-cores", input$n_jobs_demux,
-                     "--o-trimmed-sequences /home/imuser/qiime_output/demux_paired_trimmed.qza"))
+
+        if(input$primer_f == "other" & input$primer_r == "other"){
+          
+          system(paste(qiime_cmd, "cutadapt trim-paired --i-demultiplexed-sequences", 
+                       "/home/imuser/qiime_output/demux_paired_end.qza", 
+                       "--p-front-f", input$primer_f_manu,
+                       "--p-front-r", input$primer_r_manu,
+                       "--p-cores", input$n_jobs_demux,
+                       "--o-trimmed-sequences /home/imuser/qiime_output/demux_paired_trimmed.qza"))
+        }else if(input$primer_f == "other" & input$primer_r != "other"){
+          
+          system(paste(qiime_cmd, "cutadapt trim-paired --i-demultiplexed-sequences", 
+                       "/home/imuser/qiime_output/demux_paired_end.qza", 
+                       "--p-front-f", input$primer_f_manu,
+                       "--p-front-r", primer_list[[input$primer_r]],
+                       "--p-cores", input$n_jobs_demux,
+                       "--o-trimmed-sequences /home/imuser/qiime_output/demux_paired_trimmed.qza"))
+        }else if(input$primer_f != "other" & input$primer_r == "other"){
+          
+          system(paste(qiime_cmd, "cutadapt trim-paired --i-demultiplexed-sequences", 
+                       "/home/imuser/qiime_output/demux_paired_end.qza", 
+                       "--p-front-f", primer_list[[input$primer_f]],
+                       "--p-front-r", input$primer_r_manu,
+                       "--p-cores", input$n_jobs_demux,
+                       "--o-trimmed-sequences /home/imuser/qiime_output/demux_paired_trimmed.qza"))
+        }else if(input$primer_f != "other" & input$primer_r != "other"){
+          
+          system(paste(qiime_cmd, "cutadapt trim-paired --i-demultiplexed-sequences", 
+                       "/home/imuser/qiime_output/demux_paired_end.qza", 
+                       "--p-front-f", primer_list[[input$primer_f]],
+                       "--p-front-r", primer_list[[input$primer_r]],
+                       "--p-cores", input$n_jobs_demux,
+                       "--o-trimmed-sequences /home/imuser/qiime_output/demux_paired_trimmed.qza"))
+        }
         
       }
       
