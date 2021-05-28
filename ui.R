@@ -1732,10 +1732,9 @@ shinyUI(
                  #             
                  # )
                  
-                 tags$iframe(style="height:800px; width:90%; scrolling=yes;margin:0 100px",
-                             src=paste0("http://", my_qiime_ip, my_qiime_port, "/MOCHI_Tutorial_Local.pdf")
-                             # src="MOCHI_Tutorial_Ch_2_Local.pdf"
-                             )
+                 uiOutput("tutorial_pdf") %>% withSpinner(type = spinner_type,
+                                   color.background = spinner_bg_color)
+                 
                  
                  
                )

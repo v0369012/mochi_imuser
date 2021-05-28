@@ -31,6 +31,18 @@ server <- function(session, input, output) {
                    roots = c(raw_data ="/home/imuser/raw_data"))       # Browse server side dirs
   })
   
+  
+  # tutorial with spinner using renderUI
+  output$tutorial_pdf <- renderUI({
+    tagList(
+      tags$iframe(style="height:800px; width:90%; scrolling=yes;margin:0 100px",
+                  src=paste0("http://127.0.0.1:8011/MOCHI_Tutorial_Local.pdf")
+                  # src="MOCHI_Tutorial_Ch_2_Local.pdf"
+      )
+    )
+    
+  })
+  
   # Home page ----------------------------------------------------------------------------------------------------- 
   output$home_page <- renderUI({
     source("/srv/shiny-server/ui.R")
