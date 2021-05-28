@@ -36,8 +36,8 @@ server <- function(session, input, output) {
   output$tutorial_pdf <- renderUI({
     tagList(
       tags$iframe(style="height:800px; width:90%; scrolling=yes;margin:0 100px",
-                  src=paste0("http://127.0.0.1:8011/MOCHI_Tutorial_Local.pdf")
-                  # src="MOCHI_Tutorial_Ch_2_Local.pdf"
+                  # src=paste0("http://127.0.0.1:8011/MOCHI_Tutorial_Local.pdf")
+                  src=paste0("http://", my_ip(), my_qiime_port(), "/MOCHI_Tutorial_Local.pdf")
       )
     )
     
