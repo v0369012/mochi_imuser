@@ -1,0 +1,3 @@
+uuid: 9c88700e-0aa3-42ca-869a-18fcc1c1c487
+type: SampleData[SequencesWithQuality]
+format: SingleLanePerSampleSingleEndFastqDirFmt

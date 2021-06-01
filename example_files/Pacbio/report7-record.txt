@@ -1,5 +1,5 @@
 # Report for collapsed table: /home/imuser/FAPROTAX_output/func-table7.biom
-# Collapsed table generated on: 2021.04.05 02:22:51
+# Collapsed table generated on: 2021.06.01 02:20:15
 # Original table: /home/imuser/qiime_output/exported-feature-table7/feature-table.biom
 # Details:
 #  Original BIOM table contained 40 rows & 10 columns

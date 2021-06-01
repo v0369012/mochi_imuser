@@ -145,7 +145,7 @@
 <script>
   var d = {};
   var columns = [];
-  var metrics = ['observed_features', 'faith_pd', 'shannon'];
+  var metrics = ['faith_pd', 'observed_features', 'shannon'];
   var steps = 10;
   function load_data(metric, column, data) {
     if (column) {
@@ -159,9 +159,9 @@
   }
 </script>
 
-<script src='observed_features.jsonp?callback=load_data'></script>
-
 <script src='faith_pd.jsonp?callback=load_data'></script>
+
+<script src='observed_features.jsonp?callback=load_data'></script>
 
 <script src='shannon.jsonp?callback=load_data'></script>
 

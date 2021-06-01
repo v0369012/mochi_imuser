@@ -62,7 +62,7 @@
     <div class="row">
       <div class="col-lg-12" id="sampling-depth-slider">
         <label> Sampling Depth &nbsp; </label> <br>
-        <input id="range-slider" type="range" min="0" max="56228.0" value="0" class="slider" oninput="sliderHelperFunction(this.value);"> <br>
+        <input id="range-slider" type="range" min="0" max="63967.0" value="0" class="slider" oninput="sliderHelperFunction(this.value);"> <br>
         <input id="text-box" class="form-control" type="number" value="0" min="0" oninput="textBoxHelperFunction(this.value);"/>
         <br>
         (zero implies no even sampling)
@@ -91,11 +91,11 @@
 </div>
 
 <script id="table-data" type="application/json">
-{"DRR163084":56228.0,"DRR163073":33649.0,"DRR163075":22966.0,"DRR163072":22852.0,"DRR163079":22686.0,"DRR163069":21451.0,"DRR163071":21320.0,"DRR163076":20490.0,"DRR163074":20019.0,"DRR163077":19134.0,"DRR163078":18233.0,"DRR163081":17753.0,"DRR163068":16901.0,"DRR163082":16371.0,"DRR163083":15336.0,"DRR163070":14658.0,"DRR163080":12537.0}
+{"DRR163084":63967.0,"DRR163073":33495.0,"DRR163069":29027.0,"DRR163074":26990.0,"DRR163071":25939.0,"DRR163072":23519.0,"DRR163075":19086.0,"DRR163081":19007.0,"DRR163068":18117.0,"DRR163082":15896.0,"DRR163079":15686.0,"DRR163070":15070.0,"DRR163078":14824.0,"DRR163076":14744.0,"DRR163080":13741.0,"DRR163083":12223.0,"DRR163077":12059.0}
 </script>
 
 <script type="text/javascript">
-  var totalFrequencies = 372584;
+  var totalFrequencies = 373390;
   var sampleCount = 17;
   var defaultDescription = "Retained " + (totalFrequencies.toLocaleString('en'))
                                        + " (100.00%) features in "
@@ -190,9 +190,9 @@
     }
 
     // make sure the value in the textbox cannot exceed the max count
-    if (val > 56228.0){
+    if (val > 63967.0){
       var num = document.getElementById("text-box");
-      num.value = 56228.0;
+      num.value = 63967.0;
     }
     updateSliderVal(val);
   }

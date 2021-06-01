@@ -1,2 +1,2 @@
 Step,time,duration,sequence_type,start_position_trim,end_position_trim,quality_score_truncate,chimeric_reads_min_fold_change,metadata_upload,computing_setting
-Denoising,2021-04-07 09:06:28,1.88 mins,Single end,0,120,2,1,TRUE,6
+Denoising,2021-05-31 01:55:54,1.87 mins,Single end,0,120,2,1,TRUE,6
