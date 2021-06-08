@@ -861,7 +861,7 @@ shinyUI(
                                                style = "margin-left: 0px"),
                                 
                                 downloadButton(outputId = "table_dada2_download",
-                                               label = "The ASVs table  "),
+                                               label = "The ASV table  "),
                                 
                                 
                                 tippy::tippy_this(elementId = "table_dada2_download",
@@ -923,9 +923,9 @@ shinyUI(
                              # accept = c(".qza", ".tsv", ".csv")),
                    tippy::tippy_this(elementId = "info_taxatable", tooltip = "Downloaded from taxonomy classification", placement = "right"),
                    
-                   # span("Upload the ASVs table file (Downloaded from Taxonomy Analysis)"),
+                   # span("Upload the ASV table file (Downloaded from Taxonomy Analysis)"),
                    fileInput(inputId = "table_dada2_upload", 
-                             label = p(HTML("<b>Upload the ASVs table file </b>"),span(shiny::icon("info-circle"), id = "info_ASVs")),
+                             label = p(HTML("<b>Upload the ASV table file </b>"),span(shiny::icon("info-circle"), id = "info_ASVs")),
                              multiple = F,
                              accept = ".qza"),
                    tippy::tippy_this(elementId = "info_ASVs", tooltip = "Downloaded from taxonomy classification", placement = "right"),

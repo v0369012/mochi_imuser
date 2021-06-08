@@ -1529,7 +1529,7 @@ server <- function(session, input, output) {
     
   })
   
-  # Check the ASVs table input 
+  # Check the ASV table input 
   observe({
     
     req(input$table_dada2_upload)
@@ -1542,7 +1542,7 @@ server <- function(session, input, output) {
                   anchorId = "taxatable_alert", 
                   alertId = "taxaAlert", 
                   title = "Oops!",
-                  content = "Please check your input ASVs table file.", 
+                  content = "Please check your input ASV table file.", 
                   append = T,
                   style = "danger")
     } else {
@@ -1929,7 +1929,7 @@ server <- function(session, input, output) {
           h1("3. Taxonomic analysis"),
           downloadButton(outputId = "taxa_download_user", label = "Download the taxonomy result."),
           downloadButton(outputId = "taxatable_download_user", label = "Download the taxonomic table."),
-          downloadButton(outputId = "table_dada2_download_user", label = "Download the ASVs table."),
+          downloadButton(outputId = "table_dada2_download_user", label = "Download the ASV table."),
           tippy::tippy_this(elementId = "table_dada2_download",
                             tooltip = "<p style='text-align: left;margin:2px'>amplicon sequence variant (ASV) table, a higher-resolution analogue of the traditional OTU table</p>",
                             allowHTML = TRUE,
