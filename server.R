@@ -14483,6 +14483,9 @@ server <- function(session, input, output) {
       
       ancom_data <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
       ancom_sig <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
+      
+      ancom_sig$Reject.null.hypothesis <- str_replace_all(ancom_sig$Reject.null.hypothesis, "True", "Significant")
+      ancom_sig$Reject.null.hypothesis <- str_replace_all(ancom_sig$Reject.null.hypothesis, "False", "Not significant")
       names(ancom_sig)[1] <- "id" 
       
       ancom_merge <- merge(x = ancom_data, y = ancom_sig[, c(1,3)], by = "id")
@@ -14587,6 +14590,8 @@ server <- function(session, input, output) {
       #                         sep = "\t", header = T) # web version
       ancom_data <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
       ancom_sig <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
+      ancom_sig$Reject.null.hypothesis <- str_replace_all(ancom_sig$Reject.null.hypothesis, "True", "Significant")
+      ancom_sig$Reject.null.hypothesis <- str_replace_all(ancom_sig$Reject.null.hypothesis, "False", "Not significant")
       names(ancom_sig)[1] <- "id"
       
       ancom_merge <- merge(x = ancom_data, y = ancom_sig[, c(1,3)], by = "id")
@@ -14604,6 +14609,8 @@ server <- function(session, input, output) {
       
       ancom_data <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/data.tsv", sep = "\t", header = T)
       ancom_sig <- read.table("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname/data/ancom.tsv", sep = "\t", header = T)
+      ancom_sig$Reject.null.hypothesis <- str_replace_all(ancom_sig$Reject.null.hypothesis, "True", "Significant")
+      ancom_sig$Reject.null.hypothesis <- str_replace_all(ancom_sig$Reject.null.hypothesis, "False", "Not significant")
       names(ancom_sig)[1] <- "id"
       
       ancom_merge <- merge(x = ancom_data, y = ancom_sig[, c(1,3)], by = "id")
