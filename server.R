@@ -8000,83 +8000,172 @@ server <- function(session, input, output) {
       
       file.remove("/home/imuser/qiime_output/ref-seqs.qza")
       if(input$primer_f != "other" & input$primer_r != "other"){
-        system(paste0(qiime_cmd, 
-                      " feature-classifier extract-reads --i-sequences",
-                      # " /home/imuser/web_version/users_files/",
-                      # input$input_job_id_taxa,
-                      " /home/imuser/qiime_output",
-                      "/identity_otus.qza",
-                      " --p-f-primer ", primer_list[[input$primer_f]], 
-                      " --p-r-primer ", primer_list[[input$primer_r]], 
-                      # "--p-trunc-len", input$trunc_length, 
-                      " --p-min-length ", input$min_length, 
-                      " --p-max-length ", input$max_length, 
-                      " --p-n-jobs ", input$n_jobs, 
-                      " --o-reads",
-                      # " /home/imuser/web_version/users_files/",
-                      # input$input_job_id_taxa,
-                      " /home/imuser/qiime_output",
-                      "/ref-seqs.qza"))
+        if(input$seqs_type == "Single end"){
+          max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+          system(paste0(qiime_cmd, 
+                        " feature-classifier extract-reads --i-sequences",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/identity_otus.qza",
+                        " --p-f-primer ", primer_list[[input$primer_f]], 
+                        " --p-r-primer ", primer_list[[input$primer_r]], 
+                        "--p-trunc-len ", max_length,
+                        " --p-min-length ", input$min_length, 
+                        " --p-max-length ", input$max_length, 
+                        " --p-n-jobs ", input$n_jobs, 
+                        " --o-reads",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/ref-seqs.qza"))
+        }else{
+          system(paste0(qiime_cmd, 
+                        " feature-classifier extract-reads --i-sequences",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/identity_otus.qza",
+                        " --p-f-primer ", primer_list[[input$primer_f]], 
+                        " --p-r-primer ", primer_list[[input$primer_r]], 
+                        # "--p-trunc-len", input$trunc_length, 
+                        " --p-min-length ", input$min_length, 
+                        " --p-max-length ", input$max_length, 
+                        " --p-n-jobs ", input$n_jobs, 
+                        " --o-reads",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/ref-seqs.qza"))
+        }
+        
       }
       
       if(input$primer_f == "other" & input$primer_r != "other"){
-        system(paste0(qiime_cmd, 
-                      " feature-classifier extract-reads --i-sequences",
-                      # " /home/imuser/web_version/users_files/",
-                      # input$input_job_id_taxa,
-                      " /home/imuser/qiime_output",
-                      "/identity_otus.qza",
-                      " --p-f-primer ", input$primer_f_manu, 
-                      " --p-r-primer ", primer_list[[input$primer_r]], 
-                      # "--p-trunc-len", input$trunc_length, 
-                      " --p-min-length ", input$min_length, 
-                      " --p-max-length ", input$max_length, 
-                      " --p-n-jobs ", input$n_jobs, 
-                      " --o-reads",
-                      # " /home/imuser/web_version/users_files/",
-                      # input$input_job_id_taxa,
-                      " /home/imuser/qiime_output",
-                      "/ref-seqs.qza"))
+        if(input$seqs_type == "Single end"){
+          max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+          system(paste0(qiime_cmd, 
+                        " feature-classifier extract-reads --i-sequences",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/identity_otus.qza",
+                        " --p-f-primer ", input$primer_f_manu, 
+                        " --p-r-primer ", primer_list[[input$primer_r]], 
+                        "--p-trunc-len ", max_length,
+                        " --p-min-length ", input$min_length, 
+                        " --p-max-length ", input$max_length, 
+                        " --p-n-jobs ", input$n_jobs, 
+                        " --o-reads",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/ref-seqs.qza"))
+        }else{
+          system(paste0(qiime_cmd, 
+                        " feature-classifier extract-reads --i-sequences",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/identity_otus.qza",
+                        " --p-f-primer ", input$primer_f_manu, 
+                        " --p-r-primer ", primer_list[[input$primer_r]], 
+                        # "--p-trunc-len", input$trunc_length, 
+                        " --p-min-length ", input$min_length, 
+                        " --p-max-length ", input$max_length, 
+                        " --p-n-jobs ", input$n_jobs, 
+                        " --o-reads",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/ref-seqs.qza"))
+        }
+        
       }
       
       if(input$primer_f != "other" & input$primer_r == "other"){
-        system(paste0(qiime_cmd, 
-                      " feature-classifier extract-reads --i-sequences",
-                      # " /home/imuser/web_version/users_files/",
-                      # input$input_job_id_taxa,
-                      " /home/imuser/qiime_output",
-                      "/identity_otus.qza",
-                      " --p-f-primer ", primer_list[[input$primer_f]], 
-                      " --p-r-primer ", input$primer_r_manu, 
-                      # "--p-trunc-len", input$trunc_length, 
-                      " --p-min-length ", input$min_length, 
-                      " --p-max-length ", input$max_length, 
-                      " --p-n-jobs ", input$n_jobs, 
-                      " --o-reads",
-                      # " /home/imuser/web_version/users_files/",
-                      # input$input_job_id_taxa,
-                      " /home/imuser/qiime_output",
-                      "/ref-seqs.qza"))
+        if(input$seqs_type == "Single end"){
+          max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+          system(paste0(qiime_cmd, 
+                        " feature-classifier extract-reads --i-sequences",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/identity_otus.qza",
+                        " --p-f-primer ", primer_list[[input$primer_f]], 
+                        " --p-r-primer ", input$primer_r_manu, 
+                        "--p-trunc-len", max_length,
+                        " --p-min-length ", input$min_length, 
+                        " --p-max-length ", input$max_length, 
+                        " --p-n-jobs ", input$n_jobs, 
+                        " --o-reads",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/ref-seqs.qza"))
+          
+        }else{
+          system(paste0(qiime_cmd, 
+                        " feature-classifier extract-reads --i-sequences",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/identity_otus.qza",
+                        " --p-f-primer ", primer_list[[input$primer_f]], 
+                        " --p-r-primer ", input$primer_r_manu, 
+                        # "--p-trunc-len", input$trunc_length, 
+                        " --p-min-length ", input$min_length, 
+                        " --p-max-length ", input$max_length, 
+                        " --p-n-jobs ", input$n_jobs, 
+                        " --o-reads",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/ref-seqs.qza"))
+        }
+        
       }
       
       if(input$primer_f == "other" & input$primer_r == "other"){
-        system(paste0(qiime_cmd, 
-                      " feature-classifier extract-reads --i-sequences",
-                      # " /home/imuser/web_version/users_files/",
-                      # input$input_job_id_taxa,
-                      " /home/imuser/qiime_output",
-                      "/identity_otus.qza",
-                      " --p-f-primer ", input$primer_f_manu, 
-                      " --p-r-primer ", input$primer_r_manu, 
-                      # "--p-trunc-len", input$trunc_length, 
-                      " --p-min-length ", input$min_length, 
-                      " --p-max-length ", input$max_length, 
-                      " --p-n-jobs ", input$n_jobs, 
-                      " --o-reads",
-                      # " /home/imuser/web_version/users_files/",
-                      # input$input_job_id_taxa,
-                      " /home/imuser/qiime_output",
-                      "/ref-seqs.qza"))
+        if(input$seqs_type == "Single end"){
+          max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+          system(paste0(qiime_cmd, 
+                        " feature-classifier extract-reads --i-sequences",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/identity_otus.qza",
+                        " --p-f-primer ", input$primer_f_manu, 
+                        " --p-r-primer ", input$primer_r_manu, 
+                        # "--p-trunc-len", input$trunc_length, 
+                        " --p-min-length ", input$min_length, 
+                        " --p-max-length ", input$max_length, 
+                        " --p-n-jobs ", input$n_jobs, 
+                        " --o-reads",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/ref-seqs.qza"))
+        }else{
+          system(paste0(qiime_cmd, 
+                        " feature-classifier extract-reads --i-sequences",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/identity_otus.qza",
+                        " --p-f-primer ", input$primer_f_manu, 
+                        " --p-r-primer ", input$primer_r_manu, 
+                        # "--p-trunc-len", input$trunc_length, 
+                        " --p-min-length ", input$min_length, 
+                        " --p-max-length ", input$max_length, 
+                        " --p-n-jobs ", input$n_jobs, 
+                        " --o-reads",
+                        # " /home/imuser/web_version/users_files/",
+                        # input$input_job_id_taxa,
+                        " /home/imuser/qiime_output",
+                        "/ref-seqs.qza"))
+        }
+        
       }
       
       file.remove("/home/imuser/qiime_output/classifier.qza")
