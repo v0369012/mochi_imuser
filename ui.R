@@ -919,8 +919,8 @@ shinyUI(
                    fileInput(inputId = "taxonomic_table", 
                              label = p(HTML("<b>Upload the taxonomic table file </b>"),span(shiny::icon("info-circle"), id = "info_taxatable")),
                              multiple = F,
-                             accept = ".qza"),
-                             # accept = c(".qza", ".tsv", ".csv")),
+                             # accept = ".qza"),
+                             accept = c(".qza", ".txt")),
                    tippy::tippy_this(elementId = "info_taxatable", tooltip = "Downloaded from taxonomy classification", placement = "right"),
                    
                    # span("Upload the ASV table file (Downloaded from Taxonomy Analysis)"),
@@ -1614,7 +1614,7 @@ shinyUI(
                                        span(shiny::icon("info-circle"),
                                             id = "info_taxatable_FA")),
                              multiple = F,
-                             accept = ".qza"),
+                             accept = c(".qza", ".txt")),
                    tippy::tippy_this(elementId = "info_taxatable_FA", tooltip = "Downloaded from Taxonomy classification", placement = "right"),
                    
                    actionButton(inputId = "function_analysis", 

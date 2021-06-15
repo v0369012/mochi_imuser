@@ -1012,40 +1012,28 @@ server <- function(session, input, output) {
     if (is.null(infile1))
       return(NULL)
     
-    # if(str_detect(infile1$datapath, ".qza")){
+    if(str_detect(infile1$datapath, ".qza")){
       validate(
         need(infile1 != "", message = F),
         need(read_qza(infile1$datapath)$type == "FeatureTable[Frequency]", message = "")
       )
-      
+
       read_qza(input$taxonomic_table$datapath)$data
+
+    }else if(str_detect(infile1$datapath, ".txt")){
+
+      validate(
+        need(infile1 != "", message = F)
+      )
       
-    # }else if(str_detect(infile1$datapath, ".tsv")){
-    # 
-    #   validate(
-    #     need(infile1 != "", message = F)
-    #   )
-    # 
-    #   a <- read.table(input$taxonomic_table$datapath, header = T, sep = "\t")
-    #   a_rownames <- a[,1]
-    #   a <- data.matrix(a)
-    #   rownames(a) <- a_rownames
-    #   a <- a[,-1]
-    #   return(a)
-    # 
-    # }else if(str_detect(infile1$datapath, ".csv")){
-    # 
-    #   validate(
-    #     need(infile1 != "", message = F)
-    #   )
-    # 
-    #   a <- read.csv(input$taxonomic_table$datapath, header = T)
-    #   a_rownames <- a[,1]
-    #   a <- data.matrix(a)
-    #   rownames(a) <- a_rownames
-    #   a <- a[,-1]
-    #   return(a)
-    # }
+      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+      biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/biom"
+      system(paste0(biom_cmd, " convert -i ", infile1$datapath," -o /home/imuser/uploaded_taxatable_.biom --table-type='OTU table' --to-hdf5"))
+      system(paste0(qiime_cmd, " tools import --input-path /home/imuser/uploaded_taxatable_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/uploaded_taxatable_.qza"))
+      
+      read_qza("/home/imuser/uploaded_taxatable_.qza")$data
+
+     }
     
   }) # read the input file (.qza)
   
@@ -1173,6 +1161,41 @@ server <- function(session, input, output) {
     
   }) # read the input sample data file
   
+  TaxaTable_FA <- reactive({
+    
+    req(input$taxonomic_table_FA)
+    req(input$metadata_FA)
+    infile1 <- input$taxonomic_table_FA
+    
+    if (is.null(infile1))
+      return(NULL)
+    
+    if(str_detect(infile1$datapath, ".qza")){
+      validate(
+        need(infile1 != "", message = F),
+        need(read_qza(infile1$datapath)$type == "FeatureTable[Frequency]", message = "")
+      )
+      
+      file.copy(infile1$datapath, "/home/imuser/uploaded_taxatable_FA.qza")
+      
+      read_qza(infile1$datapath)$data
+      
+    }else if(str_detect(infile1$datapath, ".txt")){
+      
+      validate(
+        need(infile1 != "", message = F)
+      )
+      
+      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+      biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/biom"
+      system(paste0(biom_cmd, " convert -i ", infile1$datapath," -o /home/imuser/uploaded_taxatable_FA.biom --table-type='OTU table' --to-hdf5"))
+      system(paste0(qiime_cmd, " tools import --input-path /home/imuser/uploaded_taxatable_FA.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/uploaded_taxatable_FA.qza"))
+      
+      read_qza("/home/imuser/uploaded_taxatable_FA.qza")$data
+      
+    }
+    
+  })
   
   Metadata_FA <- reactive({
     
@@ -1188,7 +1211,7 @@ server <- function(session, input, output) {
       
       metadata <- read.table(input$sample_data_FA$datapath, header = T, na.strings = "", sep = "\t")
       colnames(metadata)[1] <- "SampleID"
-      taxatable_FA <- read_qza(input$taxonomic_table_FA$datapath)[["data"]]
+      taxatable_FA <- read_qza("/home/imuser/uploaded_taxatable_FA.qza")$data
       metadata <- filter(metadata, SampleID %in% colnames(taxatable_FA))
       colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "-", ".")
       
@@ -1511,7 +1534,7 @@ server <- function(session, input, output) {
     library(shinyBS)
     
     # if(!is.matrix(read_qza(input$taxonomic_table$datapath)$data)) {
-    # if(str_detect(input$taxonomic_table$datapath, ".qza")){
+    if(str_detect(input$taxonomic_table$datapath, ".qza")){
       if(read_qza(input$taxonomic_table$datapath)$type != "FeatureTable[Frequency]") {
         createAlert(session, 
                     anchorId = "taxatable_alert", 
@@ -1524,7 +1547,7 @@ server <- function(session, input, output) {
         closeAlert(session, "taxaAlert")
         
       }
-    # }
+    }
     
     
   })
@@ -1802,18 +1825,20 @@ server <- function(session, input, output) {
     
     library(shinyBS)
     
-    # if(!is.matrix(read_qza(input$taxonomic_table_FA$datapath)$data)) {
-    if(read_qza(input$taxonomic_table_FA$datapath)$type != "FeatureTable[Frequency]") {
-      createAlert(session, 
-                  anchorId = "taxatable_alert_FA", 
-                  alertId = "taxaAlert_FA", 
-                  title = "Oops!",
-                  content = "Please check your input taxonomic table file.", 
-                  append = T,
-                  style = "danger")
-    } else {
-      closeAlert(session, "taxaAlert_FA")
+    if(str_detect(input$taxonomic_table_FA$datapath, ".qza")) {
       
+      if(read_qza(input$taxonomic_table_FA$datapath)$type != "FeatureTable[Frequency]") {
+        createAlert(session, 
+                    anchorId = "taxatable_alert_FA", 
+                    alertId = "taxaAlert_FA", 
+                    title = "Oops!",
+                    content = "Please check your input taxonomic table file.", 
+                    append = T,
+                    style = "danger")
+      } else {
+        closeAlert(session, "taxaAlert_FA")
+        
+      }
     }
   })
   
@@ -5143,7 +5168,7 @@ server <- function(session, input, output) {
         rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
         colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
         rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
+        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 25))
         
       })
       
@@ -5390,7 +5415,7 @@ server <- function(session, input, output) {
       rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
       colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
       rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-      ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
+      ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 25))
       
     })
     
@@ -5504,7 +5529,7 @@ server <- function(session, input, output) {
       rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
       colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
       rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-      g <- ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
+      g <- ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 25))
       ggsave(file, 
              plot = g + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
              , width = 80, height = 40, units = "cm")
@@ -6120,7 +6145,7 @@ server <- function(session, input, output) {
         rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
         colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
         rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
+        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 25))
         
       })
       
@@ -6372,7 +6397,7 @@ server <- function(session, input, output) {
         rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
         colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
         rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
+        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 25))
         
       })
       
@@ -6584,7 +6609,7 @@ server <- function(session, input, output) {
       rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
       colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
       rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-      g <- ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
+      g <- ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 25))
       ggsave(file, 
              plot = g + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
              , width = 80, height = 40, units = "cm")
@@ -7098,7 +7123,7 @@ server <- function(session, input, output) {
         rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
         colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
         rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
+        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 25))
         
       })
       
@@ -7350,7 +7375,7 @@ server <- function(session, input, output) {
         rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
         colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
         rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
+        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 25))
         
       })
       
@@ -7468,7 +7493,7 @@ server <- function(session, input, output) {
       rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
       colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASVs")
       rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-      g <- ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 30))
+      g <- ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASVs, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 25))
       ggsave(file, 
              plot = g + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
              , width = 80, height = 40, units = "cm")
@@ -14709,39 +14734,17 @@ server <- function(session, input, output) {
     
     qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
     
-    # system(paste0(qiime_cmd, 
-    #               " tools export --input-path ", 
-    #               input$taxonomic_table_FA$datapath, 
-    #               " --output-path /home/imuser/web_version/users_files/",
-    #               job_id(), "_FA",
-    #               "/exported-feature-table7"))
-    # # system(paste0("/usr/local/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py ",
-    # system(paste0("/home/imuser/miniconda3/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py ",
-    #               " --force -i /home/imuser/web_version/users_files/",
-    #               job_id(), "_FA",
-    #               "/exported-feature-table7/feature-table.biom -o /home/imuser/web_version/users_files/",
-    #               job_id(), "_FA",
-    #               "/FAPROTAX_output/func-table7.biom -g /home/imuser/FAPROTAX_1.2.1/FAPROTAX.txt -r /home/imuser/web_version/users_files/",
-    #               job_id(), "_FA",
-    #               "/FAPROTAX_output/report7-record.txt --out_groups2records_table /home/imuser/web_version/users_files/",
-    #               job_id(), "_FA",
-    #               "/FAPROTAX_output/groups2record.biom"))
-    # system(paste0(qiime_cmd, 
-    #               " tools import --input-path /home/imuser/web_version/users_files/",
-    #               job_id(), "_FA",
-    #               "/FAPROTAX_output/func-table7.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/web_version/users_files/",
-    #               job_id(), "_FA",
-    #               "/func-table7.qza"))
-    # system(paste0(qiime_cmd, 
-    #               " tools import --input-path /home/imuser/web_version/users_files/",
-    #               job_id(), "_FA",
-    #               "/FAPROTAX_output/groups2record.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/web_version/users_files/",
-    #               job_id(), "_FA",
-    #               "/groups2record.qza")) # web version
+    
     system("rm -r /home/imuser/qiime_output/exported-feature-table7")
     system("rm /home/imuser/qiime_output/func-table7.qza")
+    system("rm /home/imuser/uploaded_taxatable_FA.qza")
     
-    system(paste(qiime_cmd, "tools export --input-path", input$taxonomic_table_FA$datapath, "--output-path /home/imuser/qiime_output/exported-feature-table7"))
+    
+    if(str_detect(input$taxonomic_table_FA$datapath, ".qza")){
+      file.copy(input$taxonomic_table_FA$datapath, "/home/imuser/uploaded_taxatable_FA.qza", overwrite = T)
+    }
+    
+    system(paste(qiime_cmd, "tools export --input-path", "/home/imuser/uploaded_taxatable_FA.qza", "--output-path /home/imuser/qiime_output/exported-feature-table7"))
     system("rm /home/imuser/FAPROTAX_output/*")
     system("/home/imuser/miniconda3/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py --force -i /home/imuser/qiime_output/exported-feature-table7/feature-table.biom -o /home/imuser/FAPROTAX_output/func-table7.biom -g /home/imuser/FAPROTAX_1.2.1/FAPROTAX.txt -r /home/imuser/FAPROTAX_output/report7-record.txt --out_groups2records_table /home/imuser/FAPROTAX_output/groups2record.biom")
     system(paste(qiime_cmd, "tools import --input-path /home/imuser/FAPROTAX_output/func-table7.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/qiime_output/func-table7.qza"))
@@ -14779,7 +14782,7 @@ server <- function(session, input, output) {
       
       
       func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
-      taxa_table <- read_qza(input$taxonomic_table_FA$datapath)$data
+      taxa_table <-  read_qza("/home/imuser/uploaded_taxatable_FA.qza")[["data"]]
       reads_persample <- colSums(taxa_table)
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
@@ -14828,25 +14831,20 @@ server <- function(session, input, output) {
         geom_bar(stat="identity", color="black", 
                  position=position_dodge()) +
         geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.005,
-                      position=position_dodge(.9)) + coord_flip() + theme_bw() + guides(fill=guide_legend(title=input$metadata_FA))+
+                      position=position_dodge(.9)) + coord_flip() + theme_bw() +
         labs(x="Function types", y="Relative abundance")+
-        theme(axis.title.x = element_text(color="black", size=16))+
-        theme(axis.title.y = element_text(color="black", size=16))
-      
-      # FA_ggplot <- ggplot(df_barplot,
-      #                     aes(y = reads_percent, fill = feature, x = Type))+
-      #   geom_bar(stat = "identity", position = "dodge", alpha = 1, width = .8)+
-      #   coord_flip() + theme_bw() + guides(fill=guide_legend(title=input$metadata_FA))+
-      #   labs(x="Function types", y="Relative abundance")+
-      #   theme(axis.title.x = element_text(color="black", size=16))+
-      #   theme(axis.title.y = element_text(color="black", size=16)) 
+        theme(axis.title.x = element_text(color="black", size=20))+
+        theme(axis.title.y = element_text(color="black", size=20))+
+        theme(legend.title=element_blank())
+
       
       y <- list(
         title = list(text="Function types",standoff=20),
-        tickfont = list(size = 20)
+        tickfont = list(size = 24)
       )
+
       
-      ggplotly(FA_ggplot) %>% layout(yaxis=y)
+      ggplotly(FA_ggplot) %>% layout(yaxis=y) %>% layout(legend=list(title=list(text= input$metadata_FA, font = list(size = 26)) , font = list(size = 20)))
       
     })
     
@@ -14992,7 +14990,7 @@ server <- function(session, input, output) {
       
 
       func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
-      taxa_table <- read_qza(input$taxonomic_table_FA$datapath)$data
+      taxa_table <- TaxaTable_FA()
       reads_persample <- colSums(taxa_table)
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
