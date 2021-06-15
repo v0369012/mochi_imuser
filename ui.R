@@ -160,7 +160,7 @@ shinyUI(
                  
                  
                  # Demultiplexed ----
-                 tabPanel(title = span("Step 1. Sequence summary", style = tabPanel_navmenu_style),
+                 tabPanel(title = span("Step 1. Sequence Summary", style = tabPanel_navmenu_style),
                           # id = "first_demo_page",
                           # fluidRow(
                           sidebarLayout(
@@ -458,7 +458,7 @@ shinyUI(
                  
                  
                  # Sequence denoising ----
-                 tabPanel(title = span("Step 2. Sequence denoising", 
+                 tabPanel(title = span("Step 2. Sequence Denoising", 
                                        style = tabPanel_navmenu_style),
                           
                           sidebarLayout(
@@ -729,7 +729,7 @@ shinyUI(
                  
                  
                  # Taxonomy classification ----
-                 tabPanel(span("Step 3. Taxonomy classification", style = tabPanel_navmenu_style),
+                 tabPanel(span("Step 3. Taxonomy Classification", style = tabPanel_navmenu_style),
                           
                           sidebarLayout(
                             fluid = T,
@@ -919,8 +919,8 @@ shinyUI(
                    fileInput(inputId = "taxonomic_table", 
                              label = p(HTML("<b>Upload the taxonomic table file </b>"),span(shiny::icon("info-circle"), id = "info_taxatable")),
                              multiple = F,
-                             # accept = ".qza"),
-                             accept = c(".qza", ".txt")),
+                             accept = ".qza"),
+                             # accept = c(".qza", ".txt")),
                    tippy::tippy_this(elementId = "info_taxatable", tooltip = "Downloaded from taxonomy classification", placement = "right"),
                    
                    # span("Upload the ASV table file (Downloaded from Taxonomy Analysis)"),
@@ -1614,7 +1614,8 @@ shinyUI(
                                        span(shiny::icon("info-circle"),
                                             id = "info_taxatable_FA")),
                              multiple = F,
-                             accept = c(".qza", ".txt")),
+                             accept = ".qza",
+                             # accept = c(".qza", ".txt")),
                    tippy::tippy_this(elementId = "info_taxatable_FA", tooltip = "Downloaded from Taxonomy classification", placement = "right"),
                    
                    actionButton(inputId = "function_analysis", 
@@ -1705,7 +1706,7 @@ shinyUI(
                  #                      h2("The tutorial of Sequences preprocessing"),
                  #                      selectInput(inputId = "seq_choice_tutorial",
                  #                                  label = "Choose the process",
-                 #                                  choices = c("Step 1. Sequence summary", "Step 2. Sequence denoising", "Step 3. Taxonomy classification")),
+                 #                                  choices = c("Step 1. Sequence Summary", "Step 2. Sequence Denoising", "Step 3. Taxonomy Classification")),
                  #                      hr(),
                  #                      conditionalPanel(
                  #                        condition = "input.seq_choice_tutorial == 'Step 1. Sequence summary'",
@@ -1783,7 +1784,7 @@ shinyUI(
     tags$footer(
       tags$span(
         tags$a("Molecular Bioinformatics Lab,", href = "https://fullofbeans.nctu.edu.tw/?page_id=333&lang=en", style = "color: white", target = "_blank"), 
-        " National Yang Ming Chiao Tung University, Taiwan 300, R.O.C.,", " last updated on 06/09/2021"),
+        " National Yang Ming Chiao Tung University, Taiwan 300, R.O.C.,", " last updated on 06/15/2021"),
       # tags$a(href="https://ibs.nctu.edu.tw/faculty/%E9%99%B3%E4%BA%AD%E5%A6%8F/", tags$span("Contact us!"), 
       #        target = "_blank",
       #        class="externallink", 
