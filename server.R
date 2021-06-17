@@ -9648,7 +9648,7 @@ server <- function(session, input, output) {
     filename <-"Taxonomic_table_example.qza",
     
     content = function(file){
-      file.copy("/home/imuser/example_files/single/taxatable.qza", file)
+      file.copy("/home/imuser/example_files/single/taxatable7_single.qza", file)
     },
     
     contentType = "application/qza"
@@ -9660,7 +9660,7 @@ server <- function(session, input, output) {
     filename <-"Taxonomic_table_example.qza",
     
     content = function(file){
-      file.copy("/home/imuser/example_files/single/taxatable.qza", file)
+      file.copy("/home/imuser/example_files/single/taxatable7_single.qza", file)
     },
     
     contentType = "application/qza"
@@ -12587,7 +12587,7 @@ server <- function(session, input, output) {
     filename = "Seqs_forPhylo_example.qza",
     
     content = function(file){
-      file.copy(from = "/home/imuser/example_files/single/rep-seqs-dada2.qza", to = file)
+      file.copy(from = "/home/imuser/example_files/single/rep-seqs-dada2_single.qza", to = file)
     },
     contentType = "application/qza"
   )
@@ -12597,7 +12597,7 @@ server <- function(session, input, output) {
     filename = "ASV_table_example.qza",
     
     content = function(file){
-      file.copy(from = "/home/imuser/example_files/single/table-dada2.qza", to = file)
+      file.copy(from = "/home/imuser/example_files/single/table-dada2_single.qza", to = file)
     },
     contentType = "application/qza"
   )
