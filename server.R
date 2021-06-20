@@ -9695,25 +9695,27 @@ server <- function(session, input, output) {
   
   # Taxonomy analysis upload reset----
   
-  observeEvent(input$TA_reset,{
-    
-    shinyjs::reset("sample_data")
-    shinyjs::reset("taxonomic_table")
-    shinyjs::reset("table_dada2_upload")
-    closeAlert(session, "sampleAlert")
-    
-  })
+  # observeEvent(input$TA_reset,{
+  #   
+  #   shinyjs::reset("sample_data")
+  #   shinyjs::reset("taxonomic_table")
+  #   shinyjs::reset("table_dada2_upload")
+  #   shinyjs::reset("TA_start")
+  #   closeAlert(session, "sampleAlert")
+  #   
+  # })
   
   # FA reset
   
-  observeEvent(input$FA_reset,{
-    
-    shinyjs::reset("sample_data_FA")
-    shinyjs::reset("taxonomic_table_FA")
-    shinyjs::reset("table_dada2_upload_FA")
-    closeAlert(session, "sampleAlert_FA")
-    
-  })
+  # observeEvent(input$FA_reset,{
+  #   
+  #   shinyjs::reset("sample_data_FA")
+  #   shinyjs::reset("taxonomic_table_FA")
+  #   shinyjs::reset("table_dada2_upload_FA")
+  #   shinyjs::reset("FA_start")
+  #   closeAlert(session, "sampleAlert_FA")
+  #   
+  # })
   
   # Taxonomy analysis upload reset----
   
@@ -9733,6 +9735,8 @@ server <- function(session, input, output) {
     shinyjs::hide("ancom_ui")
     shinyjs::hide("ancom_output_ui")
     closeAlert(session, "sampleAlert")
+    shinyjs::reset("TA_start")
+    
     
     
   })
@@ -9747,6 +9751,7 @@ server <- function(session, input, output) {
     shinyjs::hide("func_table_ui")
     shinyjs::hide("func_barplot_ui")
     closeAlert(session, "sampleAlert_FA")
+    shinyjs::reset("TA_start")
     
   })
   
