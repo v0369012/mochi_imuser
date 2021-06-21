@@ -13082,7 +13082,7 @@ server <- function(session, input, output) {
           geom_vline(xintercept =0, linetype="dotted")+
           geom_hline(yintercept = 0, linetype="dotted")+
           theme_bw()+
-          ggtitle("Unweighted unifrac PCoA plot")+
+          ggtitle("Unweighted unifrac PCoA")+
           scale_colour_discrete(names(unW_unifrac_dm_pcoa_qiime_forplot_table_list)[[i]]) + theme(text = element_text(size = 25)) 
       })
       
@@ -13104,7 +13104,7 @@ server <- function(session, input, output) {
           geom_vline(xintercept =0, linetype="dotted")+
           geom_hline(yintercept = 0, linetype="dotted")+
           theme_bw()+
-          ggtitle("Unweighted unifrac PCoA plot")+
+          ggtitle("Unweighted unifrac PCoA")+
           scale_colour_discrete(names(unW_unifrac_dm_pcoa_qiime_forplot_table_list)[[i]]) + theme(text = element_text(size = 25)) 
       })
       
@@ -13184,7 +13184,7 @@ server <- function(session, input, output) {
         geom_vline(xintercept = 0, linetype = "dotted")+
         geom_hline(yintercept = 0, linetype = "dotted")+
         theme_bw()+
-        labs(title="Unweighted unifrac NMDS plot", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
+        labs(title="Unweighted unifrac NMDS", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
         scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25)) 
       
@@ -13196,7 +13196,7 @@ server <- function(session, input, output) {
         geom_vline(xintercept = 0, linetype = "dotted")+
         geom_hline(yintercept = 0, linetype = "dotted")+
         theme_bw()+
-        labs(title="Unweighted unifrac NMDS plot", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
+        labs(title="Unweighted unifrac NMDS", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
         scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25)) 
       
@@ -13242,7 +13242,7 @@ server <- function(session, input, output) {
           geom_vline(xintercept =0, linetype="dotted")+
           geom_hline(yintercept = 0, linetype="dotted")+
           theme_bw()+
-          ggtitle("Weighted unifrac PCoA plot")+
+          ggtitle("Weighted unifrac PCoA")+
           scale_colour_discrete(names(W_unifrac_dm_pcoa_qiime_forplot_table_list)[[i]]) + theme(text = element_text(size = 25)) 
       })
       
@@ -13263,7 +13263,7 @@ server <- function(session, input, output) {
           geom_vline(xintercept =0, linetype="dotted")+
           geom_hline(yintercept = 0, linetype="dotted")+
           theme_bw()+
-          ggtitle("Weighted unifrac PCoA plot")+
+          ggtitle("Weighted unifrac PCoA")+
           scale_colour_discrete(names(W_unifrac_dm_pcoa_qiime_forplot_table_list)[[i]]) + theme(text = element_text(size = 25)) 
       })
       
@@ -13343,7 +13343,7 @@ server <- function(session, input, output) {
         geom_vline(xintercept = 0, linetype = "dotted")+
         geom_hline(yintercept = 0, linetype = "dotted")+
         theme_bw()+
-        labs(title="Weighted unifrac NMDS plot", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
+        labs(title="Weighted unifrac NMDS", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
         scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25))
       
@@ -13355,7 +13355,7 @@ server <- function(session, input, output) {
         geom_vline(xintercept = 0, linetype = "dotted")+
         geom_hline(yintercept = 0, linetype = "dotted")+
         theme_bw()+
-        labs(title="Weighted unifrac NMDS plot", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
+        labs(title="Weighted unifrac NMDS", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
         scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25))
       
