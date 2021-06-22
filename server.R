@@ -1593,6 +1593,7 @@ server <- function(session, input, output) {
                   style = "danger")
     } else {
       closeAlert(session, "seqAlert")
+      file.copy(from = input$rep_seq_dada2_upload$datapath, to = "/home/imuser/For_phylo_state.qza")
       
     }
   })
@@ -1695,7 +1696,7 @@ server <- function(session, input, output) {
       
       shinyjs::show("ancom_ui")
       
-    }
+      }
     
   })
   
@@ -9735,11 +9736,8 @@ server <- function(session, input, output) {
     shinyjs::hide("ancom_ui")
     shinyjs::hide("ancom_output_ui")
     closeAlert(session, "sampleAlert")
-    shinyjs::reset("TA_start")
-    shinyjs::reset("phylogenetic_tree")
+
     shinyjs::reset("rep_seq_dada2_upload")
-    shinyjs::reset("ANCOM_start")
-    
     
     
   })
@@ -12616,7 +12614,7 @@ server <- function(session, input, output) {
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                             "Please upload the file!", 
                             footer = NULL, easyClose = T, size = "l"))
-    }else{
+    }else if(file.exists("/home/imuser/For_phylo_state.qza")){
     
     start_time <- Sys.time()
     # showModal(modalDialog(title = "Running making tree ...", "Waiting for a moment",footer = NULL))
@@ -12624,44 +12622,7 @@ server <- function(session, input, output) {
     
     qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
     
-    # system(paste0("mkdir", " /home/imuser/web_version/users_files/", job_id(), "_DA_phylo"))
-    # system(paste0(qiime_cmd, 
-    #               " phylogeny align-to-tree-mafft-fasttree --i-sequences ", input$rep_seq_dada2_upload$datapath, 
-    #               " --p-n-threads ", input$threads_phylogenetic,
-    #               " --o-alignment /home/imuser/web_version/users_files/",
-    #               job_id(),"_DA_phylo",
-    #               "/aligned-rep-seqs-dada2.qza",
-    #               " --o-masked-alignment /home/imuser/web_version/users_files/",
-    #               job_id(),"_DA_phylo",
-    #               "/masked-aligned-rep-seqs-dada2.qza",
-    #               " --o-tree /home/imuser/web_version/users_files/",
-    #               job_id(),"_DA_phylo",
-    #               "/unrooted-tree.qza --o-rooted-tree /home/imuser/web_version/users_files/",
-    #               job_id(),"_DA_phylo",
-    #               "/rooted-tree.qza"))
-    # 
-    # write.table(Metadata_stats(), 
-    #             file=paste0("/home/imuser/web_version/users_files/",
-    #                         job_id(),"_DA_phylo",
-    #                         "/metadata.tsv")
-    #             , quote=FALSE, sep='\t', row.names = F)
-    # # system("rm -r /home/imuser/qiime_output/core-metrics-results/")
-    # system(paste0(qiime_cmd, 
-    #               " diversity core-metrics-phylogenetic --i-phylogeny /home/imuser/web_version/users_files/",
-    #               job_id(),"_DA_phylo","/rooted-tree.qza",
-    #               " --i-table ", input$table_dada2_upload$datapath,
-    #               " --p-sampling-depth ", input$sampling_depth,
-    #               " --m-metadata-file",
-    #               " /home/imuser/web_version/users_files/",
-    #               job_id(),"_DA_phylo",
-    #               "/metadata.tsv", 
-    #               " --output-dir /home/imuser/web_version/users_files/",
-    #               job_id(),"_DA_phylo","/core-metrics-results"))
-    # 
-    # faith_PD <- reactive({
-    #   read_qza(paste0("/home/imuser/web_version/users_files/",
-    #                   job_id(),"_DA_phylo","/core-metrics-results/faith_pd_vector.qza"))[["data"]]
-    # }) # web version
+
     
     system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences", input$rep_seq_dada2_upload$datapath, 
                  "--p-n-threads", input$threads_phylogenetic,
@@ -12675,6 +12636,9 @@ server <- function(session, input, output) {
                  "--p-sampling-depth ", input$sampling_depth,
                  "--m-metadata-file /home/imuser/metadata.tsv", 
                  "--output-dir /home/imuser/qiime_output/core-metrics-results"))
+    
+    # rm phylos state
+    file.remove("/home/imuser/For_phylo_state.qza")
     
     # show phylo ui
     if(file.exists("/home/imuser/qiime_output/core-metrics-results/faith_pd_vector.qza")){
