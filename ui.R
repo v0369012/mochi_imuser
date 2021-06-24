@@ -903,32 +903,36 @@ shinyUI(
                              multiple = F,
                              accept = ".tsv"),
                    tippy::tippy_this(elementId = "info_metadata", 
-                                     tooltip = HTML("<p style='postion:relative;'>1st column name must be <b>SampleID</b></p>"), 
+                                     tooltip = "<span style='font-size:20px;'> Example </span><br>
+                          <span style='font-size:16px;'> SampleID | Var1 | Var2 | Var3 | ... </span><br>
+                          <span style='font-size:16px;'> Sample01 | xxxx | yyyy | zzzz | ... </span><br>
+                          <span style='font-size:16px;'> Sample01 | xxxx | yyyy | zzzz | ... </span><br>
+                          <span style='font-size:16px;'> Sample01 | xxxx | yyyy | zzzz | ... </span>",  
                                      placement = "right",
                                      allowHTML =T),
-                   tags$style(".tooltip {position:relative;bottom:20px}"),
+                   # tags$style(".tooltip {position:relative;bottom:0px}"),
                    
-                   # div(
-                   #   span("Upload the metadata (1st column name must be"), 
-                   #   strong('#SampleID'),
-                   #   span(")"),
-                   # style = "font-size: 16px"),
-                   # textOutput(outputId="word_metadata_samecol"),
+                   hr(),
+                   radioButtons(inputId = "qza_or_txt", 
+                                label = "Choose file format",
+                                choices = c("MOCHI/QIIME2 output (.qza)", "Plain text table (.txt)")),
+ 
                    
-                   # span("Upload the taxonomic table file (Downloaded from Taxonomy Analysis)"),
-                   fileInput(inputId = "taxonomic_table", 
-                             label = p(HTML("<b>Upload the taxonomic table file </b>"),span(shiny::icon("info-circle"), id = "info_taxatable")),
-                             multiple = F,
-                             accept = ".qza"),
-                             # accept = c(".qza", ".txt")),
-                   tippy::tippy_this(elementId = "info_taxatable", tooltip = "Downloaded from taxonomy classification", placement = "right"),
+                   uiOutput("TA_upload_ui"),
                    
-                   # span("Upload the ASV table file (Downloaded from Taxonomy Analysis)"),
-                   fileInput(inputId = "table_dada2_upload", 
-                             label = p(HTML("<b>Upload the ASV table file </b>"),span(shiny::icon("info-circle"), id = "info_ASVs")),
-                             multiple = F,
-                             accept = ".qza"),
-                   tippy::tippy_this(elementId = "info_ASVs", tooltip = "Downloaded from taxonomy classification", placement = "right"),
+                   # fileInput(inputId = "taxonomic_table", 
+                   #           label = p(HTML("<b>Upload the taxonomic table file </b>"),span(shiny::icon("info-circle"), id = "info_taxatable")),
+                   #           multiple = F,
+                   #           accept = ".qza"),
+                   #           
+                   # tippy::tippy_this(elementId = "info_taxatable", tooltip = "Downloaded from taxonomy classification", placement = "right"),
+                   # 
+                   # 
+                   # fileInput(inputId = "table_dada2_upload", 
+                   #           label = p(HTML("<b>Upload the ASV table file </b>"),span(shiny::icon("info-circle"), id = "info_ASVs")),
+                   #           multiple = F,
+                   #           accept = ".qza"),
+                   # tippy::tippy_this(elementId = "info_ASVs", tooltip = "Downloaded from taxonomy classification", placement = "right"),
                    checkboxInput(inputId = "18S", label = p(HTML("<b>18S rRNA</b>"),span(shiny::icon("info-circle"), id = "18S_check"))),
                    tippy::tippy_this(elementId = "18S_check", tooltip = "Select this checkbox if the sequences are 18S rRNA.", placement = "right"),
                    actionButton(inputId = "TA_start", 
@@ -941,22 +945,7 @@ shinyUI(
                                 icon = icon("chalkboard-teacher"),
                                 style = "color:#317EAC;background-color:white;margin-top:10px") %>% div(),
                    
-                   # Download example button
-                   # hr(),
-                   # p('Download the example files', style = "font-weight:700"),
-                   # div(downloadButton(outputId = "downloadMetaData", 
-                   #                    label = span("Metadata_example.tsv"),
-                   #                    style = "margin: 5px;color: #317EAC")),
-                   # div(downloadButton(outputId = "downloadData", 
-                   #                    label = span("Taxonomic_table_example.qza"),
-                   #                    style = "margin: 5px;color: #317EAC")),
-                   # div(downloadButton(outputId = "example_feature_table",
-                   #                    label = span("ASVs_table_example.qza"),
-                   #                    style = "margin: 5px;color: #317EAC")),
-                   # div(downloadButton(outputId = "example_rep_seqs",
-                   #                    label = "Seqs_forPhylo_example.qza"),
-                   #     style = "margin: 5px;"),
-                   
+
                    width = 3),
                  
                  
@@ -1606,7 +1595,11 @@ shinyUI(
                              multiple = F,
                              accept = ".tsv"),
                    tippy::tippy_this(elementId = "info_metadata_FA", 
-                                     tooltip = HTML("<p style='postion:relative;'>1st column name must be <b>SampleID</b></p>"), 
+                                     tooltip = "<span style='font-size:20px;'> Example </span><br>
+                          <span style='font-size:16px;'> SampleID | Var1 | Var2 | Var3 | ... </span><br>
+                          <span style='font-size:16px;'> Sample01 | xxxx | yyyy | zzzz | ... </span><br>
+                          <span style='font-size:16px;'> Sample01 | xxxx | yyyy | zzzz | ... </span><br>
+                          <span style='font-size:16px;'> Sample01 | xxxx | yyyy | zzzz | ... </span>",  
                                      placement = "right",
                                      allowHTML = TRUE),
                    
@@ -1617,7 +1610,10 @@ shinyUI(
                              multiple = F,
                              accept = ".qza"),
                              # accept = c(".qza", ".txt")),
-                   tippy::tippy_this(elementId = "info_taxatable_FA", tooltip = "Downloaded from Taxonomy classification", placement = "right"),
+                   tippy::tippy_this(elementId = "info_taxatable_FA", 
+                                     tooltip = "<span style='postion:relative;font-size:16px;'>Downloaded from taxonomy classification</span>", 
+                                     placement = "right",
+                                     allowHTML = TRUE),
                    
                    actionButton(inputId = "function_analysis", 
                                 label = strong("Start!"), 
@@ -1785,7 +1781,7 @@ shinyUI(
     tags$footer(
       tags$span(
         tags$a("Molecular Bioinformatics Lab,", href = "https://fullofbeans.nctu.edu.tw/?page_id=333&lang=en", style = "color: white", target = "_blank"), 
-        " National Yang Ming Chiao Tung University, Taiwan 300, R.O.C.,", " last updated on 06/23/2021"),
+        " National Yang Ming Chiao Tung University, Taiwan 300, R.O.C.,", " last updated on 06/24/2021"),
       # tags$a(href="https://ibs.nctu.edu.tw/faculty/%E9%99%B3%E4%BA%AD%E5%A6%8F/", tags$span("Contact us!"), 
       #        target = "_blank",
       #        class="externallink", 
