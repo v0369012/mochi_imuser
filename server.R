@@ -1279,9 +1279,7 @@ server <- function(session, input, output) {
         metadata[,i] <- replace_na(metadata[,i], "NA")
         
       }
-      
-      
-      
+    
       
       return(metadata)
     }
@@ -1289,6 +1287,8 @@ server <- function(session, input, output) {
     
   }) # read the input sample data file
   
+  
+
   TaxaTable_FA <- reactive({
     
     req(input$taxonomic_table_FA)
@@ -1800,6 +1800,12 @@ server <- function(session, input, output) {
   
   observeEvent(input$TA_start_MOCHI, {
     
+    Metadata_sampleID <- Metadata()[,1] %>% sort()
+    ASV_table_SampleID <- asv_table() %>% colnames() %>% sort()
+    
+    M_n <- length(Metadata_sampleID)
+    A_n <- length(ASV_table_SampleID)
+    
     if(input$qza_or_txt == "MOCHI/QIIME2 output (.qza)"){
       
       if(is.null(file_input_1()) || is.null(file_input_2()) || is_null(file_input_3())) {
@@ -1824,6 +1830,27 @@ server <- function(session, input, output) {
         
         shinyjs::hide("ancom_ui")
         
+    }else if(sum(Metadata_sampleID == ASV_table_SampleID) != max(M_n, A_n)){
+      
+          showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                                "Your SampleIDs are not consistent among the uploaded files.", 
+                                footer = NULL, easyClose = T, size = "l"))
+        
+      shinyjs::hide("taxatable_ui")
+      
+      shinyjs::hide("taxabarplot_ui")
+      
+      shinyjs::hide("taxaheatmap_ui") 
+      
+      shinyjs::hide("krona_ui")
+      
+      shinyjs::hide("alpha_ui")
+      
+      shinyjs::hide("beta_ui")
+      
+      shinyjs::hide("phylo_ui")
+      
+      shinyjs::hide("ancom_ui")
         
       }else{
         
@@ -1853,6 +1880,12 @@ server <- function(session, input, output) {
   
   observeEvent(input$TA_start_txt, {
     
+    Metadata_sampleID <- Metadata()[,1] %>% sort()
+    ASV_table_SampleID <- asv_table() %>% colnames() %>% sort()
+    
+    M_n <- length(Metadata_sampleID)
+    A_n <- length(ASV_table_SampleID)
+    
     if(input$qza_or_txt == "Plain text table (.txt)"){
       
       if(is.null(file_input_1()) || is.null(file_input_4())) {
@@ -1877,6 +1910,27 @@ server <- function(session, input, output) {
         
         shinyjs::hide("ancom_ui")
         
+      }else if(sum(Metadata_sampleID == ASV_table_SampleID) != max(M_n, A_n)){
+        
+        showModal(modalDialog(title = strong("Error!", style = "color: red"), 
+                              "Your SampleIDs are not consistent among the uploaded files.", 
+                              footer = NULL, easyClose = T, size = "l"))
+        
+        shinyjs::hide("taxatable_ui")
+        
+        shinyjs::hide("taxabarplot_ui")
+        
+        shinyjs::hide("taxaheatmap_ui") 
+        
+        shinyjs::hide("krona_ui")
+        
+        shinyjs::hide("alpha_ui")
+        
+        shinyjs::hide("beta_ui")
+        
+        shinyjs::hide("phylo_ui")
+        
+        shinyjs::hide("ancom_ui")
         
       }else{
         
@@ -2335,26 +2389,47 @@ server <- function(session, input, output) {
   
   
   observeEvent(input$TA_example, {
-    showModal(
-      modalDialog(
-        title = "Message",
-        HTML("<p>1. Click the download buttons to download the example files.</p>",
-             "<p>2. Upload the example files to inspect the example results."),
-        footer = tagList(
-          # p('Example files', style = "font-weight:700"),
-          downloadButton(outputId = "downloadMetaData", 
-                             label = span("Metadata_example.tsv"),
-                             style = "margin: 5px;color: #317EAC"),
-          downloadButton(outputId = "downloadData", 
-                             label = span("Taxonomic_table_example.qza"),
-                             style = "margin: 5px;color: #317EAC"),
-          downloadButton(outputId = "example_feature_table",
-                             label = span("ASV_table_example.qza"),
-                             style = "margin: 5px;color: #317EAC")
-        ),
-        easyClose = T, size = "l"
+    if(input$qza_or_txt == "MOCHI/QIIME2 output (.qza)"){
+      showModal(
+        modalDialog(
+          title = "Message",
+          HTML("<p>1. Click the download buttons to download the example files.</p>",
+               "<p>2. Upload the example files to inspect the example results."),
+          footer = tagList(
+            # p('Example files', style = "font-weight:700"),
+            downloadButton(outputId = "downloadMetaData", 
+                           label = span("Metadata_example.tsv"),
+                           style = "margin: 5px;color: #317EAC"),
+            downloadButton(outputId = "downloadData", 
+                           label = span("Taxonomic_table_example.qza"),
+                           style = "margin: 5px;color: #317EAC"),
+            downloadButton(outputId = "example_feature_table",
+                           label = span("ASV_table_example.qza"),
+                           style = "margin: 5px;color: #317EAC")
+          ),
+          easyClose = T, size = "l"
+        )
       )
-    )
+    }else if(input$qza_or_txt == "Plain text table (.txt)"){
+      showModal(
+        modalDialog(
+          title = "Message",
+          HTML("<p>1. Click the download buttons to download the example files.</p>",
+               "<p>2. Upload the example files to inspect the example results."),
+          footer = tagList(
+            # p('Example files', style = "font-weight:700"),
+            downloadButton(outputId = "downloadMetaData", 
+                           label = span("Metadata_example.tsv"),
+                           style = "margin: 5px;color: #317EAC"),
+            downloadButton(outputId = "downloadData_txt", 
+                           label = span("ASV_table.txt"),
+                           style = "margin: 5px;color: #317EAC")
+          ),
+          easyClose = T, size = "l"
+        )
+      )
+    }
+    
   })
   
   observeEvent(input$FA_example, {
@@ -10569,6 +10644,18 @@ server <- function(session, input, output) {
     },
     
     contentType = "application/qza"
+    
+  )
+  
+  output$downloadData_txt <- downloadHandler(
+    
+    filename <-"ASV_table.txt",
+    
+    content = function(file){
+      file.copy("/home/imuser/example_files/single/ASVs_table_taxon_single.txt", file)
+    },
+    
+    contentType = "application/txt"
     
   )
   
