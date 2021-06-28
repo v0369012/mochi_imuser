@@ -921,10 +921,14 @@ server <- function(session, input, output) {
     values_4$upload_state <- 'uploaded'
   })
   
-  observeEvent(input$TA_reset, {
+  observeEvent(input$TA_reset_MOCHI, {
     values_1$upload_state <- 'reset'
     values_2$upload_state <- 'reset'
     values_3$upload_state <- 'reset'
+   })
+  
+  observeEvent(input$TA_reset_txt, {
+    values_1$upload_state <- 'reset'
     values_4$upload_state <- 'reset'
   })
   
@@ -969,60 +973,68 @@ server <- function(session, input, output) {
   })
   
   
-  output$TA_upload_ui <- renderUI({
-    if(input$qza_or_txt == "MOCHI/QIIME2 output (.qza)"){
-      tagList(
-        fileInput(inputId = "taxonomic_table", 
-                  label = p(HTML("<b>Upload the taxonomic table file </b>"),span(shiny::icon("info-circle"), id = "info_taxatable")),
-                  multiple = F,
-                  accept = ".qza"),
-        
-        tippy::tippy_this(elementId = "info_taxatable", tooltip = "<span style='font-size:16px;'>Downloaded from taxonomy classification</span>", placement = "right", allowHTML = T),
-        
-        
-        fileInput(inputId = "table_dada2_upload", 
-                  label = p(HTML("<b>Upload the ASV table file </b>"),span(shiny::icon("info-circle"), id = "info_ASVs")),
-                  multiple = F,
-                  accept = ".qza"),
-        tippy::tippy_this(elementId = "info_ASVs", tooltip = "<span style='font-size:16px;'>Downloaded from taxonomy classification</span>", placement = "right", allowHTML = T)
-      )
-    }else if(input$qza_or_txt == "Plain text table (.txt)"){
-      tagList(
-        fileInput(inputId = "table_upload_txt", 
-                  label = p(HTML("<b>Upload the ASV table file </b>"),span(shiny::icon("info-circle"), id = "info_ASVs_txt")),
-                  multiple = F,
-                  accept = ".txt"),
-        tippy::tippy_this(elementId = "info_ASVs_txt", 
-                          tooltip = "<span style='font-size:20px;'> Example </span><br>
-                          <span style='font-size:16px;'> ASV | A | B | C | D | E | F | G | ... | Taxon </span><br>
-                          <span style='font-size:16px;'> 001 | 0 | 0 | 8 | 2 | 0 | 0 | 0 | ... | 00001 </span><br>
-                          <span style='font-size:16px;'> 002 | 0 | 0 | 5 | 2 | 0 | 0 | 0 | ... | 00002 </span><br>
-                          <span style='font-size:16px;'> 003 | 0 | 6 | 0 | 0 | 0 | 0 | 0 | ... | 00003 </span>", 
-                          allowHTML = TRUE,
-                          placement = "right",
-                          themes = "light"),
-        # actionButton("table_upload_txt_example", 
-        #              "", icon = icon("info-circle"))
-      )
-      
-      
-      
-    }
-    
-  })
-  
-  # observeEvent(input$table_upload_txt_example, {
-  #   showModal(
-  #     modalDialog(
-  #       title = "Data should be like ...",
-  #       # "Silva (Silva_132_release.zip, 3 GB) will be downloaded. Click OK to start.",
-  #       HTML("<p>test</p>"),
-  #       footer = modalButton(label = "OK"),
-  #       size = "m",
-  #       easyClose = T,
+  # output$TA_upload_ui <- renderUI({
+  #   if(input$qza_or_txt == "MOCHI/QIIME2 output (.qza)"){
+  #     tagList(
+  #       fileInput(inputId = "taxonomic_table", 
+  #                 label = p(HTML("<b>Upload the taxonomic table file </b>"),span(shiny::icon("info-circle"), id = "info_taxatable")),
+  #                 multiple = F,
+  #                 accept = ".qza"),
+  #       
+  #       tippy::tippy_this(elementId = "info_taxatable", tooltip = "<span style='font-size:16px;'>Downloaded from taxonomy classification</span>", placement = "right", allowHTML = T),
+  #       
+  #       
+  #       fileInput(inputId = "table_dada2_upload", 
+  #                 label = p(HTML("<b>Upload the ASV table file </b>"),span(shiny::icon("info-circle"), id = "info_ASVs")),
+  #                 multiple = F,
+  #                 accept = ".qza"),
+  #       tippy::tippy_this(elementId = "info_ASVs", tooltip = "<span style='font-size:16px;'>Downloaded from taxonomy classification</span>", placement = "right", allowHTML = T),
+  #       
+  #       checkboxInput(inputId = "18S", label = p(HTML("<b>18S rRNA</b>"),span(shiny::icon("info-circle"), id = "18S_check"))),
+  #       
+  #       tippy::tippy_this(elementId = "18S_check", tooltip = "Select this checkbox if the sequences are 18S rRNA.", placement = "right"),
+  #       
+  #       actionButton(inputId = "TA_start_MOCHI", 
+  #                    label = strong("Start!"), 
+  #                    icon = icon("play-circle")
+  #       ),
+  #       actionButton("TA_reset_MOCHI", "reset" , icon = icon("trash")),
   #     )
-  #   )
+  #   }else if(input$qza_or_txt == "Plain text table (.txt)"){
+  #     tagList(
+  #       fileInput(inputId = "table_upload_txt", 
+  #                 label = p(HTML("<b>Upload the ASV table file </b>"),span(shiny::icon("info-circle"), id = "info_ASVs_txt")),
+  #                 multiple = F,
+  #                 accept = ".txt"),
+  #       tippy::tippy_this(elementId = "info_ASVs_txt", 
+  #                         tooltip = "<span style='font-size:20px;'> Example </span><br>
+  #                         <span style='font-size:16px;'> ASV | A | B | C | D | E | F | G | ... | Taxon </span><br>
+  #                         <span style='font-size:16px;'> 001 | 0 | 0 | 8 | 2 | 0 | 0 | 0 | ... | 00001 </span><br>
+  #                         <span style='font-size:16px;'> 002 | 0 | 0 | 5 | 2 | 0 | 0 | 0 | ... | 00002 </span><br>
+  #                         <span style='font-size:16px;'> 003 | 0 | 6 | 0 | 0 | 0 | 0 | 0 | ... | 00003 </span>", 
+  #                         allowHTML = TRUE,
+  #                         placement = "right",
+  #                         themes = "light"),
+  #       
+  #       checkboxInput(inputId = "18S", label = p(HTML("<b>18S rRNA</b>"),span(shiny::icon("info-circle"), id = "18S_check"))),
+  #       tippy::tippy_this(elementId = "18S_check", tooltip = "Select this checkbox if the sequences are 18S rRNA.", placement = "right"),
+  #       
+  #       actionButton(inputId = "TA_start_txt", 
+  #                    label = strong("Start!"), 
+  #                    icon = icon("play-circle")
+  #       ),
+  #       actionButton("TA_reset_txt", "reset" , icon = icon("trash")),
+  #       # actionButton("table_upload_txt_example", 
+  #       #              "", icon = icon("info-circle"))
+  #     )
+  #     
+  #     
+  #     
+  #   }
+  #   
   # })
+  
+
   
   
   
@@ -1079,36 +1091,59 @@ server <- function(session, input, output) {
   
   TaxaTable <- reactive({
     
-    req(input$taxonomic_table)
-    req(input$sample_data)
-    req(input$table_dada2_upload)
-    infile1 <- input$taxonomic_table
-    
-    if (is.null(infile1))
-      return(NULL)
-    
-    if(str_detect(infile1$datapath, ".qza")){
-      validate(
-        need(infile1 != "", message = F),
-        need(read_qza(infile1$datapath)$type == "FeatureTable[Frequency]", message = "")
-      )
-
-      read_qza(input$taxonomic_table$datapath)$data
-
-    }else if(str_detect(infile1$datapath, ".txt")){
-
-      validate(
-        need(infile1 != "", message = F)
-      )
+    if(input$qza_or_txt == "MOCHI/QIIME2 output (.qza)"){
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
-      biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/biom"
-      system(paste0(biom_cmd, " convert -i ", infile1$datapath," -o /home/imuser/uploaded_taxatable_.biom --table-type='OTU table' --to-hdf5"))
-      system(paste0(qiime_cmd, " tools import --input-path /home/imuser/uploaded_taxatable_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/uploaded_taxatable_.qza"))
+      req(input$taxonomic_table)
+      req(input$sample_data)
+      req(input$table_dada2_upload)
+      req(input$TA_start_MOCHI)
       
-      read_qza("/home/imuser/uploaded_taxatable_.qza")$data
+      infile1 <- input$taxonomic_table
+      
+      if (is.null(infile1))
+        return(NULL)
+      
+        validate(
+          need(infile1 != "", message = F),
+          need(read_qza(infile1$datapath)$type == "FeatureTable[Frequency]", message = "")
+        )
+        
+        read_qza(input$taxonomic_table$datapath)$data
+        
+  
+      
+    }else if(input$qza_or_txt == "Plain text table (.txt)"){
+      
+     req(input$table_upload_txt)
+      req(input$TA_start_txt)
+      # if(!file.exists("/home/imuser/uploaded_taxatable_.qza")){
+        # shinyjs::disable("TA_start")
+      
+      # show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
+      
+        a <- read.table(input$table_upload_txt$datapath, sep = "\t", header = T)
+        b <- a[,-1]
+        c <- cbind(taxonomy=b[,ncol(b)], b[,-ncol(b)])
+        d <- aggregate(c[,-1], by=list(c[,1]), FUN=sum)
+        
+        write.table(d, "/home/imuser/taxa_table_upload_txt.txt", sep = "\t", quote = F, row.names = F)
+        
+        qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+        biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/biom"
+        system(paste0(biom_cmd, " convert -i ", " /home/imuser/taxa_table_upload_txt.txt "," -o /home/imuser/uploaded_taxatable_.biom --table-type='OTU table' --to-hdf5"))
+        system(paste0(qiime_cmd, " tools import --input-path /home/imuser/uploaded_taxatable_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/uploaded_taxatable_.qza"))
+        
+        # shinyjs::enable("TA_start")
+        
+        read_qza("/home/imuser/uploaded_taxatable_.qza")$data
+        
+        # remove_modal_spinner()
+      # }
 
-     }
+      
+      
+    }
+    
     
   }) # read the input file (.qza)
   
@@ -1135,9 +1170,11 @@ server <- function(session, input, output) {
           sep = ";"
         )
       
-      # replace "__" to "Unassigned"
+      # replace "__", "NA" to "Unassigned"
       df_data<-replace(df_data, df_data=="", "Unassigned")
       df_data<-replace(df_data, df_data=="__", "Unassigned")
+      df_data <- df_data %>% replace(is.na(.), "Unassigned")
+      
       
       return(as.data.frame(df_data))
     } # clean the taxatable 
@@ -1179,8 +1216,24 @@ server <- function(session, input, output) {
   
   
   asv_table <- reactive({
-    req(input$table_dada2_upload)
-    asv_table <- read_qza(input$table_dada2_upload$datapath)[["data"]]
+    
+    if(input$qza_or_txt == "MOCHI/QIIME2 output (.qza)"){
+      req(input$table_dada2_upload)
+      asv_table <- read_qza(input$table_dada2_upload$datapath)[["data"]]
+      
+    }else if(input$qza_or_txt == "Plain text table (.txt)"){
+      
+      req(input$table_upload_txt)
+      a <- read.table(input$table_upload_txt$datapath, sep = "\t", header = T)
+      b <- a[,-ncol(a)] # remove taxa column
+      c <- as.matrix(b)
+      rownames(c) <- c[,1]
+      d <- c[,-1]
+      e <- apply(d, 2, as.numeric)
+      rownames(e) <- c[,1]
+      return(e)
+    }
+    
     return(asv_table)
   })
   
@@ -1200,12 +1253,12 @@ server <- function(session, input, output) {
       
       metadata <- read.table(input$sample_data$datapath, header = T, na.strings = "", sep = "\t")
       
-      req(input$table_dada2_upload)
-      asv_table <- read_qza(input$table_dada2_upload$datapath)[["data"]]
+      # req(input$table_dada2_upload)
+      # asv_table <- read_qza(input$table_dada2_upload$datapath)[["data"]]
       
       colnames(metadata)[1] <- "SampleID"
       
-      metadata <- filter(metadata, SampleID %in% colnames(asv_table))
+      metadata <- filter(metadata, SampleID %in% colnames(asv_table()))
       colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "-", ".")
       
       col_vector <- apply(as.data.frame(metadata[,2:ncol(metadata)]), MARGIN = 2, FUN = function(x){length(unique(x))})
@@ -1339,11 +1392,11 @@ server <- function(session, input, output) {
       
       metadata <- read.table(input$sample_data$datapath, header = T, na.strings = "", sep = "\t")
       
-      req(input$table_dada2_upload)
-      asv_table <- read_qza(input$table_dada2_upload$datapath)[["data"]]
+      # req(input$table_dada2_upload)
+      # asv_table <- read_qza(input$table_dada2_upload$datapath)[["data"]]
       
       colnames(metadata)[1] <- "SampleID"
-      metadata <- filter(metadata, SampleID %in% colnames(asv_table))
+      metadata <- filter(metadata, SampleID %in% colnames(asv_table()))
       colnames(metadata) <- stringr::str_replace_all(colnames(metadata), "-", ".")
       
       col_vector <- apply(as.data.frame(metadata[,2:ncol(metadata)]), MARGIN = 2, FUN = function(x){length(unique(x))})
@@ -1680,6 +1733,7 @@ server <- function(session, input, output) {
   
   observe({
     
+    # req(input$TA_start)
     as_output_taxtable <- function(df_data){
       
       df_data_rownames<-row.names(df_data)
@@ -1701,9 +1755,10 @@ server <- function(session, input, output) {
           sep = ";"
         )
       
-      # replace "__" to "Unassigned"
+      # replace "__", "NA" to "Unassigned"
       df_data<-replace(df_data, df_data=="", "Unassigned")
       df_data<-replace(df_data, df_data=="__", "Unassigned")
+      df_data <- df_data %>% replace(is.na(.), "Unassigned")
       
       return(as.data.frame(df_data))
     } # clean the taxatable 
@@ -1721,6 +1776,7 @@ server <- function(session, input, output) {
   observe({
     # We'll use the input$controller variable multiple times, so save it as x
     # for convenience.
+    # req(input$TA_start)
     min_sampling_depth <- colSums(TaxaTable()) %>% min()
     
     # This will change the value of input$inText, based on x
@@ -1729,7 +1785,20 @@ server <- function(session, input, output) {
   })
   
   
-  observeEvent(input$TA_start, {
+  # show TA upload ui
+  observe({
+    if(input$qza_or_txt == "MOCHI/QIIME2 output (.qza)"){
+      shinyjs::show("TA_MOCHI_ui")
+      shinyjs::hide("TA_txt_ui")
+    }else if(input$qza_or_txt == "Plain text table (.txt)"){
+      shinyjs::show("TA_txt_ui")
+      shinyjs::hide("TA_MOCHI_ui")
+    }
+  })
+ 
+ 
+  
+  observeEvent(input$TA_start_MOCHI, {
     
     if(input$qza_or_txt == "MOCHI/QIIME2 output (.qza)"){
       
@@ -1757,6 +1826,9 @@ server <- function(session, input, output) {
         
         
       }else{
+        
+        shinyjs::hide("qza_or_txt")
+        
         shinyjs::show("taxatable_ui")
         
         shinyjs::show("taxabarplot_ui")
@@ -1774,7 +1846,15 @@ server <- function(session, input, output) {
         shinyjs::show("ancom_ui")
         
       }
-    }else if(input$qza_or_txt == "Plain text table (.txt)"){
+    }
+    
+  })
+  
+  
+  observeEvent(input$TA_start_txt, {
+    
+    if(input$qza_or_txt == "Plain text table (.txt)"){
+      
       if(is.null(file_input_1()) || is.null(file_input_4())) {
         
         showModal(modalDialog(title = strong("Error!", style = "color: red"), 
@@ -1799,6 +1879,9 @@ server <- function(session, input, output) {
         
         
       }else{
+        
+        shinyjs::hide("qza_or_txt")
+        
         shinyjs::show("taxatable_ui")
         
         shinyjs::show("taxabarplot_ui")
@@ -1817,21 +1900,10 @@ server <- function(session, input, output) {
         
       }
     }
-    
-    
-    
   })
   
-  # observeEvent(input$ANCOM_start, {
-  #   shinyjs::toggle("ancom_output_ui")
-  #   shinyjs::toggle("ancom_table_download")
-  # })
-  
-  
-  # observeEvent(input$checkbox_primer == F, {
-  #   shinyjs::toggle("primer_trim")
-  # })
-  
+
+
   # functional analysis input file
   
   ## check sample data input
@@ -9702,9 +9774,10 @@ server <- function(session, input, output) {
           sep = ";"
         )
       
-      # replace "__" to "Unassigned"
+      # replace "__", "NA" to "Unassigned"
       df_data<-replace(df_data, df_data=="", "Unassigned")
       df_data<-replace(df_data, df_data=="__", "Unassigned")
+      df_data <- df_data %>% replace(is.na(.), "Unassigned")
       
       return(as.data.frame(df_data))
     }
@@ -10250,7 +10323,7 @@ server <- function(session, input, output) {
     
     names_list <- lapply(colnames(metadata_beta)[1:ncol(metadata_beta)], function(i){
       
-      sapply(1:length(unique(metadata_beta[, i])), function(j){
+      lapply(1:length(unique(metadata_beta[, i])), function(j){
         
         update_rownames(i, metadata_beta,j)
         
@@ -10326,7 +10399,7 @@ server <- function(session, input, output) {
     
     names_list <- lapply(colnames(metadata_beta)[1:ncol(metadata_beta)], function(i){
       
-      sapply(1:length(unique(metadata_beta[, i])), function(j){
+      lapply(1:length(unique(metadata_beta[, i])), function(j){
         
         update_rownames(i, metadata_beta,j)
         
@@ -10563,11 +10636,12 @@ server <- function(session, input, output) {
   
   # Taxonomy analysis upload reset----
   
-  observeEvent(input$TA_reset,{
+  observeEvent(input$TA_reset_MOCHI,{
     
     shinyjs::reset("sample_data")
     shinyjs::reset("taxonomic_table")
     shinyjs::reset("table_dada2_upload")
+    shinyjs::reset("table_upload_txt")
     shinyjs::hide("taxatable_ui")
     shinyjs::hide("taxabarplot_ui")
     shinyjs::hide("taxaheatmap_ui") 
@@ -10582,7 +10656,31 @@ server <- function(session, input, output) {
 
     shinyjs::reset("rep_seq_dada2_upload")
     
+    shinyjs::show("qza_or_txt")
     
+  })
+  
+  observeEvent(input$TA_reset_txt,{
+    
+    shinyjs::reset("sample_data")
+    shinyjs::reset("taxonomic_table")
+    shinyjs::reset("table_dada2_upload")
+    shinyjs::reset("table_upload_txt")
+    shinyjs::hide("taxatable_ui")
+    shinyjs::hide("taxabarplot_ui")
+    shinyjs::hide("taxaheatmap_ui") 
+    shinyjs::hide("krona_ui")
+    shinyjs::hide("alpha_ui")
+    shinyjs::hide("beta_ui")
+    shinyjs::hide("phylo_ui")
+    shinyjs::hide("phylo_output_ui")
+    shinyjs::hide("ancom_ui")
+    shinyjs::hide("ancom_output_ui")
+    closeAlert(session, "sampleAlert")
+    
+    shinyjs::reset("rep_seq_dada2_upload")
+    
+    shinyjs::show("qza_or_txt")
   })
   
   # FA reset
@@ -10595,7 +10693,7 @@ server <- function(session, input, output) {
     shinyjs::hide("func_table_ui")
     shinyjs::hide("func_barplot_ui")
     closeAlert(session, "sampleAlert_FA")
-    shinyjs::reset("TA_start")
+    # shinyjs::reset("TA_start")
     
   })
   
@@ -10830,7 +10928,7 @@ server <- function(session, input, output) {
       
       names_list <- lapply(colnames(Metadata_stats())[1:ncol(Metadata_stats())], function(i){
         
-        sapply(1:length(unique(Metadata_stats()[, i])), function(j){
+        lapply(1:length(unique(Metadata_stats()[, i])), function(j){
           
           update_rownames(i, Metadata_stats(),j)
           
@@ -11062,6 +11160,12 @@ server <- function(session, input, output) {
                                                barplot_taxa_table_data_percent=="",
                                                "Unassigned")
       
+      
+      # Replace NA to "Unassigned"
+      barplot_taxa_table_data_percent_df <- as.data.frame(barplot_taxa_table_data_percent) %>% replace(is.na(.), "Unassigned")
+      
+      barplot_taxa_table_data_percent <- as.tibble(barplot_taxa_table_data_percent_df)
+      
       # Get Level
       barplot_taxa_table_data_percent_Level<-barplot_taxa_table_data_percent[,c(Level,"Sample_ID","read_percentage")]
       
@@ -11141,7 +11245,7 @@ server <- function(session, input, output) {
       
       names_list <- lapply(colnames(Metadata_stats())[1:ncol(Metadata_stats())], function(i){
         
-        sapply(1:length(unique(Metadata_stats()[, i])), function(j){
+        lapply(1:length(unique(Metadata_stats()[, i])), function(j){
           
           update_rownames(i, Metadata_stats(),j)
           
@@ -11259,6 +11363,12 @@ server <- function(session, input, output) {
                                                barplot_taxa_table_data_percent=="",
                                                "Unassigned")
       
+      
+      # Replace NA to "Unassigned"
+      barplot_taxa_table_data_percent_df <- as.data.frame(barplot_taxa_table_data_percent) %>% replace(is.na(.), "Unassigned")
+      
+      barplot_taxa_table_data_percent <- as.tibble(barplot_taxa_table_data_percent_df)
+      
       # Get Level
       barplot_taxa_table_data_percent_Level<-barplot_taxa_table_data_percent[,c(Level,"Sample_ID","read_percentage")]
       
@@ -11307,7 +11417,7 @@ server <- function(session, input, output) {
       
       names_list <- lapply(colnames(Metadata_stats())[1:ncol(Metadata_stats())], function(i){
         
-        sapply(1:length(unique(Metadata_stats()[, i])), function(j){
+        lapply(1:length(unique(Metadata_stats()[, i])), function(j){
           
           update_rownames(i, Metadata_stats(),j)
           
@@ -11702,7 +11812,7 @@ server <- function(session, input, output) {
       
       names_list <- lapply(colnames(metadata)[1:ncol(metadata)], function(i){
         
-        sapply(1:length(unique(metadata[, i])), function(j){
+        lapply(1:length(unique(metadata[, i])), function(j){
           
           update_rownames(i, metadata,j)
           
@@ -11846,6 +11956,11 @@ server <- function(session, input, output) {
                                                barplot_taxa_table_data_percent=="",
                                                "Unassigned")
       
+      # Replace NA to "Unassigned"
+      barplot_taxa_table_data_percent_df <- as.data.frame(barplot_taxa_table_data_percent) %>% replace(is.na(.), "Unassigned")
+      
+      barplot_taxa_table_data_percent <- as.tibble(barplot_taxa_table_data_percent_df)
+      
       # Get Level
       barplot_taxa_table_data_percent_Level<-barplot_taxa_table_data_percent[,c(Level,"Sample_ID","read_percentage")]
       
@@ -11925,7 +12040,7 @@ server <- function(session, input, output) {
       
       names_list <- lapply(colnames(Metadata_stats())[1:ncol(Metadata_stats())], function(i){
         
-        sapply(1:length(unique(Metadata_stats()[, i])), function(j){
+        lapply(1:length(unique(Metadata_stats()[, i])), function(j){
           
           update_rownames(i, Metadata_stats(),j)
           
@@ -12038,6 +12153,12 @@ server <- function(session, input, output) {
                                                barplot_taxa_table_data_percent=="",
                                                "Unassigned")
       
+      
+      # Replace NA to "Unassigned"
+      barplot_taxa_table_data_percent_df <- as.data.frame(barplot_taxa_table_data_percent) %>% replace(is.na(.), "Unassigned")
+      
+      barplot_taxa_table_data_percent <- as.tibble(barplot_taxa_table_data_percent_df)
+      
       # Get Level
       barplot_taxa_table_data_percent_Level<-barplot_taxa_table_data_percent[,c(Level,"Sample_ID","read_percentage")]
       
@@ -12086,7 +12207,7 @@ server <- function(session, input, output) {
       
       names_list <- lapply(colnames(Metadata_stats())[1:ncol(Metadata_stats())], function(i){
         
-        sapply(1:length(unique(Metadata_stats()[, i])), function(j){
+        lapply(1:length(unique(Metadata_stats()[, i])), function(j){
           
           update_rownames(i, Metadata_stats(),j)
           
@@ -12476,7 +12597,7 @@ server <- function(session, input, output) {
       
       names_list <- lapply(colnames(metadata)[1:ncol(metadata)], function(i){
         
-        sapply(1:length(unique(metadata[, i])), function(j){
+        lapply(1:length(unique(metadata[, i])), function(j){
           
           update_rownames(i, metadata,j)
           
@@ -13950,7 +14071,7 @@ server <- function(session, input, output) {
       
       names_list <- lapply(colnames(metadata_beta)[1:ncol(metadata_beta)], function(i){
         
-        sapply(1:length(unique(metadata_beta[, i])), function(j){
+        lapply(1:length(unique(metadata_beta[, i])), function(j){
           
           update_rownames(i, metadata_beta,j)
           
@@ -14109,7 +14230,7 @@ server <- function(session, input, output) {
       
       names_list <- lapply(colnames(metadata_beta)[1:ncol(metadata_beta)], function(i){
         
-        sapply(1:length(unique(metadata_beta[, i])), function(j){
+        lapply(1:length(unique(metadata_beta[, i])), function(j){
           
           update_rownames(i, metadata_beta,j)
           
@@ -15277,20 +15398,7 @@ server <- function(session, input, output) {
       
     })
     
-    # for (r in 1:nrow(nonNA_metadata)) {
-    #   for (c in 2:ncol(nonNA_metadata)) {
-    #     
-    #     x <- nonNA_metadata[r,c]
-    #     if(sum(grepl("^[A-Za-z]+", x, perl = T)) > 0){
-    #       return(x)
-    #     }else{
-    #       x <- paste0("[ ", x, " ]")
-    #     }
-    #   }
-    #   
-    # }
-    
-    
+
     nonNA_metadata_1stcol <- nonNA_metadata[,1] %>% as.data.frame()
     colnames(nonNA_metadata_1stcol) <- "SampleID"
     nonNA_metadata_categorical <- as.data.frame(nonNA_metadata_categorical)
@@ -15298,92 +15406,52 @@ server <- function(session, input, output) {
     nonNA_metadata_categorical <- cbind(nonNA_metadata_1stcol, nonNA_metadata_categorical)
     colnames(nonNA_metadata_categorical) <- c("SampleID", colnames(nonNA_metadata)[-1])
     
-    # system(paste0("mkdir ", "/home/imuser/web_version/users_files/", job_id(), '_DA_ancom'))
-    # write.table(nonNA_metadata_categorical, 
-    #             file=paste0('/home/imuser/web_version/users_files/',
-    #                         job_id(), '_DA_ancom',
-    #                         '/nonNA_metadata_categorical.tsv'), quote = F, sep='\t', row.names = F) # web version
+    
     write.table(nonNA_metadata_categorical, file='/home/imuser/nonNA_metadata_categorical.tsv', quote = F, sep='\t', row.names = F)
     
-    # system("sed -i '2i\ #q2:types  categorical	categorical	categorical	categorical	categorical	categorical	categorical	categorical' /home/imuser/nonNA_metadata.tsv")
-    
-
-    # file.copy(from = input$taxonomic_table$datapath, 
-    #           to = paste0("/home/imuser/web_version/users_files/",
-    #                       job_id(), "_DA_ancom",
-    #                       "/upload_taxtable.qza"),
-    #           overwrite = T) # ewb version
-    file.copy(from = input$taxonomic_table$datapath, to = "/home/imuser/upload_taxatable.qza", overwrite = T)
-    
-    taxa_table_7 <- read_qza("/home/imuser/upload_taxatable.qza")$data
-    species <- rownames(taxa_table_7)
-    species_list <- list()
-    level_list <- list(
-      "Phylum"= 1:2,
-      "Class"= 1:3,
-      "Order"= 1:4,
-      "Family"= 1:5,
-      "Genus"= 1:6,
-      "Species"= 1:7
-    )
-    for (i in 1:length(species)) {
-      for (j in 1:length(species[i])) {
-        species_list[[i]] <- str_split(species[i], ";")[[j]][level_list[[input$ANCOM_level]]]
-        species_list[[i]] <- paste0(species_list[[i]], collapse = ";")
+    if(input$qza_or_txt == "MOCHI/QIIME2 output (.qza)"){
+      
+      file.copy(from = input$taxonomic_table$datapath, to = "/home/imuser/upload_taxatable.qza", overwrite = T)
+      
+      taxa_table_7 <- read_qza("/home/imuser/upload_taxatable.qza")$data
+      species <- rownames(taxa_table_7)
+      species_list <- list()
+      level_list <- list(
+        "Phylum"= 1:2,
+        "Class"= 1:3,
+        "Order"= 1:4,
+        "Family"= 1:5,
+        "Genus"= 1:6,
+        "Species"= 1:7
+      )
+      for (i in 1:length(species)) {
+        for (j in 1:length(species[i])) {
+          species_list[[i]] <- str_split(species[i], ";")[[j]][level_list[[input$ANCOM_level]]]
+          species_list[[i]] <- paste0(species_list[[i]], collapse = ";")
+          
+        }
         
       }
       
+      taxa_table_ <- taxa_table_7
+      row.names(taxa_table_) <- unlist(species_list)
+      taxa_table__ag <- aggregate(taxa_table_, by=list(rownames(taxa_table_)), FUN=sum)
+      colnames(taxa_table__ag)[1] <- "taxonomy"
+      write.table(x=taxa_table__ag,"/home/imuser/taxatable_.txt", quote = F, col.names = T, row.names = F, sep = "\t")
+      biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/biom"
+      system(paste0(biom_cmd, " convert -i /home/imuser/taxatable_.txt -o /home/imuser/taxatable_.biom --table-type='OTU table' --to-hdf5"))
+      system(paste0(qiime_cmd, " tools import --input-path /home/imuser/taxatable_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/uploaded_taxatable_.qza"))
+      
     }
+        
     
-    taxa_table_ <- taxa_table_7
-    row.names(taxa_table_) <- unlist(species_list)
-    taxa_table__ag <- aggregate(taxa_table_, by=list(rownames(taxa_table_)), FUN=sum)
-    colnames(taxa_table__ag)[1] <- "taxonomy"
-    write.table(x=taxa_table__ag,"/home/imuser/taxatable_.txt", quote = F, col.names = T, row.names = F, sep = "\t")
-    biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/biom"
-    system(paste0(biom_cmd, " convert -i /home/imuser/taxatable_.txt -o /home/imuser/taxatable_.biom --table-type='OTU table' --to-hdf5"))
-    system(paste0(qiime_cmd, " tools import --input-path /home/imuser/taxatable_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/upload_taxatable_.qza"))
-    
-    taxa_table_7 <- read_qza("/home/imuser/upload_taxatable_.qza")$data
+    taxa_table_7 <- read_qza("/home/imuser/uploaded_taxatable_.qza")$data
     nonNA_sampleid_1 <- c("SampleID", nonNA_sampleid) # for qiime2 reading format
-    # write.table(x = nonNA_sampleid_1, 
-    #             file = paste0("/home/imuser/web_version/users_files/",
-    #                           job_id(), "_DA_ancom",
-    #                           "/nonNA_sampleid.tsv"),
-    #             quote = F, row.names = F, col.names = F) # web version
+
     write.table(x = nonNA_sampleid_1, file = "/home/imuser/nonNA_sampleid.tsv",quote = F, row.names = F, col.names = F)
     
-    # system(paste0(qiime_cmd, 
-    #               " feature-table filter-samples", 
-    #               " --i-table /home/imuser/web_version/users_files/",
-    #               job_id(), "_DA_ancom",
-    #               "/upload_taxtable.qza", 
-    #               " --m-metadata-file /home/imuser/web_version/users_files/",
-    #               job_id(), "_DA_ancom",
-    #               "/nonNA_sampleid.tsv", 
-    #               " --o-filtered-table /home/imuser/web_version/users_files/",
-    #               job_id(), "_DA_ancom",
-    #               "/nonNA_table.qza"))
-    # system(paste0(qiime_cmd, 
-    #               " composition add-pseudocount --i-table ", 
-    #               "/home/imuser/web_version/users_files/",
-    #               job_id(), "_DA_ancom",
-    #               "/nonNA_table.qza", 
-    #               " --o-composition-table /home/imuser/web_version/users_files/",
-    #               job_id(), "_DA_ancom",
-    #               "/comp_table.qza"))
-    # system(paste0(qiime_cmd, 
-    #               " composition ancom --i-table /home/imuser/web_version/users_files/",
-    #               job_id(), "_DA_ancom",
-    #               "/comp_table.qza --m-metadata-file ", "/home/imuser/web_version/users_files/",
-    #               job_id(), "_DA_ancom",
-    #               "/nonNA_metadata_categorical.tsv",
-    #               " --m-metadata-column ", input$metadata_ANCOM,
-    #               " --o-visualization /home/imuser/web_version/users_files/",
-    #               job_id(), "_DA_ancom",
-    #               "/ancom_comparison.qzv")) # web version
-    
-    system(paste(qiime_cmd, "feature-table filter-samples", "--i-table /home/imuser/upload_taxatable_.qza", "--m-metadata-file /home/imuser/nonNA_sampleid.tsv", "--o-filtered-table /home/imuser/qiime_output/nonNA_table.qza"))
+
+    system(paste(qiime_cmd, "feature-table filter-samples", "--i-table /home/imuser/uploaded_taxatable_.qza", "--m-metadata-file /home/imuser/nonNA_sampleid.tsv", "--o-filtered-table /home/imuser/qiime_output/nonNA_table.qza"))
     system(paste(qiime_cmd, "composition add-pseudocount --i-table", "/home/imuser/qiime_output/nonNA_table.qza", "--o-composition-table /home/imuser/qiime_output/comp_table.qza"))
     system(paste(qiime_cmd, "composition ancom --i-table /home/imuser/qiime_output/comp_table.qza --m-metadata-file", '/home/imuser/nonNA_metadata_categorical.tsv',
                  "--m-metadata-column", input$metadata_ANCOM,"--o-visualization /home/imuser/qiime_output/ancom_comparison.qzv"))
