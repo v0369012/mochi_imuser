@@ -1190,10 +1190,10 @@ server <- function(session, input, output) {
       d <- c[,-1]
       e <- apply(d, 2, as.numeric)
       rownames(e) <- c[,1]
-      return(e)
+      asv_table <-e
     }
     
-    return(asv_table)
+    
   })
   
   
@@ -13678,12 +13678,14 @@ server <- function(session, input, output) {
     contentType = "application/qza"
   )
   
-  observeEvent(req(input$phylogenetic_tree, input$table_dada2_upload), {
+  observeEvent(input$phylogenetic_tree, {
     
     if(is.null(input$rep_seq_dada2_upload)){
+      
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                             "Please upload the file!", 
                             footer = NULL, easyClose = T, size = "l"))
+      
     }else if(file.exists("/home/imuser/For_phylo_state.qza")){
     
     start_time <- Sys.time()
@@ -13701,11 +13703,35 @@ server <- function(session, input, output) {
     
     write.table(Metadata_stats(), file='/home/imuser/metadata.tsv', quote=FALSE, sep='\t', row.names = F)
     system("rm -r /home/imuser/qiime_output/core-metrics-results/")
-    system(paste(qiime_cmd, "diversity core-metrics-phylogenetic --i-phylogeny /home/imuser/qiime_output/rooted-tree.qza",
-                 "--i-table", input$table_dada2_upload$datapath,
-                 "--p-sampling-depth ", input$sampling_depth,
-                 "--m-metadata-file /home/imuser/metadata.tsv", 
-                 "--output-dir /home/imuser/qiime_output/core-metrics-results"))
+    
+    if(input$qza_or_txt == "MOCHI/QIIME2 output (.qza)"){
+      system(paste(qiime_cmd, "diversity core-metrics-phylogenetic --i-phylogeny /home/imuser/qiime_output/rooted-tree.qza",
+                   "--i-table", input$table_dada2_upload$datapath,
+                   "--p-sampling-depth ", input$sampling_depth,
+                   "--m-metadata-file /home/imuser/metadata.tsv", 
+                   "--output-dir /home/imuser/qiime_output/core-metrics-results"))
+    }else if(input$qza_or_txt == "Plain text table (.txt)"){
+      
+      a <- asv_table()
+      b <- rownames(a)
+      c <- data.frame(
+        ASV = b,
+        a
+      )
+      write.table(c, "/home/imuser/asv_table.txt", 
+                  quote = F, col.names = T, row.names = F, sep = "\t")
+      
+      biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/biom"
+      system(paste0(biom_cmd, " convert -i /home/imuser/asv_table.txt -o /home/imuser/asv_table.biom --table-type='OTU table' --to-hdf5"))
+      system(paste0(qiime_cmd, " tools import --input-path /home/imuser/asv_table.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/uploaded_asv_table.qza"))
+      
+      system(paste(qiime_cmd, "diversity core-metrics-phylogenetic --i-phylogeny /home/imuser/qiime_output/rooted-tree.qza",
+                   "--i-table", "/home/imuser/uploaded_asv_table.qza ",
+                   "--p-sampling-depth ", input$sampling_depth,
+                   "--m-metadata-file /home/imuser/metadata.tsv", 
+                   "--output-dir /home/imuser/qiime_output/core-metrics-results"))
+    }
+    
     
     # rm phylos state
     file.remove("/home/imuser/For_phylo_state.qza")
@@ -14003,7 +14029,7 @@ server <- function(session, input, output) {
     
     observe({
       
-      req(input$sample_data, input$taxonomic_table, input$table_dada2_upload, input$rep_seq_dada2_upload)
+      req(input$sample_data, input$rep_seq_dada2_upload)
       
       selection_position <- which(colnames(Metadata_stats())==input$metadata_phylo_alpha)
       nonNA_position <- which(Metadata_stats()[,selection_position] != "NA")
@@ -14607,7 +14633,7 @@ server <- function(session, input, output) {
     # When length(group_names)<=2, hide the download button of pair table
     observe({
       
-      req(input$sample_data, input$taxonomic_table, input$table_dada2_upload)
+      req(input$sample_data)
       
       nonNA_position <- which(Metadata_stats()[,input$metadata_phylo_beta] != "NA")
       nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
@@ -15572,22 +15598,7 @@ server <- function(session, input, output) {
     }
     
     unlink("/home/imuser/qiime_output/ancom_comparison_unzip/new_dirname", recursive = T)
-    
-    # system(paste0("rm -r ", "/home/imuser/web_version/users_files/",job_id(), "/ancom_comparison_unzip"))
-    # system(paste0("unzip -d /home/imuser/web_version/users_files/",
-    #               job_id(), "_DA_ancom",
-    #               "/ancom_comparison_unzip /home/imuser/web_version/users_files/",
-    #               job_id(), "_DA_ancom",
-    #               "/ancom_comparison.qzv"))
-    # ancom_unzip_dirname <- list.files(paste0("/home/imuser/web_version/users_files/",
-    #                                          job_id(), "_DA_ancom",
-    #                                          "/ancom_comparison_unzip"), 
-    #                                   full.names = T)
-    # system(paste0("mv ", 
-    #               ancom_unzip_dirname, 
-    #               " /home/imuser/web_version/users_files/",
-    #               job_id(), "_DA_ancom",
-    #               "/ancom_comparison_unzip/new_dirname")) # web version
+
     system("unzip -d /home/imuser/qiime_output/ancom_comparison_unzip /home/imuser/qiime_output/ancom_comparison.qzv")
     ancom_unzip_dirname <- list.files("/home/imuser/qiime_output/ancom_comparison_unzip", full.names = T)
     system(paste0("mv ", ancom_unzip_dirname, " /home/imuser/qiime_output/ancom_comparison_unzip/new_dirname"))
