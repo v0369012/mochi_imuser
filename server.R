@@ -1119,6 +1119,7 @@ server <- function(session, input, output) {
       # remove the non-sense string
       df_data$Species<-gsub("D_0__|D_1__|D_2__|D_3__|D_4__|D_5__|D_6__|D_7__|D_8__|D_9__|D_10__|D_11__|D_12__|D_13__|D_14__", "", df_data$Species)
       df_data$Species<-gsub("k__|p__|c__|o__|f__|g__|s__", "", df_data$Species)
+      df_data$Species<-gsub("\\s+", "", df_data$Species)
       
       
       library(tidyr)
@@ -1724,7 +1725,7 @@ server <- function(session, input, output) {
       # remove the non-sense string
       df_data$Species<-gsub("D_0__|D_1__|D_2__|D_3__|D_4__|D_5__|D_6__|D_7__|D_8__|D_9__|D_10__|D_11__|D_12__|D_13__|D_14__", "", df_data$Species)
       df_data$Species<-gsub("k__|p__|c__|o__|f__|g__|s__", "", df_data$Species)
-      
+      df_data$Species<-gsub("\\s+", "", df_data$Species)
       
       library(tidyr)
       df_data <- df_data %>%
@@ -9855,6 +9856,7 @@ server <- function(session, input, output) {
       # remove the non-sense string
       df_data$Species<-gsub("D_0__|D_1__|D_2__|D_3__|D_4__|D_5__|D_6__|D_7__|D_8__|D_9__|D_10__|D_11__|D_12__|D_13__|D_14__", "", df_data$Species)
       df_data$Species<-gsub("k__|p__|c__|o__|f__|g__|s__", "", df_data$Species)
+      df_data$Species<-gsub("\\s+", "", df_data$Species)
       
       
       library(tidyr)
@@ -11248,6 +11250,11 @@ server <- function(session, input, output) {
                                                          "", 
                                                          barplot_taxa_table_data_percent$Species_name)
       
+      # remove blank
+      barplot_taxa_table_data_percent$Species_name<-gsub("\\s+", 
+                                                         "", 
+                                                         barplot_taxa_table_data_percent$Species_name)
+      
       
       # Seperate Species names by taxon
       barplot_taxa_table_data_percent<-separate(data = barplot_taxa_table_data_percent,
@@ -11451,6 +11458,11 @@ server <- function(session, input, output) {
                                                          "", 
                                                          barplot_taxa_table_data_percent$Species_name)
       
+      # remove blank
+      barplot_taxa_table_data_percent$Species_name<-gsub("\\s+", 
+                                                         "", 
+                                                         barplot_taxa_table_data_percent$Species_name)
+      
       
       # Seperate Species names by taxon
       barplot_taxa_table_data_percent<-separate(data = barplot_taxa_table_data_percent,
@@ -11609,6 +11621,11 @@ server <- function(session, input, output) {
       
       
       barplot_taxa_table_data_percent$Species_name<-gsub("k__|p__|c__|o__|f__|g__|s__", 
+                                                         "", 
+                                                         barplot_taxa_table_data_percent$Species_name)
+      
+      # remove blank
+      barplot_taxa_table_data_percent$Species_name<-gsub("\\s+", 
                                                          "", 
                                                          barplot_taxa_table_data_percent$Species_name)
       
@@ -11854,6 +11871,11 @@ server <- function(session, input, output) {
                                                          "", 
                                                          barplot_taxa_table_data_percent$Species_name)
       
+      # remove blank
+      barplot_taxa_table_data_percent$Species_name<-gsub("\\s+", 
+                                                         "", 
+                                                         barplot_taxa_table_data_percent$Species_name)
+      
       
       
       barplot_taxa_table_data_percent<-separate(data = barplot_taxa_table_data_percent,
@@ -12045,6 +12067,11 @@ server <- function(session, input, output) {
       
       
       barplot_taxa_table_data_percent$Species_name<-gsub("k__|p__|c__|o__|f__|g__|s__", 
+                                                         "", 
+                                                         barplot_taxa_table_data_percent$Species_name)
+      
+      # remove blank
+      barplot_taxa_table_data_percent$Species_name<-gsub("\\s+", 
                                                          "", 
                                                          barplot_taxa_table_data_percent$Species_name)
       
@@ -12246,6 +12273,11 @@ server <- function(session, input, output) {
                                                          "", 
                                                          barplot_taxa_table_data_percent$Species_name)
       
+      # remove blank
+      barplot_taxa_table_data_percent$Species_name<-gsub("\\s+", 
+                                                         "", 
+                                                         barplot_taxa_table_data_percent$Species_name)
+      
       
       # Seperate Species names by taxon
       barplot_taxa_table_data_percent<-separate(data = barplot_taxa_table_data_percent,
@@ -12399,6 +12431,16 @@ server <- function(session, input, output) {
       
       
       barplot_taxa_table_data_percent$Species_name<-gsub("k__|p__|c__|o__|f__|g__|s__", 
+                                                         "", 
+                                                         barplot_taxa_table_data_percent$Species_name)
+      
+      # remove blank
+      barplot_taxa_table_data_percent$Species_name<-gsub("\\s+", 
+                                                         "", 
+                                                         barplot_taxa_table_data_percent$Species_name)
+      
+      # remove blank
+      barplot_taxa_table_data_percent$Species_name<-gsub("\\s+", 
                                                          "", 
                                                          barplot_taxa_table_data_percent$Species_name)
       
@@ -12641,6 +12683,11 @@ server <- function(session, input, output) {
       
       
       barplot_taxa_table_data_percent$Species_name<-gsub("k__|p__|c__|o__|f__|g__|s__", 
+                                                         "", 
+                                                         barplot_taxa_table_data_percent$Species_name)
+      
+      # remove blank
+      barplot_taxa_table_data_percent$Species_name<-gsub("\\s+", 
                                                          "", 
                                                          barplot_taxa_table_data_percent$Species_name)
       
