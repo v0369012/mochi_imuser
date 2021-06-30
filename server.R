@@ -96,30 +96,11 @@ server <- function(session, input, output) {
     )
     
     
-    # dir_list <- list()
-    # dir_list[[1]] <- is_empty(parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs))
-    # return(dir_list)
-    # return(my_qiime_ip)
-    # return(getwd())
-    # return(system("whoami", intern = T))
-    # return(system("echo ~", intern = T))
-    # return(system("python /home/imuser/test.py", intern = T))
-    # return(system("locale -a", intern = T))
-    # use_virtualenv("qiime2-2019.10")
-    # return(Sys.getenv("PATH"))
-    # return(system("echo $PATH", intern = T))
-    # return(system("which qiime", intern = T))
-    # return(system(paste(qiime_cmd, "--version"), intern = T))
-    # return(system("echo $LANG", intern = T))
-    # print(as.character(file.exists("/home/imuser/www/Krona_rawdata.html")))
-    
+   
   })
   
-  
-  # shinyDirChoose(input,
-  #                id = 'dirs',
-  #                roots = c(raw_data ="/home/imuser/raw_data"))       # Browse server side dirs
-  
+
+  # define level  
   level_group <- reactive({
     if(input$`18S`){
       return(c("Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7"))
@@ -128,7 +109,7 @@ server <- function(session, input, output) {
     }
   })
   
-  
+  # 18S button
   observeEvent(input$`18S`, {
     updateSelectInput(session, 
                       inputId = "select_level_bar",
@@ -137,359 +118,7 @@ server <- function(session, input, output) {
                       inputId = "select_level_hm",
                       choices = level_group())
   })
-  
-  # Job id
-  job_id <- reactive(
-    # ids::random_id(1,5)
-    return("local_user")
-  )
-  
-  dataModal_1 <- function(failed = FALSE) {
-    modalDialog(
-      textInput("new_job_id_1", "Input your job id",
-                placeholder = "Job ID",
-                value = job_id()
-      ),
-      
-      if (failed)
-        div(tags$b(paste0("This job id was not found: ", input$new_job_id_1)
-                   , style = "color: red;")),
-      
-      footer = tagList(
-        modalButton("Cancel"),
-        actionButton("ok_1", "OK")
-      )
-    )
-  }
-  dataModal_2 <- function(failed = FALSE) {
-    modalDialog(
-      textInput("new_job_id_2", "Input your job id",
-                placeholder = "Job ID",
-                value = job_id()
-      ),
-      
-      if (failed)
-        div(tags$b(paste0("This job id was not found: ", input$new_job_id_2)
-                   , style = "color: red;")),
-      
-      footer = tagList(
-        modalButton("Cancel"),
-        actionButton("ok_2", "OK")
-      )
-    )
-  }
-  dataModal_3 <- function(failed = FALSE) {
-    modalDialog(
-      textInput("new_job_id_3", "Input your job id",
-                placeholder = "Job ID",
-                value = job_id()
-      ),
-      
-      if (failed)
-        div(tags$b(paste0("This job id was not found: ", input$new_job_id_3)
-                   , style = "color: red;")),
-      
-      footer = tagList(
-        modalButton("Cancel"),
-        actionButton("ok_3", "OK")
-      )
-    )
-  }
-  
-  
-  # show job id (demuxed)----
-  # observe({
-  #   
-  #   # show job id
-  #   output$show_job_id <- renderUI({
-  #     tagList(
-  #       p(paste0("Job ID: ", job_id()),
-  #         style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;display: inline-block;") %>% span(),
-  #       actionLink(inputId = "change_job_id", 
-  #                  label = "Not your job id ?"
-  #       ),
-  #       tags$style("#change_job_id{
-  #                  color:white;display:inline-block;font-size: 16px;position:relative;left:5px;
-  #       }"),
-  #       tags$style("#change_job_id:hover{
-  #                  color:red;
-  #       }")
-  #       
-  #     )
-  #     
-  #   })
-  #   
-  #   # delete empty folder
-  #   for (i in 1:length(list.files("/home/imuser/web_version/users_files/"))) {
-  #     icesTAF::rmdir(list.files("/home/imuser/web_version/users_files/", full.names = T)[i], recursive = T)
-  #   }
-  #   
-  #   # create job folder
-  #   fs::dir_create(path = paste0("/home/imuser/web_version/users_files/", job_id()))
-  # }) # web version
-  
-  # show job id (denoising)----
-  observe({
-    
-    # show job id
-    output$show_job_id_denoise <- renderUI({
-      tagList(
-        p(paste0("Job ID: ", job_id()),
-          # style = "color: #317EAC;background-color:white;font-size: 22px;position:relative;padding: 4px;width:250px;border-radius: 5px;top:10px;bottom:-10px;")
-          style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;display: inline-block;") %>% span(),
-        # textInput(inputId = "input_job_id_denoise", 
-        #           label = span("Job ID",
-        #                        style = "font-size:24px;color: white;"),
-        #           width = "200px",
-        #           value = job_id()
-        #           )
-        actionLink(inputId = "change_job_id_denoise", 
-                   label = "Not your job id ?"
-        ),
-        tags$style("#change_job_id_denoise{
-                   color:white; display:inline-block;font-size: 16px;position:relative;left:5px;
-        }"),
-        tags$style("#change_job_id_denoise:hover{
-                   color:red;
-        }")
-      )
-      
-    })
-  })
-  
-  # show job id (taxa)
-  observe({
-    
-    # show job id taxa
-    output$show_job_id_taxa <- renderUI({
-      tagList(
-        p(paste0("Job ID: ", job_id()),
-          style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;display: inline-block;"),
-        actionLink(inputId = "change_job_id_taxa", 
-                   label = "Not your job id ?"
-        ),
-        tags$style("#change_job_id_taxa{
-                   color:white;display:inline-block;font-size: 16px;position:relative;left:5px;
-        }"),
-        tags$style("#change_job_id_taxa:hover{
-                   color:red;
-        }")
-      )
-      
-      
-    })
-  })
-  
-  
-  # show dataModal ----
-  observeEvent(input$change_job_id,{
-    showModal(dataModal_1())
-  })
-  
-  observeEvent(input$change_job_id_denoise,{
-    showModal(dataModal_2())
-  })
-  
-  observeEvent(input$change_job_id_taxa,{
-    showModal(dataModal_3())
-  })
-  
-  # job id before OK
-  observe({
-    updateTextInput(session, inputId = "input_job_id_demux", label = "Nothing", value = job_id())
-    updateTextInput(session, inputId = "input_job_id_denoise", label = "Nothing", value = job_id())
-    updateTextInput(session, inputId = "input_job_id_taxa", label = "Nothing", value = job_id())
-  })
-  
-  # show dataModal after OK ----
-  observeEvent(input$ok_1, {
-    updateTextInput(session, inputId = "input_job_id_demux", label = "Nothing", value = input$new_job_id_1)
-    updateTextInput(session, inputId = "input_job_id_denoise", label = "Nothing", value = input$new_job_id_1)
-    updateTextInput(session, inputId = "input_job_id_taxa", label = "Nothing", value = input$new_job_id_1)
-    
-    # Check that data object exists and is data frame.
-    if (sum(list.files("/home/imuser/web_version/users_files/") %in% input$new_job_id_1)>0) {
-      
-      
-      output$show_job_id <- renderUI({
-        tagList(
-          span(paste0("Job ID: ", input$new_job_id_1),
-               style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;"),
-          actionLink(inputId = "change_job_id", 
-                     label = "Not your job id ?"
-          ),
-          tags$style("#change_job_id{
-                   color:white; display: inline-block;font-size: 16px;
-        }"),
-          tags$style("#change_job_id:hover{
-                   color:red;
-        }")
-        )
-      })
-      
-      output$show_job_id_denoise <- renderUI({
-        tagList(
-          span(paste0("Job ID: ", input$new_job_id_1),
-               style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;"),
-          actionLink(inputId = "change_job_id_denoise", 
-                     label = "Not your job id ?"
-          ),
-          tags$style("#change_job_id_denoise{
-                   color:white; display: inline-block;font-size: 16px;
-        }"),
-          tags$style("#change_job_id_denoise:hover{
-                   color:red;
-        }")
-        )
-      })
-      
-      output$show_job_id_taxa <- renderUI({
-        tagList(
-          span(paste0("Job ID: ", input$new_job_id_1),
-               style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;"),
-          actionLink(inputId = "change_job_id_taxa", 
-                     label = "Not your job id ?"
-          ),
-          tags$style("#change_job_id_taxa{
-                   color:white; display: inline-block;font-size: 16px;
-        }"),
-          tags$style("#change_job_id_taxa:hover{
-                   color:red;
-        }")
-        )
-      })
-      
-      removeModal()
-    } else {
-      showModal(dataModal_1(failed = TRUE))
-    }
-  })
-  
-  observeEvent(input$ok_2, {
-    updateTextInput(session, inputId = "input_job_id_demux", label = "Nothing", value = input$new_job_id_2)
-    updateTextInput(session, inputId = "input_job_id_denoise", label = "Nothing", value = input$new_job_id_2)
-    updateTextInput(session, inputId = "input_job_id_taxa", label = "Nothing", value = input$new_job_id_2)
-    
-    # Check that data object exists and is data frame.
-    if (sum(list.files("/home/imuser/web_version/users_files/") %in% input$new_job_id_2)>0) {
-      output$show_job_id <- renderUI({
-        tagList(
-          p(paste0("Job ID: ", input$new_job_id_2),
-            style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;display: inline-block;") %>% span(),
-          actionLink(inputId = "change_job_id", 
-                     label = "Not your job id ?"
-          ),
-          tags$style("#change_job_id{
-                   color:white;
-        }"),
-          tags$style("#change_job_id:hover{
-                   color:red;
-        }")
-        )
-      })
-      
-      output$show_job_id_denoise <- renderUI({
-        tagList(
-          p(paste0("Job ID: ", input$new_job_id_2),
-            style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;display: inline-block;") %>% span(),
-          actionLink(inputId = "change_job_id_denoise", 
-                     label = "Not your job id ?"
-          ),
-          tags$style("#change_job_id_denoise{
-                   color:white;
-        }"),
-          tags$style("#change_job_id_denoise:hover{
-                   color:red;
-        }")
-        )
-      })
-      
-      output$show_job_id_taxa <- renderUI({
-        tagList(
-          p(paste0("Job ID: ", input$new_job_id_2),
-            style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;display: inline-block;") %>% span(),
-          actionLink(inputId = "change_job_id_taxa", 
-                     label = "Not your job id ?"
-          ),
-          tags$style("#change_job_id_taxa{
-                   color:white;
-        }"),
-          tags$style("#change_job_id_taxa:hover{
-                   color:red;
-        }")
-        )
-      })
-      
-      removeModal()
-      
-    } else {
-      showModal(dataModal_2(failed = TRUE))
-    }
-  })
-  
-  observeEvent(input$ok_3, {
-    updateTextInput(session, inputId = "input_job_id_demux", label = "Nothing", value = input$new_job_id_3)
-    updateTextInput(session, inputId = "input_job_id_denoise", label = "Nothing", value = input$new_job_id_3)
-    updateTextInput(session, inputId = "input_job_id_taxa", label = "Nothing", value = input$new_job_id_3)
-    
-    # Check that data object exists and is data frame.
-    if (sum(list.files("/home/imuser/web_version/users_files/") %in% input$new_job_id_3)>0) {
-      output$show_job_id <- renderUI({
-        tagList(
-          p(paste0("Job ID: ", input$new_job_id_3),
-            style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;display: inline-block;") %>% span(),
-          actionLink(inputId = "change_job_id", 
-                     label = "Not your job id ?"
-          ),
-          tags$style("#change_job_id{
-                   color:white;
-        }"),
-          tags$style("#change_job_id:hover{
-                   color:red;
-        }")
-        )
-      })
-      
-      output$show_job_id_denoise <- renderUI({
-        tagList(
-          p(paste0("Job ID: ", input$new_job_id_3),
-            style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;display: inline-block;") %>% span(),
-          actionLink(inputId = "change_job_id_denoise", 
-                     label = "Not your job id ?"
-          ),
-          tags$style("#change_job_id_denoise{
-                   color:white;
-        }"),
-          tags$style("#change_job_id_denoise:hover{
-                   color:red;
-        }")
-        )
-      })
-      
-      output$show_job_id_taxa <- renderUI({
-        tagList(
-          p(paste0("Job ID: ", input$new_job_id_3),
-            style = "color: #317EAC;background-color:white;font-size: 20px;position:relative;padding: 6px;width:200px;border-radius: 5px;display: inline-block;") %>% span(),
-          actionLink(inputId = "change_job_id_taxa", 
-                     label = "Not your job id ?"
-          ),
-          tags$style("#change_job_id_taxa{
-                   color:white;
-        }"),
-          tags$style("#change_job_id_taxa:hover{
-                   color:red;
-        }")
-        )
-      })
-      
-      removeModal()
-    } else {
-      showModal(dataModal_3(failed = TRUE))
-    }
-  })
-  
-  
-  
+
   
   # dada2 parameter ui
   observe({
@@ -503,17 +132,7 @@ server <- function(session, input, output) {
         tagList(
           # tags$style("position: relative"),
           strong("Sequence trimming ", style = "font-size:24px;color: white;"),
-          # tags$i(
-          #   class = "fa fa-info-circle", 
-          #   style = "color: white", 
-          #   id = "seqs_trim_word"
-          # ),
-          # tippy::tippy_this(elementId = "seqs_trim_word",
-          #                   tooltip = "<p style='text-align: left;margin:2px'>Inspect the quality plot to determine these values</p>",
-          #                   allowHTML = TRUE,
-          #                   placement = "right"),
-          # splitLayout(cellWidths = "300px",
-          
+
           textInput(inputId = "trim_left_single", 
                     label = span("The start position",
                                  style = p_style),
@@ -667,27 +286,7 @@ server <- function(session, input, output) {
           
           
           
-          #  strong("Metadata Integrating (optional)", style = "font-size:24px;color: white"),
-          #  fileInput(inputId = "sample_data_paired",
-          #            label = span("Upload the metadata (1st column name must be", 
-          #                         strong("SampleID"),
-          #                         span(")"),
-          #                         style = p_style),
-          #            multiple = F,
-          #            accept = ".tsv",
-          #            width = "600px"),
-          # 
-          # actionButton("metadata_info",
-          #              "learn more",
-          #              icon = icon("question-circle"),
-          #              style = "position:relative;"
-          # ),
-          # 
-          # actionButton("reset_metadata_paired",
-          # 
-          #              label = "reset", icon = icon("trash")),
-          
-          
+
           hr(),
           strong("Computing setting", style = "font-size:24px;color: white"),
           textInput(inputId = "threads_paired", 
@@ -8965,7 +8564,7 @@ server <- function(session, input, output) {
       file.remove("/home/imuser/qiime_output/ref-seqs.qza")
       if(input$primer_f != "other" & input$primer_r != "other"){
         if(input$seqs_type == "Single end"){
-          max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+          # max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
           system(paste0(qiime_cmd, 
                         " feature-classifier extract-reads --i-sequences",
                         # " /home/imuser/web_version/users_files/",
@@ -8974,7 +8573,7 @@ server <- function(session, input, output) {
                         "/identity_otus.qza",
                         " --p-f-primer ", primer_list[[input$primer_f]], 
                         " --p-r-primer ", primer_list[[input$primer_r]], 
-                        " --p-trunc-len ", max_length,
+                        # " --p-trunc-len ", max_length,
                         " --p-min-length ", input$min_length, 
                         " --p-max-length ", input$max_length, 
                         " --p-n-jobs ", input$n_jobs, 
@@ -9007,7 +8606,7 @@ server <- function(session, input, output) {
       
       if(input$primer_f == "other" & input$primer_r != "other"){
         if(input$seqs_type == "Single end"){
-          max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+          # max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
           system(paste0(qiime_cmd, 
                         " feature-classifier extract-reads --i-sequences",
                         # " /home/imuser/web_version/users_files/",
@@ -9016,7 +8615,7 @@ server <- function(session, input, output) {
                         "/identity_otus.qza",
                         " --p-f-primer ", input$primer_f_manu, 
                         " --p-r-primer ", primer_list[[input$primer_r]], 
-                        " --p-trunc-len ", max_length,
+                        # " --p-trunc-len ", max_length,
                         " --p-min-length ", input$min_length, 
                         " --p-max-length ", input$max_length, 
                         " --p-n-jobs ", input$n_jobs, 
@@ -9049,7 +8648,7 @@ server <- function(session, input, output) {
       
       if(input$primer_f != "other" & input$primer_r == "other"){
         if(input$seqs_type == "Single end"){
-          max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+          # max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
           system(paste0(qiime_cmd, 
                         " feature-classifier extract-reads --i-sequences",
                         # " /home/imuser/web_version/users_files/",
@@ -9058,7 +8657,7 @@ server <- function(session, input, output) {
                         "/identity_otus.qza",
                         " --p-f-primer ", primer_list[[input$primer_f]], 
                         " --p-r-primer ", input$primer_r_manu, 
-                        " --p-trunc-len", max_length,
+                        # " --p-trunc-len", max_length,
                         " --p-min-length ", input$min_length, 
                         " --p-max-length ", input$max_length, 
                         " --p-n-jobs ", input$n_jobs, 
@@ -9092,7 +8691,7 @@ server <- function(session, input, output) {
       
       if(input$primer_f == "other" & input$primer_r == "other"){
         if(input$seqs_type == "Single end"){
-          max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
+          # max_length <- read.table("/home/imuser/qiime_output/denoise_single_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[4,2]
           system(paste0(qiime_cmd, 
                         " feature-classifier extract-reads --i-sequences",
                         # " /home/imuser/web_version/users_files/",
@@ -9101,7 +8700,7 @@ server <- function(session, input, output) {
                         "/identity_otus.qza",
                         " --p-f-primer ", input$primer_f_manu, 
                         " --p-r-primer ", input$primer_r_manu, 
-                        " --p-trunc-len ", max_length,
+                        # " --p-trunc-len ", max_length,
                         " --p-min-length ", input$min_length, 
                         " --p-max-length ", input$max_length, 
                         " --p-n-jobs ", input$n_jobs, 
