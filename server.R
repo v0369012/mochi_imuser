@@ -2259,50 +2259,6 @@ server <- function(session, input, output) {
     }
   )
   
-  # Demo files ----
-  
-  observe({
-    req(input$seqs_type)
-    # if(input$seqs_type == "Single end"){
-      output$seqs_example_download <- downloadHandler(
-        filename = "single_seqs_example.zip",
-        content = function(file){
-          file.copy(from = "/home/imuser/seqs_demo/single_seqs_demo.zip", 
-                    to = file)
-        }
-      )
-    # }else{
-    #   output$seqs_demo_download <- downloadHandler(
-    #     filename = "paired_seqs_demo.zip",
-    #     content = function(file){
-    #       file.copy(from = "/home/imuser/seqs_demo/paired_seqs_demo.zip", 
-    #                 to = file)
-    #     }
-    #   )
-    # }
-  })
-  
-  
-  
-  
-  
-  
-  output$metadata_demo_download_single <- downloadHandler(
-    filename = "demo_metadata_single.tsv",
-    content = function(file){
-      file.copy(from = "/home/imuser/metadata_demo/demo_metadata_single.tsv",
-                to = file)
-    }
-  )
-  
-  output$metadata_demo_download_paired <- downloadHandler(
-    filename = "demo_metadata_paired.tsv",
-    content = function(file){
-      file.copy(from = "/home/imuser/metadata_demo/demo_metadata_paired.tsv",
-                to = file)
-    }
-  )
-  
   
   observeEvent(input$Q_sampling_depth, {
     
@@ -13576,48 +13532,7 @@ server <- function(session, input, output) {
   
   
   # Krona ------------------------------------------------------------------------------------------------------
-  
-  # observeEvent(input$run_krona, {
-  # 
-  #   Sys.setenv(TERM="xterm")
-  # 
-  #   # showModal(modalDialog(title = "Running Krona ...", "Waiting for a moment", footer = NULL))
-  #   show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
-  # 
-  #   Krona_data<-function(taxtable, sampleID){
-  #     taxtable_0<-taxtable[, sampleID]
-  #     taxtable_1<-data.frame(taxtable_0, Species=row.names(taxtable))
-  #     colnames(taxtable_1)[1]<-sampleID
-  #     taxtable_2<-as_tibble(taxtable_1)
-  #     taxtable_3<-separate(data = taxtable_2, col = "Species", into = level_group(),sep = ";")
-  #     write.table(taxtable_3,file = paste("taxtable_forKrona", sampleID, sep = "_"), quote = F, sep = "\t", row.names = F, col.names = F)
-  #   }
-  # 
-  #   for (i in colnames(TaxaTable())) {
-  #     Krona_data(TaxaTable(), i)
-  #   }
-  # 
-  #   filename_forKrona <- list.files(pattern = "taxtable_forKrona") %>% paste(collapse = " ")
-  #   system(paste('ktImportText -o /home/imuser/Krona_rawdata.html', filename_forKrona))
-  #   file.remove(list.files(pattern = "taxtable_forKrona"))
-  #   # filesstrings::file.move("/home/imuser/Krona_rawdata.html", "/home/imuser/www", overwrite = T)
-  #   # filesstrings::file.move(files = c("/home/imuser/www/Krona_rawdata.html", "home/imuser/www/iframe.html"),
-  #   #                         destinations = "/srv/shiny-server/www", overwrite = T)
-  #   # file.remove(list.files(path = "/srv/shiny-server/www/", full.names = T))
-  #   # file.copy(from = "/home/imuser/www/iframe.html", to = "/srv/shiny-server/www/", overwrite = T, copy.mode = T)
-  #   # file.copy(from = "/home/imuser/www/Krona_rawdata.html", to = "/srv/shiny-server/www/", overwrite = T, copy.mode = T)
-  # 
-  #   # system("rm /srv/shiny-server/www/*")
-  #   # system("cp /home/imuser/www/iframe.html /srv/shiny-server/www/")
-  #   system("cp /home/imuser/www/Krona_rawdata.html /var/www/html/")
-  #   # system("cp /home/imuser/www/Krona_rawdata.html /srv/shiny-server/www/")
-  # 
-  #   output$krona_output <- renderUI(includeHTML(path = "/var/www/html/iframe_krona.html"))
-  # 
-  # 
-  #   # removeModal()
-  #   remove_modal_spinner()
-  # })
+
   
   output$krona_output <- renderUI({
     
@@ -13647,31 +13562,7 @@ server <- function(session, input, output) {
     krona_html_new <- gsub(x = krona_html_new, pattern = 'id="snapshot" value="Snapshot"', replacement = 'id="snapshot" value="Snapshot" style="display: none;"')
     writeLines(krona_html_new, con="/home/imuser/Krona_files/Krona_rawdata.html")
     
-    # file.copy(from = "/home/imuser/Krona_files/Krona_rawdata.html",
-    #           to = "/var/www/html/",
-    #           overwrite = T)
-    # 
-    # write_file(x = paste0('<iframe src="http://', my_qiime_ip, my_qiime_port(),'/Krona_rawdata.html" height=800px width=100% align = middle frameborder = 0></iframe>'),
-    #            path = "/home/imuser/Krona_files/iframe_krona.html",
-    #            append = F)
-    # file.copy(from = "/home/imuser/Krona_files/iframe_krona.html",
-    #           to = "/var/www/html/",
-    #           overwrite = T)
-    
-    
-    # includeHTML(path = paste0("http://",
-    #                           my_qiime_ip, my_qiime_port(),
-    #                           "/iframe_krona.html"))
-    
-    
-    # file.copy("/home/imuser/Krona_files/Krona_rawdata.html", "/home/imuser/www", overwrite = T)
-    
-    # system("rm /srv/shiny-server/www/*.html")
-    # system("cp /home/imuser/Krona_files/Krona_rawdata.html /srv/shiny-server/www/")
-    # system("cp /home/imuser/www/iframe.html /srv/shiny-server/www/")
-    # system("cp /home/imuser/www/Krona_rawdata.html /srv/shiny-server/www/")
-    # system("sudo chmod -R 777 /srv/shiny-server/www") # web version
-    
+
     file.copy(from = "/home/imuser/Krona_files/Krona_rawdata.html",
               to = "/var/www/html/",
               overwrite = T)
