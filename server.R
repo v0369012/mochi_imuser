@@ -5641,7 +5641,7 @@ server <- function(session, input, output) {
       })
       
       output$dada2_asv_table_single <- renderDataTable({
-        req(input$input_job_id_denoise)
+        # req(input$input_job_id_denoise)
         asv_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]]
         
         asv_found_number <- c()
@@ -5891,7 +5891,7 @@ server <- function(session, input, output) {
     })
     
     output$dada2_asv_table_single <- renderDataTable({
-      req(input$input_job_id_denoise)
+      # req(input$input_job_id_denoise)
       asv_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_single.qza")[["data"]]
       
       asv_found_number <- c()
@@ -8996,21 +8996,21 @@ server <- function(session, input, output) {
       
       if(input$seqs_type == "Single end"){
         output$taxonomy_classificatio_table <- renderDataTable({
-          req(input$input_job_id_taxa)
+          # req(input$input_job_id_taxa)
           taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_single.qza")[["data"]]
           colnames(taxonomy)[1] <- "ASV"
           return(taxonomy)
         })
       }else if(input$seqs_type == "Paired end"){
         output$taxonomy_classificatio_table <- renderDataTable({
-          req(input$input_job_id_taxa)
+          # req(input$input_job_id_taxa)
           taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_paired.qza")[["data"]]
           colnames(taxonomy)[1] <- "ASV"
           return(taxonomy)
         })
       }else if(input$seqs_type == "Long read"){
         output$taxonomy_classificatio_table <- renderDataTable({
-          req(input$input_job_id_taxa)
+          # req(input$input_job_id_taxa)
           taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_Pacbio.qza")[["data"]]
           colnames(taxonomy)[1] <- "ASV"
           return(taxonomy)
@@ -9276,7 +9276,7 @@ server <- function(session, input, output) {
         shinyjs::show("taxa_results_download")
         
         output$taxonomy_classificatio_table <- renderDataTable({
-          req(input$input_job_id_taxa)
+          # req(input$input_job_id_taxa)
           taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_single.qza")[["data"]]
           colnames(taxonomy)[1] <- "ASV"
           return(taxonomy)
@@ -9301,7 +9301,7 @@ server <- function(session, input, output) {
         shinyjs::show("taxa_results_download")
         
         output$taxonomy_classificatio_table <- renderDataTable({
-          req(input$input_job_id_taxa)
+          # req(input$input_job_id_taxa)
           taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_paired.qza")[["data"]]
           colnames(taxonomy)[1] <- "ASV"
           return(taxonomy)
@@ -9326,7 +9326,7 @@ server <- function(session, input, output) {
         shinyjs::show("taxa_results_download")
         
         output$taxonomy_classificatio_table <- renderDataTable({
-          req(input$input_job_id_taxa)
+          # req(input$input_job_id_taxa)
           taxonomy <- read_qza("/home/imuser/qiime_output/taxonomy_Pacbio.qza")[["data"]]
           colnames(taxonomy)[1] <- "ASV"
           return(taxonomy)

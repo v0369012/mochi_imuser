@@ -313,7 +313,8 @@ shinyUI(
                                              tableOutput("demux_parameter_table_single"),
                                              downloadButton("demux_parameter_table_single_dl")
                                            )
-                                         )
+                                         ),
+                                         br(),br()
                                          
                                        ) %>% shinyjs::hidden()
                                        
@@ -375,7 +376,8 @@ shinyUI(
                                              tableOutput("demux_parameter_table_paired"),
                                              downloadButton("demux_parameter_table_paired_dl")
                                            )
-                                         )
+                                         ),
+                                         br(),br()
                                        ) %>% shinyjs::hidden()
                                        
                                        
@@ -427,12 +429,14 @@ shinyUI(
                                              tableOutput("demux_parameter_table_Pacbio"),
                                              downloadButton("demux_parameter_table_Pacbio_dl")
                                            )
-                                         )
+                                         ),
                                          
-                                         
+                                         br(),br()
                                        ) %>% shinyjs::hidden()
                                 )
                               ),
+                              
+                              
                               
                               div(
                                 id = "primer_table_hide",
@@ -443,6 +447,7 @@ shinyUI(
                                 # strong(' other'), span("."),
                                 style = "font-size: 16px; font-weight: 300; margin-top: 5px;",
                                 dataTableOutput(outputId = "primer_seqs_table"),
+                                br()
                                 
                                 # style = "left:15px;top: 25px;position: relative"
                               ) %>% shinyjs::hidden()
@@ -545,7 +550,8 @@ shinyUI(
                                              tableOutput("dada2_log_table_single"),
                                              downloadButton("dada2_log_table_single_dl")
                                            )
-                                         )
+                                         ),
+                                         br(),br()
                                        ) %>% shinyjs::hidden()
                                        
                                        
@@ -626,7 +632,8 @@ shinyUI(
                                              tableOutput("dada2_log_table_paired"),
                                              downloadButton("dada2_log_table_paired_dl")
                                            )
-                                         )
+                                         ),
+                                         br(),br()
                                        ) %>% shinyjs::hidden()
                                        
                                        
@@ -704,7 +711,8 @@ shinyUI(
                                              tableOutput("dada2_log_table_Pacbio"),
                                              downloadButton("dada2_log_table_Pacbio_dl")
                                            )
-                                         )
+                                         ),
+                                         br(),br()
                                        ) %>% shinyjs::hidden()
                                 )
                               ),
@@ -870,7 +878,8 @@ shinyUI(
                                                   placement = "bottom"),
                                 
                                 downloadButton(outputId = "rep_seq_dada2_download",
-                                               label = "The seqs data  ")
+                                               label = "The seqs data  "),
+                                br(),br()
                               ),
                               
                              
@@ -1328,7 +1337,7 @@ shinyUI(
                                           #                    style = "margin: 5px;color: #317EAC")),
                                           # br(),br(),
                                           textInput(inputId = "sampling_depth", 
-                                                    label = "sampling depth"),
+                                                    label = "Sampling depth"),
                                           actionButton(inputId = "Q_sampling_depth", 
                                                        label = "learn more", 
                                                        icon = icon("question-circle")
