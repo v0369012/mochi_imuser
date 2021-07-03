@@ -1879,7 +1879,8 @@ server <- function(session, input, output) {
                           HTML("<p>1. The parameters for the example have been loaded. Click the button <b>Example sequences</b> to download the example sequences.</p>",
                                "<p>2. Open <b>seqs_folder</b> where MOCHI installed and create a folder to put the demo sequences.</p>",
                                "<p>3. Click the button <b>Select the directory</b> to choose the folder containing the demo sequences.</p>",
-                               "<p>4. Click the button <b>Start!</b> to begin sequence summary.</p>"), 
+                               "<p>4. Click the button <b>Start!</b> to begin sequence summary.</p>",
+                               "<p>5. The variable region of example sequences is V4 region. <br>(515F: GTGCCAGCMGCCGCGGTAA, 806R: GGACTACHVGGGTWTCTAAT)</p>"), 
                           footer = tagList(
                             downloadButton(outputId = "seqs_example_download",
                                            label = span("Example sequences", style ="font-weight: 800"),
@@ -12496,7 +12497,7 @@ server <- function(session, input, output) {
   
   observe({
     
-    req(input$sample_data, input$taxonomic_table, input$table_dada2_upload)
+    req(input$sample_data)
     
     selection_position <- which(colnames(Metadata_stats())==input$metadata_alpha)
     nonNA_position <- which(Metadata_stats()[,selection_position] != "NA")
