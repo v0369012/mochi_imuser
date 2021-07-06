@@ -7557,7 +7557,7 @@ server <- function(session, input, output) {
       })
       
       output$dada2_sample_table_Pacbio <- renderDataTable({
-        req(input$input_job_id_denoise)
+        # req(input$input_job_id_denoise)
         sample_table <- read.csv("/home/imuser/qiime_output/denoise_Pacbio_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
         
         sample_table <- filter(sample_table, V2 != 0) # qiime version problem
@@ -7595,7 +7595,7 @@ server <- function(session, input, output) {
       })
       
       output$dada2_asv_table_Pacbio <- renderDataTable({
-        req(input$input_job_id_denoise)
+        # req(input$input_job_id_denoise)
         asv_qiime2 <- read_qza("/home/imuser/qiime_output/table-dada2_Pacbio.qza")[["data"]]
         
         asv_found_number <- c()
