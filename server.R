@@ -5604,7 +5604,7 @@ server <- function(session, input, output) {
       })
       
       output$dada2_sample_table_single <- renderDataTable({
-        req(input$input_job_id_denoise)
+        # req(input$input_job_id_denoise)
         sample_table <- read.csv("/home/imuser/qiime_output/denoise_single_position_table/new_dirname/data/sample-frequency-detail.csv", header = F)
         
         sample_table <- filter(sample_table, V2 != 0) # qiime version problem
@@ -5734,7 +5734,8 @@ server <- function(session, input, output) {
         rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
         colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASV")
         rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASV, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 25))
+        ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, 
+                        aes(x = Base, y = ASV, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right", text = element_text(size = 25))
         
       })
       
@@ -5981,7 +5982,8 @@ server <- function(session, input, output) {
       rarefaction_table_list_cbind_melt <- reshape2::melt(rarefaction_table_list_cbind, id = "sample.id")
       colnames(rarefaction_table_list_cbind_melt)[1:3] <- c("SampleID","Base", "ASV")
       rarefaction_table_list_cbind_melt[,"Base"] <- as.numeric(as.character(rarefaction_table_list_cbind_melt[,"Base"]))
-      ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, aes(x = Base, y = ASV, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 25))
+      ggplot2::ggplot(data = rarefaction_table_list_cbind_melt, 
+                      aes(x = Base, y = ASV, color = SampleID, group = SampleID)) + geom_point(size=1.5) + geom_line(size=1) + theme(legend.position="right",text = element_text(size = 25))
       
     })
     
@@ -13646,8 +13648,8 @@ server <- function(session, input, output) {
       content = function(file) {
         if(input$UnW_or_W=="Unweighted"){
         write.csv(as.matrix(read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_distance_matrix.qza")[["data"]]), file, row.names = T)
-        }else if(input$UnW_or_W=="Unweighted"){
-          write.csv(as.matrix(read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]), file, row.names = T)
+        }else if(input$UnW_or_W=="Weighted"){
+        write.csv(as.matrix(read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_distance_matrix.qza")[["data"]]), file, row.names = T)
         }
       }
     )
@@ -15361,7 +15363,7 @@ server <- function(session, input, output) {
     T_SampleID <- read_qza(input$taxonomic_table_FA_MOCHI$datapath)$data %>% colnames() %>% sort()
 
     
-    all_equal_T <- sum(M_SampleID == T_SampleID) == length(M_SampleID)
+    all_equal_T <- identical(M_SampleID, T_SampleID)
     
     if(is.null(file_input_1_FA()) || is.null(file_input_2_FA())){
       
@@ -15522,9 +15524,10 @@ server <- function(session, input, output) {
     M_SampleID <- Metadata_FA()[,1] %>% sort() %>% as.character()
     
     a <- read.table(input$taxonomic_table_FA_txt$datapath, sep = "\t", header = T)
-    T_SampleID <- colnames(a)[-1] %>% sort()
-   
-    all_equal_T <- sum(M_SampleID == T_SampleID) == length(M_SampleID)
+    T_SampleID <- colnames(a)[-c(1, ncol(a))] %>% sort()
+    
+
+    all_equal_T <- identical(M_SampleID, T_SampleID)
     
     if(is.null(file_input_1_FA()) || is.null(file_input_3_FA())){
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
@@ -15741,7 +15744,7 @@ server <- function(session, input, output) {
       
 
       func_table_BY_sampleid <- read_qza("/home/imuser/qiime_output/func-table7.qza")[["data"]]
-      taxa_table <- TaxaTable_FA()
+      taxa_table <-  read_qza("/home/imuser/uploaded_taxatable_FA.qza")[["data"]]
       reads_persample <- colSums(taxa_table)
       
       TF_all0 <- apply(func_table_BY_sampleid, 1, function(x) !all(x==0))
