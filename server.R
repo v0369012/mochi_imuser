@@ -15490,8 +15490,11 @@ server <- function(session, input, output) {
         tickfont = list(size = 24)
       )
 
+      a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
+      a_report <- a[104:106,2]
+      func_number <- a_report[3] %>% str_remove_all(pattern = "[^0-9]") %>% as.numeric()
       
-      ggplotly(FA_ggplot) %>% layout(yaxis=y) %>% layout(legend=list(title=list(text= input$metadata_FA, font = list(size = 26)) , font = list(size = 20)))
+      ggplotly(FA_ggplot, height = 25*func_number) %>% layout(yaxis=y) %>% layout(legend=list(title=list(text= input$metadata_FA, font = list(size = 26)) , font = list(size = 18)))
       
     })
     
@@ -15663,8 +15666,11 @@ server <- function(session, input, output) {
           tickfont = list(size = 24)
         )
         
+        a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
+        a_report <- a[104:106,2]
+        func_number <- a_report[3] %>% str_remove_all(pattern = "[^0-9]") %>% as.numeric()
         
-        ggplotly(FA_ggplot) %>% layout(yaxis=y) %>% layout(legend=list(title=list(text= input$metadata_FA, font = list(size = 26)) , font = list(size = 20)))
+        ggplotly(FA_ggplot, height = 25*func_number) %>% layout(yaxis=y) %>% layout(legend=list(title=list(text= input$metadata_FA, font = list(size = 26)) , font = list(size = 18)))
         
       })
       
@@ -15785,7 +15791,8 @@ server <- function(session, input, output) {
         labs(x="Function types", y="Relative abundance")+
         theme(axis.title.x = element_text(color="black", size=16))+
         theme(axis.title.y = element_text(color="black", size=16))+
-        theme(text = element_text(size = 25))
+        theme(text = element_text(size = 25))+
+        theme(legend.text = element_text(size=18))
       
       ggsave(file, plot = FA_ggplot, width = 80, height = 40, units = "cm")
     }
