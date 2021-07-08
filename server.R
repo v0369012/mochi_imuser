@@ -15487,7 +15487,7 @@ server <- function(session, input, output) {
       
       y <- list(
         title = list(text="Function types",standoff=20),
-        tickfont = list(size = 24)
+        tickfont = list(size = 20)
       )
 
       a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
@@ -15663,7 +15663,7 @@ server <- function(session, input, output) {
         
         y <- list(
           title = list(text="Function types",standoff=20),
-          tickfont = list(size = 24)
+          tickfont = list(size = 20)
         )
         
         a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
