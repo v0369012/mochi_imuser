@@ -1397,8 +1397,11 @@ server <- function(session, input, output) {
     Metadata_sampleID <- Metadata()[,1] %>% sort()
     ASV_table_SampleID <- asv_table() %>% colnames() %>% sort()
     Taxa_table_SampleID <- TaxaTable() %>% colnames() %>% sort()
+
     
-    all_equal_T <- sum(Reduce(intersect, list(Metadata_sampleID, ASV_table_SampleID, Taxa_table_SampleID)) == Metadata_sampleID) == length(Metadata_sampleID)
+    # all_equal_T <- sum(Reduce(intersect, list(Metadata_sampleID, ASV_table_SampleID, Taxa_table_SampleID)) == Metadata_sampleID) == length(Metadata_sampleID)
+    all_equal_T <- sum(sapply(list(ASV_table_SampleID, Taxa_table_SampleID), FUN = identical, Metadata_sampleID)) == 2
+    
     
     if(input$qza_or_txt == "MOCHI/QIIME2 output (.qza)"){
       
