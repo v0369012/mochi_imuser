@@ -1398,7 +1398,7 @@ server <- function(session, input, output) {
     ASV_table_SampleID <- asv_table() %>% colnames() %>% sort()
     Taxa_table_SampleID <- TaxaTable() %>% colnames() %>% sort()
     
-    all_equal_T <- sum(Reduce(intersect, list(Metadata_sampleID, ASV_table_SampleID, Taxa_table_SampleID)) == M_SampleID) == length(M_SampleID)
+    all_equal_T <- sum(Reduce(intersect, list(Metadata_sampleID, ASV_table_SampleID, Taxa_table_SampleID)) == Metadata_sampleID) == length(Metadata_sampleID)
     
     if(input$qza_or_txt == "MOCHI/QIIME2 output (.qza)"){
       
@@ -15154,8 +15154,11 @@ server <- function(session, input, output) {
     
     output$word_ancom_plotly <- renderUI({
       
-      h3("ANCOM Volcano Plot (", input$ANCOM_level, ")",
+      
+      h3("ANCOM Volcano Plot (", isolate({input$ANCOM_level}), ")",
          style = "color: black;top: 10px;")
+      
+      
     })
     
     output$ancom_plotly <- renderPlotly({
