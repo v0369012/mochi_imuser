@@ -15524,7 +15524,9 @@ server <- function(session, input, output) {
     output$function_report <- renderUI({
       
       a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
-      a_report <- a[104:106,2]
+      # a_report <- a[104:106,2]
+      a_1 <- readLines("/home/imuser/FAPROTAX_output/report7-record.txt") %>% str_remove_all("# ")
+      a_report <- a_1[105:107]
       a_report[1] <- str_replace_all(a_report[1], pattern = "records", replacement = "taxa")
       a_report[1] <- str_replace_all(a_report[1], pattern = "group", replacement = "function type.")
       a_report[2] <- str_replace_all(a_report[2], pattern = "records", replacement = "taxa")
@@ -15705,8 +15707,9 @@ server <- function(session, input, output) {
       
       output$function_report <- renderUI({
         
-        a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
-        a_report <- a[104:106,2]
+        # a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
+        a_1 <- readLines("/home/imuser/FAPROTAX_output/report7-record.txt") %>% str_remove_all("# ")
+        a_report <- a_1[105:107]
         a_report[1] <- str_replace_all(a_report[1], pattern = "records", replacement = "taxa")
         a_report[1] <- str_replace_all(a_report[1], pattern = "group", replacement = "function type.")
         a_report[2] <- str_replace_all(a_report[2], pattern = "records", replacement = "taxa")
