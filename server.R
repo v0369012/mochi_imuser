@@ -15507,8 +15507,10 @@ server <- function(session, input, output) {
         tickfont = list(size = 20)
       )
 
-      a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
-      a_report <- a[104:106,2]
+      # a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
+      # a_report <- a[104:106,2]
+      a_1 <- readLines("/home/imuser/FAPROTAX_output/report7-record.txt") %>% str_remove_all("# ")
+      a_report <- a_1[105:107]
       func_number <- a_report[3] %>% str_remove_all(pattern = "[^0-9]") %>% as.numeric()
       
       if(25*func_number < 500){
@@ -15523,7 +15525,7 @@ server <- function(session, input, output) {
     
     output$function_report <- renderUI({
       
-      a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
+      # a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
       # a_report <- a[104:106,2]
       a_1 <- readLines("/home/imuser/FAPROTAX_output/report7-record.txt") %>% str_remove_all("# ")
       a_report <- a_1[105:107]
@@ -15691,8 +15693,10 @@ server <- function(session, input, output) {
           tickfont = list(size = 20)
         )
         
-        a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
-        a_report <- a[104:106,2]
+        # a <- read_table("/home/imuser/FAPROTAX_output/report7-record.txt") %>% as.data.frame()
+        # a_report <- a[104:106,2]
+        a_1 <- readLines("/home/imuser/FAPROTAX_output/report7-record.txt") %>% str_remove_all("# ")
+        a_report <- a_1[105:107]
         func_number <- a_report[3] %>% str_remove_all(pattern = "[^0-9]") %>% as.numeric()
         
         if(25*func_number < 500){
