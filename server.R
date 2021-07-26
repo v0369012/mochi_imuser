@@ -15705,7 +15705,7 @@ server <- function(session, input, output) {
           height_number <- 25*func_number
         }
         
-        ggplotly(FA_ggplot, height = 25*height_number) %>% layout(yaxis=y) %>% layout(legend=list(title=list(text= input$metadata_FA, font = list(size = 26)) , font = list(size = 18)))
+        ggplotly(FA_ggplot, height = height_number) %>% layout(yaxis=y) %>% layout(legend=list(title=list(text= input$metadata_FA, font = list(size = 26)) , font = list(size = 18)))
         
       })
       
