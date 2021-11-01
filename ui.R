@@ -1138,9 +1138,9 @@ shinyUI(
                                           h3("Boxplot"),
                                           selectInput(inputId = "select_diversity", 
                                                       label = "Choose the index", 
-                                                      choices = c("Richness", "Chao1", "ACE", 
+                                                      choices = c("ACE", 
                                                                   "Shannon_diversity", "Simpson_diversity", "InvSimpson_diversity",
-                                                                  "Shannon_evenness", "Simpson_evenness", "Goods_coverage")),
+                                                                  "Shannon_evenness", "Simpson_evenness")),
                                           radioButtons(inputId = "select_stat", 
                                                        label = "Choose the statistic method", 
                                                        choices = c("ANOVA", "Kruskal-Wallis test"), 
@@ -1821,7 +1821,7 @@ shinyUI(
     tags$footer(
       tags$span(
         tags$a("Molecular Bioinformatics Lab,", href = "https://fullofbeans.nctu.edu.tw/?page_id=333&lang=en", style = "color: white", target = "_blank"), 
-        " National Yang Ming Chiao Tung University, Taiwan 300, R.O.C.,", " last updated on 07/26/2021"),
+        " National Yang Ming Chiao Tung University, Taiwan 300, R.O.C.,", " last updated on 11/01/2021"),
       # tags$a(href="https://ibs.nctu.edu.tw/faculty/%E9%99%B3%E4%BA%AD%E5%A6%8F/", tags$span("Contact us!"), 
       #        target = "_blank",
       #        class="externallink", 
