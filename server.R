@@ -50,7 +50,7 @@ server <- function(session, input, output) {
     source("/srv/shiny-server/ui.R")
     # return(parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs))
     Sys.setenv(PATH='/usr/lib/rstudio-server/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/imuser/miniconda3/bin:/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin')
-    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+    qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
     Sys.setenv(LANG="C.UTF-8")
     # raw_data_path <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
     tagList(
@@ -686,8 +686,8 @@ server <- function(session, input, output) {
         
         write.table(d, "/home/imuser/taxa_table_upload_txt.txt", sep = "\t", quote = F, row.names = F)
         
-        qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
-        biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/biom"
+        qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
+        biom_cmd <- "/usr/local/envs/qiime2-2021.4-Pacbio/bin/biom"
         system(paste0(biom_cmd, " convert -i ", " /home/imuser/taxa_table_upload_txt.txt "," -o /home/imuser/uploaded_taxatable_.biom --table-type='OTU table' --to-hdf5"))
         system(paste0(qiime_cmd, " tools import --input-path /home/imuser/uploaded_taxatable_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/uploaded_taxatable_.qza"))
         
@@ -881,8 +881,8 @@ server <- function(session, input, output) {
   #     
   #     write.table(d, "/home/imuser/taxa_table_upload_txt_FA.txt", sep = "\t", quote = F, row.names = F)
   #     
-  #     qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
-  #     biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/biom"
+  #     qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
+  #     biom_cmd <- "/usr/local/envs/qiime2-2021.4-Pacbio/bin/biom"
   #     system(paste0(biom_cmd, " convert -i ", " /home/imuser/taxa_table_upload_txt_FA.txt "," -o /home/imuser/uploaded_taxatable_FA_.biom --table-type='OTU table' --to-hdf5"))
   #     system(paste0(qiime_cmd, " tools import --input-path /home/imuser/uploaded_taxatable_FA_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/uploaded_taxatable_FA_.qza"))
   #     
@@ -2121,7 +2121,7 @@ server <- function(session, input, output) {
         
         
         
-        qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+        qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
         # raw_data_path_list <- list()
         # raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
         # raw_data_path_list[[1]] <- input$seqs_data_upload$datapath # web version
@@ -2475,7 +2475,7 @@ server <- function(session, input, output) {
                       # input$input_job_id_demux, # web version
                       ' /home/imuser/qiime_output',
                       '/demux_single_end.qzv'))
-        # viewer_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime_2_ll_quick_viewer'
+        # viewer_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime_2_ll_quick_viewer'
         # system('kill -9 $(lsof -t -i:8080 -sTCP:LISTEN)')
         # system(paste(viewer_cmd, '--filename /home/imuser/qiime_output/demux_single_end.qzv &'))
         
@@ -2597,7 +2597,7 @@ server <- function(session, input, output) {
       
       
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+      qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
       # raw_data_path_list <- list()
       # raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
       # raw_data_path_list[[1]] <- input$seqs_data_upload$datapath # web version
@@ -3354,7 +3354,7 @@ server <- function(session, input, output) {
           show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
           
           
-          qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+          qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
           
           # if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))<length(seqs_name)){
             
@@ -3759,7 +3759,7 @@ server <- function(session, input, output) {
       show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
       
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+      qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
       
       # if(sum(str_detect(seqs_name, '.+_.+_L[0-9][0-9][0-9]_R[12]_[0-9][0-9][0-9]\\.fastq\\.gz'))<length(seqs_name)){
       #   
@@ -4750,7 +4750,7 @@ server <- function(session, input, output) {
         
         
         
-        qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+        qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
         
         
         raw_data_path_list <- list()
@@ -4930,7 +4930,7 @@ server <- function(session, input, output) {
       
       
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+      qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
       
       raw_data_path_list <- list()
       raw_data_path_list[[1]] <- parseDirPath(roots = c(raw_data ="/home/imuser/raw_data"), selection = input$dirs)
@@ -5355,7 +5355,7 @@ server <- function(session, input, output) {
       # showModal(modalDialog(title = "Running denoising for single end ...", "Waiting for a moment", footer = NULL))
       show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+      qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
       
       file.remove("/home/imuser/qiime_output/rep-seqs-dada2_single.qza",
                   "/home/imuser/qiime_output/table-dada2_single.qza",
@@ -6340,7 +6340,7 @@ server <- function(session, input, output) {
       # showModal(modalDialog(title = "Running denoising for paired end ...", "Waiting for a moment",footer = NULL))
       show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+      qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
       
       file.remove("/home/imuser/qiime_output/rep-seqs-dada2_paired.qza",
                   "/home/imuser/qiime_output/table-dada2_paired.qza",
@@ -7249,7 +7249,7 @@ server <- function(session, input, output) {
       # showModal(modalDialog(title = "Running denoising for Pacbio end ...", "Waiting for a moment", footer = NULL))
       show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+      qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
       
       file.remove("/home/imuser/qiime_output/rep-seqs-dada2_Pacbio.qza",
                   "/home/imuser/qiime_output/table-dada2_Pacbio.qza",
@@ -7259,7 +7259,7 @@ server <- function(session, input, output) {
                   "/home/imuser/qiime_output/stats-dada2_Pacbio.qzv")
       
 
-      system("/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime dev refresh-cache")
+      system("/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime dev refresh-cache")
       
       primer_list <- list("8F"="AGAGTTTGATCCTGGCTCAG",
                           "27F"="AGAGTTTGATCMTGGCTCAG",
@@ -8110,7 +8110,7 @@ server <- function(session, input, output) {
       showModal(modalDialog(title = "Running Sequence denoising for single end ...", "Waiting for a moment",footer = NULL))
       
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+      qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
       
       if(input$seqs_type == "Single end"){
         
@@ -8164,7 +8164,7 @@ server <- function(session, input, output) {
   #     
   #     showModal(modalDialog(title = "Running OTU picking ...", "Waiting for a moment", footer = NULL))
   #         
-  #         qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+  #         qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
   #         system(paste(qiime_cmd, 'vsearch cluster-features-de-novo --i-table /home/imuser/qiime_output/table-dada2.qza --i-sequences /home/imuser/qiime_output/rep-seqs-dada2.qza --p-perc-identity', 
   #                      input$OTU_identity,
   #                      '--o-clustered-table /home/imuser/qiime_output/table-dada2-dn.qza --o-clustered-sequences /home/imuser/qiime_output/rep-seqs-dada2-dn.qza'))
@@ -8512,7 +8512,7 @@ server <- function(session, input, output) {
       # showModal(modalDialog(title = "Running taxonomic analysis ...", "Waiting for a moment", footer = NULL))
       show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+      qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
       
       
       
@@ -10005,40 +10005,52 @@ server <- function(session, input, output) {
     
     
     library(ggplot2)
-    pca_Bray_df_data_plot <- data.frame(sample=PCA_rowname_arrange, 
-                                        sample_org=metadata_beta_arrange$SampleID,
-                                        PC1=pca_Bray_df_data$x[,1][metadata_beta_arrange$SampleID],
-                                        PC2=pca_Bray_df_data$x[,2][metadata_beta_arrange$SampleID])
+    pca_Bray_df_data_plot <- data.frame(sample = PCA_rowname_arrange, 
+                                        sample_org = metadata_beta_arrange$SampleID,
+                                        PC1 = pca_Bray_df_data$x[,1][metadata_beta_arrange$SampleID],
+                                        PC2 = pca_Bray_df_data$x[,2][metadata_beta_arrange$SampleID],
+                                        PC3 = pca_Bray_df_data$x[,3][metadata_beta_arrange$SampleID],
+                                        PC4 = pca_Bray_df_data$x[,4][metadata_beta_arrange$SampleID],
+                                        PC5 = pca_Bray_df_data$x[,5][metadata_beta_arrange$SampleID],
+                                        PC6 = pca_Bray_df_data$x[,6][metadata_beta_arrange$SampleID])
+    
     pc_prop <- pca_Bray_df_data$sdev^2/sum(pca_Bray_df_data$sdev^2)
+    names(pc_prop)[1:6] <- paste0("PC", 1:6)
     
     pca_Bray_df_data_plot$sample <- factor(pca_Bray_df_data_plot$sample, 
                                            levels = str_sort(unique(pca_Bray_df_data_plot$sample), numeric = T))
     pca_Bray_df_data_plot <- arrange(pca_Bray_df_data_plot, sample)
     
-    library(ggrepel)
-    pca_Bray_df_data_plot_gg <- ggplot(data = pca_Bray_df_data_plot, aes(x=PC1, y=PC2, label=sample_org, color=sample))+
+    pca_Bray_df_data_plot_gg2D <- ggplot(data = pca_Bray_df_data_plot, 
+                                         aes_string(x = input$beta_x_axis, y = input$beta_y_axis, color="sample"))+
       geom_point(size=2.5)+
-      ggrepel::geom_text_repel(show.legend = FALSE)+
-      xlab(paste("PC1 (", round(pc_prop[1], 2)*100, "%", ")", sep = ""))+
-      ylab(paste("PC2 (", round(pc_prop[2], 2)*100, "%", ")", sep = ""))+
+      xlab(paste0(input$beta_x_axis, " (", round(pc_prop[input$beta_x_axis], 2)*100, "%)"))+
+      ylab(paste0(input$beta_y_axis, " (", round(pc_prop[input$beta_y_axis], 2)*100, "%)"))+
       geom_vline(xintercept =0, linetype="dotted")+
       geom_hline(yintercept = 0, linetype="dotted")+
       theme_bw()+
       ggtitle("PCA plot")+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25)) 
-    
-    pca_Bray_df_data_plot_gg_noID <- ggplot(data = pca_Bray_df_data_plot, aes(x=PC1, y=PC2, color=sample))+
-      geom_point(size=2.5)+
-      # ggrepel::geom_text_repel(show.legend = FALSE)+
-      xlab(paste("PC1 (", round(pc_prop[1], 2)*100, "%", ")", sep = ""))+
-      ylab(paste("PC2 (", round(pc_prop[2], 2)*100, "%", ")", sep = ""))+
-      geom_vline(xintercept =0, linetype="dotted")+
-      geom_hline(yintercept = 0, linetype="dotted")+
-      theme_bw()+
-      ggtitle("PCA plot")+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25)) 
+      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25))
     
     
+    pca_Bray_df_data_plot_for3D <- data.frame(
+      sample=PCA_rowname_arrange, 
+      sample_org=metadata_beta_arrange$SampleID,
+      x_axis = pca_Bray_df_data_plot[, input$beta_x_axis],
+      y_axis = pca_Bray_df_data_plot[, input$beta_y_axis],
+      z_axis = pca_Bray_df_data_plot[, input$beta_z_axis]
+    )
+    
+    pca_Bray_df_data_plot_gg3D <- plot_ly(pca_Bray_df_data_plot_for3D, 
+                                        x = ~x_axis, y = ~y_axis, z = ~z_axis, 
+                                        color = ~sample, colors = c('#BF382A', '#0C4B8E'),
+                                        text = ~paste("Sample ID: ", sample_org)) %>% 
+      add_markers() %>% 
+      layout(scene = list(xaxis = list(title = paste0(input$beta_x_axis, " (", round(pc_prop[input$beta_x_axis], 2)*100, "%)")),
+                          yaxis = list(title = paste0(input$beta_y_axis, " (", round(pc_prop[input$beta_y_axis], 2)*100, "%)")),
+                          zaxis = list(title = paste0(input$beta_z_axis, " (", round(pc_prop[input$beta_z_axis], 2)*100, "%)"))))
+    
+
     # PCoA
     library(ape)
     pcoa_Bray_df_data<-pcoa(Bray_df_data)
@@ -10082,38 +10094,57 @@ server <- function(session, input, output) {
     
     
     library(ggplot2)
-    pcoa_Bray_df_data_plot <- data.frame(sample=PCoA_rowname_arrange, 
+    pcoa_Bray_df_data_plot <- data.frame(sample = PCoA_rowname_arrange, 
                                          sample_org = metadata_beta_arrange$SampleID,
-                                         PC1=pcoa_Bray_df_data$vectors[,1][metadata_beta_arrange$SampleID],
-                                         PC2=pcoa_Bray_df_data$vectors[,2][metadata_beta_arrange$SampleID])
+                                         PC1 = pcoa_Bray_df_data$vectors[,1][metadata_beta_arrange$SampleID],
+                                         PC2 = pcoa_Bray_df_data$vectors[,2][metadata_beta_arrange$SampleID],
+                                         PC3 = pcoa_Bray_df_data$vectors[,3][metadata_beta_arrange$SampleID],
+                                         PC4 = pcoa_Bray_df_data$vectors[,4][metadata_beta_arrange$SampleID],
+                                         PC5 = pcoa_Bray_df_data$vectors[,5][metadata_beta_arrange$SampleID],
+                                         PC6 = pcoa_Bray_df_data$vectors[,6][metadata_beta_arrange$SampleID])
     
     pcoa_Bray_df_data_plot$sample <- factor(pcoa_Bray_df_data_plot$sample, 
                                             levels = str_sort(unique(pcoa_Bray_df_data_plot$sample), numeric = T))
     pcoa_Bray_df_data_plot <- arrange(pcoa_Bray_df_data_plot, sample)
     
-    library(ggrepel)
-    pcoa_Bray_df_data_plot_gg<-ggplot(data = pcoa_Bray_df_data_plot, aes(x=PC1, y=PC2, label=sample_org, color=sample))+
+    pcoa_Bray_df_data_value <- pcoa_Bray_df_data$values[,2]
+    names(pcoa_Bray_df_data_value)[1:6] <- paste0("PC", 1:6)
+
+    pcoa_Bray_df_data_plot_gg2D <- ggplot(data = pcoa_Bray_df_data_plot, 
+                                          aes_string(x=input$beta_x_axis, y=input$beta_y_axis, color="sample"))+
       geom_point(size=2.5)+
-      ggrepel::geom_text_repel(show.legend = FALSE)+
-      xlab(paste("PC1 (", round(pcoa_Bray_df_data$values[1,2],2)*100, "%", ")", sep = ""))+
-      ylab(paste("PC2 (", round(pcoa_Bray_df_data$values[2,2],2)*100, "%", ")", sep = ""))+
+      xlab(paste0(input$beta_x_axis, " (", round(pcoa_Bray_df_data_value[input$beta_x_axis], 2)*100, "%)"))+
+      ylab(paste0(input$beta_y_axis, " (", round(pcoa_Bray_df_data_value[input$beta_y_axis], 2)*100, "%)"))+
       geom_vline(xintercept =0, linetype="dotted")+
       geom_hline(yintercept = 0, linetype="dotted")+
       theme_bw()+
       ggtitle("PCoA plot")+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25)) 
+      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25))
     
-    pcoa_Bray_df_data_plot_gg_noID <- ggplot(data = pcoa_Bray_df_data_plot, aes(x=PC1, y=PC2, color=sample))+
-      geom_point(size=2.5)+
-      # ggrepel::geom_text_repel(show.legend = FALSE)+
-      xlab(paste("PC1 (", round(pcoa_Bray_df_data$values[1,2],2)*100, "%", ")", sep = ""))+
-      ylab(paste("PC2 (", round(pcoa_Bray_df_data$values[2,2],2)*100, "%", ")", sep = ""))+
-      geom_vline(xintercept =0, linetype="dotted")+
-      geom_hline(yintercept = 0, linetype="dotted")+
-      theme_bw()+
-      ggtitle("PCoA plot")+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25)) 
     
+    print(pcoa_Bray_df_data_plot)
+    
+    pcoa_Bray_df_data_plot_for3D <- data.frame(
+      sample = PCoA_rowname_arrange, 
+      sample_org = metadata_beta_arrange$SampleID,
+      x_axis = pcoa_Bray_df_data_plot[, input$beta_x_axis],
+      y_axis = pcoa_Bray_df_data_plot[, input$beta_y_axis],
+      z_axis = pcoa_Bray_df_data_plot[, input$beta_z_axis]
+    )
+    
+    print(pcoa_Bray_df_data_plot_for3D)
+    
+    pcoa_Bray_df_data_plot_gg3D <- plot_ly(pcoa_Bray_df_data_plot_for3D, 
+                                           x = ~x_axis, y = ~y_axis, z = ~z_axis, 
+                                           color = ~sample, colors = c('#BF382A', '#0C4B8E'),
+                                           text = ~paste("Sample ID: ", sample_org)) %>% 
+      add_markers() %>% 
+      layout(scene = list(xaxis = list(title = paste0(input$beta_x_axis, " (", round(pcoa_Bray_df_data_value[input$beta_x_axis], 2)*100, "%)")),
+                          yaxis = list(title = paste0(input$beta_y_axis, " (", round(pcoa_Bray_df_data_value[input$beta_y_axis], 2)*100, "%)")),
+                          zaxis = list(title = paste0(input$beta_z_axis, " (", round(pcoa_Bray_df_data_value[input$beta_z_axis], 2)*100, "%)"))))
+  
+
+
     # NMDS
     comm_bray <- vegdist(t(taxatable_beta))
     metaMDS_beta_df_data<-metaMDS(comm_bray, distance = "bray")
@@ -10128,7 +10159,7 @@ server <- function(session, input, output) {
                                             levels = str_sort(unique(NMDS_beta_df_data_plot$sample), numeric = T))
     NMDS_beta_df_data_plot <- arrange(NMDS_beta_df_data_plot, sample)
     
-    NMDS_beta_df_data_plot_gg<-ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, label=sample_org,color=sample))+
+    NMDS_beta_df_data_plot_gg <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, label=sample_org,color=sample))+
       geom_point(size=2.5)+
       ggrepel::geom_text_repel(show.legend = FALSE)+
       xlab("NMDS1")+
@@ -10140,71 +10171,39 @@ server <- function(session, input, output) {
       #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
       scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25)) 
     
-    NMDS_beta_df_data_plot_gg_noID <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, color=sample))+
-      geom_point(size=2.5)+
-      # ggrepel::geom_text_repel(show.legend = FALSE)+
-      xlab("NMDS1")+
-      ylab("NMDS2")+
-      geom_vline(xintercept =0, linetype="dotted")+
-      geom_hline(yintercept = 0, linetype="dotted")+
-      theme_bw()+
-      labs(title="NMDS plot", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25)) 
+
+    if(input$sep == "PCoA (2D)") {
+      
+      if(input$beta_cluster){
+        return(pcoa_Bray_df_data_plot_gg2D + stat_ellipse(type = "t"))
+      }else{
+        return(pcoa_Bray_df_data_plot_gg2D)
+      }
     
-    
-    if(input$sep == "PCoA" & input$beta_cluster == F) {
+    }else if(input$sep == "PCoA (3D)"){
+
+        return(pcoa_Bray_df_data_plot_gg3D)
       
-      if(input$beta_showID == T){
-        return(pcoa_Bray_df_data_plot_gg)
+    }else if(input$sep == "PCA (2D)"){
+      
+      if(input$beta_cluster){
+        return(pca_Bray_df_data_plot_gg2D + stat_ellipse(type = "t"))
       }else{
-        return(pcoa_Bray_df_data_plot_gg_noID)
+        return(pca_Bray_df_data_plot_gg2D)
       }
       
-    }
-    else if(input$sep == "PCoA" & input$beta_cluster == T){
+    }else if(input$sep == "PCA (3D)"){
       
-      if(input$beta_showID == T){
-        return(pcoa_Bray_df_data_plot_gg + stat_ellipse(type = "t"))
-      }else{
-        return(pcoa_Bray_df_data_plot_gg_noID + stat_ellipse(type = "t"))
-      }
+        return(pca_Bray_df_data_plot_gg3D)
       
-    }
-    else if(input$sep == "NMDS" & input$beta_cluster == F){
+    }else if(input$sep == "NMDS"){
       
-      if(input$beta_showID == T){
-        return(NMDS_beta_df_data_plot_gg)
-      }else{
-        return(NMDS_beta_df_data_plot_gg_noID)
-      }
-      
-    }
-    else if(input$sep == "NMDS" & input$beta_cluster == T){
-      
-      if(input$beta_showID == T){
+      if(input$beta_cluster){
         return(NMDS_beta_df_data_plot_gg + stat_ellipse(type = "t"))
       }else{
-        return(NMDS_beta_df_data_plot_gg_noID + stat_ellipse(type = "t"))
+        return(NMDS_beta_df_data_plot_gg)
       }
-      
-    }
-    else if(input$sep == "PCA" & input$beta_cluster == F){
-      
-      if(input$beta_showID == T){
-        return(pca_Bray_df_data_plot_gg)
-      }else{
-        return(pca_Bray_df_data_plot_gg_noID)
-      }
-      
-    }else{
-      
-      if(input$beta_showID == T){
-        return(pca_Bray_df_data_plot_gg + stat_ellipse(type = "t"))
-      }else{
-        return(pca_Bray_df_data_plot_gg_noID + stat_ellipse(type = "t"))
-      }
-      
-      
+        
     }
     
     
@@ -10216,6 +10215,33 @@ server <- function(session, input, output) {
       return("A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, > 0.2 is good/ok, and stress > 0.3 provides a poor representation.")
     }
     
+  })
+  
+  # choose x, y, z axis in beta plot
+  observe({
+    updated_y_choices <- setdiff(paste0("PC", 1:6), input$beta_x_axis)
+    updateRadioButtons(session = session, inputId = "beta_y_axis", choices = updated_y_choices, inline = T)
+  })
+  
+  observe({
+    updated_y_choices <- setdiff(paste0("PC", 1:6), input$beta_x_axis)
+    updated_z_choices <- setdiff(updated_y_choices, input$beta_y_axis)
+    updateRadioButtons(session = session, inputId = "beta_z_axis", choices = updated_z_choices, inline = T)
+  })
+  
+  observe({
+    if(input$sep == "PCA (3D)" | input$sep == "PCoA (3D)"){
+      shinyjs::show("beta_z_axis")
+      shinyjs::hide("beta_cluster")
+    }else if(input$sep == "NMDS"){
+      shinyjs::hide("beta_x_axis")
+      shinyjs::hide("beta_y_axis")
+      shinyjs::hide("beta_z_axis")
+      shinyjs::show("beta_cluster")
+    }else{
+      shinyjs::hide("beta_z_axis")
+      shinyjs::show("beta_cluster")
+    }
   })
   
   
@@ -12589,7 +12615,7 @@ server <- function(session, input, output) {
   )
   
   # Produce PCoA and NMDS
-  output$betaplot<-renderPlot({
+  output$betaplot<-renderPlotly({
     
     return(BetaPlot())
     
@@ -12598,26 +12624,7 @@ server <- function(session, input, output) {
   
   # PCoA and NMDS plot for download---------------------------------------------------------------------------------
   
-  output$downloadBetaPlot<-downloadHandler(
-    
-    filename = function(){
-      if(input$sep == "PCA"){
-        paste0("BetaPlot_PCA_", input$metadata_beta,".jpg")
-      }
-      else if(input$sep == "PCoA") {
-        paste0("BetaPlot_PCoA_", input$metadata_beta,".jpg")
-      }
-      else {
-        paste0("BetaPlot_NMDS_", input$metadata_beta, ".jpg")
-      }
-    },
-    content = function(file){
-      
-      return(ggsave(file, plot = BetaPlot()))
-      
-    }
-  )
-  
+
   # Permanova table------------------------------------------------------------------------------------------------
   
   Permanova_table <- reactive({
@@ -13251,14 +13258,16 @@ server <- function(session, input, output) {
     # showModal(modalDialog(title = "Running making tree ...", "Waiting for a moment",footer = NULL))
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
     
-    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+    qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
     
-
-    
-    system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences", input$rep_seq_dada2_upload$datapath, 
-                 "--p-n-threads", input$threads_phylogenetic,
-                 "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2.qza",
-                 "--o-tree /home/imuser/qiime_output/unrooted-tree.qza --o-rooted-tree /home/imuser/qiime_output/rooted-tree.qza"))
+    conda_cmd <- 'source activate qiime2-2021.4-Pacbio;qiime'
+    full_cmd <- paste(conda_cmd, 
+                      "phylogeny align-to-tree-mafft-fasttree --i-sequences", input$rep_seq_dada2_upload$datapath, 
+                      "--p-n-threads", input$threads_phylogenetic,
+                      "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2.qza",
+                      "--o-tree /home/imuser/qiime_output/unrooted-tree.qza --o-rooted-tree /home/imuser/qiime_output/rooted-tree.qza")
+    write_lines(full_cmd, "~/cmd.sh")
+    system("bash ~/cmd.sh")
     
     write.table(Metadata_stats(), file='/home/imuser/metadata.tsv', quote=FALSE, sep='\t', row.names = F)
     system("rm -r /home/imuser/qiime_output/core-metrics-results/")
@@ -13280,7 +13289,7 @@ server <- function(session, input, output) {
       write.table(c, "/home/imuser/asv_table.txt", 
                   quote = F, col.names = T, row.names = F, sep = "\t")
       
-      biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/biom"
+      biom_cmd <- "/usr/local/envs/qiime2-2021.4-Pacbio/bin/biom"
       system(paste0(biom_cmd, " convert -i /home/imuser/asv_table.txt -o /home/imuser/asv_table.biom --table-type='OTU table' --to-hdf5"))
       system(paste0(qiime_cmd, " tools import --input-path /home/imuser/asv_table.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/uploaded_asv_table.qza"))
       
@@ -13664,18 +13673,67 @@ server <- function(session, input, output) {
       }
     )
     
-    unW_unif_pcoa_plot <- reactive({
+    unW_unif_pcoa_plot_2D <- reactive({
       
       #PCoA
       # unW_unifrac_dm_pcoa_qiime <- read_qza(paste0("/home/imuser/web_version/users_files/",
       #                                              job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_pcoa_results.qza"))[["data"]] # web version
       unW_unifrac_dm_pcoa_qiime <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_pcoa_results.qza")[["data"]]
-      unW_unifrac_dm_pcoa_qiime_forplot <- unW_unifrac_dm_pcoa_qiime$Vectors[,1:3]
+      unW_unifrac_dm_pcoa_qiime_forplot <- unW_unifrac_dm_pcoa_qiime$Vectors[,1:7]
       unW_unifrac_dm_pcoa_qiime_forplot <-merge(Metadata_stats(), unW_unifrac_dm_pcoa_qiime_forplot, by="SampleID") %>% as_tibble()
       
       unW_unifrac_dm_pcoa_qiime_forplot_table_list <- lapply(colnames(Metadata_stats()), function(i){
         
-        unW_unifrac_dm_pcoa_qiime_forplot_table <- unW_unifrac_dm_pcoa_qiime_forplot[, c("SampleID", i, "PC1", "PC2")]
+        unW_unifrac_dm_pcoa_qiime_forplot_table <- unW_unifrac_dm_pcoa_qiime_forplot[, c("SampleID", i, "PC1", "PC2", "PC3", "PC4", "PC5", "PC6")]
+      })
+      
+      names(unW_unifrac_dm_pcoa_qiime_forplot_table_list) <- colnames(Metadata_stats())
+      
+      # Make all feature name to "feature"
+      for (i in 1:length(unW_unifrac_dm_pcoa_qiime_forplot_table_list)) {
+        names(unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]])[2] <- "feature"
+      }
+      
+      
+      unW_unifrac_dm_pcoa_qiime_plot_list_2D <- lapply(1:length(unW_unifrac_dm_pcoa_qiime_forplot_table_list), function(i){
+        
+        unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$feature <- factor(unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$feature,
+                                                                            levels = str_sort(unique(unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$feature), numeric = T))
+        unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]] <- arrange(unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], feature)
+        
+        PC_vector <- unW_unifrac_dm_pcoa_qiime$ProportionExplained[1:6]
+        names(PC_vector) <- paste0("PC", 1:6)
+        
+        ggplot(data = unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], 
+               aes_string(x=input$x_axis_phylo, y=input$y_axis_phylo, label="SampleID", color="feature"))+
+          geom_point(size=2.5)+
+          xlab(paste0(input$x_axis_phylo, " (", round(PC_vector[input$x_axis_phylo], 2)*100, "%)"))+
+          ylab(paste0(input$y_axis_phylo," (", round(PC_vector[input$y_axis_phylo], 2)*100, "%)"))+
+          geom_vline(xintercept =0, linetype="dotted")+
+          geom_hline(yintercept = 0, linetype="dotted")+
+          theme_bw()+
+          ggtitle("Unweighted unifrac PCoA")+
+          scale_colour_discrete(names(unW_unifrac_dm_pcoa_qiime_forplot_table_list)[[i]]) + theme(text = element_text(size = 25)) 
+      })
+      
+      names(unW_unifrac_dm_pcoa_qiime_plot_list_2D) <- colnames(Metadata_stats())
+
+      return(unW_unifrac_dm_pcoa_qiime_plot_list_2D[[input$metadata_phylo_beta]])
+
+      
+    })
+    
+    unW_unif_pcoa_plot_3D <- reactive({
+      #PCoA
+      # unW_unifrac_dm_pcoa_qiime <- read_qza(paste0("/home/imuser/web_version/users_files/",
+      #                                              job_id(),"_DA_phylo","/core-metrics-results/unweighted_unifrac_pcoa_results.qza"))[["data"]] # web version
+      unW_unifrac_dm_pcoa_qiime <- read_qza("/home/imuser/qiime_output/core-metrics-results/unweighted_unifrac_pcoa_results.qza")[["data"]]
+      unW_unifrac_dm_pcoa_qiime_forplot <- unW_unifrac_dm_pcoa_qiime$Vectors[,1:7]
+      unW_unifrac_dm_pcoa_qiime_forplot <-merge(Metadata_stats(), unW_unifrac_dm_pcoa_qiime_forplot, by="SampleID") %>% as_tibble()
+      
+      unW_unifrac_dm_pcoa_qiime_forplot_table_list <- lapply(colnames(Metadata_stats()), function(i){
+        
+        unW_unifrac_dm_pcoa_qiime_forplot_table <- unW_unifrac_dm_pcoa_qiime_forplot[, c("SampleID", i, "PC1", "PC2", "PC3", "PC4", "PC5", "PC6")]
       })
       
       names(unW_unifrac_dm_pcoa_qiime_forplot_table_list) <- colnames(Metadata_stats())
@@ -13692,49 +13750,36 @@ server <- function(session, input, output) {
                                                                             levels = str_sort(unique(unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$feature), numeric = T))
         unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]] <- arrange(unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], feature)
         
-        ggplot(data = unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], 
-               aes(x=PC1, y=PC2, label=SampleID, color=feature))+
-          geom_point(size=2.5)+
-          ggrepel::geom_text_repel(show.legend = F)+
-          xlab(paste0("PC1 (", round(unW_unifrac_dm_pcoa_qiime$ProportionExplained[1],2)*100, "%)"))+
-          ylab(paste0("PC2 (", round(unW_unifrac_dm_pcoa_qiime$ProportionExplained[2],2)*100, "%)"))+
-          geom_vline(xintercept =0, linetype="dotted")+
-          geom_hline(yintercept = 0, linetype="dotted")+
-          theme_bw()+
-          ggtitle("Unweighted unifrac PCoA")+
-          scale_colour_discrete(names(unW_unifrac_dm_pcoa_qiime_forplot_table_list)[[i]]) + theme(text = element_text(size = 25)) 
+        PC_vector <- unW_unifrac_dm_pcoa_qiime$ProportionExplained[1:6]
+        names(PC_vector) <- paste0("PC", 1:6)
+        
+        unW_unifrac_dm_pcoa_qiime_plot_df_for3D <- data.frame(
+          SampleID = unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$SampleID, 
+          feature = unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$feature,
+          x_axis = unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]][, input$x_axis_phylo],
+          y_axis = unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]][, input$y_axis_phylo],
+          z_axis = unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]][, input$z_axis_phylo]
+        )
+        
+        names(unW_unifrac_dm_pcoa_qiime_plot_df_for3D)[3:5] <- paste0(c("x", "y", "z"), "_axis")
+        print("unW_unifrac_dm_pcoa_qiime_plot_df_for3D")
+        print(unW_unifrac_dm_pcoa_qiime_plot_df_for3D)
+        
+        unW_unifrac_dm_pcoa_qiime_plot_gg3D <- plot_ly(unW_unifrac_dm_pcoa_qiime_plot_df_for3D, 
+                                                       x = ~x_axis, y = ~y_axis, z = ~z_axis, 
+                                                       color = ~feature, colors = c('#BF382A', '#0C4B8E'),
+                                                       text = ~paste("Sample ID: ", SampleID)) %>% 
+          add_markers() %>% 
+          layout(scene = list(xaxis = list(title = paste0(input$x_axis_phylo, " (", round(PC_vector[input$x_axis_phylo], 2)*100, "%)")),
+                              yaxis = list(title = paste0(input$y_axis_phylo, " (", round(PC_vector[input$y_axis_phylo], 2)*100, "%)")),
+                              zaxis = list(title = paste0(input$z_axis_phylo, " (", round(PC_vector[input$z_axis_phylo], 2)*100, "%)"))))
+        
+        
       })
       
       names(unW_unifrac_dm_pcoa_qiime_plot_list) <- colnames(Metadata_stats())
       
-      
-      unW_unifrac_dm_pcoa_qiime_plot_list_noID <- lapply(1:length(unW_unifrac_dm_pcoa_qiime_forplot_table_list), function(i){
-        
-        unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$feature <- factor(unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$feature,
-                                                                            levels = str_sort(unique(unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$feature), numeric = T))
-        unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]] <- arrange(unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], feature)
-        
-        ggplot(data = unW_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], 
-               aes(x=PC1, y=PC2, color=feature))+
-          geom_point(size=2.5)+
-          # ggrepel::geom_text_repel(show.legend = F)+
-          xlab(paste0("PC1 (", round(unW_unifrac_dm_pcoa_qiime$ProportionExplained[1],2)*100, "%)"))+
-          ylab(paste0("PC2 (", round(unW_unifrac_dm_pcoa_qiime$ProportionExplained[2],2)*100, "%)"))+
-          geom_vline(xintercept =0, linetype="dotted")+
-          geom_hline(yintercept = 0, linetype="dotted")+
-          theme_bw()+
-          ggtitle("Unweighted unifrac PCoA")+
-          scale_colour_discrete(names(unW_unifrac_dm_pcoa_qiime_forplot_table_list)[[i]]) + theme(text = element_text(size = 25)) 
-      })
-      
-      names(unW_unifrac_dm_pcoa_qiime_plot_list_noID) <- colnames(Metadata_stats())
-      
-      if(input$phylo_showID){
-        return(unW_unifrac_dm_pcoa_qiime_plot_list[[input$metadata_phylo_beta]])
-      }else{
-        return(unW_unifrac_dm_pcoa_qiime_plot_list_noID[[input$metadata_phylo_beta]])
-      }
-      
+      return(unW_unifrac_dm_pcoa_qiime_plot_list[[input$metadata_phylo_beta]])
       
     })
     
@@ -13795,19 +13840,7 @@ server <- function(session, input, output) {
                                               levels = str_sort(unique(NMDS_beta_df_data_plot$sample), numeric = T))
       NMDS_beta_df_data_plot <- arrange(NMDS_beta_df_data_plot, sample)
       
-      NMDS_beta_df_data_plot_gg <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, label=sample_org, color=sample))+
-        geom_point(size=2.5)+
-        ggrepel::geom_text_repel(show.legend = FALSE)+
-        xlab("NMDS1")+
-        ylab("NMDS2")+
-        geom_vline(xintercept = 0, linetype = "dotted")+
-        geom_hline(yintercept = 0, linetype = "dotted")+
-        theme_bw()+
-        labs(title="Unweighted unifrac NMDS", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
-        #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
-        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25)) 
-      
-      NMDS_beta_df_data_plot_gg_noID <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, color=sample))+
+      NMDS_beta_df_data_plot_gg <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, color=sample))+
         geom_point(size=2.5)+
         # ggrepel::geom_text_repel(show.legend = FALSE)+
         xlab("NMDS1")+
@@ -13818,24 +13851,20 @@ server <- function(session, input, output) {
         labs(title="Unweighted unifrac NMDS", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
         scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25)) 
-      
-      if(input$phylo_showID){
+ 
         return(NMDS_beta_df_data_plot_gg)
-      }else{
-        return(NMDS_beta_df_data_plot_gg_noID)
-      }
-      
+     
     })
     
-    W_unif_pcoa_plot <- reactive({
+    W_unif_pcoa_plot_2D <- reactive({
       
       W_unifrac_dm_pcoa_qiime <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_pcoa_results.qza")[["data"]]
-      W_unifrac_dm_pcoa_qiime_forplot <- W_unifrac_dm_pcoa_qiime$Vectors[,1:3]
+      W_unifrac_dm_pcoa_qiime_forplot <- W_unifrac_dm_pcoa_qiime$Vectors[,1:7]
       W_unifrac_dm_pcoa_qiime_forplot <-merge(Metadata_stats(), W_unifrac_dm_pcoa_qiime_forplot, by="SampleID") %>% as_tibble()
       
       W_unifrac_dm_pcoa_qiime_forplot_table_list <- lapply(colnames(Metadata_stats()), function(i){
         
-        W_unifrac_dm_pcoa_qiime_forplot_table <- W_unifrac_dm_pcoa_qiime_forplot[, c("SampleID", i, "PC1", "PC2")]
+        W_unifrac_dm_pcoa_qiime_forplot_table <- W_unifrac_dm_pcoa_qiime_forplot[, c("SampleID", i, "PC1", "PC2", "PC3", "PC4", "PC5", "PC6")]
       })
       
       names(W_unifrac_dm_pcoa_qiime_forplot_table_list) <- colnames(Metadata_stats())
@@ -13852,12 +13881,14 @@ server <- function(session, input, output) {
                                                                           levels = str_sort(unique(W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$feature), numeric = T))
         W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]] <- arrange(W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], feature)
         
+        PC_vector <- W_unifrac_dm_pcoa_qiime$ProportionExplained[1:6]
+        names(PC_vector) <- paste0("PC", 1:6)
+        
         ggplot(data = W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], 
-               aes(x=PC1, y=PC2, label=SampleID, color=feature))+
+               aes_string(x=input$x_axis_phylo, y=input$y_axis_phylo, label="SampleID", color="feature"))+
           geom_point(size=2.5)+
-          ggrepel::geom_text_repel(show.legend = F)+
-          xlab(paste0("PC1 (", round(W_unifrac_dm_pcoa_qiime$ProportionExplained[1],2)*100, "%)"))+
-          ylab(paste0("PC2 (", round(W_unifrac_dm_pcoa_qiime$ProportionExplained[2],2)*100, "%)"))+
+          xlab(paste0(input$x_axis_phylo, " (", round(PC_vector[input$x_axis_phylo], 2)*100, "%)"))+
+          ylab(paste0(input$y_axis_phylo, " (", round(PC_vector[input$y_axis_phylo], 2)*100, "%)"))+
           geom_vline(xintercept =0, linetype="dotted")+
           geom_hline(yintercept = 0, linetype="dotted")+
           theme_bw()+
@@ -13867,34 +13898,63 @@ server <- function(session, input, output) {
       
       names(W_unifrac_dm_pcoa_qiime_plot_list) <- colnames(Metadata_stats())
       
-      W_unifrac_dm_pcoa_qiime_plot_list_noID <- lapply(1:length(W_unifrac_dm_pcoa_qiime_forplot_table_list), function(i){
+      return(W_unifrac_dm_pcoa_qiime_plot_list[[input$metadata_phylo_beta]])
+
+    })
+    
+    W_unif_pcoa_plot_3D <- reactive({
+      
+      W_unifrac_dm_pcoa_qiime <- read_qza("/home/imuser/qiime_output/core-metrics-results/weighted_unifrac_pcoa_results.qza")[["data"]]
+      W_unifrac_dm_pcoa_qiime_forplot <- W_unifrac_dm_pcoa_qiime$Vectors[,1:7]
+      W_unifrac_dm_pcoa_qiime_forplot <-merge(Metadata_stats(), W_unifrac_dm_pcoa_qiime_forplot, by="SampleID") %>% as_tibble()
+      
+      W_unifrac_dm_pcoa_qiime_forplot_table_list <- lapply(colnames(Metadata_stats()), function(i){
+        
+        W_unifrac_dm_pcoa_qiime_forplot_table <- W_unifrac_dm_pcoa_qiime_forplot[, c("SampleID", i, "PC1", "PC2", "PC3", "PC4", "PC5", "PC6")]
+      })
+      
+      names(W_unifrac_dm_pcoa_qiime_forplot_table_list) <- colnames(Metadata_stats())
+      
+      # Make all feature name to "feature"
+      for (i in 1:length(W_unifrac_dm_pcoa_qiime_forplot_table_list)) {
+        names(W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]])[2] <- "feature"
+      }
+      
+      
+      W_unifrac_dm_pcoa_qiime_plot_list <- lapply(1:length(W_unifrac_dm_pcoa_qiime_forplot_table_list), function(i){
         
         W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$feature <- factor(W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$feature,
                                                                           levels = str_sort(unique(W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$feature), numeric = T))
         W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]] <- arrange(W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], feature)
         
-        ggplot(data = W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]], 
-               aes(x=PC1, y=PC2, color=feature))+
-          geom_point(size=2.5)+
-          # ggrepel::geom_text_repel(show.legend = F)+
-          xlab(paste0("PC1 (", round(W_unifrac_dm_pcoa_qiime$ProportionExplained[1],2)*100, "%)"))+
-          ylab(paste0("PC2 (", round(W_unifrac_dm_pcoa_qiime$ProportionExplained[2],2)*100, "%)"))+
-          geom_vline(xintercept =0, linetype="dotted")+
-          geom_hline(yintercept = 0, linetype="dotted")+
-          theme_bw()+
-          ggtitle("Weighted unifrac PCoA")+
-          scale_colour_discrete(names(W_unifrac_dm_pcoa_qiime_forplot_table_list)[[i]]) + theme(text = element_text(size = 25)) 
+        PC_vector <- W_unifrac_dm_pcoa_qiime$ProportionExplained[1:6]
+        names(PC_vector) <- paste0("PC", 1:6)
+        
+        W_unifrac_dm_pcoa_qiime_plot_df_for3D <- data.frame(
+          SampleID = W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$SampleID, 
+          feature = W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]]$feature,
+          x_axis = W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]][, input$x_axis_phylo],
+          y_axis = W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]][, input$y_axis_phylo],
+          z_axis = W_unifrac_dm_pcoa_qiime_forplot_table_list[[i]][, input$z_axis_phylo]
+        )
+        
+        names(W_unifrac_dm_pcoa_qiime_plot_df_for3D)[3:5] <- paste0(c("x", "y", "z"), "_axis")
+        
+        W_unifrac_dm_pcoa_qiime_plot_gg3D <- plot_ly(W_unifrac_dm_pcoa_qiime_plot_df_for3D, 
+                                                       x = ~x_axis, y = ~y_axis, z = ~z_axis, 
+                                                       color = ~feature, colors = c('#BF382A', '#0C4B8E'),
+                                                       text = ~paste("Sample ID: ", SampleID)) %>% 
+          add_markers() %>% 
+          layout(scene = list(xaxis = list(title = paste0(input$x_axis_phylo, " (", round(PC_vector[input$x_axis_phylo], 2)*100, "%)")),
+                              yaxis = list(title = paste0(input$y_axis_phylo, " (", round(PC_vector[input$y_axis_phylo], 2)*100, "%)")),
+                              zaxis = list(title = paste0(input$z_axis_phylo, " (", round(PC_vector[input$z_axis_phylo], 2)*100, "%)"))))
+        
+        
       })
       
-      names(W_unifrac_dm_pcoa_qiime_plot_list_noID) <- colnames(Metadata_stats())
+      names(W_unifrac_dm_pcoa_qiime_plot_list) <- colnames(Metadata_stats())
       
-      if(input$phylo_showID){
-        return(W_unifrac_dm_pcoa_qiime_plot_list[[input$metadata_phylo_beta]])
-      }else{
-        return(W_unifrac_dm_pcoa_qiime_plot_list_noID[[input$metadata_phylo_beta]])
-      }
-      
-      
+      return(W_unifrac_dm_pcoa_qiime_plot_list[[input$metadata_phylo_beta]])
       
     })
     
@@ -13954,19 +14014,7 @@ server <- function(session, input, output) {
                                               levels = str_sort(unique(NMDS_beta_df_data_plot$sample), numeric = T))
       NMDS_beta_df_data_plot <- arrange(NMDS_beta_df_data_plot, sample)
       
-      NMDS_beta_df_data_plot_gg <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, label=sample_org,color=sample))+
-        geom_point(size=2.5)+
-        ggrepel::geom_text_repel(show.legend = FALSE)+
-        xlab("NMDS1")+
-        ylab("NMDS2")+
-        geom_vline(xintercept = 0, linetype = "dotted")+
-        geom_hline(yintercept = 0, linetype = "dotted")+
-        theme_bw()+
-        labs(title="Weighted unifrac NMDS", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
-        #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
-        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25))
-      
-      NMDS_beta_df_data_plot_gg_noID <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, color=sample))+
+      NMDS_beta_df_data_plot_gg <- ggplot(data = NMDS_beta_df_data_plot, aes(x=NMDS1, y=NMDS2, color=sample))+
         geom_point(size=2.5)+
         # ggrepel::geom_text_repel(show.legend = FALSE)+
         xlab("NMDS1")+
@@ -13977,103 +14025,109 @@ server <- function(session, input, output) {
         labs(title="Weighted unifrac NMDS", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
         scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25))
-      
-      if(input$phylo_showID){
+
         return(NMDS_beta_df_data_plot_gg)
-      }else{
-        return(NMDS_beta_df_data_plot_gg_noID)
-      }
-      
-      
+
     })
     
     
-    output$unW_unif_ordination <- renderPlot({
+    output$unif_ordination <- renderPlotly({
       
-      if(input$UnW_or_W_phylo=="Unweighted" & input$phylo_cluster == F & input$ordination_phylo == "PCoA"){
+      if(input$UnW_or_W_phylo=="Unweighted"){
         
-        return(unW_unif_pcoa_plot())
-        
-      }else if (input$UnW_or_W_phylo=="Unweighted" & input$phylo_cluster == F & input$ordination_phylo == "NMDS"){
-        
-        return(unW_unif_nmds_plot())
-        
-      }else if (input$UnW_or_W_phylo=="Unweighted" & input$phylo_cluster == T & input$ordination_phylo == "PCoA"){
-        
-        return(unW_unif_pcoa_plot() + stat_ellipse(type = "t"))
-        
-      }else if (input$UnW_or_W_phylo=="Unweighted" & input$phylo_cluster == T & input$ordination_phylo == "NMDS"){
-        
-        return(unW_unif_nmds_plot() + stat_ellipse(type = "t"))
-        
-      }else if(input$UnW_or_W_phylo=="Weighted" & input$phylo_cluster ==F & input$ordination_phylo == "PCoA"){
-        
-        return(W_unif_pcoa_plot())
-        
-      }else if(input$UnW_or_W_phylo=="Weighted" & input$phylo_cluster ==F & input$ordination_phylo == "NMDS"){
-        
-        return(W_unif_nmds_plot())
-        
-      }else if(input$UnW_or_W_phylo=="Weighted" & input$phylo_cluster ==T & input$ordination_phylo == "PCoA"){
-        
-        return(W_unif_pcoa_plot() + stat_ellipse(type = "t"))
-        
-      }else{
-        
-        return(W_unif_nmds_plot() + stat_ellipse(type = "t"))
-        
-      }
-      
-      
-    })
-    
-    output$download_unif_plot <- downloadHandler(
-      
-      filename = function(){
-        paste0("Unifrac_plot_", input$UnW_or_W_phylo, "_", input$ordination_phylo,"_", input$metadata_phylo_beta, ".jpg")
-      },
-      content = function(file){
-        if(input$UnW_or_W_phylo=="Unweighted"){
+        if(input$ordination_phylo == "PCoA (3D)"){
           
-          if(input$ordination_phylo=="PCoA"){
-            if(input$phylo_cluster){
-              ggsave(file, plot = unW_unif_pcoa_plot() + stat_ellipse(type = "t"))
-            }else{
-              ggsave(file, plot = unW_unif_pcoa_plot())
-            }
+          return(unW_unif_pcoa_plot_3D())
+          
+        }else if(input$ordination_phylo == "PCoA (2D)"){
+          
+          if(input$phylo_cluster){
+            
+            return(unW_unif_pcoa_plot_2D() + stat_ellipse(type = "t"))
             
           }else{
-            if(input$phylo_cluster){
-              ggsave(file, plot = unW_unif_nmds_plot() + stat_ellipse(type = "t"))
-            }else{
-              ggsave(file, plot = unW_unif_nmds_plot())
-            }
+            
+            return(unW_unif_pcoa_plot_2D())
             
           }
+        }else if(input$ordination_phylo == "NMDS"){
           
-        }else{
-          if(input$ordination_phylo=="PCoA"){
-            if(input$phylo_cluster){
-              ggsave(file, plot = W_unif_pcoa_plot() + stat_ellipse(type = "t"))
-            }else{
-              ggsave(file, plot = W_unif_pcoa_plot())
-            }
+          if(input$phylo_cluster){
             
-          }else{
-            if(input$phylo_cluster){
-              ggsave(file, plot = W_unif_nmds_plot() + stat_ellipse(type = "t"))
-            }else{
-              ggsave(file, plot = W_unif_nmds_plot())
-            }
+            return(unW_unif_nmds_plot() + stat_ellipse(type = "t"))
             
-          }
-          
+          }else(
+            
+            return(unW_unif_nmds_plot())
+            
+          )
         }
+
+      }else if(input$UnW_or_W_phylo=="Weighted"){
         
+        if(input$ordination_phylo == "PCoA (3D)"){
+          
+          return(W_unif_pcoa_plot_3D())
+          
+        }else if(input$ordination_phylo == "PCoA (2D)"){
+          
+          if(input$phylo_cluster){
+            
+            return(W_unif_pcoa_plot_2D() + stat_ellipse(type = "t"))
+            
+          }else{
+            
+            return(W_unif_pcoa_plot_2D())
+            
+          }
+        }else if(input$ordination_phylo == "NMDS"){
+          
+          if(input$phylo_cluster){
+            
+            return(W_unif_nmds_plot() + stat_ellipse(type = "t"))
+            
+          }else(
+            
+            return(W_unif_nmds_plot())
+            
+          )
+        }
       }
       
-    )
+      
+    })
     
+
+    # choose x, y, z axis in beta plot
+    observe({
+      updated_y_choices <- setdiff(paste0("PC", 1:6), input$x_axis_phylo)
+      updateRadioButtons(session = session, inputId = "y_axis_phylo", choices = updated_y_choices, inline = T)
+    })
+    
+    observe({
+      updated_y_choices <- setdiff(paste0("PC", 1:6), input$x_axis_phylo)
+      updated_z_choices <- setdiff(updated_y_choices, input$y_axis_phylo)
+      updateRadioButtons(session = session, inputId = "z_axis_phylo", choices = updated_z_choices, inline = T)
+    })
+    
+    observe({
+      if(input$ordination_phylo == "PCoA (3D)"){
+        shinyjs::show("x_axis_phylo")
+        shinyjs::show("y_axis_phylo")
+        shinyjs::show("z_axis_phylo")
+        shinyjs::hide("phylo_cluster")
+      }else if(input$ordination_phylo == "PCoA (2D)"){
+        shinyjs::show("x_axis_phylo")
+        shinyjs::show("y_axis_phylo")
+        shinyjs::hide("z_axis_phylo")
+        shinyjs::show("phylo_cluster")
+      }else if(input$ordination_phylo == "NMDS"){
+        shinyjs::hide("x_axis_phylo")
+        shinyjs::hide("y_axis_phylo")
+        shinyjs::hide("z_axis_phylo")
+        shinyjs::show("phylo_cluster")
+      }
+    })
     
     Permanova_table_phylo_unW <- reactive({
       
@@ -15074,7 +15128,7 @@ server <- function(session, input, output) {
     # selected_metadata <- Metadata_stats() %>% filter(Metadata_stats()[,input$metadata8] == input$metadata8_factor) %>% as_tibble()
     # colnames(selected_metadata)[1] <- "SampleID"
     # write.table(selected_metadata[,1], file='/home/imuser/selected_sampleID.tsv', quote=FALSE, sep='\t', row.names = F)
-    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+    qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
     
     nonNA_position <- which(Metadata_stats()[, input$metadata_ANCOM]!="NA")
     nonNA_sampleid <- Metadata_stats()[,1][nonNA_position]
@@ -15129,7 +15183,7 @@ server <- function(session, input, output) {
       taxa_table__ag <- aggregate(taxa_table_, by=list(rownames(taxa_table_)), FUN=sum)
       colnames(taxa_table__ag)[1] <- "taxonomy"
       write.table(x=taxa_table__ag,"/home/imuser/taxatable_.txt", quote = F, col.names = T, row.names = F, sep = "\t")
-      biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/biom"
+      biom_cmd <- "/usr/local/envs/qiime2-2021.4-Pacbio/bin/biom"
       system(paste0(biom_cmd, " convert -i /home/imuser/taxatable_.txt -o /home/imuser/taxatable_.biom --table-type='OTU table' --to-hdf5"))
       system(paste0(qiime_cmd, " tools import --input-path /home/imuser/taxatable_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/uploaded_taxatable_.qza"))
       
@@ -15400,7 +15454,7 @@ server <- function(session, input, output) {
     # showModal(modalDialog(title = "Running FAPROTAX ...", "Waiting for a moment", footer = NULL))
     show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
     
-    qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+    qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
     
     
     system("rm -r /home/imuser/qiime_output/exported-feature-table7")
@@ -15576,7 +15630,7 @@ server <- function(session, input, output) {
       # showModal(modalDialog(title = "Running FAPROTAX ...", "Waiting for a moment", footer = NULL))
       show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
+      qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
       
       
       system("rm -r /home/imuser/qiime_output/exported-feature-table7")
@@ -15591,8 +15645,8 @@ server <- function(session, input, output) {
       
       write.table(d, "/home/imuser/taxa_table_upload_txt_FA.txt", sep = "\t", quote = F, row.names = F)
       
-      qiime_cmd <- '/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/qiime'
-      biom_cmd <- "/home/imuser/miniconda3/envs/qiime2-2021.4-Pacbio/bin/biom"
+      qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
+      biom_cmd <- "/usr/local/envs/qiime2-2021.4-Pacbio/bin/biom"
       system(paste0(biom_cmd, " convert -i ", " /home/imuser/taxa_table_upload_txt_FA.txt "," -o /home/imuser/uploaded_taxatable_FA_.biom --table-type='OTU table' --to-hdf5"))
       system(paste0(qiime_cmd, " tools import --input-path /home/imuser/uploaded_taxatable_FA_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/uploaded_taxatable_FA_.qza"))
       
