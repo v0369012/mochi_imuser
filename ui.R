@@ -63,7 +63,7 @@ shinyUI(
     # Define UI for data upload app ----
     titlePanel( 
       # window title
-      windowTitle = "MOCHI",
+      windowTitle = "MOCHI", 
       
       
       # title = span("MOCHI ",
@@ -1203,26 +1203,25 @@ shinyUI(
                                           hr(),
                                           h3("Dimension reduction plot"),
                                           withSpinner(
-                                            plotOutput(outputId = "betaplot", 
+                                            plotlyOutput(outputId = "betaplot", 
                                                        height = "600px"), 
                                             type = spinner_type, 
                                             color.background = spinner_bg_color),
                                           # textOutput(outputId="word_metadata_NA_4"),
                                           radioButtons(inputId = "sep", 
                                                        label = "Choose the method",
-                                                       choices = c("PCA","PCoA","NMDS"), 
+                                                       choices = c("PCA (2D)", "PCA (3D)", "PCoA (2D)", "PCoA (3D)", "NMDS"), 
                                                        inline = T),
-                                          checkboxInput(inputId = "beta_cluster", 
-                                                        label = "Clustering"),
-                                          checkboxInput(inputId = "beta_showID", 
-                                                        label = "Show sample ID",value = F),
+                                          radioButtons(inputId = "beta_x_axis", label = "Select x axis", choices = paste0("PC", 1:6), inline = T),
+                                          radioButtons(inputId = "beta_y_axis", label = "Select y axis", choices = paste0("PC", 2:6), inline = T),
+                                          radioButtons(inputId = "beta_z_axis", label = "Select z axis", choices = paste0("PC", 3:6), inline = T,),
+                                          checkboxInput(inputId = "beta_cluster",
+                                                        label = "Clustering") %>% shinyjs::hidden(),
                                           textOutput(outputId = "NMDS_stress"),
                                           radioButtons(inputId = "metadata_beta", 
                                                        label = "Choose the group",
                                                        choices = " ",
                                                        inline = T),
-                                          downloadButton(outputId = "downloadBetaPlot", 
-                                                         label = "Download Beta Diversity Plot"),
                                           hr(),
                                           
                                           h3("Statistical analysis"),
@@ -1435,7 +1434,7 @@ shinyUI(
                                           
                                           h3("Dimension reduction plot of UniFrac distance"),
                                           withSpinner(
-                                            plotOutput(outputId = "unW_unif_ordination", 
+                                            plotlyOutput(outputId = "unif_ordination", 
                                                        height = "600px"),
                                             type = spinner_type, 
                                             color.background = spinner_bg_color
@@ -1446,18 +1445,26 @@ shinyUI(
                                                        inline = T),
                                           radioButtons(inputId = "ordination_phylo", 
                                                        label = "Choose the ordination method",
-                                                       choices = c("PCoA", "NMDS"), 
+                                                       choices = c("PCoA (2D)", "PCoA (3D)", "NMDS"), 
+                                                       inline = T),
+                                          radioButtons(inputId = "x_axis_phylo", 
+                                                       label = "Select x axis", 
+                                                       choices = paste0("PC", 1:6),
+                                                       inline = T),
+                                          radioButtons(inputId = "y_axis_phylo", 
+                                                       label = "Select y axis", 
+                                                       choices = paste0("PC", 1:6),
+                                                       inline = T),
+                                          radioButtons(inputId = "z_axis_phylo", 
+                                                       label = "Select z axis", 
+                                                       choices = paste0("PC", 1:6),
                                                        inline = T),
                                           checkboxInput(inputId = "phylo_cluster", 
                                                         label = "Clustering"),
-                                          checkboxInput(inputId = "phylo_showID", 
-                                                        label = "Show sample ID",value = F),
                                           radioButtons(inputId = "metadata_phylo_beta", 
                                                        label = "Choose the group", 
                                                        choices = " ", 
                                                        inline = T),
-                                          downloadButton(outputId = "download_unif_plot", 
-                                                         label = "Download UniFrac plot"),
                                           
                                           hr(),
                                           
@@ -1821,11 +1828,12 @@ shinyUI(
     tags$footer(
       tags$span(
         tags$a("Molecular Bioinformatics Lab,", href = "https://fullofbeans.nctu.edu.tw/?page_id=333&lang=en", style = "color: white", target = "_blank"), 
-        " National Yang Ming Chiao Tung University, Taiwan 300, R.O.C.,", " last updated on 11/05/2021"),
-      # tags$a(href="https://ibs.nctu.edu.tw/faculty/%E9%99%B3%E4%BA%AD%E5%A6%8F/", tags$span("Contact us!"), 
-      #        target = "_blank",
-      #        class="externallink", 
-      #        style = "color: white; padding-left: 100px;"), 
+        " National Yang Ming Chiao Tung University, Taiwan 300, R.O.C.,", " last updated on 04/30/2022"),
+      tags$a(href="mailto: v0369012@gmail.com", 
+             tags$span("Contact us: v0369012@gmail.com"),
+             target = "_blank",
+             class="externallink",
+             style = "color: white; padding-left: 100px;"),
       
       style = "
                        font-family: Arial;
