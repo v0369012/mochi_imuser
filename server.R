@@ -10,6 +10,7 @@ library(myip)
 library(shiny)
 library(shinybusy)
 library(vegan)
+library(shinyBS)
 options(shiny.maxRequestSize = 30*1024^2)
 
 # library(reticulate)
@@ -677,12 +678,13 @@ server <- function(session, input, output) {
       # if(!file.exists("/home/imuser/uploaded_taxatable_.qza")){
         # shinyjs::disable("TA_start")
       
-      # show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
+      show_modal_spinner(spin = "circle", color = "#317EAC", text = "Please wait...")
       
         a <- read.table(input$table_upload_txt$datapath, sep = "\t", header = T)
         b <- a[,-1]
         c <- cbind(taxonomy=b[,ncol(b)], b[,-ncol(b)])
         d <- aggregate(c[,-1], by=list(c[,1]), FUN=sum)
+        d[,1] <- str_replace_all(d[,1], "; ", ";")
         
         write.table(d, "/home/imuser/taxa_table_upload_txt.txt", sep = "\t", quote = F, row.names = F)
         
@@ -693,9 +695,11 @@ server <- function(session, input, output) {
         
         # shinyjs::enable("TA_start")
         
-        read_qza("/home/imuser/uploaded_taxatable_.qza")$data
+        uploaded_taxatable <- read_qza("/home/imuser/uploaded_taxatable_.qza")$data
         
-        # remove_modal_spinner()
+        remove_modal_spinner()
+        
+        return(uploaded_taxatable)
       # }
 
       
@@ -1319,9 +1323,15 @@ server <- function(session, input, output) {
     # req(input$TA_start)
     as_output_taxtable <- function(df_data){
       
+      print(df_data %>% head())
+      
       df_data_rownames<-row.names(df_data)
+      print("df_data_rownames")
+      print(df_data_rownames %>% head())
       
       df_data <- cbind(Species=df_data_rownames, df_data) %>% as.data.frame()
+      print("cbind")
+      print(df_data %>% head())
       
       row.names(df_data) <- NULL
       
@@ -1329,6 +1339,8 @@ server <- function(session, input, output) {
       df_data$Species<-gsub("D_0__|D_1__|D_2__|D_3__|D_4__|D_5__|D_6__|D_7__|D_8__|D_9__|D_10__|D_11__|D_12__|D_13__|D_14__", "", df_data$Species)
       df_data$Species<-gsub("k__|p__|c__|o__|f__|g__|s__", "", df_data$Species)
       df_data$Species<-gsub("\\s+", "", df_data$Species)
+      print("remove the non-sense string")
+      print(df_data %>% head())
       
       library(tidyr)
       df_data <- df_data %>%
@@ -1338,8 +1350,14 @@ server <- function(session, input, output) {
           sep = ";"
         )
       
+      print("df_data tidyr")
+      print(df_data)
+      
       # replace "__", "NA" to "Unassigned"
       df_data<-replace(df_data, df_data=="", "Unassigned")
+      print('replace "__", "NA" to "Unassigned"')
+      print(df_data)
+      
       df_data<-replace(df_data, df_data=="__", "Unassigned")
       df_data <- df_data %>% replace(is.na(.), "Unassigned")
       
@@ -1666,23 +1684,47 @@ server <- function(session, input, output) {
   ## check taxatable input
   observe({
     
-    req(input$taxonomic_table_FA)
+    req(input$taxonomic_table_FA_MOCHI)
     
     
     library(shinyBS)
     
-    if(str_detect(input$taxonomic_table_FA$datapath, ".qza")) {
+    if(str_detect(input$taxonomic_table_FA_MOCHI$datapath, ".qza")) {
       
-      if(read_qza(input$taxonomic_table_FA$datapath)$type != "FeatureTable[Frequency]") {
+      if(read_qza(input$taxonomic_table_FA_MOCHI$datapath)$type != "FeatureTable[Frequency]") {
         createAlert(session, 
-                    anchorId = "taxatable_alert_FA", 
-                    alertId = "taxaAlert_FA", 
+                    anchorId = "taxatable_alert_FA_MOCHI", 
+                    alertId = "taxaAlert_FA_MOCHI", 
                     title = "Oops!",
                     content = "Please check your input taxonomic table file.", 
                     append = T,
                     style = "danger")
       } else {
-        closeAlert(session, "taxaAlert_FA")
+        closeAlert(session, "taxaAlert_FA_MOCHI")
+        
+      }
+    }
+  })
+  
+  observe({
+    
+    req(input$taxonomic_table_FA_txt)
+    
+    
+    library(shinyBS)
+    
+    if(str_detect(input$taxonomic_table_FA_MOCHI_txt$datapath, ".qza")) {
+      
+      if(read_qza(input$taxonomic_table_FA_MOCHI_txt$datapath)$type != "FeatureTable[Frequency]") {
+        createAlert(session, 
+                    anchorId = "taxatable_alert_FA_txt", 
+                    alertId = "taxaAlert_FA_txt", 
+                    title = "Oops!",
+                    content = "Please check your input taxonomic table file.", 
+                    append = T,
+                    style = "danger")
+      } else {
+        closeAlert(session, "taxaAlert_FA_txt")
         
       }
     }
@@ -15468,7 +15510,7 @@ server <- function(session, input, output) {
     
     system(paste(qiime_cmd, "tools export --input-path", "/home/imuser/uploaded_taxatable_FA.qza", "--output-path /home/imuser/qiime_output/exported-feature-table7"))
     system("rm /home/imuser/FAPROTAX_output/*")
-    system("/home/imuser/miniconda3/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py --force -i /home/imuser/qiime_output/exported-feature-table7/feature-table.biom -o /home/imuser/FAPROTAX_output/func-table7.biom -g /home/imuser/FAPROTAX_1.2.1/FAPROTAX.txt -r /home/imuser/FAPROTAX_output/report7-record.txt --out_groups2records_table /home/imuser/FAPROTAX_output/groups2record.biom")
+    system("/usr/local/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py --force -i /home/imuser/qiime_output/exported-feature-table7/feature-table.biom -o /home/imuser/FAPROTAX_output/func-table7.biom -g /home/imuser/FAPROTAX_1.2.1/FAPROTAX.txt -r /home/imuser/FAPROTAX_output/report7-record.txt --out_groups2records_table /home/imuser/FAPROTAX_output/groups2record.biom")
     system(paste(qiime_cmd, "tools import --input-path /home/imuser/FAPROTAX_output/func-table7.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/qiime_output/func-table7.qza"))
     system(paste(qiime_cmd, "tools import --input-path /home/imuser/FAPROTAX_output/groups2record.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/qiime_output/groups2record.qza"))
     
@@ -15654,7 +15696,7 @@ server <- function(session, input, output) {
       system("cp /home/imuser/uploaded_taxatable_FA_.qza /home/imuser/uploaded_taxatable_FA.qza")
       system(paste(qiime_cmd, "tools export --input-path", "/home/imuser/uploaded_taxatable_FA.qza", "--output-path /home/imuser/qiime_output/exported-feature-table7"))
       system("rm /home/imuser/FAPROTAX_output/*")
-      system("/home/imuser/miniconda3/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py --force -i /home/imuser/qiime_output/exported-feature-table7/feature-table.biom -o /home/imuser/FAPROTAX_output/func-table7.biom -g /home/imuser/FAPROTAX_1.2.1/FAPROTAX.txt -r /home/imuser/FAPROTAX_output/report7-record.txt --out_groups2records_table /home/imuser/FAPROTAX_output/groups2record.biom")
+      system("/usr/local/envs/python-2.7/bin/python2.7 /home/imuser/FAPROTAX_1.2.1/collapse_table.py --force -i /home/imuser/qiime_output/exported-feature-table7/feature-table.biom -o /home/imuser/FAPROTAX_output/func-table7.biom -g /home/imuser/FAPROTAX_1.2.1/FAPROTAX.txt -r /home/imuser/FAPROTAX_output/report7-record.txt --out_groups2records_table /home/imuser/FAPROTAX_output/groups2record.biom")
       system(paste(qiime_cmd, "tools import --input-path /home/imuser/FAPROTAX_output/func-table7.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/qiime_output/func-table7.qza"))
       system(paste(qiime_cmd, "tools import --input-path /home/imuser/FAPROTAX_output/groups2record.biom --type 'FeatureTable[Frequency]' --input-format BIOMV100Format --output-path /home/imuser/qiime_output/groups2record.qza"))
       
