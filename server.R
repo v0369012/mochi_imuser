@@ -15302,7 +15302,7 @@ server <- function(session, input, output) {
     
     
     output$annotation_ancom <- renderUI({
-      HTML("<p>The W value is the number of sub-hypotheses that have rejected for a given taxon in ANCOM analysis.<br>The clr represents log-fold change relative to the average microbe.</p>")
+      HTML("<p>The W value in the y axis is the number of sub-hypotheses that have rejected for a given taxon in ANCOM analysis.<br>The clr in the x axis represents log-fold change relative to the average microbe.</p>")
     })
     
     output$word_ancom_table <- renderUI({
