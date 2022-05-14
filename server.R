@@ -1737,7 +1737,7 @@ server <- function(session, input, output) {
   observe({
 
     if(input$seqs_type == "Paired end"){
-      unzip_name <- list.files("/home/imuser/identity_Forpaired_unzip/", full.names = T)
+      unzip_name <- list.files("min_length", full.names = T)
       stats_file <- paste0(unzip_name, "/data/seven_number_summary.tsv")
       if(file.exists(stats_file)){
         # min_length <- read.table("/home/imuser/qiime_output/denoise_paired_seqs/new_dirname/data/descriptive_stats.tsv", sep = "\t", stringsAsFactors = F)[3,2]
@@ -10273,6 +10273,8 @@ server <- function(session, input, output) {
   
   observe({
     if(input$sep == "PCA (3D)" | input$sep == "PCoA (3D)"){
+      shinyjs::show("beta_x_axis")
+      shinyjs::show("beta_y_axis")
       shinyjs::show("beta_z_axis")
       shinyjs::hide("beta_cluster")
     }else if(input$sep == "NMDS"){
@@ -10281,6 +10283,8 @@ server <- function(session, input, output) {
       shinyjs::hide("beta_z_axis")
       shinyjs::show("beta_cluster")
     }else{
+      shinyjs::show("beta_x_axis")
+      shinyjs::show("beta_y_axis")
       shinyjs::hide("beta_z_axis")
       shinyjs::show("beta_cluster")
     }
