@@ -10282,7 +10282,7 @@ server <- function(session, input, output) {
       shinyjs::hide("beta_y_axis")
       shinyjs::hide("beta_z_axis")
       shinyjs::show("beta_cluster")
-    }else{
+    }else if(input$sep == "PCA (2D)" | input$sep == "PCoA (2D)"){
       shinyjs::show("beta_x_axis")
       shinyjs::show("beta_y_axis")
       shinyjs::hide("beta_z_axis")
