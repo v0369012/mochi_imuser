@@ -10209,7 +10209,7 @@ server <- function(session, input, output) {
       geom_vline(xintercept =0, linetype="dotted")+
       geom_hline(yintercept = 0, linetype="dotted")+
       theme_bw()+
-      labs(title="NMDS plot", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
+      labs(title=paste0("NMDS plot (stress: ", as.character(round(metaMDS_beta_df_data$stress, 4)), ")"))+
       #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
       scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25)) 
     
@@ -13902,7 +13902,7 @@ server <- function(session, input, output) {
         geom_vline(xintercept = 0, linetype = "dotted")+
         geom_hline(yintercept = 0, linetype = "dotted")+
         theme_bw()+
-        labs(title="Unweighted unifrac NMDS", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
+        labs(title=paste0("Unweighted unifrac NMDS (stress: ", as.character(round(metaMDS_beta_df_data$stress, 4)), ")"))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
         scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25)) 
  
@@ -14076,7 +14076,7 @@ server <- function(session, input, output) {
         geom_vline(xintercept = 0, linetype = "dotted")+
         geom_hline(yintercept = 0, linetype = "dotted")+
         theme_bw()+
-        labs(title="Weighted unifrac NMDS", caption=paste("stress=", as.character(round(metaMDS_beta_df_data$stress, 4)), sep = ""))+
+        labs(title=paste0("Weighted unifrac NMDS (stress: ", as.character(round(metaMDS_beta_df_data$stress, 4)), ")"))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
         scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25))
 
