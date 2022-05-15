@@ -473,11 +473,11 @@ server <- function(session, input, output) {
                           tagList(
                             strong("Minimum length"),
                             p("1. Sequenceses shorter than the minimun length will be discarded."),
-                            p("2. The default value is minimun length of denoised-sequences."),
+                            p("2. The default value is (median length of denoised-sequences - 100)."),
                             p("3. Set to zero to disable min length filtering."),
                             strong("Maximum length"),
                             p("1. Sequenceses longer than the maximum length will be discarded."),
-                            p("2. The default value is maximum length of denoised-sequences."),
+                            p("2. The default value is (median length of denoised-sequences - 100)."),
                             p("3. Set to zero to disable max length filtering.")
                             
                           ),
@@ -12663,7 +12663,15 @@ server <- function(session, input, output) {
   # Produce PCoA and NMDS
   output$betaplot<-renderPlotly({
     
-    return(BetaPlot())
+    m <- list(
+      l = 50,
+      r = 350 + str_length(input$metadata_beta)*8,
+      b = 100,
+      t = 100,
+      pad = 0
+    )
+    
+    return(BetaPlot() %>% ggplotly() %>% layout(margin = m))
     
   })
   
@@ -14089,22 +14097,22 @@ server <- function(session, input, output) {
           
           if(input$phylo_cluster){
             
-            return(unW_unif_pcoa_plot_2D() + stat_ellipse(type = "t"))
+            return((unW_unif_pcoa_plot_2D() + stat_ellipse(type = "t")) %>% ggplotly() %>% layout(margin = m))
             
           }else{
             
-            return(unW_unif_pcoa_plot_2D())
+            return(unW_unif_pcoa_plot_2D() %>% ggplotly() %>% layout(margin = m))
             
           }
         }else if(input$ordination_phylo == "NMDS"){
           
           if(input$phylo_cluster){
             
-            return(unW_unif_nmds_plot() + stat_ellipse(type = "t"))
+            return((unW_unif_nmds_plot() + stat_ellipse(type = "t")) %>% ggplotly() %>% layout(margin = m))
             
           }else(
             
-            return(unW_unif_nmds_plot())
+            return(unW_unif_nmds_plot() %>% ggplotly() %>% layout(margin = m))
             
           )
         }
@@ -14119,7 +14127,7 @@ server <- function(session, input, output) {
           
           if(input$phylo_cluster){
             
-            return(W_unif_pcoa_plot_2D() + stat_ellipse(type = "t"))
+            return((W_unif_pcoa_plot_2D() + stat_ellipse(type = "t")) %>% ggplotly() %>% layout(margin = m))
             
           }else{
             
@@ -14130,11 +14138,11 @@ server <- function(session, input, output) {
           
           if(input$phylo_cluster){
             
-            return(W_unif_nmds_plot() + stat_ellipse(type = "t"))
+            return((W_unif_nmds_plot() + stat_ellipse(type = "t")) %>% ggplotly() %>% layout(margin = m))
             
           }else(
             
-            return(W_unif_nmds_plot())
+            return(W_unif_nmds_plot() %>% ggplotly() %>% layout(margin = m))
             
           )
         }
