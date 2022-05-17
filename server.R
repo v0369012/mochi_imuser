@@ -10085,7 +10085,7 @@ server <- function(session, input, output) {
     
     pca_Bray_df_data_plot_gg3D <- plot_ly(pca_Bray_df_data_plot_for3D, 
                                         x = ~x_axis, y = ~y_axis, z = ~z_axis, 
-                                        color = ~sample, colors = c('#BF382A', '#0C4B8E'),
+                                        color = ~sample, 
                                         text = ~paste("Sample ID: ", sample_org)) %>% 
       add_markers() %>% 
       layout(scene = list(xaxis = list(title = paste0(input$beta_x_axis, " (", round(pc_prop[input$beta_x_axis], 2)*100, "%)")),
@@ -10178,7 +10178,7 @@ server <- function(session, input, output) {
     
     pcoa_Bray_df_data_plot_gg3D <- plot_ly(pcoa_Bray_df_data_plot_for3D, 
                                            x = ~x_axis, y = ~y_axis, z = ~z_axis, 
-                                           color = ~sample, colors = c('#BF382A', '#0C4B8E'),
+                                           color = ~sample, 
                                            text = ~paste("Sample ID: ", sample_org)) %>% 
       add_markers() %>% 
       layout(scene = list(xaxis = list(title = paste0(input$beta_x_axis, " (", round(pcoa_Bray_df_data_value[input$beta_x_axis], 2)*100, "%)")),
@@ -13821,7 +13821,7 @@ server <- function(session, input, output) {
         
         unW_unifrac_dm_pcoa_qiime_plot_gg3D <- plot_ly(unW_unifrac_dm_pcoa_qiime_plot_df_for3D, 
                                                        x = ~x_axis, y = ~y_axis, z = ~z_axis, 
-                                                       color = ~feature, colors = c('#BF382A', '#0C4B8E'),
+                                                       color = ~feature, 
                                                        text = ~paste("Sample ID: ", SampleID)) %>% 
           add_markers() %>% 
           layout(scene = list(xaxis = list(title = paste0(input$x_axis_phylo, " (", round(PC_vector[input$x_axis_phylo], 2)*100, "%)")),
@@ -13996,7 +13996,7 @@ server <- function(session, input, output) {
         
         W_unifrac_dm_pcoa_qiime_plot_gg3D <- plot_ly(W_unifrac_dm_pcoa_qiime_plot_df_for3D, 
                                                        x = ~x_axis, y = ~y_axis, z = ~z_axis, 
-                                                       color = ~feature, colors = c('#BF382A', '#0C4B8E'),
+                                                       color = ~feature, 
                                                        text = ~paste("Sample ID: ", SampleID)) %>% 
           add_markers() %>% 
           layout(scene = list(xaxis = list(title = paste0(input$x_axis_phylo, " (", round(PC_vector[input$x_axis_phylo], 2)*100, "%)")),
