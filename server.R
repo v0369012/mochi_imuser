@@ -643,8 +643,8 @@ server <- function(session, input, output) {
   
   # reactive object---------------------------------------------------------------------------------------------
   ## common objects
-  source("/home/imuser/ui.R", local = T)
-  # source("/home/imuser/mochi_imuser/ui.R", local = T) # for dev
+  # source("/home/imuser/ui.R", local = T)
+  source("/home/imuser/mochi_imuser/ui.R", local = T) # for dev
   my_ip <- reactive(my_qiime_ip) # get the ip of local
   
   my_qiime_port <- reactive(":8011") # give the port for this tool
@@ -1711,24 +1711,25 @@ server <- function(session, input, output) {
     
     req(input$taxonomic_table_FA_txt)
     
-    
     library(shinyBS)
     
-    if(str_detect(input$taxonomic_table_FA_MOCHI_txt$datapath, ".qza")) {
+    if(!str_detect(input$taxonomic_table_FA_txt$name, ".txt")) {
       
-      if(read_qza(input$taxonomic_table_FA_MOCHI_txt$datapath)$type != "FeatureTable[Frequency]") {
-        createAlert(session, 
-                    anchorId = "taxatable_alert_FA_txt", 
-                    alertId = "taxaAlert_FA_txt", 
-                    title = "Oops!",
-                    content = "Please check your input taxonomic table file.", 
-                    append = T,
-                    style = "danger")
-      } else {
-        closeAlert(session, "taxaAlert_FA_txt")
+      createAlert(session, 
+                  anchorId = "taxatable_alert_FA_txt", 
+                  alertId = "taxaAlert_FA_txt", 
+                  title = "Oops!",
+                  content = "Please check your input taxonomic table file.", 
+                  append = T,
+                  style = "danger")
+      
+        
+    }else{ 
+      
+      closeAlert(session, "taxaAlert_FA_txt")
         
       }
-    }
+    
   })
   
   
@@ -5514,10 +5515,15 @@ server <- function(session, input, output) {
           max_depth <- 100
         }
       }
-      system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences /home/imuser/qiime_output/rep-seqs-dada2_single.qza", 
-                   "--p-n-threads", input$threads_single,
-                   "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2_single.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2_single.qza",
-                   "--o-tree /home/imuser/qiime_output/unrooted-tree_single.qza --o-rooted-tree /home/imuser/qiime_output/rooted-tree_single.qza"))
+      
+      conda_cmd <- 'source activate qiime2-2021.4-Pacbio;qiime'
+      full_cmd <- paste(conda_cmd, 
+                        "phylogeny align-to-tree-mafft-fasttree --i-sequences /home/imuser/qiime_output/rep-seqs-dada2_single.qza", 
+                        "--p-n-threads", input$threads_single,
+                        "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2_single.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2_single.qza",
+                        "--o-tree /home/imuser/qiime_output/unrooted-tree_single.qza --o-rooted-tree /home/imuser/qiime_output/rooted-tree_single.qza")
+      write_lines(full_cmd, "~/cmd.sh")
+      system("bash ~/cmd.sh")
       
       system(paste(qiime_cmd, 'diversity alpha-rarefaction --i-table /home/imuser/qiime_output/table-dada2_single.qza',
                    '--p-max-depth', max_depth,
@@ -6499,10 +6505,15 @@ server <- function(session, input, output) {
           max_depth <- 100
         }
       }
-      system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences /home/imuser/qiime_output/rep-seqs-dada2_paired.qza", 
-                   "--p-n-threads", input$threads_paired,
-                   "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2_paired.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2_paired.qza",
-                   "--o-tree /home/imuser/qiime_output/unrooted-tree_paired.qza --o-rooted-tree /home/imuser/qiime_output/rooted-tree_paired.qza"))
+      
+      conda_cmd <- 'source activate qiime2-2021.4-Pacbio;qiime'
+      full_cmd <- paste(conda_cmd, 
+                        "phylogeny align-to-tree-mafft-fasttree --i-sequences /home/imuser/qiime_output/rep-seqs-dada2_paired.qza", 
+                        "--p-n-threads", input$threads_paired,
+                        "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2_paired.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2_paired.qza",
+                        "--o-tree /home/imuser/qiime_output/unrooted-tree_paired.qza --o-rooted-tree /home/imuser/qiime_output/rooted-tree_paired.qza")
+      write_lines(full_cmd, "~/cmd.sh")
+      system("bash ~/cmd.sh")
       
       system(paste(qiime_cmd, 'diversity alpha-rarefaction --i-table /home/imuser/qiime_output/table-dada2_paired.qza',
                    '--p-max-depth', max_depth,
@@ -7468,11 +7479,17 @@ server <- function(session, input, output) {
           max_depth <- 100
         }
       }
-      system(paste(qiime_cmd, "phylogeny align-to-tree-mafft-fasttree --i-sequences /home/imuser/qiime_output/rep-seqs-dada2_Pacbio.qza", 
-                   "--p-n-threads", input$threads_Pacbio,
-                   "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2_Pacbio.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2_Pacbio.qza",
-                   "--o-tree /home/imuser/qiime_output/unrooted-tree_Pacbio.qza --o-rooted-tree /home/imuser/qiime_output/rooted-tree_Pacbio.qza"))
       
+      conda_cmd <- 'source activate qiime2-2021.4-Pacbio;qiime'
+      full_cmd <- paste(conda_cmd, 
+                        "phylogeny align-to-tree-mafft-fasttree --i-sequences /home/imuser/qiime_output/rep-seqs-dada2_Pacbio.qza", 
+                        "--p-n-threads", input$threads_Pacbio,
+                        "--o-alignment /home/imuser/qiime_output/aligned-rep-seqs-dada2_Pacbio.qza --o-masked-alignment /home/imuser/qiime_output/masked-aligned-rep-seqs-dada2_Pacbio.qza",
+                        "--o-tree /home/imuser/qiime_output/unrooted-tree_Pacbio.qza --o-rooted-tree /home/imuser/qiime_output/rooted-tree_Pacbio.qza")
+      write_lines(full_cmd, "~/cmd.sh")
+      system("bash ~/cmd.sh")
+      
+
       system(paste(qiime_cmd, 'diversity alpha-rarefaction --i-table /home/imuser/qiime_output/table-dada2_Pacbio.qza',
                    '--p-max-depth', max_depth,
                    '--i-phylogeny /home/imuser/qiime_output/rooted-tree_Pacbio.qza',
@@ -10073,7 +10090,7 @@ server <- function(session, input, output) {
       geom_hline(yintercept = 0, linetype="dotted")+
       theme_bw()+
       ggtitle("PCA plot")+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25))
+      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25), legend.title=element_blank())
     
     
     pca_Bray_df_data_plot_for3D <- data.frame(
@@ -10162,7 +10179,7 @@ server <- function(session, input, output) {
       geom_hline(yintercept = 0, linetype="dotted")+
       theme_bw()+
       ggtitle("PCoA plot")+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25))
+      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25), legend.title=element_blank())
     
     
     print(pcoa_Bray_df_data_plot)
@@ -10212,7 +10229,7 @@ server <- function(session, input, output) {
       theme_bw()+
       labs(title=paste0("NMDS plot (stress: ", as.character(round(metaMDS_beta_df_data$stress, 4)), ")"))+
       #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
-      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25)) 
+      scale_colour_discrete(input$metadata_beta) + theme(text = element_text(size = 25), legend.title=element_blank()) 
     
 
     if(input$sep == "PCoA (2D)") {
@@ -12665,14 +12682,11 @@ server <- function(session, input, output) {
   output$betaplot<-renderPlotly({
     
     m <- list(
-      l = 50,
-      r = 350 + str_length(input$metadata_beta)*8,
-      b = 100,
-      t = 100,
-      pad = 0
+      title=list(text= input$metadata_beta, font = list(size = 26)),
+      font = list(size = 18)
     )
     
-    return(BetaPlot() %>% ggplotly() %>% layout(margin = m))
+    return(BetaPlot() %>% ggplotly() %>% layout(legend=m))
     
   })
   
@@ -13768,7 +13782,7 @@ server <- function(session, input, output) {
           geom_hline(yintercept = 0, linetype="dotted")+
           theme_bw()+
           ggtitle("Unweighted unifrac PCoA")+
-          scale_colour_discrete(names(unW_unifrac_dm_pcoa_qiime_forplot_table_list)[[i]]) + theme(text = element_text(size = 25)) 
+          scale_colour_discrete(names(unW_unifrac_dm_pcoa_qiime_forplot_table_list)[[i]]) + theme(text = element_text(size = 25), legend.title=element_blank()) 
       })
       
       names(unW_unifrac_dm_pcoa_qiime_plot_list_2D) <- colnames(Metadata_stats())
@@ -13905,7 +13919,7 @@ server <- function(session, input, output) {
         theme_bw()+
         labs(title=paste0("Unweighted unifrac NMDS (stress: ", as.character(round(metaMDS_beta_df_data$stress, 4)), ")"))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
-        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25)) 
+        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25), legend.title=element_blank()) 
  
         return(NMDS_beta_df_data_plot_gg)
      
@@ -13948,7 +13962,7 @@ server <- function(session, input, output) {
           geom_hline(yintercept = 0, linetype="dotted")+
           theme_bw()+
           ggtitle("Weighted unifrac PCoA")+
-          scale_colour_discrete(names(W_unifrac_dm_pcoa_qiime_forplot_table_list)[[i]]) + theme(text = element_text(size = 25)) 
+          scale_colour_discrete(names(W_unifrac_dm_pcoa_qiime_forplot_table_list)[[i]]) + theme(text = element_text(size = 25), legend.title=element_blank()) 
       })
       
       names(W_unifrac_dm_pcoa_qiime_plot_list) <- colnames(Metadata_stats())
@@ -14079,7 +14093,7 @@ server <- function(session, input, output) {
         theme_bw()+
         labs(title=paste0("Weighted unifrac NMDS (stress: ", as.character(round(metaMDS_beta_df_data$stress, 4)), ")"))+
         #labs(caption = "A rule of thumb: stress > 0.05 provides an excellent representation in reduced dimensions, > 0.1 is great, >0.2 is good/ok, and stress > 0.3 provides a poor representation.")+
-        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25))
+        scale_colour_discrete(input$metadata_phylo_beta) + theme(text = element_text(size = 25), legend.title=element_blank())
 
         return(NMDS_beta_df_data_plot_gg)
 
@@ -14088,32 +14102,38 @@ server <- function(session, input, output) {
     
     output$unif_ordination <- renderPlotly({
       
+      m <- list(
+        title=list(text= input$metadata_phylo_beta, font = list(size = 26)),
+        font = list(size = 18)
+      )
+      
+      
       if(input$UnW_or_W_phylo=="Unweighted"){
         
         if(input$ordination_phylo == "PCoA (3D)"){
           
-          return(unW_unif_pcoa_plot_3D())
+          return(unW_unif_pcoa_plot_3D() %>% layout(legend = m))
           
         }else if(input$ordination_phylo == "PCoA (2D)"){
           
           if(input$phylo_cluster){
             
-            return((unW_unif_pcoa_plot_2D() + stat_ellipse(type = "t")) %>% ggplotly() %>% layout(margin = m))
+            return((unW_unif_pcoa_plot_2D() + stat_ellipse(type = "t")) %>% ggplotly() %>% layout(legend = m))
             
           }else{
             
-            return(unW_unif_pcoa_plot_2D() %>% ggplotly() %>% layout(margin = m))
+            return(unW_unif_pcoa_plot_2D() %>% ggplotly() %>% layout(legend = m))
             
           }
         }else if(input$ordination_phylo == "NMDS"){
           
           if(input$phylo_cluster){
             
-            return((unW_unif_nmds_plot() + stat_ellipse(type = "t")) %>% ggplotly() %>% layout(margin = m))
+            return((unW_unif_nmds_plot() + stat_ellipse(type = "t")) %>% ggplotly() %>% layout(legend = m))
             
           }else(
             
-            return(unW_unif_nmds_plot() %>% ggplotly() %>% layout(margin = m))
+            return(unW_unif_nmds_plot() %>% ggplotly() %>% layout(legend = m))
             
           )
         }
@@ -14122,28 +14142,28 @@ server <- function(session, input, output) {
         
         if(input$ordination_phylo == "PCoA (3D)"){
           
-          return(W_unif_pcoa_plot_3D())
+          return(W_unif_pcoa_plot_3D() %>% layout(legend = m))
           
         }else if(input$ordination_phylo == "PCoA (2D)"){
           
           if(input$phylo_cluster){
             
-            return((W_unif_pcoa_plot_2D() + stat_ellipse(type = "t")) %>% ggplotly() %>% layout(margin = m))
+            return((W_unif_pcoa_plot_2D() + stat_ellipse(type = "t")) %>% ggplotly() %>% layout(legend = m))
             
           }else{
             
-            return(W_unif_pcoa_plot_2D())
+            return(W_unif_pcoa_plot_2D() %>% layout(legend = m))
             
           }
         }else if(input$ordination_phylo == "NMDS"){
           
           if(input$phylo_cluster){
             
-            return((W_unif_nmds_plot() + stat_ellipse(type = "t")) %>% ggplotly() %>% layout(margin = m))
+            return((W_unif_nmds_plot() + stat_ellipse(type = "t")) %>% ggplotly() %>% layout(legend = m))
             
           }else(
             
-            return(W_unif_nmds_plot() %>% ggplotly() %>% layout(margin = m))
+            return(W_unif_nmds_plot() %>% ggplotly() %>% layout(legend = m))
             
           )
         }
