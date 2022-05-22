@@ -1142,7 +1142,7 @@ shinyUI(
                                                                   "Shannon_diversity", "Simpson_diversity", "InvSimpson_diversity",
                                                                   "Shannon_evenness", "Simpson_evenness")),
                                           radioButtons(inputId = "select_stat", 
-                                                       label = "Choose the statistic method", 
+                                                       label = "Choose the statistical method", 
                                                        choices = c("ANOVA", "Kruskal-Wallis test"), 
                                                        inline = T),
                                           radioButtons(inputId = "metadata_alpha", 
@@ -1385,7 +1385,7 @@ shinyUI(
                                           ),
                                           
                                           radioButtons(inputId = "select_stat_phylo", 
-                                                       label = "Choose the statistic method", 
+                                                       label = "Choose the statistical method", 
                                                        choices = c("ANOVA", "Kruskal-Wallis test"), 
                                                        inline = T),
                                           radioButtons(inputId = "metadata_phylo_alpha", 
