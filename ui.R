@@ -851,7 +851,7 @@ shinyUI(
                                     downloadButton("log_file_taxonomy_classification")
                                   )
                                 )
-                                ) %>% shinyjs::disabled(),
+                                ) %>% shinyjs::hidden(),
                               
                                 # downloadButton("zip_taxonomy_classification", "Download", style = "margin-left:10px") %>% shinyjs::disabled(),
                                 # br(),
