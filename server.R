@@ -916,11 +916,26 @@ server <- function(session, input, output) {
       colnames(metadata)[1] <- "SampleID"
       
       if(input$qza_or_txt_FA == "MOCHI/QIIME2 output (.qza)"){
+        
         req(input$taxonomic_table_FA_MOCHI)
         taxatable_FA <- read_qza(input$taxonomic_table_FA_MOCHI$datapath)$data
+        
       }else if(input$qza_or_txt_FA == "Plain text table (.txt)"){
+        
         req(input$taxonomic_table_FA_txt)
-        req(input$function_analysis_txt)
+        
+        a <- read.table(input$taxonomic_table_FA_txt$datapath, sep = "\t", header = T)
+        b <- a[,-1]
+        c <- cbind(taxonomy=b[,ncol(b)], b[,-ncol(b)])
+        d <- aggregate(c[,-1], by=list(c[,1]), FUN=sum)
+
+        write.table(d, "/home/imuser/taxa_table_upload_txt_FA.txt", sep = "\t", quote = F, row.names = F)
+
+        qiime_cmd <- '/usr/local/envs/qiime2-2021.4-Pacbio/bin/qiime'
+        biom_cmd <- "/usr/local/envs/qiime2-2021.4-Pacbio/bin/biom"
+        system(paste0(biom_cmd, " convert -i ", " /home/imuser/taxa_table_upload_txt_FA.txt "," -o /home/imuser/uploaded_taxatable_FA_.biom --table-type='OTU table' --to-hdf5"))
+        system(paste0(qiime_cmd, " tools import --input-path /home/imuser/uploaded_taxatable_FA_.biom --type 'FeatureTable[Frequency]' --input-format BIOMV210Format --output-path /home/imuser/uploaded_taxatable_FA.qza"))
+        
         if(file.exists("/home/imuser/uploaded_taxatable_FA.qza")){
           taxatable_FA <- read_qza("/home/imuser/uploaded_taxatable_FA.qza")$data
         }
@@ -14152,7 +14167,7 @@ server <- function(session, input, output) {
             
           }else{
             
-            return(W_unif_pcoa_plot_2D() %>% layout(legend = m))
+            return(W_unif_pcoa_plot_2D() %>% gplotly() %>% layout(legend = m))
             
           }
         }else if(input$ordination_phylo == "NMDS"){
