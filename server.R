@@ -643,8 +643,8 @@ server <- function(session, input, output) {
   
   # reactive object---------------------------------------------------------------------------------------------
   ## common objects
-  # source("/home/imuser/ui.R", local = T)
-  source("/home/imuser/mochi_imuser/ui.R", local = T) # for dev
+  source("/home/imuser/ui.R", local = T)
+  # source("/home/imuser/mochi_imuser/ui.R", local = T) # for dev
   my_ip <- reactive(my_qiime_ip) # get the ip of local
   
   my_qiime_port <- reactive(":8011") # give the port for this tool
