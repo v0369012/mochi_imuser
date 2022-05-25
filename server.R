@@ -25,6 +25,7 @@ server <- function(session, input, output) {
     
     system("sudo service nginx start")
     system("sudo chmod -R 777 /var/www/html")
+    system("sudo chmod -R 777 /srv/shiny-server")
     
     system("sed -i 's/Eukaryota;//g' /home/imuser/taxa_database/PR2/18S/taxonomy/pr2_version_4.12.0_18S_mothur.tax")
     shinyDirChoose(input,
