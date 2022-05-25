@@ -12546,11 +12546,11 @@ server <- function(session, input, output) {
                  
                , width = 80, height = 40, units = "cm")
 
-        
+        dev.off()
       }else{
         
         ggsave(file, plot = barplot_sub_download(), width = 80, height = 40, units = "cm")
-        
+        dev.off()
       }
     }
   )
