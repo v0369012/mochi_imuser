@@ -40,7 +40,7 @@ server <- function(session, input, output) {
          style = "margin-left:100px"),
       tags$iframe(style="height:800px; width:90%; scrolling=yes;margin:0 100px",
                   # src=paste0("http://127.0.0.1:8011/MOCHI_Tutorial_Local.pdf")
-                  src=paste0("http://", my_ip(), my_qiime_port(), "/MOCHI_Tutorial_Local_20220512.pdf")
+                  src=paste0("http://", my_ip(), my_qiime_port(), "/MOCHI_Tutorial_Local_20220523_v4.pdf")
       )
     )
     
@@ -643,8 +643,8 @@ server <- function(session, input, output) {
   
   # reactive object---------------------------------------------------------------------------------------------
   ## common objects
-  source("/home/imuser/ui.R", local = T)
-  # source("/home/imuser/mochi_imuser/ui.R", local = T) # for dev
+  # source("/home/imuser/ui.R", local = T)
+  source("/home/imuser/mochi_imuser/ui.R", local = T) # for dev
   my_ip <- reactive(my_qiime_ip) # get the ip of local
   
   my_qiime_port <- reactive(":8011") # give the port for this tool
@@ -14167,7 +14167,7 @@ server <- function(session, input, output) {
             
           }else{
             
-            return(W_unif_pcoa_plot_2D() %>% gplotly() %>% layout(legend = m))
+            return(W_unif_pcoa_plot_2D() %>% ggplotly() %>% layout(legend = m))
             
           }
         }else if(input$ordination_phylo == "NMDS"){
