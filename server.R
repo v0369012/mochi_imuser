@@ -2599,7 +2599,7 @@ server <- function(session, input, output) {
         parameter_table <- data.frame(
           # "JobID" = input$input_job_id_demux,
           "Step" = "Sequence summary",
-          "time" = Sys.time(),
+          "time" = Sys.time() %>% format("%F %R %Z"),
           "duration" = spent_time,
           "sequence_type" = input$seqs_type,
           "sample_size" = length(seqs_name),
@@ -3007,7 +3007,7 @@ server <- function(session, input, output) {
       parameter_table <- data.frame(
         # "JobID" = input$input_job_id_demux,
         "Step" = "Sequence summary",
-        "time" = Sys.time(),
+        "time" = Sys.time() %>% format("%F %R %Z"),
         "duration" = spent_time,
         "sequence_type" = input$seqs_type,
         "sample_size" = length(seqs_name),
@@ -3764,7 +3764,7 @@ server <- function(session, input, output) {
           parameter_table <- data.frame(
             # "JobID" = input$input_job_id_demux,
             "Step" = "Sequence summary",
-            "time" = Sys.time(),
+            "time" = Sys.time() %>% format("%F %R %Z"),
             "duration" = spent_time,
             "sequence_type" = input$seqs_type,
             "sample_size" = length(seqs_name)/2,
@@ -4161,7 +4161,7 @@ server <- function(session, input, output) {
       parameter_table <- data.frame(
         # "JobID" = input$input_job_id_demux,
         "Step" = "Sequence summary",
-        "time" = Sys.time(),
+        "time" = Sys.time() %>% format("%F %R %Z"),
         "duration" = spent_time,
         "sequence_type" = input$seqs_type,
         "sample_size" = length(seqs_name)/2,
@@ -4931,7 +4931,7 @@ server <- function(session, input, output) {
         parameter_table <- data.frame(
           # "JobID" = input$input_job_id_demux,
           "Step" = "Sequence summary",
-          "time" = Sys.time(),
+          "time" = Sys.time() %>% format("%F %R %Z"),
           "duration" = spent_time,
           "sequence_type" = input$seqs_type,
           "sample_size" = length(seqs_name),
@@ -5051,7 +5051,7 @@ server <- function(session, input, output) {
       parameter_table <- data.frame(
         # "JobID" = input$input_job_id_demux,
         "Step" = "Sequence summary",
-        "time" = Sys.time(),
+        "time" = Sys.time() %>% format("%F %R %Z"),
         "duration" = spent_time,
         "sequence_type" = input$seqs_type,
         "sample_size" = length(seqs_name),
@@ -5831,7 +5831,7 @@ server <- function(session, input, output) {
       parameter_table <- data.frame(
         # "JobID" = input$input_job_id_denoise,
         "Step" = "Denoising",
-        "time" = Sys.time(),
+        "time" = Sys.time() %>% format("%F %R %Z"),
         "duration" = spent_time,
         "sequence_type" = input$seqs_type,
         "start_position_trim" = input$trim_left_single,
@@ -6813,7 +6813,7 @@ server <- function(session, input, output) {
       parameter_table <- data.frame(
         # "JobID" = input$input_job_id_denoise,
         "Step" = "Denoising",
-        "time" = Sys.time(),
+        "time" = Sys.time() %>% format("%F %R %Z"),
         "duration" = spent_time,
         "sequence_type" = input$seqs_type,
         "f_start_position_trim" = input$trim_left_f_paired,
@@ -7797,7 +7797,7 @@ server <- function(session, input, output) {
       parameter_table <- data.frame(
         "JobID" = input$input_job_id_denoise,
         "Step" = "Denoising",
-        "time" = Sys.time(),
+        "time" = Sys.time() %>% format("%F %R %Z"),
         "duration" = spent_time,
         "sequence_type" = input$seqs_type,
         "min_length" = input$min_length_filter_Pacbio,
@@ -9119,7 +9119,7 @@ server <- function(session, input, output) {
         parameter_table <- data.frame(
           # "JobID" = input$input_job_id_taxa,
           "Step" = "Taxonomy classification",
-          "time" = Sys.time(),
+          "time" = Sys.time() %>% format("%F %R %Z"),
           "duration" = spent_time,
           "sequence_type" = input$seqs_type,
           "database" = input$select_database,
@@ -9147,7 +9147,7 @@ server <- function(session, input, output) {
         parameter_table <- data.frame(
           # "JobID" = input$input_job_id_taxa,
           "Step" = "Taxonomy classification",
-          "time" = Sys.time(),
+          "time" = Sys.time() %>% format("%F %R %Z"),
           "duration" = spent_time,
           "sequence_type" = input$seqs_type,
           "database" = input$select_database,
@@ -9174,7 +9174,7 @@ server <- function(session, input, output) {
         parameter_table <- data.frame(
           # "JobID" = input$input_job_id_taxa,
           "Step" = "Taxonomy classification",
-          "time" = Sys.time(),
+          "time" = Sys.time() %>% format("%F %R %Z"),
           "duration" = spent_time,
           "sequence_type" = input$seqs_type,
           "database" = input$select_database,
