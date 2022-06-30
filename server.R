@@ -1425,19 +1425,19 @@ server <- function(session, input, output) {
     }
   })
  
- 
-  
-  observeEvent(input$TA_start_MOCHI, {
-    
+  all_equal_T_MOCHI <- reactive({
     Metadata_sampleID <- Metadata()[,1] %>% sort()
     ASV_table_SampleID <- asv_table() %>% colnames() %>% sort()
     Taxa_table_SampleID <- TaxaTable() %>% colnames() %>% sort()
-
+    
     
     # all_equal_T <- sum(Reduce(intersect, list(Metadata_sampleID, ASV_table_SampleID, Taxa_table_SampleID)) == Metadata_sampleID) == length(Metadata_sampleID)
     all_equal_T <- sum(sapply(list(ASV_table_SampleID, Taxa_table_SampleID), FUN = identical, Metadata_sampleID)) == 2
-    
-    
+    return(all_equal_T)
+  }) 
+  
+  observeEvent(input$TA_start_MOCHI, {
+
     if(input$qza_or_txt == "MOCHI/QIIME2 output (.qza)"){
       
       if(is.null(file_input_1()) || is.null(file_input_2()) || is_null(file_input_3())) {
@@ -1462,7 +1462,7 @@ server <- function(session, input, output) {
         
         shinyjs::hide("ancom_ui")
         
-    }else if(all_equal_T == F){
+    }else if(all_equal_T_MOCHI() == F){
       
           showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                                 "Your SampleIDs are not consistent among the uploaded files.", 
@@ -1510,6 +1510,16 @@ server <- function(session, input, output) {
   })
   
   
+  all_equal_T_txt <- reactive({
+    Metadata_sampleID <- Metadata()[,1] %>% sort()
+    ASV_table_SampleID <- asv_table() %>% colnames() %>% sort()
+    
+    M_n <- length(Metadata_sampleID)
+    A_n <- length(ASV_table_SampleID)
+    
+    sum(Metadata_sampleID == ASV_table_SampleID) != max(M_n, A_n) %>% return()
+  })
+  
   observeEvent(input$TA_start_txt, {
     
     Metadata_sampleID <- Metadata()[,1] %>% sort()
@@ -1542,7 +1552,7 @@ server <- function(session, input, output) {
         
         shinyjs::hide("ancom_ui")
         
-      }else if(sum(Metadata_sampleID == ASV_table_SampleID) != max(M_n, A_n)){
+      }else if(all_equal_T_txt()){
         
         showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                               "Your SampleIDs are not consistent among the uploaded files.", 
@@ -15518,21 +15528,24 @@ server <- function(session, input, output) {
   )
   
   # Function Analysis-------------------------------------------------------------------------------------------
-  observeEvent(input$function_analysis_MOCHI, {
-    
+  all_equal_T_FA_MOCHI <- reactive({
     M_SampleID <- Metadata_FA()[,1] %>% sort()
     T_SampleID <- read_qza(input$taxonomic_table_FA_MOCHI$datapath)$data %>% colnames() %>% sort()
-
     
     all_equal_T <- identical(M_SampleID, T_SampleID)
     
+    return(all_equal_T)
+  })
+  
+  observeEvent(input$function_analysis_MOCHI, {
+
     if(is.null(file_input_1_FA()) || is.null(file_input_2_FA())){
       
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                             "Please upload the files!", 
                             footer = NULL, easyClose = T, size = "l"))
       
-    }else if(all_equal_T == F){
+    }else if(all_equal_T_FA_MOCHI() == F){
       
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                             "Your SampleIDs are not consistent among the uploaded files.", 
@@ -15693,22 +15706,25 @@ server <- function(session, input, output) {
     
   })
   
-  observeEvent(input$function_analysis_txt, {
-    
+  
+  all_equal_T_FA_txt <- reactive({
     M_SampleID <- Metadata_FA()[,1] %>% sort() %>% as.character()
     
     a <- read.table(input$taxonomic_table_FA_txt$datapath, sep = "\t", header = T)
     T_SampleID <- colnames(a)[-c(1, ncol(a))] %>% sort()
     
-
     all_equal_T <- identical(M_SampleID, T_SampleID)
+    return(all_equal_T)
+  })
+  
+  observeEvent(input$function_analysis_txt, {
     
     if(is.null(file_input_1_FA()) || is.null(file_input_3_FA())){
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                             "Please upload the files!", 
                             footer = NULL, easyClose = T, size = "l"))
       
-    }else if(all_equal_T == F){
+    }else if(all_equal_T_FA_txt() == F){
       
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
                             "Your SampleIDs are not consistent among the uploaded files.", 
