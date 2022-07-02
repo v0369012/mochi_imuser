@@ -1443,7 +1443,7 @@ server <- function(session, input, output) {
       if(is.null(file_input_1()) || is.null(file_input_2()) || is_null(file_input_3())) {
         
         showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-                              "Please upload the files.", 
+                              "Please upload all the required files.", 
                               footer = NULL, easyClose = T, size = "l"))
         
         shinyjs::hide("taxatable_ui")
@@ -1533,7 +1533,7 @@ server <- function(session, input, output) {
       if(is.null(file_input_1()) || is.null(file_input_4())) {
         
         showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-                              "Please upload the files.", 
+                              "Please upload all the required files.", 
                               footer = NULL, easyClose = T, size = "l"))
         
         shinyjs::hide("taxatable_ui")
