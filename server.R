@@ -2609,7 +2609,7 @@ server <- function(session, input, output) {
         parameter_table <- data.frame(
           # "JobID" = input$input_job_id_demux,
           "Step" = "Sequence summary",
-          "time" = "time" = Sys.time() %>% format("%F %R GMT%z") %>% substr(1,23) %>% str_replace("GMT\\+0", "GMT\\+"),
+          "time" = Sys.time() %>% format("%F %R GMT%z") %>% substr(1,23) %>% str_replace("GMT\\+0", "GMT\\+"),
           "duration" = spent_time,
           "sequence_type" = input$seqs_type,
           "sample_size" = length(seqs_name),
@@ -3017,7 +3017,7 @@ server <- function(session, input, output) {
       parameter_table <- data.frame(
         # "JobID" = input$input_job_id_demux,
         "Step" = "Sequence summary",
-        "time" = "time" = Sys.time() %>% format("%F %R GMT%z") %>% substr(1,23) %>% str_replace("GMT\\+0", "GMT\\+"),
+        "time" = Sys.time() %>% format("%F %R GMT%z") %>% substr(1,23) %>% str_replace("GMT\\+0", "GMT\\+"),
         "duration" = spent_time,
         "sequence_type" = input$seqs_type,
         "sample_size" = length(seqs_name),
