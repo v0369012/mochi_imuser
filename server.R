@@ -15542,7 +15542,7 @@ server <- function(session, input, output) {
     if(is.null(file_input_1_FA()) || is.null(file_input_2_FA())){
       
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-                            "Please upload the files!", 
+                            "Please upload all the required files!", 
                             footer = NULL, easyClose = T, size = "l"))
       
     }else if(all_equal_T_FA_MOCHI() == F){
@@ -15721,7 +15721,7 @@ server <- function(session, input, output) {
     
     if(is.null(file_input_1_FA()) || is.null(file_input_3_FA())){
       showModal(modalDialog(title = strong("Error!", style = "color: red"), 
-                            "Please upload the files!", 
+                            "Please upload all the required files!", 
                             footer = NULL, easyClose = T, size = "l"))
       
     }else if(all_equal_T_FA_txt() == F){
